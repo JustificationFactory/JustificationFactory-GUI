@@ -14,8 +14,39 @@
     <script src="js/joint.shapes.erd.js"></script>
 </head>
 <body>
+
+<input type='file' id="importFile" />
+
 <div id="myholder"></div>
+
+
 <script type="text/javascript">
+
+    //******************************************
+    // IMPORT JSON FILE
+    //******************************************
+    
+    var importFileReader = new FileReader();
+
+    importFileReader.onload = function(){
+        console.log(importFileReader.result.substring(0, 200));
+        var json = JSON.parse(importFileReader.result);
+        
+        //TODO: Load JointJS diagram
+    };
+
+
+    $("#importFile").change(function(){
+        console.log('File detected');
+        importFileReader.readAsText($("#importFile")[0].files[0]);
+    });
+    
+    
+    
+    //******************************************
+    // TEST DIAGRAM
+    //******************************************
+    
     var graph = new joint.dia.Graph;
 
     var paper = new joint.dia.Paper({
