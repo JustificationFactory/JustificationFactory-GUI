@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/joint.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/jquery.js"></script>
+    <script src="js/lodash.js"></script>
+    <script src="js/backbone.js"></script>
+    <script src="js/graphlib.js"></script>
+    <script src="js/dagre.js"></script>
+    <script src="js/joint.js"></script>
+    <script src="model/elements.js"></script>
+    <script src="model/util.js"></script>
+    <script src="js/joint.shapes.erd.js"></script>
+    <script src="js/test.js"></script>
+</head>
+<body>
+
+<input type='file' id="importFile" />
+
+<div id="myholder"></div>
+
+
+<script type="text/javascript">
+
+    //******************************************
+    // IMPORT JSON FILE
+    //******************************************
+    
+    var importFileReader = new FileReader();
+
+    importFileReader.onload = function(){
+        console.log(importFileReader.result.substring(0, 200));
+        var json = JSON.parse(importFileReader.result);
+        
+        //TODO: Load JointJS diagram
+    };
+
+
+    $("#importFile").change(function(){
+        console.log('File detected');
+        importFileReader.readAsText($("#importFile")[0].files[0]);
+    });
+    
+    
+    
+    //******************************************
+    // TEST DIAGRAM
+    //******************************************
+    testGraph('#myholder');
+
+    paper.on('cell:pointerdown',
+        function(cell, evt, x, y) {
+            alert('cell view ' + cell.model.parent.label + ' was clicked');
+        }
+    );
+</script>
+</body>
+</html>
