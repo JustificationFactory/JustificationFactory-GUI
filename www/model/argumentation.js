@@ -19,8 +19,8 @@ function testGraph(divGraph) {
     var effect1 = new Conclusion("Effect 1", "", "");
     var subject1Limitation = new Limitation("Subject 1 ", "", "");
     var stimulation1Limitation = new Limitation("Stimulation 1 ", "", "");
-    var user1 = new Actor('achraf', 'expert');
-    var user2 = new Actor('arnaud', 'expert');
+    var user1 = new Actor('Mr X Y', 'expert 1');
+    var user2 = new Actor('Mr A B', 'expert 2');
     var link1 = stimulation1.makeLinkWithParent(treat);
     var link2 = subject1.makeLinkWithParent(treat);
     var link3 = treat.makeLinkWithParent(experimentation1);
@@ -50,7 +50,4 @@ function testGraph(divGraph) {
         link8
     ]);
     joint.layout.DirectedGraph.layout(graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
-    paper.on('cell:pointerdown', function (cell, evt, x, y) {
-        alert('cell view ' + cell.model.parent.label + ' was clicked');
-    });
 }

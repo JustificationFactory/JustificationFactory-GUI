@@ -33,7 +33,6 @@ function Limitation(label, parent){
 function Member(x, y, rank, name, image, background, textColor) {
     textColor = textColor || "#000";
     var cell = new joint.shapes.org.Member({
-        position: { x: x, y: y },
         attrs: {
             '.card': { fill: background, stroke: 'none'},
             image: { 'xlink:href': 'images/'+ image, opacity: 0.7 },

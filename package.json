@@ -5,6 +5,7 @@
     "dagre" : "0.7.x",
     "jointjs" : "1.0.x",
     "@types/dagre" : "0.7.x",
-    "@types/jointjs" : "1.0.x"
+    "@types/jointjs" : "1.0.x",
+    "@types/lodash" : "3.10.x"
   }
 }

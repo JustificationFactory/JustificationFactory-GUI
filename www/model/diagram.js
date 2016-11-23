@@ -1,4 +1,7 @@
+///<reference path="..\..\node_modules\@types\jquery\index.d.ts" />
+///<reference path="..\..\node_modules\@types\backbone\index.d.ts" />
 ///<reference path="..\..\node_modules\@types\jointjs\index.d.ts" />
+///<reference path="..\..\node_modules\@types\dagre\index.d.ts" />
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -38,7 +41,7 @@ var Support = (function (_super) {
         _super.call(this, name, description, type);
         this.visualShape = new joint.shapes.basic.Rect({
             id: name,
-            size: { width: 200, height: 30 },
+            size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
         });
     }
@@ -106,24 +109,30 @@ var Actor = (function (_super) {
     function Actor(name, role) {
         _super.call(this, name, "", role);
         this.behavior = Behavior.Near;
-        this.visualShape = new joint.shapes.basic.Image({
-            position: {
-                x: 100,
-                y: 100
-            },
-            size: {
-                width: 16,
-                height: 16
-            },
+        this.visualShape = new joint.shapes.org.Member({
             attrs: {
-                image: {
-                    "xlink:href": "User.ico",
-                    width: 16,
-                    height: 16
-                }
+                '.card': { fill: "#BBBBBB", stroke: 'none' },
+                image: { 'xlink:href': 'images/User.ico', opacity: 0.7 },
+                '.rank': { text: "test", fill: "#000", 'word-spacing': '-5px', 'letter-spacing': 0 },
+                '.name': { text: name, fill: "#000", 'font-size': 13, 'font-family': 'Arial', 'letter-spacing': 0 }
             }
         });
     }
+    Actor.prototype.makeLinkWithParent = function (parentElement) {
+        return new joint.shapes.org.Arrow({
+            source: { id: this.visualShape.id },
+            target: { id: parentElement.visualShape.id },
+            attrs: {
+                '.connection': {
+                    'fill': 'none',
+                    'stroke-linejoin': 'round',
+                    'stroke-width': '2',
+                    'stroke': '#4b4a67'
+                },
+                '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+            }
+        });
+    };
     return Actor;
 }(Artifact));
 var ForEach = (function (_super) {
@@ -144,7 +153,16 @@ var Util = (function () {
         // an approximation of the monospace font letter width.
         var letterSize = 8;
         var width = 2 * (letterSize * (0.6 * maxLineLength + 1));
+        return width;
+    };
+    Util.getElementHeightFromTextLength = function (name) {
+        var maxLineLength = _.max(name.split('\n'), function (l) { return l.length; }).length;
+        // Compute width/height of the rectangle based on the number
+        // of lines in the label and the letter size. 0.6 * letterSize is
+        // an approximation of the monospace font letter width.
+        var letterSize = 8;
         var height = 2 * ((name.split('\n').length + 1) * letterSize);
+        return height;
     };
     return Util;
 }());
