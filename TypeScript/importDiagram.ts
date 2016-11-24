@@ -1,7 +1,11 @@
 /// <reference path="..\node_modules\@types\jointjs\index.d.ts" />
 /// <reference path=".\model\diagram.ts" />
 
+class KeyValueEvidence {
+    constructor(public conclusionId: string, public evidence: Evidence) {
 
+    }
+}
 
 class ParseJson2DiagramElements {
     globalJson: JSON;
@@ -11,36 +15,81 @@ class ParseJson2DiagramElements {
         this.globalJson = globalJson;
     }
 
+    public getDiagramElements () : DiagramElement[] {
 
-    public getDiagramElements () : any[] {
+        var conclusions = new Array<Conclusion>();
+        var strategies = new Array<Strategy>();
+        var kvevidences = new Array<KeyValueEvidence>();
+        var links = new Array<LinkElement>();
 
-        var elementsDiagram: DiagramElement[] = [];
-
-        for (var i = 0; i < this.globalJson.root.steps[0].step.length ; i++) {
-            var step  = this.globalJson.root.steps[0].step[i];
+        for (var step  of this.globalJson.root.steps[0].step) {
             var nameOfConclusion = step.conclusion[0].name[0];
             var typeOfConclusion = this.getTypeFromStringAttributs(JSON.stringify(step.conclusion[0].element[0].$));
 
-            var conclusion1 = new Conclusion(nameOfConclusion, step.conclusion[0], typeOfConclusion);
-            elementsDiagram.push(conclusion1);
+            var conclusionN = new Conclusion(nameOfConclusion, step.conclusion[0], typeOfConclusion);
+            conclusions.push(conclusionN);
 
             var nameOfstrategy = step.strategy[0].name[0];
             var typeOfstrategy = this.getTypeFromStringAttributs(JSON.stringify(step.strategy[0].$));
 
-            var strategy1 = new Strategy(nameOfstrategy, step.strategy[0], typeOfstrategy);
-            elementsDiagram.push(strategy1);
-            elementsDiagram.push(strategy1.makeLinkWithParent(conclusion1));
+            var strategyN = new Strategy(nameOfstrategy, step.strategy[0], typeOfstrategy);
+            strategies.push(strategyN);
+            links.push(strategyN.makeLinkWithParent(conclusionN));
 
-            for(var j = 0 ; j < step.evidences[0].evidenceRoles.length ; j++) {
-                var evidenceRole = step.evidences[0].evidenceRoles[j];
+            for(var evidenceRole of step.evidences[0].evidenceRoles) {
                 var nameOfEvidence = evidenceRole.evidence[0].name[0];
                 var typeOfEvidence = this.getTypeFromStringAttributs(JSON.stringify(evidenceRole.evidence[0].element[0].$));
 
-                var evidence1 = new Evidence(nameOfEvidence, evidenceRole.evidence[0], typeOfEvidence);
-                elementsDiagram.push(evidence1);
-                elementsDiagram.push(evidence1.makeLinkWithParent(strategy1));
+                var evidenceN = new Evidence(nameOfEvidence, evidenceRole.evidence[0], typeOfEvidence);
+                kvevidences.push(new KeyValueEvidence(conclusionN.visualShape.id, evidenceN));
+                links.push(evidenceN.makeLinkWithParent(strategyN));
             }
         }
+
+        //Merge where Conclusion == Evidence
+        for(var i = conclusions.length -1 ; i >= 0 ; i--) {
+            var conclusioni = conclusions[i];
+
+            for(var i = kvevidences.length -1 ; i >= 0 ; i--) {
+                var kvevidencei = kvevidences[i];
+
+                if ((kvevidencei.conclusionId !== conclusioni.visualShape.id)
+                    && (kvevidencei.evidence.name == conclusioni.name)) {
+
+                    //TODO: Create Support object
+
+                    for(var i = links.length -1 ; i >= 0 ; i--) {
+                        var link = links[i];
+
+                        if (true) {
+                            //TODO: Create Support link from source conclusion
+
+                            //TODO: Delete link from list
+                        }
+                        else if (true) {
+                            //TODO: Create Support link to destination evidence
+
+                            //TODO: Delete link from list
+                        }
+                    }
+
+                    //TODO: Delete Evidence from list
+                    //TODO: Delete Conclusion from list
+                }
+            }
+        }
+
+
+        var elementsDiagram: DiagramElement[] = [];
+
+        for(var conclusion of conclusions)
+            elementsDiagram.push(conclusion);
+        for(var strategy of strategies)
+            elementsDiagram.push(strategy);
+        for(var kvevidence of kvevidences)
+            elementsDiagram.push(kvevidence.evidence);
+        for(var link of links)
+            elementsDiagram.push(link);
 
         return elementsDiagram;
     }

@@ -39,8 +39,8 @@ class Diagram {
         // construction des artifacts à partir de JSON
         // add artifacts de graph
         var cells : joint.dia.Cell[] = [];
-        for (var i = 0; i < elements.length ; i++) {
-            cells.push(elements[i].visualShape);
+        for (var el of elements) {
+            cells.push(el.visualShape);
         }
 
         graph.addCells(cells);
