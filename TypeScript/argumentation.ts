@@ -15,16 +15,16 @@ function testGraph(divGraph : any) {
         interactive: false
     });
 
-    var stimulation1 = new Evidence("Stimulation 1","","");
-    var subject1 = new Evidence("Subject 1","","");
-    var treat = new Strategy("Treat","","");
-    var experimentation1 = new Conclusion("Experimentation 1","","");
-    var experimentationResults = new Evidence("Experimentation results","","");
-    var establishEffect = new Strategy("Establish effect","","");
-    var effect1 = new Conclusion("Effect 1","","");
+    var stimulation1 = new Evidence("Stimulation 1",null,"");
+    var subject1 = new Evidence("Subject 1",null,"");
+    var treat = new Strategy("Treat",null,"");
+    var experimentation1 = new Conclusion("Experimentation 1",null,"");
+    var experimentationResults = new Evidence("Experimentation results",null,"");
+    var establishEffect = new Strategy("Establish effect",null,"");
+    var effect1 = new Conclusion("Effect 1",null,"");
 
-    var subject1Limitation = new Limitation("Subject 1 ", "","");
-    var stimulation1Limitation = new Limitation("Stimulation 1 ", "","");
+    var subject1Limitation = new Limitation("Subject 1 ", null,"");
+    var stimulation1Limitation = new Limitation("Stimulation 1 ", null,"");
 
     var user1 = new Actor('Mr X Y', 'expert 1');
     var user2 = new Actor('Mr A B', 'expert 2');

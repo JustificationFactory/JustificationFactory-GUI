@@ -12,13 +12,13 @@ class DiagramElement {
     description:string;
     type:string;
 
-    constructor(name: string, description: string, type: string) {
+    constructor(name: string, jsonElement: JSON, type: string) {
         this.name = name;
-        this.description = description;
+        this.jsonElement = jsonElement;
         this.type = type;
     }
 
-    makeLinkWithParent(parentElement:DiagramElement ) {
+    makeLinkWithParent(parentElement:DiagramElement) {
         return new joint.dia.Link({
             source: { id: this.name },
             target: { id: parentElement.name },
@@ -41,8 +41,8 @@ enum Behavior {
 
 class Support extends DiagramElement {
     artifacts: Array<Artifact>;
-    constructor(name: string, description: string, type: string) {
-        super(name, description, type);
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Rect({
             id: name,
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
@@ -53,22 +53,22 @@ class Support extends DiagramElement {
 
 class Conclusion extends Support {
     artifacts: Array<Artifact>;
-    constructor(name: string, description: string, type: string) {
-        super(name, description, type);
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
     }
 }
 
 class Evidence extends Support {
     artifacts: Array<Artifact>;
-    constructor(name: string, description: string, type: string) {
-        super(name, description, type);
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
     }
 }
 
 class Strategy extends Support {
     artifacts: Array<Artifact>;
-    constructor(name: string, description: string, type: string) {
-        super(name, description, type);
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Path({
             id: name,
             size: { width: 200, height: 30 },
@@ -82,14 +82,14 @@ class Strategy extends Support {
 
 class Artifact extends DiagramElement {
     behavior: Behavior;
-    constructor(name: string, description: string, type: string) {
-        super(name, description, type);
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
     }
 }
 
 class Limitation extends Artifact{
-    constructor(name: string, description: string, type: string) {
-        super(name, description, type);
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.behavior = Behavior.Embeded;
         this.visualShape = new joint.shapes.basic.Rect({
             id: name,
@@ -99,14 +99,14 @@ class Limitation extends Artifact{
     }
 }
 class Rationale extends Artifact{
-    constructor(name: string, description: string, type: string) {
-        super(name, description, type);
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.behavior = Behavior.Near;
     }
 }
 class Actor extends Artifact{
     constructor(name: string, role: string) {
-        super(name,"",role);
+        super(name,null,role);
         this.behavior = Behavior.Near;
         this.visualShape = new joint.shapes.org.Member({
             attrs: {
@@ -134,8 +134,8 @@ class Actor extends Artifact{
     }
 }
 class ForEach extends Artifact{
-    constructor(name: string, description: string, type: string) {
-        super(name, description, type);
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.behavior = Behavior.Embeded;
     }
 }
