@@ -14,7 +14,7 @@ class ParseJson2DiagramElements {
 
     public getDiagramElements () : any[] {
 
-        var elementsDiagram: any[] = [];
+        var elementsDiagram: DiagramElement[] = [];
 
         for (var i = 0; i < this.globalJson.root.steps[0].step.length ; i++) {
             var step  = this.globalJson.root.steps[0].step[i];
@@ -94,6 +94,8 @@ class ImportDiagramFile {
 
         var listElements = parse.getDiagramElements();
 
+        var d = Diagram.getInstance();
+        d.showDiagram(listElements);
     }
 
 

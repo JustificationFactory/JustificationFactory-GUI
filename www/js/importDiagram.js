@@ -60,6 +60,8 @@ var ImportDiagramFile = (function () {
             //TODO: Load JointJS diagram
             var parse = new ParseJson2DiagramElements(json);
             var listElements = parse.getDiagramElements();
+            var d = Diagram.getInstance();
+            d.showDiagram(listElements);
         };
         this.importFileReader = new FileReader();
         this.inputElement = input;
