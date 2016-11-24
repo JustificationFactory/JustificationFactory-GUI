@@ -9,9 +9,9 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Path = joint.shapes.basic.Path;
 var DiagramElement = (function () {
-    function DiagramElement(name, description, type) {
+    function DiagramElement(name, jsonElement, type) {
         this.name = name;
-        this.description = description;
+        this.jsonElement = jsonElement;
         this.type = type;
     }
     DiagramElement.prototype.makeLinkWithParent = function (parentElement) {
@@ -37,8 +37,8 @@ var Behavior;
 })(Behavior || (Behavior = {}));
 var Support = (function (_super) {
     __extends(Support, _super);
-    function Support(name, description, type) {
-        _super.call(this, name, description, type);
+    function Support(name, jsonElement, type) {
+        _super.call(this, name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Rect({
             id: name,
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
@@ -49,22 +49,22 @@ var Support = (function (_super) {
 }(DiagramElement));
 var Conclusion = (function (_super) {
     __extends(Conclusion, _super);
-    function Conclusion(name, description, type) {
-        _super.call(this, name, description, type);
+    function Conclusion(name, jsonElement, type) {
+        _super.call(this, name, jsonElement, type);
     }
     return Conclusion;
 }(Support));
 var Evidence = (function (_super) {
     __extends(Evidence, _super);
-    function Evidence(name, description, type) {
-        _super.call(this, name, description, type);
+    function Evidence(name, jsonElement, type) {
+        _super.call(this, name, jsonElement, type);
     }
     return Evidence;
 }(Support));
 var Strategy = (function (_super) {
     __extends(Strategy, _super);
-    function Strategy(name, description, type) {
-        _super.call(this, name, description, type);
+    function Strategy(name, jsonElement, type) {
+        _super.call(this, name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Path({
             id: name,
             size: { width: 200, height: 30 },
@@ -78,15 +78,15 @@ var Strategy = (function (_super) {
 }(Support));
 var Artifact = (function (_super) {
     __extends(Artifact, _super);
-    function Artifact(name, description, type) {
-        _super.call(this, name, description, type);
+    function Artifact(name, jsonElement, type) {
+        _super.call(this, name, jsonElement, type);
     }
     return Artifact;
 }(DiagramElement));
 var Limitation = (function (_super) {
     __extends(Limitation, _super);
-    function Limitation(name, description, type) {
-        _super.call(this, name, description, type);
+    function Limitation(name, jsonElement, type) {
+        _super.call(this, name, jsonElement, type);
         this.behavior = Behavior.Embeded;
         this.visualShape = new joint.shapes.basic.Rect({
             id: name,
@@ -98,8 +98,8 @@ var Limitation = (function (_super) {
 }(Artifact));
 var Rationale = (function (_super) {
     __extends(Rationale, _super);
-    function Rationale(name, description, type) {
-        _super.call(this, name, description, type);
+    function Rationale(name, jsonElement, type) {
+        _super.call(this, name, jsonElement, type);
         this.behavior = Behavior.Near;
     }
     return Rationale;
@@ -107,7 +107,7 @@ var Rationale = (function (_super) {
 var Actor = (function (_super) {
     __extends(Actor, _super);
     function Actor(name, role) {
-        _super.call(this, name, "", role);
+        _super.call(this, name, null, role);
         this.behavior = Behavior.Near;
         this.visualShape = new joint.shapes.org.Member({
             attrs: {
@@ -137,8 +137,8 @@ var Actor = (function (_super) {
 }(Artifact));
 var ForEach = (function (_super) {
     __extends(ForEach, _super);
-    function ForEach(name, description, type) {
-        _super.call(this, name, description, type);
+    function ForEach(name, jsonElement, type) {
+        _super.call(this, name, jsonElement, type);
         this.behavior = Behavior.Embeded;
     }
     return ForEach;

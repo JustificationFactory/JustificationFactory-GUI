@@ -36,7 +36,7 @@ class ParseJson2DiagramElements {
                 var nameOfEvidence = evidenceRole.evidence[0].name[0];
                 var typeOfEvidence = this.getTypeFromStringAttributs(JSON.stringify(evidenceRole.evidence[0].element[0].$));
 
-                var evidence1 = new Strategy(nameOfEvidence, evidenceRole.evidence[0], typeOfEvidence);
+                var evidence1 = new Evidence(nameOfEvidence, evidenceRole.evidence[0], typeOfEvidence);
                 elementsDiagram.push(evidence1);
                 elementsDiagram.push(evidence1.makeLinkWithParent(strategy1));
             }
