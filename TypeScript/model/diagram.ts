@@ -5,10 +5,12 @@
 
 import Path = joint.shapes.basic.Path;
 import Cell = joint.dia.Cell;
+import Graph = joint.dia.Graph;
 
 class Diagram {
 
     private static _diagram:Diagram = new Diagram();
+    private static _graph:Graph = null;
 
     private _score:number = 0;
 
@@ -25,16 +27,18 @@ class Diagram {
 
 
     public showDiagram(elements: DiagramElement[]){
-        var graph = new joint.dia.Graph;
+        if(Diagram._graph == null){
+            Diagram._graph = new Graph;
 
-        var paper = new joint.dia.Paper({
-            el: $('#myholder'),
-            width: 1600,
-            height: 1500,
-            model: graph,
-            gridSize: 1,
-            interactive: true
-        });
+            var paper = new joint.dia.Paper({
+                el: $('#myholder'),
+                width: 1600,
+                height: 1500,
+                model: Diagram._graph,
+                gridSize: 1,
+                interactive: true
+            });
+        }
 
         // construction des artifacts à partir de JSON
         // add artifacts de graph
@@ -43,8 +47,8 @@ class Diagram {
             cells.push(el.visualShape);
         }
 
-        graph.addCells(cells);
-        joint.layout.DirectedGraph.layout(graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
+        Diagram._graph.resetCells(cells);
+        joint.layout.DirectedGraph.layout(Diagram._graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
     }
 }
 

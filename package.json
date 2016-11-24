@@ -13,22 +13,32 @@
   "dependencies": {
     "@types/dagre" : "0.7.x",
     "@types/jointjs" : "1.0.x",
-    "angular2": "2.0.0-beta.7",
     "dagre": "0.7.x",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
     "express": "4.14.x",
     "jointjs" : "1.0.x",
-    "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.2",
-    "systemjs": "0.19.22",
+    "systemjs": "0.19.40",
     "xml2js": "0.4.x",
-    "zone.js": "0.5.15"
+    "@angular/common": "~2.2.0",
+    "@angular/compiler": "~2.2.0",
+    "@angular/core": "~2.2.0",
+    "@angular/forms": "~2.2.0",
+    "@angular/http": "~2.2.0",
+    "@angular/platform-browser": "~2.2.0",
+    "@angular/platform-browser-dynamic": "~2.2.0",
+    "@angular/router": "~3.2.0",
+    "@angular/upgrade": "~2.2.0",
+    "angular-in-memory-web-api": "~0.1.15",
+    "core-js": "^2.4.1",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "^0.6.25"
   },
   "devDependencies": {
-    "concurrently": "^2.0.0",
-    "lite-server": "^2.1.0",
-    "typescript": "^1.7.5",
+    "concurrently": "^3.0.0",
+    "lite-server": "^2.2.2",
+    "typescript": "^2.0.3",
     "typings": "^0.6.8"
   }
 }
