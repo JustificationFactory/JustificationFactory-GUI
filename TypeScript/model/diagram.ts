@@ -105,8 +105,50 @@ class Conclusion extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
+            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } },
+            ports: {
+                groups: {},
+                items: [  ]
+            }
         });
+
+
+        if(jsonElement.limits != null ){
+
+            if(jsonElement.limits.length<=2){
+              var  pos='down';
+                var i=0;
+                for(var limit of jsonElement.limits) {
+                    this.artifacts.push(new Limitation(limit.code, limit, type))
+                    if(i=2){pos="top"}
+                    else{ i++;}
+                    var port = {
+                        id: limit.code,
+                        group: 'a',
+                        args: {},
+                        label: {
+                            position: {
+                                name:pos ,
+                                args: {}
+                            },
+                            markup: '<text class="label-text" fill="blue"/>'
+                        },
+                        attrs: {rect: {fill: '#DF0606'}, text: {text: "text", fill: 'white', position: "center"}},
+                        markup: '<rect width="50" height="30" stroke="red"/>'
+                    };
+                    this.visualShape.addPort(port);
+
+
+
+                }
+            }
+
+
+                else {} }
+
+
+
+
     }
 }
 
