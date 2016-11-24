@@ -1,11 +1,36 @@
 {
   "name": "argumentation-webserver",
   "version": "0.0.1",
-  "dependencies" : {
-    "dagre" : "0.7.x",
-    "jointjs" : "1.0.x",
+    "scripts": {
+    "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "lite": "lite-server",
+    "typings": "typings",
+    "postinstall": "typings install"
+  },
+  "license": "ISC",
+  "dependencies": {
     "@types/dagre" : "0.7.x",
     "@types/jointjs" : "1.0.x",
-    "@types/lodash" : "3.10.x"
+    "angular2": "2.0.0-beta.7",
+    "dagre": "0.7.x",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.33.3",
+    "express": "4.14.x",
+    "jointjs" : "1.0.x",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "systemjs": "0.19.22",
+    "xml2js": "0.4.x",
+    "zone.js": "0.5.15"
+  },
+  "devDependencies": {
+    "concurrently": "^2.0.0",
+    "lite-server": "^2.1.0",
+    "typescript": "^1.7.5",
+    "typings": "^0.6.8"
   }
 }
+
+
