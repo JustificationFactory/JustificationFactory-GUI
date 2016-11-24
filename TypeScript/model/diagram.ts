@@ -112,6 +112,7 @@ class Conclusion extends DiagramElement {
             }
         });
 
+        this.artifacts = new Array<Artifact>();
 
         if(jsonElement.limits != null ){
 
