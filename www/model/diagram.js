@@ -80,9 +80,11 @@ var Conclusion = (function (_super) {
     __extends(Conclusion, _super);
     function Conclusion(name, jsonElement, type) {
         _super.call(this, name, jsonElement, type);
-        // check if limits exists
-        // create table of limitations
-        // this.artifacts = this table
+        this.visualShape = new joint.shapes.basic.Rect({
+            id: name,
+            size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
+            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
+        });
     }
     return Conclusion;
 }(DiagramElement));
@@ -90,6 +92,11 @@ var Evidence = (function (_super) {
     __extends(Evidence, _super);
     function Evidence(name, jsonElement, type) {
         _super.call(this, name, jsonElement, type);
+        this.visualShape = new joint.shapes.basic.Rect({
+            id: name,
+            size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
+            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
+        });
     }
     return Evidence;
 }(DiagramElement));
