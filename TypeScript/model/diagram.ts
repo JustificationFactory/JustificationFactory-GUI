@@ -5,6 +5,44 @@
 
 import Path = joint.shapes.basic.Path;
 
+class Diagram {
+
+    private static _diagram:Diagram = new Diagram();
+
+    private _score:number = 0;
+
+    constructor() {
+        if(Diagram._diagram){
+            throw new Error("Error: Instantiation failed: Use Diagram.getInstance() instead of new.");
+        }
+        Diagram._diagram = this;
+    }
+
+    public static getInstance():Diagram {
+        return Diagram._diagram;
+    }
+
+
+    public showDiagram(cells: any){
+        var graph = new joint.dia.Graph;
+
+        var paper = new joint.dia.Paper({
+            el: $('#myholder'),
+            width: 1600,
+            height: 1500,
+            model: graph,
+            gridSize: 1,
+            interactive: false
+        });
+
+        // construction des artifacts à partir de JSON
+        // add artifacts de graph
+
+        graph.addCells(cells);
+        joint.layout.DirectedGraph.layout(graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
+    }
+}
+
 class DiagramElement {
     visualShape: Path;
     jsonElement: JSON;
@@ -51,21 +89,24 @@ class Support extends DiagramElement {
     }
 }
 
-class Conclusion extends Support {
+class Conclusion extends DiagramElement {
+    artifacts: Array<Artifact>;
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
+        // check if limits exists
+        // create table of limitations
+         // this.artifacts = this table
+    }
+}
+
+class Evidence extends DiagramElement {
     artifacts: Array<Artifact>;
     constructor(name: string, jsonElement: JSON, type: string) {
         super(name, jsonElement, type);
     }
 }
 
-class Evidence extends Support {
-    artifacts: Array<Artifact>;
-    constructor(name: string, jsonElement: JSON, type: string) {
-        super(name, jsonElement, type);
-    }
-}
-
-class Strategy extends Support {
+class Strategy extends DiagramElement {
     artifacts: Array<Artifact>;
     constructor(name: string, jsonElement: JSON, type: string) {
         super(name, jsonElement, type);
@@ -76,7 +117,8 @@ class Strategy extends Support {
                 path: { d: 'M 10 0 L 100 0 L 90 150 L 0 150 Z', fill: 'green' },
                 text: { text: name, 'ref-y': .3, fill: 'white' }
             }
-        })
+        });
+
     }
 }
 

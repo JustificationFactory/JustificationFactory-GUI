@@ -8,6 +8,35 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Path = joint.shapes.basic.Path;
+var Diagram = (function () {
+    function Diagram() {
+        this._score = 0;
+        if (Diagram._diagram) {
+            throw new Error("Error: Instantiation failed: Use Diagram.getInstance() instead of new.");
+        }
+        Diagram._diagram = this;
+    }
+    Diagram.getInstance = function () {
+        return Diagram._diagram;
+    };
+    Diagram.prototype.showDiagram = function (cells) {
+        var graph = new joint.dia.Graph;
+        var paper = new joint.dia.Paper({
+            el: $('#myholder'),
+            width: 1600,
+            height: 1500,
+            model: graph,
+            gridSize: 1,
+            interactive: false
+        });
+        // construction des artifacts à partir de JSON
+        // add artifacts de graph
+        graph.addCells(cells);
+        joint.layout.DirectedGraph.layout(graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
+    };
+    Diagram._diagram = new Diagram();
+    return Diagram;
+}());
 var DiagramElement = (function () {
     function DiagramElement(name, jsonElement, type) {
         this.name = name;
@@ -51,16 +80,19 @@ var Conclusion = (function (_super) {
     __extends(Conclusion, _super);
     function Conclusion(name, jsonElement, type) {
         _super.call(this, name, jsonElement, type);
+        // check if limits exists
+        // create table of limitations
+        // this.artifacts = this table
     }
     return Conclusion;
-}(Support));
+}(DiagramElement));
 var Evidence = (function (_super) {
     __extends(Evidence, _super);
     function Evidence(name, jsonElement, type) {
         _super.call(this, name, jsonElement, type);
     }
     return Evidence;
-}(Support));
+}(DiagramElement));
 var Strategy = (function (_super) {
     __extends(Strategy, _super);
     function Strategy(name, jsonElement, type) {
@@ -75,7 +107,7 @@ var Strategy = (function (_super) {
         });
     }
     return Strategy;
-}(Support));
+}(DiagramElement));
 var Artifact = (function (_super) {
     __extends(Artifact, _super);
     function Artifact(name, jsonElement, type) {
