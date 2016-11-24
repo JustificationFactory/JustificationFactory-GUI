@@ -8,25 +8,52 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Path = joint.shapes.basic.Path;
+var Cell = joint.dia.Cell;
+var Diagram = (function () {
+    function Diagram() {
+        this._score = 0;
+        if (Diagram._diagram) {
+            throw new Error("Error: Instantiation failed: Use Diagram.getInstance() instead of new.");
+        }
+        Diagram._diagram = this;
+    }
+    Diagram.getInstance = function () {
+        return Diagram._diagram;
+    };
+    Diagram.prototype.showDiagram = function (elements) {
+        var graph = new joint.dia.Graph;
+        var paper = new joint.dia.Paper({
+            el: $('#myholder'),
+            width: 1600,
+            height: 1500,
+            model: graph,
+            gridSize: 1,
+            interactive: true
+        });
+        // construction des artifacts à partir de JSON
+        // add artifacts de graph
+        var cells = [];
+        for (var i = 0; i < elements.length; i++) {
+            cells.push(elements[i].visualShape);
+        }
+        graph.addCells(cells);
+        joint.layout.DirectedGraph.layout(graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
+    };
+    Diagram._diagram = new Diagram();
+    return Diagram;
+}());
 var DiagramElement = (function () {
     function DiagramElement(name, jsonElement, type) {
         this.name = name;
         this.jsonElement = jsonElement;
         this.type = type;
+        this.description = "";
     }
     DiagramElement.prototype.makeLinkWithParent = function (parentElement) {
-        return new joint.dia.Link({
-            source: { id: this.name },
-            target: { id: parentElement.name },
-            attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' } }
-        });
+        return new LinkElement(this, parentElement);
     };
     DiagramElement.prototype.makeLinkWithChild = function (childElement) {
-        return new joint.dia.Link({
-            source: { id: childElement.name },
-            target: { id: this.name },
-            attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' } }
-        });
+        return new LinkElement(childElement, this);
     };
     return DiagramElement;
 }());
@@ -35,12 +62,28 @@ var Behavior;
     Behavior[Behavior["Embeded"] = 0] = "Embeded";
     Behavior[Behavior["Near"] = 1] = "Near";
 })(Behavior || (Behavior = {}));
+var LinkElement = (function (_super) {
+    __extends(LinkElement, _super);
+    function LinkElement(sourceElement, destinationElement) {
+        _super.call(this, "", JSON.parse("{}"), "");
+        this.sourceElement = sourceElement;
+        this.destinationElement = destinationElement;
+        this.visualShape = new joint.dia.Link({
+            source: { id: sourceElement.visualShape.id },
+            target: { id: destinationElement.visualShape.id },
+            attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' } }
+        });
+    }
+    return LinkElement;
+}(DiagramElement));
 var Support = (function (_super) {
     __extends(Support, _super);
-    function Support(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
+    function Support(conclusion, evidence) {
+        _super.call(this, name, conclusion.jsonElement, conclusion.type);
+        this.conclusion = conclusion;
+        this.evidence = evidence;
         this.visualShape = new joint.shapes.basic.Rect({
-            id: name,
+            id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
         });
@@ -51,22 +94,32 @@ var Conclusion = (function (_super) {
     __extends(Conclusion, _super);
     function Conclusion(name, jsonElement, type) {
         _super.call(this, name, jsonElement, type);
+        this.visualShape = new joint.shapes.basic.Rect({
+            id: Util.getNewGuid(),
+            size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
+            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
+        });
     }
     return Conclusion;
-}(Support));
+}(DiagramElement));
 var Evidence = (function (_super) {
     __extends(Evidence, _super);
     function Evidence(name, jsonElement, type) {
         _super.call(this, name, jsonElement, type);
+        this.visualShape = new joint.shapes.basic.Rect({
+            id: Util.getNewGuid(),
+            size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
+            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
+        });
     }
     return Evidence;
-}(Support));
+}(DiagramElement));
 var Strategy = (function (_super) {
     __extends(Strategy, _super);
     function Strategy(name, jsonElement, type) {
         _super.call(this, name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Path({
-            id: name,
+            id: Util.getNewGuid(),
             size: { width: 200, height: 30 },
             attrs: {
                 path: { d: 'M 10 0 L 100 0 L 90 150 L 0 150 Z', fill: 'green' },
@@ -75,7 +128,7 @@ var Strategy = (function (_super) {
         });
     }
     return Strategy;
-}(Support));
+}(DiagramElement));
 var Artifact = (function (_super) {
     __extends(Artifact, _super);
     function Artifact(name, jsonElement, type) {
@@ -89,7 +142,7 @@ var Limitation = (function (_super) {
         _super.call(this, name, jsonElement, type);
         this.behavior = Behavior.Embeded;
         this.visualShape = new joint.shapes.basic.Rect({
-            id: name,
+            id: Util.getNewGuid(),
             //size: { width: width, height: height },
             attrs: { rect: { fill: '#DF0606' }, text: { text: name, fill: 'white' } }
         });
@@ -163,6 +216,13 @@ var Util = (function () {
         var letterSize = 8;
         var height = 2 * ((name.split('\n').length + 1) * letterSize);
         return height;
+    };
+    Util.getNewGuid = function () {
+        function S4() {
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        }
+        // then to call it, plus stitch in '4' in the third group
+        return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
     };
     return Util;
 }());
