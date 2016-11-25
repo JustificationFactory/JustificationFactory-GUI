@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/platform-browser', '@angular/forms', '@angular/http', './rxjs-extensions', './components/actions.toolbar.component', './components/diagram.component', './components/edit.toolbar.component', './components/load.diagram.component', './components/main.component', './components/menu.component', './components/properties.component'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/platform-browser', '@angular/forms', '@angular/http', './rxjs-extensions', './components/actions.toolbar.component', './components/diagram.component', './components/edit.toolbar.component', './components/load.diagram.component', './components/menu.component', './components/properties.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/platform-browser', '@angular/forms',
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_browser_1, forms_1, http_1, actions_toolbar_component_1, diagram_component_1, edit_toolbar_component_1, load_diagram_component_1, main_component_1, menu_component_1, properties_component_1;
+    var core_1, platform_browser_1, forms_1, http_1, actions_toolbar_component_1, diagram_component_1, edit_toolbar_component_1, load_diagram_component_1, menu_component_1, properties_component_1;
     var AppModule;
     return {
         setters:[
@@ -39,9 +39,6 @@ System.register(['@angular/core', '@angular/platform-browser', '@angular/forms',
             function (load_diagram_component_1_1) {
                 load_diagram_component_1 = load_diagram_component_1_1;
             },
-            function (main_component_1_1) {
-                main_component_1 = main_component_1_1;
-            },
             function (menu_component_1_1) {
                 menu_component_1 = menu_component_1_1;
             },
@@ -64,7 +61,6 @@ System.register(['@angular/core', '@angular/platform-browser', '@angular/forms',
                             diagram_component_1.DiagramComponent,
                             edit_toolbar_component_1.EditToolbarComponent,
                             load_diagram_component_1.LoadDiagramComponent,
-                            main_component_1.MainComponent,
                             menu_component_1.MenuComponent,
                             properties_component_1.PropertiesComponent
                         ],
@@ -74,7 +70,6 @@ System.register(['@angular/core', '@angular/platform-browser', '@angular/forms',
                             diagram_component_1.DiagramComponent,
                             edit_toolbar_component_1.EditToolbarComponent,
                             load_diagram_component_1.LoadDiagramComponent,
-                            main_component_1.MainComponent,
                             menu_component_1.MenuComponent,
                             properties_component_1.PropertiesComponent
                         ]

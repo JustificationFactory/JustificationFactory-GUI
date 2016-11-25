@@ -5,13 +5,25 @@
     <title>Angular 2 Tour of Heroes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="app/css/app.css">
+    <link rel="stylesheet" href="css/joint.css" />
+    <link rel="stylesheet" href="css/app.css">
 
     <!-- IE required polyfills, in this exact order -->
     <script src="node_modules/core-js/client/shim.min.js"></script>
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/lodash.js"></script>
+    <script src="js/vendor/backbone.js"></script>
+    <script src="js/vendor/graphlib.js"></script>
+    <script src="js/vendor/dagre.js"></script>
+    <script src="js/vendor/joint.js"></script>
+    <script src="js/vendor/joint.shapes.erd.js"></script>
+    <script src="app/services/diagram.js"></script>
+    <script src="app/services/importDiagram.js"></script>
 
     <script>
         System.import('system-config.js').then(function () {
@@ -21,7 +33,7 @@
 </head>
 
 <body>
-<argumentation-app-view>Loading argumentation-app-view...</argumentation-app-view>
+
 <br />
 <actionstoolbar-view>Loading actionstoolbar-view...</actionstoolbar-view>
 <br />

@@ -2,28 +2,34 @@
 ///<reference path="..\..\node_modules\@types\backbone\index.d.ts" />
 ///<reference path="..\..\node_modules\@types\jointjs\index.d.ts" />
 ///<reference path="..\..\node_modules\@types\dagre\index.d.ts" />
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Path = joint.shapes.basic.Path;
-var Cell = joint.dia.Cell;
-var Graph = joint.dia.Graph;
-var Diagram = (function () {
-    function Diagram() {
-        this._score = 0;
-        if (Diagram._diagram) {
+
+import Path = joint.shapes.basic.Path;
+import Cell = joint.dia.Cell;
+import Graph = joint.dia.Graph;
+
+class Diagram {
+
+    private static _diagram:Diagram = new Diagram();
+    private static _graph:Graph = null;
+
+    private _score:number = 0;
+
+    constructor() {
+        if(Diagram._diagram){
             throw new Error("Error: Instantiation failed: Use Diagram.getInstance() instead of new.");
         }
         Diagram._diagram = this;
     }
-    Diagram.getInstance = function () {
+
+    public static getInstance():Diagram {
         return Diagram._diagram;
-    };
-    Diagram.prototype.showDiagram = function (elements) {
-        if (Diagram._graph == null) {
+    }
+
+
+    public showDiagram(elements: DiagramElement[]){
+        if(Diagram._graph == null){
             Diagram._graph = new Graph;
+
             var paper = new joint.dia.Paper({
                 el: $('#myholder'),
                 width: 1600,
@@ -33,139 +39,142 @@ var Diagram = (function () {
                 interactive: true
             });
         }
+
         // construction des artifacts à partir de JSON
         // add artifacts de graph
-        var cells = [];
-        for (var _i = 0, elements_1 = elements; _i < elements_1.length; _i++) {
-            var el = elements_1[_i];
+        var cells : joint.dia.Cell[] = [];
+        for (var el of elements) {
             cells.push(el.visualShape);
-            for (var _a = 0, _b = el.artifacts; _a < _b.length; _a++) {
-                var artifact = _b[_a];
+
+            for(var artifact of el.artifacts){
                 cells.push(artifact.visualShape);
                 cells.push(artifact.makeLinkWithParent(el).visualShape);
             }
         }
+
         Diagram._graph.resetCells(cells);
         joint.layout.DirectedGraph.layout(Diagram._graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
-    };
-    Diagram._diagram = new Diagram();
-    Diagram._graph = null;
-    return Diagram;
-}());
-var DiagramElement = (function () {
-    function DiagramElement(name, jsonElement, type) {
+    }
+}
+
+class DiagramElement {
+    visualShape: Path;
+    jsonElement: JSON;
+    name: string;
+    description:string;
+    type:string;
+    artifacts: Array<Artifact>;
+
+    constructor(name: string, jsonElement: JSON, type: string) {
         this.name = name;
         this.jsonElement = jsonElement;
         this.type = type;
         this.description = "";
         this.artifacts = [];
     }
-    DiagramElement.prototype.makeLinkWithParent = function (parentElement) {
+
+    makeLinkWithParent(parentElement:DiagramElement) : LinkElement {
         return new LinkElement(this, parentElement);
-    };
-    DiagramElement.prototype.makeLinkWithChild = function (childElement) {
+    }
+    makeLinkWithChild(childElement) : LinkElement {
         return new LinkElement(childElement, this);
-    };
-    return DiagramElement;
-}());
-var Behavior;
-(function (Behavior) {
-    Behavior[Behavior["Embeded"] = 0] = "Embeded";
-    Behavior[Behavior["Near"] = 1] = "Near";
-})(Behavior || (Behavior = {}));
-var LinkElement = (function (_super) {
-    __extends(LinkElement, _super);
-    function LinkElement(sourceElement, destinationElement) {
-        _super.call(this, "", JSON.parse("{}"), "");
-        this.sourceElement = sourceElement;
-        this.destinationElement = destinationElement;
+    }
+}
+
+enum Behavior {
+    Embeded,
+    Near
+}
+
+class LinkElement extends DiagramElement {
+    constructor(public sourceElement: DiagramElement, public destinationElement: DiagramElement) {
+        super("", JSON.parse("{}"), "");
         this.visualShape = new joint.dia.Link({
             source: { id: sourceElement.visualShape.id },
             target: { id: destinationElement.visualShape.id },
             attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' } }
         });
     }
-    return LinkElement;
-}(DiagramElement));
-var Support = (function (_super) {
-    __extends(Support, _super);
-    function Support(conclusion, evidence) {
-        _super.call(this, name, conclusion.jsonElement, conclusion.type);
-        this.conclusion = conclusion;
-        this.evidence = evidence;
+}
+class Support extends DiagramElement {
+    artifacts: Array<Artifact>;
+
+    constructor(public conclusion: Conclusion, public evidence: Evidence) {
+        super(name, conclusion.jsonElement, conclusion.type);
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
         });
     }
-    return Support;
-}(DiagramElement));
-var Conclusion = (function (_super) {
-    __extends(Conclusion, _super);
-    function Conclusion(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
+}
+
+class Conclusion extends DiagramElement {
+    artifacts: Array<Artifact>;
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } },
             ports: {
                 groups: {},
-                items: []
+                items: [  ]
             }
         });
-        this.artifacts = new Array();
-        if (jsonElement.limits != null) {
-            if (jsonElement.limits.length <= 2) {
-                var pos = 'down';
-                var i = 0;
-                for (var _i = 0, _a = jsonElement.limits; _i < _a.length; _i++) {
-                    var limit = _a[_i];
-                    this.artifacts.push(new Limitation(limit.code, limit, type));
-                    if (i = 2) {
-                        pos = "top";
-                    }
-                    else {
-                        i++;
-                    }
+
+        this.artifacts = new Array<Artifact>();
+
+        if(jsonElement.limits != null ){
+
+            if(jsonElement.limits.length<=2){
+              var  pos='down';
+                var i=0;
+                for(var limit of jsonElement.limits) {
+                    this.artifacts.push(new Limitation(limit.code, limit, type))
+                    if(i=2){pos="top"}
+                    else{ i++;}
                     var port = {
                         id: limit.code,
                         group: 'a',
                         args: {},
                         label: {
                             position: {
-                                name: pos,
+                                name:pos ,
                                 args: {}
                             },
                             markup: '<text class="label-text" fill="blue"/>'
                         },
-                        attrs: { rect: { fill: '#DF0606' }, text: { text: "text", fill: 'white', position: "center" } },
+                        attrs: {rect: {fill: '#DF0606'}, text: {text: "text", fill: 'white', position: "center"}},
                         markup: '<rect width="50" height="30" stroke="red"/>'
                     };
                     this.visualShape.addPort(port);
+
+
+
                 }
             }
-            else { }
+            else {}
         }
     }
-    return Conclusion;
-}(DiagramElement));
-var Evidence = (function (_super) {
-    __extends(Evidence, _super);
-    function Evidence(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
+}
+
+class Evidence extends DiagramElement {
+    artifacts: Array<Artifact>;
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
         });
     }
-    return Evidence;
-}(DiagramElement));
-var Strategy = (function (_super) {
-    __extends(Strategy, _super);
-    function Strategy(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
+}
+
+class Strategy extends DiagramElement {
+    artifacts: Array<Artifact>;
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
@@ -176,24 +185,25 @@ var Strategy = (function (_super) {
         });
         this.artifacts = this.createArtifactsFromJson();
     }
-    Strategy.prototype.createArtifactsFromJson = function () {
-        var actor = new Actor(this.jsonElement.actor[0].name[0], this.jsonElement.actor[0], this.jsonElement.actor[0].role[0]);
-        var rationale = new Rationale("", this.jsonElement.rationale[0], "");
+
+    private createArtifactsFromJson(){
+        var actor = new Actor(this.jsonElement.actor[0].name[0],this.jsonElement.actor[0], this.jsonElement.actor[0].role[0]);
+        var rationale = new Rationale("",this.jsonElement.rationale[0],"");
+
         return [actor, rationale];
-    };
-    return Strategy;
-}(DiagramElement));
-var Artifact = (function (_super) {
-    __extends(Artifact, _super);
-    function Artifact(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
     }
-    return Artifact;
-}(DiagramElement));
-var Limitation = (function (_super) {
-    __extends(Limitation, _super);
-    function Limitation(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
+}
+
+class Artifact extends DiagramElement {
+    behavior: Behavior;
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
+    }
+}
+
+class Limitation extends Artifact{
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.behavior = Behavior.Embeded;
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
@@ -201,12 +211,10 @@ var Limitation = (function (_super) {
             attrs: { rect: { fill: '#DF0606' }, text: { text: name, fill: 'white' } }
         });
     }
-    return Limitation;
-}(Artifact));
-var Rationale = (function (_super) {
-    __extends(Rationale, _super);
-    function Rationale(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
+}
+class Rationale extends Artifact{
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.behavior = Behavior.Near;
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
@@ -215,25 +223,23 @@ var Rationale = (function (_super) {
             attrs: { rect: { fill: '#FFFFFF' }, text: { text: jsonElement.axonicProject[0].pathology[0], fill: 'black' } }
         });
     }
-    return Rationale;
-}(Artifact));
-var Actor = (function (_super) {
-    __extends(Actor, _super);
-    function Actor(name, jsonElement, role) {
-        _super.call(this, name, jsonElement, role);
+}
+class Actor extends Artifact{
+    constructor(name: string, jsonElement: JSON, role: string) {
+        super(name, jsonElement, role);
         this.behavior = Behavior.Near;
         this.visualShape = new joint.shapes.org.Member({
             attrs: {
-                '.card': { fill: "#BBBBBB", stroke: 'none' },
+                '.card': { fill: "#BBBBBB", stroke: 'none'},
                 image: { 'xlink:href': 'images/User.ico', opacity: 0.7 },
-                '.rank': { text: role, fill: "#000", 'word-spacing': '-5px', 'letter-spacing': 0 },
+                '.rank': { text: role, fill: "#000", 'word-spacing': '-5px', 'letter-spacing': 0},
                 '.name': { text: name, fill: "#000", 'font-size': 13, 'font-family': 'Arial', 'letter-spacing': 0 }
             },
             size: { width: Util.getElementWidthFromTextLength(role) + 50 }
         });
     }
-    Actor.prototype.makeLinkWithParent = function (parentElement) {
-        var link = new LinkElement(this, parentElement);
+    makeLinkWithParent(parentElement) {
+        var link = new LinkElement(this,parentElement);
         link.visualShape = new joint.shapes.org.Arrow({
             source: { id: this.visualShape.id },
             target: { id: parentElement.visualShape.id },
@@ -248,44 +254,43 @@ var Actor = (function (_super) {
             }
         });
         return link;
-    };
-    return Actor;
-}(Artifact));
-var ForEach = (function (_super) {
-    __extends(ForEach, _super);
-    function ForEach(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
+    }
+}
+class ForEach extends Artifact{
+    constructor(name: string, jsonElement: JSON, type: string) {
+        super(name, jsonElement, type);
         this.behavior = Behavior.Embeded;
     }
-    return ForEach;
-}(Artifact));
-var Util = (function () {
-    function Util() {
-    }
-    Util.getElementWidthFromTextLength = function (name) {
-        var maxLineLength = _.max(name.split('\n'), function (l) { return l.length; }).length;
+}
+
+class Util{
+    static getElementWidthFromTextLength(name){
+        var maxLineLength = _.max(name.split('\n'), function(l) { return l.length; }).length;
         // Compute width/height of the rectangle based on the number
         // of lines in the label and the letter size. 0.6 * letterSize is
         // an approximation of the monospace font letter width.
         var letterSize = 8;
         var width = 2 * (letterSize * (0.6 * maxLineLength + 1));
         return width;
-    };
-    Util.getElementHeightFromTextLength = function (name) {
-        var maxLineLength = _.max(name.split('\n'), function (l) { return l.length; }).length;
+    }
+
+    static getElementHeightFromTextLength(name){
+        var maxLineLength = _.max(name.split('\n'), function(l) { return l.length; }).length;
         // Compute width/height of the rectangle based on the number
         // of lines in the label and the letter size. 0.6 * letterSize is
         // an approximation of the monospace font letter width.
         var letterSize = 8;
         var height = 2 * ((name.split('\n').length + 1) * letterSize);
         return height;
-    };
-    Util.getNewGuid = function () {
+    }
+
+    static getNewGuid() : String {
         function S4() {
-            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
         }
+
         // then to call it, plus stitch in '4' in the third group
-        return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
-    };
-    return Util;
-}());
+        return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+    }
+}
+

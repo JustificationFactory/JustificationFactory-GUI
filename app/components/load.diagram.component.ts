@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 
 @Component({
     //moduleId: module.id,
@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
     templateUrl: 'app/components/load.diagram.component.html',
     //styleUrls: ['./css/app.css']
 })
-export class LoadDiagramComponent {
+export class LoadDiagramComponent implements OnInit {
+    ngOnInit(): void {
+        var importFile = new ImportDiagramFile($("#importFile")[0]);
+    }
 
 }

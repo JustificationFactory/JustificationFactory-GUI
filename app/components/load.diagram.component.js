@@ -21,6 +21,9 @@ System.register(['@angular/core'], function(exports_1, context_1) {
             LoadDiagramComponent = (function () {
                 function LoadDiagramComponent() {
                 }
+                LoadDiagramComponent.prototype.ngOnInit = function () {
+                    var importFile = new ImportDiagramFile($("#importFile")[0]);
+                };
                 LoadDiagramComponent = __decorate([
                     core_1.Component({
                         //moduleId: module.id,
