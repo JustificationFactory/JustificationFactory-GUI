@@ -6,15 +6,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("angular2/core");
-var diagrammeArgComponent = (function () {
-    function diagrammeArgComponent() {
+var paletteGComponent = (function () {
+    function paletteGComponent() {
     }
-    diagrammeArgComponent = __decorate([
+    paletteGComponent = __decorate([
         core_1.Component({
-            selector: 'diagrammeArg',
-            templateUrl: 'www/app.html'
+            selector: 'paletteG',
+            templateUrl: 'www/paletteG.html'
         })
-    ], diagrammeArgComponent);
-    return diagrammeArgComponent;
+    ], paletteGComponent);
+    return paletteGComponent;
 }());
-exports.diagrammeArgComponent = diagrammeArgComponent;
+exports.paletteGComponent = paletteGComponent;
