@@ -45,6 +45,11 @@ class Diagram {
         var cells : joint.dia.Cell[] = [];
         for (var el of elements) {
             cells.push(el.visualShape);
+
+            for(var artifact of el.artifacts){
+                cells.push(artifact.visualShape);
+                cells.push(artifact.makeLinkWithParent(el).visualShape);
+            }
         }
 
         Diagram._graph.resetCells(cells);
@@ -58,12 +63,14 @@ class DiagramElement {
     name: string;
     description:string;
     type:string;
+    artifacts: Array<Artifact>;
 
     constructor(name: string, jsonElement: JSON, type: string) {
         this.name = name;
         this.jsonElement = jsonElement;
         this.type = type;
         this.description = "";
+        this.artifacts = [];
     }
 
     makeLinkWithParent(parentElement:DiagramElement) : LinkElement {
@@ -147,13 +154,8 @@ class Conclusion extends DiagramElement {
 
                 }
             }
-
-
-                else {} }
-
-
-
-
+            else {}
+        }
     }
 }
 
@@ -175,13 +177,20 @@ class Strategy extends DiagramElement {
         super(name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
-            size: { width: 200, height: 30 },
+            size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
                 path: { d: 'M 10 0 L 100 0 L 90 150 L 0 150 Z', fill: 'green' },
                 text: { text: name, 'ref-y': .3, fill: 'white' }
             }
         });
+        this.artifacts = this.createArtifactsFromJson();
+    }
 
+    private createArtifactsFromJson(){
+        var actor = new Actor(this.jsonElement.actor[0].name[0],this.jsonElement.actor[0], this.jsonElement.actor[0].role[0]);
+        var rationale = new Rationale("",this.jsonElement.rationale[0],"");
+
+        return [actor, rationale];
     }
 }
 
@@ -207,23 +216,31 @@ class Rationale extends Artifact{
     constructor(name: string, jsonElement: JSON, type: string) {
         super(name, jsonElement, type);
         this.behavior = Behavior.Near;
+        this.visualShape = new joint.shapes.basic.Rect({
+            id: Util.getNewGuid(),
+            size: { width: Util.getElementWidthFromTextLength(jsonElement.axonicProject[0].pathology[0]),
+                height: Util.getElementHeightFromTextLength(jsonElement.axonicProject[0].pathology[0]) },
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: jsonElement.axonicProject[0].pathology[0], fill: 'black' } }
+        });
     }
 }
 class Actor extends Artifact{
-    constructor(name: string, role: string) {
-        super(name,null,role);
+    constructor(name: string, jsonElement: JSON, role: string) {
+        super(name, jsonElement, role);
         this.behavior = Behavior.Near;
         this.visualShape = new joint.shapes.org.Member({
             attrs: {
                 '.card': { fill: "#BBBBBB", stroke: 'none'},
                 image: { 'xlink:href': 'images/User.ico', opacity: 0.7 },
-                '.rank': { text: "test", fill: "#000", 'word-spacing': '-5px', 'letter-spacing': 0},
+                '.rank': { text: role, fill: "#000", 'word-spacing': '-5px', 'letter-spacing': 0},
                 '.name': { text: name, fill: "#000", 'font-size': 13, 'font-family': 'Arial', 'letter-spacing': 0 }
-            }
+            },
+            size: { width: Util.getElementWidthFromTextLength(role) + 50 }
         });
     }
     makeLinkWithParent(parentElement) {
-        return new joint.shapes.org.Arrow({
+        var link = new LinkElement(this,parentElement);
+        link.visualShape = new joint.shapes.org.Arrow({
             source: { id: this.visualShape.id },
             target: { id: parentElement.visualShape.id },
             attrs: {
@@ -236,6 +253,7 @@ class Actor extends Artifact{
                 '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
             }
         });
+        return link;
     }
 }
 class ForEach extends Artifact{
