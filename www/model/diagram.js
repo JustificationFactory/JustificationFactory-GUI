@@ -27,7 +27,7 @@ var Diagram = (function () {
             var paper = new joint.dia.Paper({
                 el: $('#myholder'),
                 width: 1600,
-                height: 1500,
+                height: 600,
                 model: Diagram._graph,
                 gridSize: 1,
                 interactive: true
@@ -42,7 +42,9 @@ var Diagram = (function () {
             for (var _a = 0, _b = el.artifacts; _a < _b.length; _a++) {
                 var artifact = _b[_a];
                 cells.push(artifact.visualShape);
-                cells.push(artifact.makeLinkWithParent(el).visualShape);
+                if (artifact.behavior == Behavior.Near) {
+                    cells.push(artifact.makeLinkWithParent(el).visualShape);
+                }
             }
         }
         Diagram._graph.resetCells(cells);

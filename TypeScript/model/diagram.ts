@@ -33,7 +33,7 @@ class Diagram {
             var paper = new joint.dia.Paper({
                 el: $('#myholder'),
                 width: 1600,
-                height: 1500,
+                height: 600,
                 model: Diagram._graph,
                 gridSize: 1,
                 interactive: true
@@ -48,7 +48,9 @@ class Diagram {
 
             for(var artifact of el.artifacts){
                 cells.push(artifact.visualShape);
-                cells.push(artifact.makeLinkWithParent(el).visualShape);
+                if(artifact.behavior == Behavior.Near){
+                    cells.push(artifact.makeLinkWithParent(el).visualShape);
+                }
             }
         }
 
@@ -123,7 +125,7 @@ class Conclusion extends DiagramElement {
             }
         });
 
-        this.artifacts = new Array<Artifact>();
+ this.artifacts = new Array<Artifact>();
 
         if(jsonElement.limits != null ){
 
