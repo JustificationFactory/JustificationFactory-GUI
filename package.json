@@ -9,17 +9,7 @@
     "typings": "typings",
     "postinstall": "typings install"
   },
-  "license": "ISC",
   "dependencies": {
-    "@types/dagre" : "0.7.x",
-    "@types/jointjs" : "1.0.x",
-    "dagre": "0.7.x",
-    "es6-promise": "^3.0.2",
-    "es6-shim": "^0.33.3",
-    "express": "4.14.x",
-    "jointjs" : "1.0.x",
-    "systemjs": "0.19.40",
-    "xml2js": "0.4.x",
     "@angular/common": "~2.2.0",
     "@angular/compiler": "~2.2.0",
     "@angular/core": "~2.2.0",
@@ -33,13 +23,19 @@
     "core-js": "^2.4.1",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
-    "zone.js": "^0.6.25"
+    "systemjs": "0.19.40",
+    "zone.js": "^0.6.25",
+    "dagre": "~0.7.0",
+    "jointjs" : "~1.0.0"
   },
   "devDependencies": {
-    "concurrently": "^3.0.0",
+    "concurrently": "^3.1.0",
     "lite-server": "^2.2.2",
     "typescript": "^2.0.3",
-    "typings": "^0.6.8"
+    "typings": "^0.6.8",
+    "@types/core-js": "^0.9.34",
+    "@types/dagre" : "~0.7.0",
+    "@types/jointjs" : "~1.0.0"
   }
 }
 
