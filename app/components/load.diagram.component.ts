@@ -8,7 +8,7 @@ import { Component, OnInit  } from '@angular/core';
 })
 export class LoadDiagramComponent implements OnInit {
     ngOnInit(): void {
-        var importFile = new ImportDiagramFile($("#importFile")[0]);
+        var importFile = new ImportDiagramFile(<HTMLInputElement>$("#importFile")[0]);
     }
 
 }
