@@ -39,6 +39,11 @@ var Diagram = (function () {
         for (var _i = 0, elements_1 = elements; _i < elements_1.length; _i++) {
             var el = elements_1[_i];
             cells.push(el.visualShape);
+            for (var _a = 0, _b = el.artifacts; _a < _b.length; _a++) {
+                var artifact = _b[_a];
+                cells.push(artifact.visualShape);
+                cells.push(artifact.makeLinkWithParent(el).visualShape);
+            }
         }
         Diagram._graph.resetCells(cells);
         joint.layout.DirectedGraph.layout(Diagram._graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
@@ -53,6 +58,7 @@ var DiagramElement = (function () {
         this.jsonElement = jsonElement;
         this.type = type;
         this.description = "";
+        this.artifacts = [];
     }
     DiagramElement.prototype.makeLinkWithParent = function (parentElement) {
         return new LinkElement(this, parentElement);
@@ -162,13 +168,19 @@ var Strategy = (function (_super) {
         _super.call(this, name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
-            size: { width: 200, height: 30 },
+            size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
                 path: { d: 'M 10 0 L 100 0 L 90 150 L 0 150 Z', fill: 'green' },
                 text: { text: name, 'ref-y': .3, fill: 'white' }
             }
         });
+        this.artifacts = this.createArtifactsFromJson();
     }
+    Strategy.prototype.createArtifactsFromJson = function () {
+        var actor = new Actor(this.jsonElement.actor[0].name[0], this.jsonElement.actor[0], this.jsonElement.actor[0].role[0]);
+        var rationale = new Rationale("", this.jsonElement.rationale[0], "");
+        return [actor, rationale];
+    };
     return Strategy;
 }(DiagramElement));
 var Artifact = (function (_super) {
@@ -196,25 +208,33 @@ var Rationale = (function (_super) {
     function Rationale(name, jsonElement, type) {
         _super.call(this, name, jsonElement, type);
         this.behavior = Behavior.Near;
+        this.visualShape = new joint.shapes.basic.Rect({
+            id: Util.getNewGuid(),
+            size: { width: Util.getElementWidthFromTextLength(jsonElement.axonicProject[0].pathology[0]),
+                height: Util.getElementHeightFromTextLength(jsonElement.axonicProject[0].pathology[0]) },
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: jsonElement.axonicProject[0].pathology[0], fill: 'black' } }
+        });
     }
     return Rationale;
 }(Artifact));
 var Actor = (function (_super) {
     __extends(Actor, _super);
-    function Actor(name, role) {
-        _super.call(this, name, null, role);
+    function Actor(name, jsonElement, role) {
+        _super.call(this, name, jsonElement, role);
         this.behavior = Behavior.Near;
         this.visualShape = new joint.shapes.org.Member({
             attrs: {
                 '.card': { fill: "#BBBBBB", stroke: 'none' },
                 image: { 'xlink:href': 'images/User.ico', opacity: 0.7 },
-                '.rank': { text: "test", fill: "#000", 'word-spacing': '-5px', 'letter-spacing': 0 },
+                '.rank': { text: role, fill: "#000", 'word-spacing': '-5px', 'letter-spacing': 0 },
                 '.name': { text: name, fill: "#000", 'font-size': 13, 'font-family': 'Arial', 'letter-spacing': 0 }
-            }
+            },
+            size: { width: Util.getElementWidthFromTextLength(role) + 50 }
         });
     }
     Actor.prototype.makeLinkWithParent = function (parentElement) {
-        return new joint.shapes.org.Arrow({
+        var link = new LinkElement(this, parentElement);
+        link.visualShape = new joint.shapes.org.Arrow({
             source: { id: this.visualShape.id },
             target: { id: parentElement.visualShape.id },
             attrs: {
@@ -227,6 +247,7 @@ var Actor = (function (_super) {
                 '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
             }
         });
+        return link;
     };
     return Actor;
 }(Artifact));
