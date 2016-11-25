@@ -94,7 +94,8 @@ class LinkElement extends DiagramElement {
         this.visualShape = new joint.dia.Link({
             source: { id: sourceElement.visualShape.id },
             target: { id: destinationElement.visualShape.id },
-            attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' } }
+            attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+            }
         });
     }
 }
@@ -201,6 +202,24 @@ class Artifact extends DiagramElement {
     constructor(name: string, jsonElement: JSON, type: string) {
         super(name, jsonElement, type);
     }
+    makeLinkWithParent(parentElement) {
+        var link = new LinkElement(this,parentElement);
+        link.visualShape = new joint.dia.Link({
+            source: { id: this.visualShape.id },
+            target: { id: parentElement.visualShape.id },
+            attrs: {
+                '.connection': {
+                    'fill': 'none',
+                    'stroke-linejoin': 'round',
+                    'stroke-width': '2',
+                    'stroke': '#4b4a67',
+                    'stroke-dasharray': '1.5'
+                },
+                '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+            }
+        });
+        return link;
+    }
 }
 
 class Limitation extends Artifact{
@@ -250,7 +269,8 @@ class Actor extends Artifact{
                     'fill': 'none',
                     'stroke-linejoin': 'round',
                     'stroke-width': '2',
-                    'stroke': '#4b4a67'
+                    'stroke': '#4b4a67',
+                    'stroke-dasharray': '1.5'
                 },
                 '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
             }

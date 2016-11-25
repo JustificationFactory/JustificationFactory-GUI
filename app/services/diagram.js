@@ -50,10 +50,10 @@ var Diagram = (function () {
         Diagram._graph.resetCells(cells);
         joint.layout.DirectedGraph.layout(Diagram._graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
     };
-    Diagram._diagram = new Diagram();
-    Diagram._graph = null;
     return Diagram;
 }());
+Diagram._diagram = new Diagram();
+Diagram._graph = null;
 var DiagramElement = (function () {
     function DiagramElement(name, jsonElement, type) {
         this.name = name;
@@ -78,36 +78,39 @@ var Behavior;
 var LinkElement = (function (_super) {
     __extends(LinkElement, _super);
     function LinkElement(sourceElement, destinationElement) {
-        _super.call(this, "", JSON.parse("{}"), "");
-        this.sourceElement = sourceElement;
-        this.destinationElement = destinationElement;
-        this.visualShape = new joint.dia.Link({
+        var _this = _super.call(this, "", JSON.parse("{}"), "") || this;
+        _this.sourceElement = sourceElement;
+        _this.destinationElement = destinationElement;
+        _this.visualShape = new joint.dia.Link({
             source: { id: sourceElement.visualShape.id },
             target: { id: destinationElement.visualShape.id },
-            attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' } }
+            attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+            }
         });
+        return _this;
     }
     return LinkElement;
 }(DiagramElement));
 var Support = (function (_super) {
     __extends(Support, _super);
     function Support(conclusion, evidence) {
-        _super.call(this, name, conclusion.jsonElement, conclusion.type);
-        this.conclusion = conclusion;
-        this.evidence = evidence;
-        this.visualShape = new joint.shapes.basic.Rect({
+        var _this = _super.call(this, name, conclusion.jsonElement, conclusion.type) || this;
+        _this.conclusion = conclusion;
+        _this.evidence = evidence;
+        _this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
         });
+        return _this;
     }
     return Support;
 }(DiagramElement));
 var Conclusion = (function (_super) {
     __extends(Conclusion, _super);
     function Conclusion(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
-        this.visualShape = new joint.shapes.basic.Rect({
+        var _this = _super.call(this, name, jsonElement, type) || this;
+        _this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } },
@@ -116,14 +119,14 @@ var Conclusion = (function (_super) {
                 items: []
             }
         });
-        this.artifacts = new Array();
+        _this.artifacts = new Array();
         if (jsonElement.limits != null) {
             if (jsonElement.limits.length <= 2) {
                 var pos = 'down';
                 var i = 0;
                 for (var _i = 0, _a = jsonElement.limits; _i < _a.length; _i++) {
                     var limit = _a[_i];
-                    this.artifacts.push(new Limitation(limit.code, limit, type));
+                    _this.artifacts.push(new Limitation(limit.code, limit, type));
                     if (i = 2) {
                         pos = "top";
                     }
@@ -144,31 +147,33 @@ var Conclusion = (function (_super) {
                         attrs: { rect: { fill: '#DF0606' }, text: { text: "text", fill: 'white', position: "center" } },
                         markup: '<rect width="50" height="30" stroke="red"/>'
                     };
-                    this.visualShape.addPort(port);
+                    _this.visualShape.addPort(port);
                 }
             }
             else { }
         }
+        return _this;
     }
     return Conclusion;
 }(DiagramElement));
 var Evidence = (function (_super) {
     __extends(Evidence, _super);
     function Evidence(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
-        this.visualShape = new joint.shapes.basic.Rect({
+        var _this = _super.call(this, name, jsonElement, type) || this;
+        _this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
         });
+        return _this;
     }
     return Evidence;
 }(DiagramElement));
 var Strategy = (function (_super) {
     __extends(Strategy, _super);
     function Strategy(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
-        this.visualShape = new joint.shapes.basic.Path({
+        var _this = _super.call(this, name, jsonElement, type) || this;
+        _this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
@@ -176,7 +181,8 @@ var Strategy = (function (_super) {
                 text: { text: name, 'ref-y': .3, fill: 'white' }
             }
         });
-        this.artifacts = this.createArtifactsFromJson();
+        _this.artifacts = _this.createArtifactsFromJson();
+        return _this;
     }
     Strategy.prototype.createArtifactsFromJson = function () {
         var actor = new Actor(this.jsonElement.actor[0].name[0], this.jsonElement.actor[0], this.jsonElement.actor[0].role[0]);
@@ -188,43 +194,63 @@ var Strategy = (function (_super) {
 var Artifact = (function (_super) {
     __extends(Artifact, _super);
     function Artifact(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
+        return _super.call(this, name, jsonElement, type) || this;
     }
+    Artifact.prototype.makeLinkWithParent = function (parentElement) {
+        var link = new LinkElement(this, parentElement);
+        link.visualShape = new joint.dia.Link({
+            source: { id: this.visualShape.id },
+            target: { id: parentElement.visualShape.id },
+            attrs: {
+                '.connection': {
+                    'fill': 'none',
+                    'stroke-linejoin': 'round',
+                    'stroke-width': '2',
+                    'stroke': '#4b4a67',
+                    'stroke-dasharray': '1.5'
+                },
+                '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+            }
+        });
+        return link;
+    };
     return Artifact;
 }(DiagramElement));
 var Limitation = (function (_super) {
     __extends(Limitation, _super);
     function Limitation(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
-        this.behavior = Behavior.Embeded;
-        this.visualShape = new joint.shapes.basic.Rect({
+        var _this = _super.call(this, name, jsonElement, type) || this;
+        _this.behavior = Behavior.Embeded;
+        _this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             //size: { width: width, height: height },
             attrs: { rect: { fill: '#DF0606' }, text: { text: name, fill: 'white' } }
         });
+        return _this;
     }
     return Limitation;
 }(Artifact));
 var Rationale = (function (_super) {
     __extends(Rationale, _super);
     function Rationale(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
-        this.behavior = Behavior.Near;
-        this.visualShape = new joint.shapes.basic.Rect({
+        var _this = _super.call(this, name, jsonElement, type) || this;
+        _this.behavior = Behavior.Near;
+        _this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(jsonElement.axonicProject[0].pathology[0]),
                 height: Util.getElementHeightFromTextLength(jsonElement.axonicProject[0].pathology[0]) },
             attrs: { rect: { fill: '#FFFFFF' }, text: { text: jsonElement.axonicProject[0].pathology[0], fill: 'black' } }
         });
+        return _this;
     }
     return Rationale;
 }(Artifact));
 var Actor = (function (_super) {
     __extends(Actor, _super);
     function Actor(name, jsonElement, role) {
-        _super.call(this, name, jsonElement, role);
-        this.behavior = Behavior.Near;
-        this.visualShape = new joint.shapes.org.Member({
+        var _this = _super.call(this, name, jsonElement, role) || this;
+        _this.behavior = Behavior.Near;
+        _this.visualShape = new joint.shapes.org.Member({
             attrs: {
                 '.card': { fill: "#BBBBBB", stroke: 'none' },
                 image: { 'xlink:href': 'images/User.ico', opacity: 0.7 },
@@ -233,6 +259,7 @@ var Actor = (function (_super) {
             },
             size: { width: Util.getElementWidthFromTextLength(role) + 50 }
         });
+        return _this;
     }
     Actor.prototype.makeLinkWithParent = function (parentElement) {
         var link = new LinkElement(this, parentElement);
@@ -244,7 +271,8 @@ var Actor = (function (_super) {
                     'fill': 'none',
                     'stroke-linejoin': 'round',
                     'stroke-width': '2',
-                    'stroke': '#4b4a67'
+                    'stroke': '#4b4a67',
+                    'stroke-dasharray': '1.5'
                 },
                 '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
             }
@@ -256,8 +284,9 @@ var Actor = (function (_super) {
 var ForEach = (function (_super) {
     __extends(ForEach, _super);
     function ForEach(name, jsonElement, type) {
-        _super.call(this, name, jsonElement, type);
-        this.behavior = Behavior.Embeded;
+        var _this = _super.call(this, name, jsonElement, type) || this;
+        _this.behavior = Behavior.Embeded;
+        return _this;
     }
     return ForEach;
 }(Artifact));
