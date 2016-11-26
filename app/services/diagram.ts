@@ -81,6 +81,12 @@ class DiagramElement {
     makeLinkWithChild(childElement) : LinkElement {
         return new LinkElement(childElement, this);
     }
+
+    public getId() : string {
+        if (typeof this.visualShape != 'undefined') {
+            return this.visualShape.id;
+        }
+    }
 }
 
 enum Behavior {

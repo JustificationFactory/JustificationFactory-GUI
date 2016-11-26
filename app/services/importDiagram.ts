@@ -41,7 +41,7 @@ class ParseJson2DiagramElements {
                 var typeOfEvidence = this.getTypeFromStringAttributs(JSON.stringify(evidenceRole.evidence[0].element[0].$));
 
                 var evidenceN = new Evidence(nameOfEvidence, evidenceRole.evidence[0], typeOfEvidence);
-                kvevidences.push(new KeyValueEvidence(conclusionN.visualShape.id, evidenceN));
+                kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
                 links.push(evidenceN.makeLinkWithParent(strategyN));
             }
         }
@@ -53,7 +53,7 @@ class ParseJson2DiagramElements {
             for(var j = kvevidences.length -1 ; j >= 0 ; j--) {
                 var kvevidencej = kvevidences[j];
 
-                if ((kvevidencej.conclusionId !== conclusioni.visualShape.id)
+                if ((kvevidencej.conclusionId !== conclusioni.getId())
                     && (kvevidencej.evidence.name == conclusioni.name)) {
 
                     //Create Support object
@@ -63,10 +63,10 @@ class ParseJson2DiagramElements {
                     for(var k = links.length -1 ; k >= 0 ; k--) {
                         var linkk = links[k];
 
-                        if (linkk.sourceElement.visualShape.id === kvevidencej.evidence.visualShape.id) {
+                        if (linkk.sourceElement.getId() === kvevidencej.evidence.getId()) {
                             linkk.setSource(supportl);
                         }
-                        else if (linkk.targetElement.visualShape.id === conclusioni.visualShape.id) {
+                        else if (linkk.targetElement.getId() === conclusioni.getId()) {
                             linkk.setTarget(supportl);
                         }
                     }
