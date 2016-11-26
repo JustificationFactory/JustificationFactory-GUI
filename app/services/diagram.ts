@@ -81,6 +81,12 @@ class DiagramElement {
     makeLinkWithChild(childElement) : LinkElement {
         return new LinkElement(childElement, this);
     }
+
+    public getId() : string {
+        if (typeof this.visualShape != 'undefined') {
+            return this.visualShape.id;
+        }
+    }
 }
 
 enum Behavior {
@@ -89,25 +95,35 @@ enum Behavior {
 }
 
 class LinkElement extends DiagramElement {
-    constructor(public sourceElement: DiagramElement, public destinationElement: DiagramElement) {
+    constructor(public sourceElement: DiagramElement, public targetElement: DiagramElement) {
         super("", JSON.parse("{}"), "");
         this.visualShape = new joint.dia.Link({
             source: { id: sourceElement.visualShape.id },
-            target: { id: destinationElement.visualShape.id },
+            target: { id: targetElement.visualShape.id },
             attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
             }
         });
     }
-}
+
+    public setSource(newElement: DiagramElement) {
+        this.sourceElement = newElement;
+        this.visualShape.attributes.source.id = newElement.visualShape.id;
+    }
+
+    public setTarget(newElement: DiagramElement) {
+        this.targetElement = newElement;
+        this.visualShape.attributes.target.id = newElement.visualShape.id;
+    }
+ }
 class Support extends DiagramElement {
     artifacts: Array<Artifact>;
 
     constructor(public conclusion: Conclusion, public evidence: Evidence) {
-        super(name, conclusion.jsonElement, conclusion.type);
+        super(conclusion.name, conclusion.jsonElement, conclusion.type);
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
-            size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
+            size: { width: Util.getElementWidthFromTextLength(conclusion.name), height: Util.getElementHeightFromTextLength(conclusion.name) },
+            attrs: { rect: { fill: '#CCCC00' }, text: { text: conclusion.name, fill: 'white' } }
         });
     }
 }
