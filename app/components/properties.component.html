@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Je suis les propriétés
-</body>
-</html>
+<div class="panel panel-primary">
+    <!-- Default panel contents -->
+    <div class="panel-heading text-center">Properties</div>
+
+    <!-- Table -->
+    <table class="table table table-striped">
+        <tbody *ngFor="let entry of tree | keys">
+            <tr>text : {{entry.value.text}}</tr>
+        <!--<span *ngFor="let e of entry.value.nodes | keys">
+               <tr>text.text : {{e.value.text}}</tr>
+           </span>-->
+       </tbody>
+   </table>
+</div>

@@ -11,6 +11,7 @@ import { LoadDiagramComponent } from './components/load.diagram.component';
 import { MenuComponent } from './components/menu.component';
 import { PropertiesComponent } from './components/properties.component';
 
+import { KeysPipe } from './pipes/KeysPipe';
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import { PropertiesComponent } from './components/properties.component';
         EditToolbarComponent,
         LoadDiagramComponent,
         MenuComponent,
-        PropertiesComponent
+        PropertiesComponent,
+        KeysPipe
     ],
     providers: [
 
@@ -35,7 +37,7 @@ import { PropertiesComponent } from './components/properties.component';
         EditToolbarComponent,
         LoadDiagramComponent,
         MenuComponent,
-        PropertiesComponent
+        PropertiesComponent,
     ]
 })
 export class AppModule { }
