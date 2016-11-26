@@ -55,19 +55,19 @@ class Diagram {
         }
 
         Diagram._graph.resetCells(cells);
-        joint.layout.DirectedGraph.layout(Diagram._graph, { setLinkVertices: false, rankDir: 'BT', debugLevel: 3, rankSep: 50, edgeSep: 50, nodeSep: 50 });
+        joint.layout.DirectedGraph.layout(Diagram._graph, { rankDir: 'BT', rankSep: 50, edgeSep: 50, nodeSep: 50 });
     }
 }
 
 class DiagramElement {
-    visualShape: Path;
-    jsonElement: JSON;
+    visualShape: Cell;
+    jsonElement: any;
     name: string;
     description:string;
     type:string;
     artifacts: Array<Artifact>;
 
-    constructor(name: string, jsonElement: JSON, type: string) {
+    constructor(name: string, jsonElement: any, type: string) {
         this.name = name;
         this.jsonElement = jsonElement;
         this.type = type;
@@ -114,7 +114,7 @@ class Support extends DiagramElement {
 
 class Conclusion extends DiagramElement {
     artifacts: Array<Artifact>;
-    constructor(name: string, jsonElement: JSON, type: string) {
+    constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
@@ -151,7 +151,7 @@ class Conclusion extends DiagramElement {
                         attrs: {rect: {fill: '#DF0606'}, text: {text: "text", fill: 'white', position: "center"}},
                         markup: '<rect width="50" height="30" stroke="red"/>'
                     };
-                    this.visualShape.addPort(port);
+                    (this.visualShape as any).addPort(port);
 
 
 
@@ -164,7 +164,7 @@ class Conclusion extends DiagramElement {
 
 class Evidence extends DiagramElement {
     artifacts: Array<Artifact>;
-    constructor(name: string, jsonElement: JSON, type: string) {
+    constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
@@ -176,7 +176,7 @@ class Evidence extends DiagramElement {
 
 class Strategy extends DiagramElement {
     artifacts: Array<Artifact>;
-    constructor(name: string, jsonElement: JSON, type: string) {
+    constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
         this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
@@ -199,7 +199,7 @@ class Strategy extends DiagramElement {
 
 class Artifact extends DiagramElement {
     behavior: Behavior;
-    constructor(name: string, jsonElement: JSON, type: string) {
+    constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
     }
     makeLinkWithParent(parentElement) {
@@ -223,7 +223,7 @@ class Artifact extends DiagramElement {
 }
 
 class Limitation extends Artifact{
-    constructor(name: string, jsonElement: JSON, type: string) {
+    constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
         this.behavior = Behavior.Embeded;
         this.visualShape = new joint.shapes.basic.Rect({
@@ -234,7 +234,7 @@ class Limitation extends Artifact{
     }
 }
 class Rationale extends Artifact{
-    constructor(name: string, jsonElement: JSON, type: string) {
+    constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
         this.behavior = Behavior.Near;
         this.visualShape = new joint.shapes.basic.Rect({
@@ -246,10 +246,10 @@ class Rationale extends Artifact{
     }
 }
 class Actor extends Artifact{
-    constructor(name: string, jsonElement: JSON, role: string) {
+    constructor(name: string, jsonElement: any, role: string) {
         super(name, jsonElement, role);
         this.behavior = Behavior.Near;
-        this.visualShape = new joint.shapes.org.Member({
+        this.visualShape = new (joint.shapes as any).org.Member({
             attrs: {
                 '.card': { fill: "#BBBBBB", stroke: 'none'},
                 image: { 'xlink:href': 'images/User.ico', opacity: 0.7 },
@@ -261,7 +261,7 @@ class Actor extends Artifact{
     }
     makeLinkWithParent(parentElement) {
         var link = new LinkElement(this,parentElement);
-        link.visualShape = new joint.shapes.org.Arrow({
+        link.visualShape = new (joint.shapes as any).org.Arrow({
             source: { id: this.visualShape.id },
             target: { id: parentElement.visualShape.id },
             attrs: {
@@ -279,14 +279,14 @@ class Actor extends Artifact{
     }
 }
 class ForEach extends Artifact{
-    constructor(name: string, jsonElement: JSON, type: string) {
+    constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
         this.behavior = Behavior.Embeded;
     }
 }
 
 class Util{
-    static getElementWidthFromTextLength(name){
+    static getElementWidthFromTextLength(name: string){
         var maxLineLength = _.max(name.split('\n'), function(l) { return l.length; }).length;
         // Compute width/height of the rectangle based on the number
         // of lines in the label and the letter size. 0.6 * letterSize is
@@ -296,7 +296,7 @@ class Util{
         return width;
     }
 
-    static getElementHeightFromTextLength(name){
+    static getElementHeightFromTextLength(name: string){
         var maxLineLength = _.max(name.split('\n'), function(l) { return l.length; }).length;
         // Compute width/height of the rectangle based on the number
         // of lines in the label and the letter size. 0.6 * letterSize is

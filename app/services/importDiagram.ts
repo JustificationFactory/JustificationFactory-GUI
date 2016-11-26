@@ -1,5 +1,4 @@
-/// <reference path="..\node_modules\@types\jointjs\index.d.ts" />
-/// <reference path=".\model\diagram.ts" />
+/// <reference path=".\diagram.ts" />
 
 class KeyValueEvidence {
     constructor(public conclusionId: string, public evidence: Evidence) {
@@ -8,9 +7,9 @@ class KeyValueEvidence {
 }
 
 class ParseJson2DiagramElements {
-    globalJson: JSON;
+    globalJson: any;
 
-    constructor(globalJson: JSON) {
+    constructor(globalJson: any) {
 
         this.globalJson = globalJson;
     }
@@ -61,12 +60,12 @@ class ParseJson2DiagramElements {
                     for(var i = links.length -1 ; i >= 0 ; i--) {
                         var link = links[i];
 
-                        if (true) {
+                        if (i == 1) {
                             //TODO: Create Support link from source conclusion
 
                             //TODO: Delete link from list
                         }
-                        else if (true) {
+                        else if (i == 2) {
                             //TODO: Create Support link to destination evidence
 
                             //TODO: Delete link from list
@@ -136,7 +135,7 @@ class ImportDiagramFile {
 
     private fileReaderLoaded = (evt:Event) => {
         console.log(this.importFileReader.result.substring(0, 200));
-        var json : JSON = JSON.parse(this.importFileReader.result);
+        var json : any = JSON.parse(this.importFileReader.result);
 
         //TODO: Load JointJS diagram
         var parse : ParseJson2DiagramElements = new ParseJson2DiagramElements(json);
