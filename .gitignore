@@ -2,3 +2,5 @@
 node_modules/
 app/**/*.js
 app/**/*.js.map
+system-config.js
+system-config.js.map

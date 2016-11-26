@@ -65,7 +65,7 @@ class ParseJson2DiagramElements {
 
                             //TODO: Delete link from list
                         }
-                        else if (i == 2) {
+                        else if (i == 3) {
                             //TODO: Create Support link to destination evidence
 
                             //TODO: Delete link from list
