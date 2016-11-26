@@ -19,6 +19,7 @@ class ParseJson2DiagramElements {
         var conclusions = new Array<Conclusion>();
         var strategies = new Array<Strategy>();
         var kvevidences = new Array<KeyValueEvidence>();
+        var supports = new Array<Support>();
         var links = new Array<LinkElement>();
 
         for (var step  of this.globalJson.root.steps[0].step) {
@@ -45,35 +46,34 @@ class ParseJson2DiagramElements {
             }
         }
 
-        //Merge where Conclusion == Evidence
+        //Merge where Conclusion == Evidence. Replace by Support.
         for(var i = conclusions.length -1 ; i >= 0 ; i--) {
             var conclusioni = conclusions[i];
 
-            for(var i = kvevidences.length -1 ; i >= 0 ; i--) {
-                var kvevidencei = kvevidences[i];
+            for(var j = kvevidences.length -1 ; j >= 0 ; j--) {
+                var kvevidencej = kvevidences[j];
 
-                if ((kvevidencei.conclusionId !== conclusioni.visualShape.id)
-                    && (kvevidencei.evidence.name == conclusioni.name)) {
+                if ((kvevidencej.conclusionId !== conclusioni.visualShape.id)
+                    && (kvevidencej.evidence.name == conclusioni.name)) {
 
-                    //TODO: Create Support object
+                    //Create Support object
+                    var supportl = new Support(conclusioni, kvevidencej.evidence);
+                    supports.push(supportl);
 
-                    for(var i = links.length -1 ; i >= 0 ; i--) {
-                        var link = links[i];
+                    for(var k = links.length -1 ; k >= 0 ; k--) {
+                        var linkk = links[k];
 
-                        if (i == 1) {
-                            //TODO: Create Support link from source conclusion
-
-                            //TODO: Delete link from list
+                        if (linkk.sourceElement.visualShape.id === kvevidencej.evidence.visualShape.id) {
+                            linkk.setSource(supportl);
                         }
-                        else if (i == 3) {
-                            //TODO: Create Support link to destination evidence
-
-                            //TODO: Delete link from list
+                        else if (linkk.targetElement.visualShape.id === conclusioni.visualShape.id) {
+                            linkk.setTarget(supportl);
                         }
                     }
 
-                    //TODO: Delete Evidence from list
-                    //TODO: Delete Conclusion from list
+                    //Remove Conclusion and Evidence
+                    conclusions.splice(i, 1);
+                    kvevidences.splice(j, 1);
                 }
             }
         }
@@ -87,6 +87,8 @@ class ParseJson2DiagramElements {
             elementsDiagram.push(strategy);
         for(var kvevidence of kvevidences)
             elementsDiagram.push(kvevidence.evidence);
+        for(var support of supports)
+            elementsDiagram.push(support);
         for(var link of links)
             elementsDiagram.push(link);
 
