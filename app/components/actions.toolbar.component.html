@@ -6,9 +6,10 @@
 </head>
 <body>
     <div class="btn-toolbar " role="toolbar" aria-label="111">
-        <div class="btn-group btn btn-default" role="group" aria-label="222">Hide Node</div>
-        <div class="btn-group  btn btn-default" role="group" aria-label="333">Show Node</div>
-        <div class="btn-group btn btn-default" role="group" aria-label="4444">Remove Node</div>
+        <div class="btn-group btn btn-default disabled" role="group" >Hide Node</div>
+        <div class="btn-group  btn btn-default disabled" role="group" >Show Node</div>
+        <div class="btn-group btn btn-default disabled" role="group" >Remove Node</div>
+        <div class="btn-group btn btn-primary" role="group" (click)="clicked($event)" >Print</div>
     </div>
 </body>
 </html>
