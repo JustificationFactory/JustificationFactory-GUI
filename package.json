@@ -26,8 +26,7 @@
     "systemjs": "0.19.40",
     "zone.js": "^0.6.25",
     "dagre": "~0.7.0",
-    "jointjs" : "~1.0.0",
-    "bootstrap-treeview" : "~1.2.0"
+    "jointjs" : "~1.0.0"
 
   },
   "devDependencies": {
