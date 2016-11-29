@@ -1,13 +1,29 @@
 import { Component } from '@angular/core';
+import { Diagram } from '../services/diagram';
 
 @Component({
     //moduleId: module.id,
     selector: 'properties-view',
     templateUrl: 'app/components/properties.component.html',
-
+    providers: [Diagram]
     //styleUrls: ['./css/app.css']
 })
 export class PropertiesComponent {
+/*    private element : Diagram;
+    public setElement(currentElement : Diagram){
+        this.element = currentElement;
+        this.updateVisualPanel();
+        this.updatePropertiesPanel();
+        alert("hello");
+    }
+
+    private updateVisualPanel(){
+
+    }
+
+    private updatePropertiesPanel(){
+
+    }*/
 /*    tree = [
         {
             text: "Parent 1",

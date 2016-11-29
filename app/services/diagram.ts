@@ -7,9 +7,7 @@
 import Path = joint.shapes.basic.Path;
 import Cell = joint.dia.Cell;
 import Graph = joint.dia.Graph;
-//import { Injectable } from '@angular/core';
 
-//@Injectable()
 class Diagram {
 
     private static _diagram:Diagram = new Diagram();
@@ -17,7 +15,7 @@ class Diagram {
 
     private _score:number = 0;
 
-    public getGraph(){
+    public static getGraph(){
         return Diagram._graph;
     }
 
@@ -174,7 +172,7 @@ class Conclusion extends DiagramElement {
                 var ports;
                 for(var limit of (Object.keys(this.jsonElement.limits[0]))) {
                     x=(this.visualShape.attributes.position.x-Util.getElementWidthFromTextLength(limit)/2)-4;
-                    this.artifacts.push(new Limitation(limit, this.jsonElement.limits[0].limit, type))
+                    this.artifacts.push(new Limitation(limit, this.jsonElement.limits[0][limit], type))
                     if(i>0){
                         x=x+w*1.4;
                         i++;}

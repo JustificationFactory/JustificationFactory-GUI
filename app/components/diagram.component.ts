@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
-/*import { DiagramService } from '../services/diagram';*/
+import { PropertiesComponent } from './properties.component';
+import { Diagram } from '../services/diagram';
 
 @Component({
     //moduleId: module.id,
     selector: 'diagram-view',
     templateUrl: 'app/components/diagram.component.html',
+    providers: [PropertiesComponent, Diagram]
     //styleUrls: ['./css/app.css']
 })
 export class DiagramComponent {
 /*    graph : joint.dia.Graph;
-    constructor(private diagramService: DiagramService) {
-        this.graph = this.diagramService.getGraph();
+    constructor(private propertiesComponent: PropertiesComponent) {
+        this.graph = Diagram.getGraph();
         graph.getElements().forEach(function(element) {
             element.on('cell:pointerdown', function() {
-                alert("hello");
+                propertiesComponent.setElement(element.parent);
             })
         });
     }*/
