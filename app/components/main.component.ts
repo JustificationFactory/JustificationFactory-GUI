@@ -12,19 +12,48 @@ import {Component, OnInit, ViewChild, ElementRef, Renderer, AfterViewInit, Refle
 })
 export class MainComponent  implements OnInit, AfterViewInit {
 
-    diagramLoaded: boolean = false;
+    private diagramLoaded: boolean = false;
+    private importFileReader : FileReader;
+    private inputElement : HTMLInputElement;
 
     constructor (private diagramComponent: DiagramComponent  ) {
 
     }
 
     ngOnInit(): void {
-        var importFile = new ImportDiagramFile(<HTMLInputElement>$("#importFile")[0]);
+        this.inputElement = <HTMLInputElement>$("#importFile")[0];
+
+        this.importFileReader = new FileReader();
+
+        this.importFileReader.onload = this.fileReaderLoaded;
+        this.inputElement.addEventListener('change', this.inputChanged, false);
     }
 
     ngAfterViewInit() {
 
     }
+
+    private inputChanged = (evt: Event) => {
+        console.log('File detected');
+        this.importFileReader.readAsText(this.inputElement.files[0]);
+
+        this.diagramLoaded = true;
+    }
+
+    private fileReaderLoaded = (evt: Event) => {
+        
+        console.log(this.importFileReader.result.substring(0, 200));
+        var json : any = JSON.parse(this.importFileReader.result);
+
+        //TODO: Load JointJS diagram
+        var parse : ParseJson2DiagramElements = new ParseJson2DiagramElements(json);
+
+        var listElements = parse.getDiagramElements();
+
+        var d = Diagram.getInstance();
+        d.showDiagram(listElements);
+    }
+
 
     btnCloseClick(event) {
         this.diagramLoaded = false;
@@ -36,8 +65,6 @@ export class MainComponent  implements OnInit, AfterViewInit {
         var evt = document.createEvent("MouseEvents");
         evt.initEvent("click", true, false);
         $("#importFile")[0].dispatchEvent(evt);
-
-        this.diagramLoaded = true;
     }
 
     printToPdfClicked(event) {
