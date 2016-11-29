@@ -156,12 +156,8 @@ class Conclusion extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-<<<<<<< HEAD
-            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'white' } },
-=======
-            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } },
 
->>>>>>> afcc5459c945fa18fccf8da009d919c721dc1eda
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'white' } },
             ports: {
 
             }
@@ -179,7 +175,7 @@ class Conclusion extends DiagramElement {
                 var ports;
                 for(var limit of (Object.keys(this.jsonElement.limits[0]))) {
                     x=(this.visualShape.attributes.position.x-Util.getElementWidthFromTextLength(limit)/2)-4;
-                    this.artifacts.push(new Limitation(limit, this.jsonElement.limits[0].limit, type))
+                    this.artifacts.push(new Limitation(limit, this.jsonElement.limits[0][limit], type))
                     if(i>0){
                         x=x+w*1.4;
                         i++;}
