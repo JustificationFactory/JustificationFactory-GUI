@@ -6,10 +6,6 @@ body {
     margin: 50px;
 }
 
-.diagram-view {
-    margin: 50px;
-}
-
 .glyphicon-btn-customformat {
     font-size: 1.2em;
     color: white;
@@ -17,4 +13,5 @@ body {
 
 .diagram{
     overflow: auto;
+    margin: 10px;
 }

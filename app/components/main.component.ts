@@ -6,12 +6,11 @@ import {Component, OnInit, ViewChild, ElementRef, Renderer, AfterViewInit, Refle
 
 @Component({
     //moduleId: module.id,
-    selector: 'menu-view',
-    templateUrl: 'app/components/menu.component.html',
+    selector: 'main-view',
+    templateUrl: 'app/components/main.component.html',
     //styleUrls: ['./css/app.css']
-    // providers: [DiagramComponent, EditToolbarComponent, ActionsToolbarComponent]
 })
-export class MenuComponent  implements OnInit, AfterViewInit {
+export class MainComponent  implements OnInit, AfterViewInit {
 
     diagramLoaded: boolean = false;
 
@@ -24,8 +23,7 @@ export class MenuComponent  implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // this.renderer.invokeElementMethod(this.btnClose.nativeElement, 'hide');
-        // this.renderer.invokeElementMethod(this.pnlHome.nativeElement, 'show');
+
     }
 
     btnCloseClick(event) {
