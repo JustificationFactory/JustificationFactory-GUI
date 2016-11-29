@@ -144,6 +144,7 @@ class ImportDiagramFile {
 
         var d = Diagram.getInstance();
         d.showDiagram(listElements);
+
     }
 
 

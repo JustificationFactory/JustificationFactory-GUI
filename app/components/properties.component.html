@@ -4,8 +4,8 @@
 
     <!-- Table -->
     <table class="table table table-striped">
-        <tbody *ngFor="let entry of tree | keys">
-            <tr>text : {{entry.value.text}}</tr>
+        <tbody *ngFor="let entry of tree">
+            <tr>{{entry.key}} : {{entry.value}}</tr>
         <!--<span *ngFor="let e of entry.value.nodes | keys">
                <tr>text.text : {{e.value.text}}</tr>
            </span>-->
