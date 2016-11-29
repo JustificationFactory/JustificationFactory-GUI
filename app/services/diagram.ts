@@ -156,12 +156,7 @@ class Conclusion extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-<<<<<<< HEAD
             attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'white' } },
-=======
-            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } },
-
->>>>>>> afcc5459c945fa18fccf8da009d919c721dc1eda
             ports: {
 
             }
