@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
     //styleUrls: ['./css/app.css']
 })
 export class PropertiesComponent {
-    tree = [
+/*    tree = [
         {
             text: "Parent 1",
             nodes: [
@@ -41,5 +41,30 @@ export class PropertiesComponent {
             text: "Parent 5"
         }
     ];
-    tree2 = ["a","b","c"];
+    tree2 = ["a","b","c"];*/
+    json = {
+        a : "a",
+        b : "b",
+        c : [{
+            d : {
+                e: "e1",
+                f: "f1"
+            }
+        }
+        ]
+    }
+
+    tree = PropertiesComponent.createMapFromJson(this.json);
+
+
+    private static createMapFromJson(json : JSON) : [] {
+        let keys = [];
+        keys.push({key: "a", value: json.a});
+        keys.push({key: "b", value: json.b});
+        for (var element  of json.c){
+            keys.push({key: "c.d.e", value: json.c[0].d.e});
+            keys.push({key: "c.d.f", value: json.c[0].d.f});
+        }
+        return keys;
+    }
 }

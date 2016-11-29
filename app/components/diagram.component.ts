@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+/*import { DiagramService } from '../services/diagram';*/
 
 @Component({
     //moduleId: module.id,
@@ -7,5 +8,15 @@ import { Component } from '@angular/core';
     //styleUrls: ['./css/app.css']
 })
 export class DiagramComponent {
+/*    graph : joint.dia.Graph;
+    constructor(private diagramService: DiagramService) {
+        this.graph = this.diagramService.getGraph();
+        graph.getElements().forEach(function(element) {
+            element.on('cell:pointerdown', function() {
+                alert("hello");
+            })
+        });
+    }
 
+*/
 }

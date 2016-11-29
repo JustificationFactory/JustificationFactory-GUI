@@ -1,3 +1,4 @@
+
 ///<reference path="..\..\node_modules\@types\jquery\index.d.ts" />
 ///<reference path="..\..\node_modules\@types\backbone\index.d.ts" />
 ///<reference path="..\..\node_modules\@types\jointjs\index.d.ts" />
@@ -6,13 +7,19 @@
 import Path = joint.shapes.basic.Path;
 import Cell = joint.dia.Cell;
 import Graph = joint.dia.Graph;
+//import { Injectable } from '@angular/core';
 
+//@Injectable()
 class Diagram {
 
     private static _diagram:Diagram = new Diagram();
-    private static _graph:Graph = null;
+    protected static _graph:Graph = null;
 
     private _score:number = 0;
+
+    public getGraph(){
+        return Diagram._graph;
+    }
 
     constructor() {
         if(Diagram._diagram){
@@ -56,6 +63,20 @@ class Diagram {
 
         Diagram._graph.resetCells(cells);
         joint.layout.DirectedGraph.layout(Diagram._graph, { rankDir: 'BT', rankSep: 50, edgeSep: 50, nodeSep: 50 });
+        Diagram._graph.translate(200,0);
+        for (var el of elements) {
+            cells.push(el.visualShape);
+
+            for(var artifact of el.artifacts){
+                if(artifact.behavior == Behavior.Near){
+                    el.visualShape.embed(artifact.visualShape);
+                    if(artifact instanceof Actor)
+                        artifact.visualShape.position(- artifact.visualShape.prop('size/width') - 50 ,-20, {parentRelative : true});
+                    else
+                        artifact.visualShape.position(el.visualShape.prop('size/width') + 50 ,0, {parentRelative : true});
+                }
+            }
+        }
     }
 }
 
@@ -123,7 +144,7 @@ class Support extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(conclusion.name), height: Util.getElementHeightFromTextLength(conclusion.name) },
-            attrs: { rect: { fill: '#CCCC00' }, text: { text: conclusion.name, fill: 'white' } }
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: conclusion.name, fill: 'white' } }
         });
     }
 }
@@ -135,7 +156,7 @@ class Conclusion extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } },
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'white' } },
             ports: {
                 groups: {},
                 items: [  ]
@@ -185,7 +206,7 @@ class Evidence extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10 }, text: { text: name, fill: 'white' } }
         });
     }
 }
@@ -198,7 +219,7 @@ class Strategy extends DiagramElement {
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
-                path: { d: 'M 10 0 L 100 0 L 90 150 L 0 150 Z', fill: 'green' },
+                path: { d: 'M 10 0 L 100 0 L 90 150 L 0 150 Z', fill: 'green'},
                 text: { text: name, 'ref-y': .3, fill: 'white' }
             }
         });
@@ -231,7 +252,7 @@ class Artifact extends DiagramElement {
                     'stroke': '#4b4a67',
                     'stroke-dasharray': '1.5'
                 },
-                '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+                '.marker-target': { fill : 'none' }
             }
         });
         return link;
@@ -288,7 +309,7 @@ class Actor extends Artifact{
                     'stroke': '#4b4a67',
                     'stroke-dasharray': '1.5'
                 },
-                '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+                '.marker-target': { fill : 'none' }
             }
         });
         return link;
