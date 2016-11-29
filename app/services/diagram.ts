@@ -1,3 +1,4 @@
+
 ///<reference path="..\..\node_modules\@types\jquery\index.d.ts" />
 ///<reference path="..\..\node_modules\@types\backbone\index.d.ts" />
 ///<reference path="..\..\node_modules\@types\jointjs\index.d.ts" />
@@ -6,13 +7,19 @@
 import Path = joint.shapes.basic.Path;
 import Cell = joint.dia.Cell;
 import Graph = joint.dia.Graph;
+//import { Injectable } from '@angular/core';
 
+//@Injectable()
 class Diagram {
 
     private static _diagram:Diagram = new Diagram();
-    private static _graph:Graph = null;
+    protected static _graph:Graph = null;
 
     private _score:number = 0;
+
+    public getGraph(){
+        return Diagram._graph;
+    }
 
     constructor() {
         if(Diagram._diagram){
@@ -56,6 +63,20 @@ class Diagram {
 
         Diagram._graph.resetCells(cells);
         joint.layout.DirectedGraph.layout(Diagram._graph, { rankDir: 'BT', rankSep: 50, edgeSep: 50, nodeSep: 50 });
+        Diagram._graph.translate(200,0);
+        for (var el of elements) {
+            cells.push(el.visualShape);
+
+            for(var artifact of el.artifacts){
+                if(artifact.behavior == Behavior.Near){
+                    el.visualShape.embed(artifact.visualShape);
+                    if(artifact instanceof Actor)
+                        artifact.visualShape.position(- artifact.visualShape.prop('size/width') - 50 ,-20, {parentRelative : true});
+                    else
+                        artifact.visualShape.position(el.visualShape.prop('size/width') + 50 ,0, {parentRelative : true});
+                }
+            }
+        }
     }
 }
 
@@ -123,11 +144,10 @@ class Support extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(conclusion.name), height: Util.getElementHeightFromTextLength(conclusion.name) },
-            attrs: { rect: { fill: '#CCCC00' }, text: { text: conclusion.name, fill: 'white' } }
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: conclusion.name, fill: 'white' } }
         });
     }
 }
-
 class Conclusion extends DiagramElement {
     artifacts: Array<Artifact>;
     constructor(name: string, jsonElement: any, type: string) {
@@ -136,65 +156,70 @@ class Conclusion extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
+<<<<<<< HEAD
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'white' } },
+=======
             attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } },
 
+>>>>>>> afcc5459c945fa18fccf8da009d919c721dc1eda
             ports: {
 
             }
         })
         this.artifacts = new Array<Artifact>();
 
-      if(this.jsonElement.hasOwnProperty("limits")){
+        if(this.jsonElement.hasOwnProperty("limits")){
 
-             if((Object.keys(this.jsonElement.limits[0])).length<= 2){
-        var x=this.visualShape.attributes.position.x;
-        var w=Util.getElementWidthFromTextLength(name);
-        var h=this.visualShape.attributes.height;
-        var y=this.visualShape.attributes.position.y;
-        var i=0;
-        var ports;
-            for(var limit of (Object.keys(this.jsonElement.limits[0]))) {
-                x=(this.visualShape.attributes.position.x-Util.getElementWidthFromTextLength(limit)/2)-4;
-                this.artifacts.push(new Limitation(limit, this.jsonElement.limits[0].limit, type))
-                if(i>0){
-                x=x+w*1.4;
-                    i++;}
-                else{ i++;}
-                var x1=x-15
-                var   y1=y-15
-                var wlimit=Util.getElementWidthFromTextLength(limit)-10
-                var rect= '<rect width="'+wlimit.toString()+'" height="25" stroke="red" x="'+ x1.toString()+'" y="'+y1.toString()+'" >'+' </rect>'
-              var port = {
-                    id: limit,
-                    group: 'a',
-                    args: {},
-                    label: {
-                        position: {
-                            name : 'manual',
-                            args: {
-                                x: x,
-                                y: y,
-                                angle: 0,
-                                attrs: { }
+            if((Object.keys(this.jsonElement.limits[0])).length<= 2){
+                var x=this.visualShape.attributes.position.x;
+                var w=Util.getElementWidthFromTextLength(name);
+                var h=this.visualShape.attributes.height;
+                var y=this.visualShape.attributes.position.y;
+                var i=0;
+                var ports;
+                for(var limit of (Object.keys(this.jsonElement.limits[0]))) {
+                    x=(this.visualShape.attributes.position.x-Util.getElementWidthFromTextLength(limit)/2)-4;
+                    this.artifacts.push(new Limitation(limit, this.jsonElement.limits[0].limit, type))
+                    if(i>0){
+                        x=x+w*1.4;
+                        i++;}
+                    else{ i++;}
+                    var x1=x-15
+                    var   y1=y-15
+                    var wlimit=Util.getElementWidthFromTextLength(limit)-10
+                    var rect= '<rect width="'+wlimit.toString()+'" height="25" stroke="red" x="'+ x1.toString()+'" y="'+y1.toString()+'" >'+' </rect>'
+                    var port = {
+                        id: limit,
+                        group: 'a',
+                        args: {},
+                        label: {
+                            position: {
+                                name : 'manual',
+                                args: {
+                                    x: x,
+                                    y: y,
+                                    angle: 0,
+                                    attrs: { }
+                                }
                             }
-                        }
-                    },
-                    attrs: { rect: { fill: '#DF0606'}, text: { text: limit, fill: 'white' }},
-                    markup: rect
+                        },
+                        attrs: { rect: { fill: '#DF0606'}, text: { text: limit, fill: 'white' }},
+                        markup: rect
+                    };
+
+                    if(i==1){
+                        ports=[port];}
+                    else{ ports.push(port);}
+
                 };
 
-        if(i==1){
-                ports=[port];}
-                else{ ports.push(port);}
-
-                };
-
-       (this.visualShape as any).addPorts(ports);
-             }
-      } else {}
-        }
+                (this.visualShape as any).addPorts(ports);
+            }
+        } else {}
+    }
 
 }
+
 
 class Evidence extends DiagramElement {
     artifacts: Array<Artifact>;
@@ -203,7 +228,7 @@ class Evidence extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00' }, text: { text: name, fill: 'white' } }
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10 }, text: { text: name, fill: 'white' } }
         });
     }
 }
@@ -216,7 +241,7 @@ class Strategy extends DiagramElement {
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
-                path: { d: 'M 10 0 L 100 0 L 90 150 L 0 150 Z', fill: 'green' },
+                path: { d: 'M 10 0 L 100 0 L 90 150 L 0 150 Z', fill: 'green'},
                 text: { text: name, 'ref-y': .3, fill: 'white' }
             }
         });
@@ -249,7 +274,7 @@ class Artifact extends DiagramElement {
                     'stroke': '#4b4a67',
                     'stroke-dasharray': '1.5'
                 },
-                '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+                '.marker-target': { fill : 'none' }
             }
         });
         return link;
@@ -306,7 +331,7 @@ class Actor extends Artifact{
                     'stroke': '#4b4a67',
                     'stroke-dasharray': '1.5'
                 },
-                '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+                '.marker-target': { fill : 'none' }
             }
         });
         return link;

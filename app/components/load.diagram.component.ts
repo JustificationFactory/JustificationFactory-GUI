@@ -1,4 +1,5 @@
 import { Component, OnInit  } from '@angular/core';
+import {DiagramComponent} from "./diagram.component";
 
 @Component({
     //moduleId: module.id,
@@ -7,6 +8,7 @@ import { Component, OnInit  } from '@angular/core';
     //styleUrls: ['./css/app.css']
 })
 export class LoadDiagramComponent implements OnInit {
+
     ngOnInit(): void {
         var importFile = new ImportDiagramFile(<HTMLInputElement>$("#importFile")[0]);
     }

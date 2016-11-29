@@ -119,23 +119,21 @@ class ImportDiagramWebService {
 
 class ImportDiagramFile {
     importFileReader : FileReader;
-    inputElement: HTMLInputElement;
 
-    constructor(input: HTMLInputElement) {
+    constructor(private inputElement: HTMLInputElement) {
 
         this.importFileReader = new FileReader();
-        this.inputElement = input;
 
-        this.importFileReader.onload = this.fileReaderLoaded;  //.addEventListener('onload', this.fileReaderLoaded, false);
+        this.importFileReader.onload = this.fileReaderLoaded;
         this.inputElement.addEventListener('change', this.inputChanged, false);
     }
 
-    private inputChanged = (evt:Event) => {
+    private inputChanged = (evt: Event) => {
         console.log('File detected');
         this.importFileReader.readAsText(this.inputElement.files[0]);
     }
 
-    private fileReaderLoaded = (evt:Event) => {
+    private fileReaderLoaded = (evt: Event) => {
         console.log(this.importFileReader.result.substring(0, 200));
         var json : any = JSON.parse(this.importFileReader.result);
 
@@ -146,6 +144,7 @@ class ImportDiagramFile {
 
         var d = Diagram.getInstance();
         d.showDiagram(listElements);
+
     }
 
 
