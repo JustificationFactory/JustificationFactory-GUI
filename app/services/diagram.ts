@@ -13,6 +13,7 @@ class Diagram {
     private static _diagram:Diagram = new Diagram();
     protected static _graph:Graph = null;
 
+
     private _score:number = 0;
 
     public static getGraph(){
@@ -24,12 +25,12 @@ class Diagram {
             throw new Error("Error: Instantiation failed: Use Diagram.getInstance() instead of new.");
         }
         Diagram._diagram = this;
+
     }
 
     public static getInstance():Diagram {
         return Diagram._diagram;
     }
-
 
     public showDiagram(elements: DiagramElement[]){
         if(Diagram._graph == null){
@@ -43,7 +44,22 @@ class Diagram {
                 gridSize: 1,
                 interactive: true
             });
+            paper.on('cell:pointerdown',
+                function(cellView, event, x, y) {
+                    //alert('cell view ' + cellView.model.parent.name + ' was clicked');
+                    //event.preventDefault();
+                    //var evt = document.createEvent("elementclick");
+                    //evt.initEvent("elementclick", true, false);
+                    //paper.dispatchEvent(evt);
+                    //var e = new Event("elementclick");
+                    //paper.trigger('elementclick');
+                    //alert("heho");
+                }
+            );
+
+            //$('#myholder').on('elementclick', function (e) { alert("hello") });
         }
+
 
         // construction des artifacts à partir de JSON
         // add artifacts de graph
@@ -69,9 +85,9 @@ class Diagram {
                 if(artifact.behavior == Behavior.Near){
                     el.visualShape.embed(artifact.visualShape);
                     if(artifact instanceof Actor)
-                        artifact.visualShape.position(- artifact.visualShape.prop('size/width') - 50 ,-20, {parentRelative : true});
+                        (artifact.visualShape as any).position(- artifact.visualShape.prop('size/width') - 50 ,-20, {parentRelative : true});
                     else
-                        artifact.visualShape.position(el.visualShape.prop('size/width') + 50 ,0, {parentRelative : true});
+                        (artifact.visualShape as any).position(el.visualShape.prop('size/width') + 50 ,0, {parentRelative : true});
                 }
             }
         }
@@ -160,6 +176,7 @@ class Conclusion extends DiagramElement {
             }
         })
         this.artifacts = new Array<Artifact>();
+        this.visualShape.parent = this;
 
         if(this.jsonElement.hasOwnProperty("limits")){
 
@@ -223,7 +240,9 @@ class Evidence extends DiagramElement {
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10 }, text: { text: name, fill: 'white' } }
         });
+        this.visualShape.parent = this;
     }
+
 }
 
 class Strategy extends DiagramElement {
@@ -239,6 +258,7 @@ class Strategy extends DiagramElement {
             }
         });
         this.artifacts = this.createArtifactsFromJson();
+        this.visualShape.parent = this;
     }
 
     private createArtifactsFromJson(){

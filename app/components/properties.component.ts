@@ -9,7 +9,7 @@ import { Diagram } from '../services/diagram';
     //styleUrls: ['./css/app.css']
 })
 export class PropertiesComponent {
-/*    private element : Diagram;
+    private element : Diagram;
     public setElement(currentElement : Diagram){
         this.element = currentElement;
         this.updateVisualPanel();
@@ -23,7 +23,7 @@ export class PropertiesComponent {
 
     private updatePropertiesPanel(){
 
-    }*/
+    }
 /*    tree = [
         {
             text: "Parent 1",
@@ -58,22 +58,22 @@ export class PropertiesComponent {
         }
     ];
     tree2 = ["a","b","c"];*/
-    json = {
-        a : "a",
-        b : "b",
-        c : [{
+    private json : any = {
+         a : "a",
+         b : "b",
+         c : [{
             d : {
                 e: "e1",
                 f: "f1"
             }
-        }
-        ]
+        }]
     }
 
-    tree = PropertiesComponent.createMapFromJson(this.json);
+
+    tree = this.createKeysFromJson(this.json, "json");
 
 
-    private static createMapFromJson(json : JSON) : [] {
+    private static createMapFromJson(json : any) : any[] {
         let keys = [];
         keys.push({key: "a", value: json.a});
         keys.push({key: "b", value: json.b});
@@ -81,6 +81,30 @@ export class PropertiesComponent {
             keys.push({key: "c.d.e", value: json.c[0].d.e});
             keys.push({key: "c.d.f", value: json.c[0].d.f});
         }
+        return keys;
+    }
+
+    private  createKeysFromJson(json : any, key : string) : any[] {
+        let keys = [];
+        var x = this;
+
+        jQuery.each(json, function(i, val) {
+            var subKey
+            if(typeof i == 'number')
+                subKey = '[' + i + ']';
+            else{
+                subKey = '.' + i;
+            }
+
+            if(typeof  val === 'object'){
+                keys = keys.concat(x.createKeysFromJson(val, key + subKey))
+            }
+            else{
+                keys.push({key: key + subKey, value: val})
+            }
+            //alert(i + " : " + val);
+        });
+
         return keys;
     }
 }
