@@ -1,19 +1,35 @@
-import { Component, OnInit  } from '@angular/core';
-import { DiagramComponent } from "./diagram.component";
+import {Component, OnInit, ViewChild, ElementRef, Renderer, AfterViewInit, ReflectiveInjector} from '@angular/core';
+ import { DiagramComponent } from "./diagram.component";
+// import { EditToolbarComponent } from "./edit.toolbar.component";
+// import { ActionsToolbarComponent } from "./actions.toolbar.component";
+
 
 @Component({
     //moduleId: module.id,
     selector: 'menu-view',
     templateUrl: 'app/components/menu.component.html',
     //styleUrls: ['./css/app.css']
+    // providers: [DiagramComponent, EditToolbarComponent, ActionsToolbarComponent]
 })
-export class MenuComponent  implements OnInit {
-    constructor (private diagramComponent: DiagramComponent ) {
+export class MenuComponent  implements OnInit, AfterViewInit {
+
+    diagramLoaded: boolean = false;
+
+    constructor (private diagramComponent: DiagramComponent  ) {
 
     }
 
     ngOnInit(): void {
         var importFile = new ImportDiagramFile(<HTMLInputElement>$("#importFile")[0]);
+    }
+
+    ngAfterViewInit() {
+        // this.renderer.invokeElementMethod(this.btnClose.nativeElement, 'hide');
+        // this.renderer.invokeElementMethod(this.pnlHome.nativeElement, 'show');
+    }
+
+    btnCloseClick(event) {
+        this.diagramLoaded = false;
     }
 
     importFileClicked(event) {
@@ -22,6 +38,8 @@ export class MenuComponent  implements OnInit {
         var evt = document.createEvent("MouseEvents");
         evt.initEvent("click", true, false);
         $("#importFile")[0].dispatchEvent(evt);
+
+        this.diagramLoaded = true;
     }
 
     printToPdfClicked(event) {
