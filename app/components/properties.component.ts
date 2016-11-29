@@ -1,13 +1,29 @@
 import { Component } from '@angular/core';
+import { Diagram } from '../services/diagram';
 
 @Component({
     //moduleId: module.id,
     selector: 'properties-view',
     templateUrl: 'app/components/properties.component.html',
-
+    providers: [Diagram]
     //styleUrls: ['./css/app.css']
 })
 export class PropertiesComponent {
+    private element : Diagram;
+    public setElement(currentElement : Diagram){
+        this.element = currentElement;
+        this.updateVisualPanel();
+        this.updatePropertiesPanel();
+        alert("hello");
+    }
+
+    private updateVisualPanel(){
+
+    }
+
+    private updatePropertiesPanel(){
+
+    }
 /*    tree = [
         {
             text: "Parent 1",
@@ -43,18 +59,18 @@ export class PropertiesComponent {
     ];
     tree2 = ["a","b","c"];*/
     private json : any = {
-        a : "a",
-        b : "b",
-        c : [{
+         a : "a",
+         b : "b",
+         c : [{
             d : {
                 e: "e1",
                 f: "f1"
             }
-        }
-        ]
+        }]
     }
 
-    tree = PropertiesComponent.createMapFromJson(this.json);
+
+    tree = this.createKeysFromJson(this.json, "json");
 
 
     private static createMapFromJson(json : any) : any[] {
@@ -65,6 +81,30 @@ export class PropertiesComponent {
             keys.push({key: "c.d.e", value: json.c[0].d.e});
             keys.push({key: "c.d.f", value: json.c[0].d.f});
         }
+        return keys;
+    }
+
+    private  createKeysFromJson(json : any, key : string) : any[] {
+        let keys = [];
+        var x = this;
+
+        jQuery.each(json, function(i, val) {
+            var subKey
+            if(typeof i == 'number')
+                subKey = '[' + i + ']';
+            else{
+                subKey = '.' + i;
+            }
+
+            if(typeof  val === 'object'){
+                keys = keys.concat(x.createKeysFromJson(val, key + subKey))
+            }
+            else{
+                keys.push({key: key + subKey, value: val})
+            }
+            //alert(i + " : " + val);
+        });
+
         return keys;
     }
 }

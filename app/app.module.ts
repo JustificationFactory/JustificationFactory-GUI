@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import './rxjs-extensions';
+import { MenuComponent } from './components/menu.component';
 import { ActionsToolbarComponent } from './components/actions.toolbar.component';
 import { DiagramComponent } from './components/diagram.component';
 import { EditToolbarComponent } from './components/edit.toolbar.component';
-import { MenuComponent } from './components/menu.component';
 import { PropertiesComponent } from './components/properties.component';
 
 import { KeysPipe } from './pipes/KeysPipe';
@@ -19,25 +19,26 @@ import { KeysPipe } from './pipes/KeysPipe';
         HttpModule
     ],
     declarations: [
+        MenuComponent,
         ActionsToolbarComponent,
         DiagramComponent,
         EditToolbarComponent,
-        MenuComponent,
         PropertiesComponent,
         KeysPipe
+
     ],
     providers: [
+        MenuComponent,
         ActionsToolbarComponent,
         DiagramComponent,
         EditToolbarComponent,
-        MenuComponent,
         PropertiesComponent
     ],
     bootstrap: [
+        MenuComponent,
         ActionsToolbarComponent,
         DiagramComponent,
         EditToolbarComponent,
-        MenuComponent,
         PropertiesComponent
     ]
 })
