@@ -7,7 +7,6 @@ import './rxjs-extensions';
 import { ActionsToolbarComponent } from './components/actions.toolbar.component';
 import { DiagramComponent } from './components/diagram.component';
 import { EditToolbarComponent } from './components/edit.toolbar.component';
-import { LoadDiagramComponent } from './components/load.diagram.component';
 import { MenuComponent } from './components/menu.component';
 import { PropertiesComponent } from './components/properties.component';
 
@@ -23,7 +22,6 @@ import { KeysPipe } from './pipes/KeysPipe';
         ActionsToolbarComponent,
         DiagramComponent,
         EditToolbarComponent,
-        LoadDiagramComponent,
         MenuComponent,
         PropertiesComponent,
         KeysPipe
@@ -32,7 +30,6 @@ import { KeysPipe } from './pipes/KeysPipe';
         ActionsToolbarComponent,
         DiagramComponent,
         EditToolbarComponent,
-        LoadDiagramComponent,
         MenuComponent,
         PropertiesComponent
     ],
@@ -40,9 +37,8 @@ import { KeysPipe } from './pipes/KeysPipe';
         ActionsToolbarComponent,
         DiagramComponent,
         EditToolbarComponent,
-        LoadDiagramComponent,
         MenuComponent,
-        PropertiesComponent,
+        PropertiesComponent
     ]
 })
 export class AppModule { }

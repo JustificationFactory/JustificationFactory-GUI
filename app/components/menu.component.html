@@ -12,9 +12,9 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Diagram
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Import a diagram</a></li>
-                    <li><a href="#"> Select a diagram</a></li>
-                    <li><a href="#">Print into PDF</a></li>
+                    <li><a href="#" (click)="importFileClicked($event)">Import File</a><input type="file" id="importFile" style="display: none;"></li>
+                    <li><a href="#">Select Web Service Diagram</a></li>
+                    <li><a href="#" (click)="printToPdfClicked($event)">Print to PDF</a></li>
                 </ul>
             </li>
         </ul>
