@@ -42,7 +42,7 @@ export class PropertiesComponent {
         }
     ];
     tree2 = ["a","b","c"];*/
-    json = {
+    private json : any = {
         a : "a",
         b : "b",
         c : [{
@@ -57,7 +57,7 @@ export class PropertiesComponent {
     tree = PropertiesComponent.createMapFromJson(this.json);
 
 
-    private static createMapFromJson(json : JSON) : [] {
+    private static createMapFromJson(json : any) : any[] {
         let keys = [];
         keys.push({key: "a", value: json.a});
         keys.push({key: "b", value: json.b});

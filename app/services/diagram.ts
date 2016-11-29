@@ -71,9 +71,9 @@ class Diagram {
                 if(artifact.behavior == Behavior.Near){
                     el.visualShape.embed(artifact.visualShape);
                     if(artifact instanceof Actor)
-                        artifact.visualShape.position(- artifact.visualShape.prop('size/width') - 50 ,-20, {parentRelative : true});
+                        (artifact.visualShape as any).position(- artifact.visualShape.prop('size/width') - 50 ,-20, {parentRelative : true});
                     else
-                        artifact.visualShape.position(el.visualShape.prop('size/width') + 50 ,0, {parentRelative : true});
+                        (artifact.visualShape as any).position(el.visualShape.prop('size/width') + 50 ,0, {parentRelative : true});
                 }
             }
         }
