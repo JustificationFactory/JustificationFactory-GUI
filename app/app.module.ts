@@ -29,7 +29,12 @@ import { KeysPipe } from './pipes/KeysPipe';
         KeysPipe
     ],
     providers: [
-
+        ActionsToolbarComponent,
+        DiagramComponent,
+        EditToolbarComponent,
+        LoadDiagramComponent,
+        MenuComponent,
+        PropertiesComponent
     ],
     bootstrap: [
         ActionsToolbarComponent,

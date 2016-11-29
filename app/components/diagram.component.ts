@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 /*import { DiagramService } from '../services/diagram';*/
+=======
+import { Component  } from '@angular/core';
+>>>>>>> afcc5459c945fa18fccf8da009d919c721dc1eda
 
 @Component({
     //moduleId: module.id,
@@ -18,5 +22,12 @@ export class DiagramComponent {
         });
     }
 
+<<<<<<< HEAD
 */
 }
+=======
+    public getSVGFromDiagram() : any {
+        return $('#myholder').html();
+    }
+}
+>>>>>>> afcc5459c945fa18fccf8da009d919c721dc1eda

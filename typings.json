@@ -1,7 +1,5 @@
 {
   "globalDependencies": {
-    "core-js": "registry:dt/core-js#0.0.0+20160602141332",
-    "node": "registry:dt/node#6.0.0+20160621231320",
-    "jointjs" : "1.0.x"
+    "pdfkit": "file:typings/custom/pdfkit.d.ts"
   }
 }
