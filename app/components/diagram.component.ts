@@ -30,24 +30,25 @@ export class DiagramComponent {
         //$('#myholder').on('elementclick', function (e) { alert("hello") }, false);
     }
 
-    public showDiagram(elements: DiagramElement[]){
-        if(!DiagramComponent._graph) {
+    public showDiagram(elements: DiagramElement[]) {
+        if (!DiagramComponent._graph) {
             DiagramComponent._graph = new Graph;
         }
 
-        DiagramComponent._paper = new joint.dia.Paper({
-            el: $('#myholder'),
-            width: 1600,
-            height: 600,
-            model: DiagramComponent._graph,
-            gridSize: 1,
-            interactive: false
-        });
+        if (!DiagramComponent._paper) {
+            DiagramComponent._paper = new joint.dia.Paper({
+                el: $('#myholder'),
+                width: 1600,
+                height: 600,
+                model: DiagramComponent._graph,
+                gridSize: 1,
+                interactive: false
+            });
 
-        DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
+            DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
+        }
 
-        //$('#myholder').on('elementclick', function (e) { alert("hello") });
-
+        $('#myholder').replaceWith(DiagramComponent._paper.el);
 
         // construction des artifacts à partir de JSON
         // add artifacts de graph
