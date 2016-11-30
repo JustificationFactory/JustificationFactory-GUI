@@ -10,8 +10,9 @@ import Graph = joint.dia.Graph;
 
 class Diagram {
 
-    private static _diagram:Diagram = new Diagram();
-    protected static _graph:Graph = null;
+    private static _diagram: Diagram = new Diagram();
+    protected static _graph: joint.dia.Graph;
+    protected static _paper: joint.dia.Paper;
 
 
     private _score:number = 0;
@@ -33,32 +34,32 @@ class Diagram {
     }
 
     public showDiagram(elements: DiagramElement[]){
-        if(Diagram._graph == null){
+        if(!Diagram._graph) {
             Diagram._graph = new Graph;
-
-            var paper = new joint.dia.Paper({
-                el: $('#myholder'),
-                width: 1600,
-                height: 600,
-                model: Diagram._graph,
-                gridSize: 1,
-                interactive: true
-            });
-            paper.on('cell:pointerdown',
-                function(cellView, event, x, y) {
-                    //alert('cell view ' + cellView.model.parent.name + ' was clicked');
-                    //event.preventDefault();
-                    //var evt = document.createEvent("elementclick");
-                    //evt.initEvent("elementclick", true, false);
-                    //paper.dispatchEvent(evt);
-                    //var e = new Event("elementclick");
-                    //paper.trigger('elementclick');
-                    //alert("heho");
-                }
-            );
-
-            //$('#myholder').on('elementclick', function (e) { alert("hello") });
         }
+
+        Diagram._paper = new joint.dia.Paper({
+            el: $('#myholder'),
+            width: 1600,
+            height: 600,
+            model: Diagram._graph,
+            gridSize: 1,
+            interactive: true
+        });
+        Diagram._paper.on('cell:pointerdown',
+            function(cellView, event, x, y) {
+                //alert('cell view ' + cellView.model.parent.name + ' was clicked');
+                //event.preventDefault();
+                //var evt = document.createEvent("elementclick");
+                //evt.initEvent("elementclick", true, false);
+                //Diagram._paper.dispatchEvent(evt);
+                //var e = new Event("elementclick");
+                //Diagram._paper.trigger('elementclick');
+                //alert("heho");
+            }
+        );
+
+        //$('#myholder').on('elementclick', function (e) { alert("hello") });
 
 
         // construction des artifacts à partir de JSON
