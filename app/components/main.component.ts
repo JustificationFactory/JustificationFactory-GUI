@@ -15,6 +15,7 @@ export class MainComponent  implements OnInit, AfterViewInit {
     private diagramLoaded: boolean = false;
     private importFileReader : FileReader;
     private inputElement : HTMLInputElement;
+    public importFileValue: string;
 
     constructor (private diagramComponent: DiagramComponent  ) {
 
@@ -57,6 +58,7 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
     btnCloseClick(event) {
         this.diagramLoaded = false;
+        ($("#importFile")[0] as any).value = "";
     }
 
     importFileClicked(event) {
