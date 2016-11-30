@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
-import { Diagram } from '../services/diagram';
+import  '../services/diagram';
 
 @Component({
     //moduleId: module.id,
     selector: 'properties-view',
     templateUrl: 'app/components/properties.component.html',
-    providers: [Diagram]
     //styleUrls: ['./css/app.css']
 })
 export class PropertiesComponent {
-    private element : Diagram;
-    public setElement(currentElement : Diagram){
+    private element : DiagramElement;
+    public setElement(currentElement : DiagramElement){
         this.element = currentElement;
         this.updateVisualPanel();
         this.updatePropertiesPanel();

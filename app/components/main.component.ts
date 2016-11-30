@@ -47,9 +47,9 @@ export class MainComponent  implements OnInit, AfterViewInit {
         var parse : ParseJson2DiagramElements = new ParseJson2DiagramElements(json);
 
         var listElements = parse.getDiagramElements();
+        
+        this.diagramComponent.showDiagram(listElements);
 
-        var d = Diagram.getInstance();
-        d.showDiagram(listElements);
     }
 
 
