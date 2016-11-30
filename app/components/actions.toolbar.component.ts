@@ -7,6 +7,15 @@ import { Component } from '@angular/core';
     //styleUrls: ['./css/app.css']
 })
 export class ActionsToolbarComponent {
+    private currentElement : DiagramElement;
 
+    public setElement(diagramElement : DiagramElement){
+        this.currentElement = diagramElement;
+        this.updateButtons();
+    }
+
+    private updateButtons(){
+
+    }
 
 }

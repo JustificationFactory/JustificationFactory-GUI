@@ -12,12 +12,20 @@ import '../services/diagram';
     //styleUrls: ['./css/app.css']
 })
 export class DiagramComponent {
-    protected static _graph: joint.dia.Graph;
-    protected static _paper: joint.dia.Paper;
+    private static _graph: joint.dia.Graph;
+    private static _paper: joint.dia.Paper;
+    private static _editToolbarComponent: EditToolbarComponent;
+    private static _actionsToolbarComponent: ActionsToolbarComponent;
+    private static _propertiesComponent: PropertiesComponent;
 
-    constructor(private editToolbarComponent: EditToolbarComponent,
-                private actionsToolbarComponent: ActionsToolbarComponent,
-                private propertiesComponent: PropertiesComponent) {
+    constructor(editToolbarComponent: EditToolbarComponent,
+                actionsToolbarComponent: ActionsToolbarComponent,
+                propertiesComponent: PropertiesComponent) {
+
+        DiagramComponent._editToolbarComponent = editToolbarComponent;
+        DiagramComponent._actionsToolbarComponent = actionsToolbarComponent;
+        DiagramComponent._propertiesComponent = propertiesComponent;
+
         //this.graph = Diagram.getGraph();
         //$('#myholder').on('elementclick', function (e) { alert("hello") }, false);
     }
@@ -33,20 +41,10 @@ export class DiagramComponent {
             height: 600,
             model: DiagramComponent._graph,
             gridSize: 1,
-            interactive: true
+            interactive: false
         });
-        DiagramComponent._paper.on('cell:pointerdown',
-            function(cellView, event, x, y) {
-                //alert('cell view ' + cellView.model.parent.name + ' was clicked');
-                //event.preventDefault();
-                //var evt = document.createEvent("elementclick");
-                //evt.initEvent("elementclick", true, false);
-                //Diagram._paper.dispatchEvent(evt);
-                //var e = new Event("elementclick");
-                //Diagram._paper.trigger('elementclick');
-                //alert("heho");
-            }
-        );
+
+        DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
 
         //$('#myholder').on('elementclick', function (e) { alert("hello") });
 
@@ -80,6 +78,21 @@ export class DiagramComponent {
                         (artifact.visualShape as any).position(el.visualShape.prop('size/width') + 50 ,0, {parentRelative : true});
                 }
             }
+        }
+    }
+
+    private _previousHighlightingCel : joint.dia.CellView;
+
+    private cellClick(cellView : joint.dia.CellView, event, x, y) {
+        if (this._previousHighlightingCel)
+            this._previousHighlightingCel.unhighlight();
+
+        this._previousHighlightingCel = cellView;
+
+        if ((cellView.model as any).parent) {
+            cellView.highlight();
+            DiagramComponent._propertiesComponent.setElement((cellView.model as any).parent);
+            DiagramComponent._actionsToolbarComponent.setElement((cellView.model as any).parent);
         }
     }
 

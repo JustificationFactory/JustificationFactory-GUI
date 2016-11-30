@@ -8,12 +8,13 @@ import  '../services/diagram';
     //styleUrls: ['./css/app.css']
 })
 export class PropertiesComponent {
-    private element : DiagramElement;
-    public setElement(currentElement : DiagramElement){
-        this.element = currentElement;
+
+    private currentElement : DiagramElement;
+
+    public setElement(diagramElement : DiagramElement){
+        this.currentElement = diagramElement;
         this.updateVisualPanel();
         this.updatePropertiesPanel();
-        alert("hello");
     }
 
     private updateVisualPanel(){
