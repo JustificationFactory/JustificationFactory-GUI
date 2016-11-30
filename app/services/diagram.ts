@@ -75,7 +75,7 @@ class Support extends DiagramElement {
             attrs: { rect: { fill: '#CCCC00 ', rx: 5, ry: 10  }, text: { text: conclusion.name, fill: 'white' } }
 
         });
-        /*this.visualShape.parent = this;*/
+        (this.visualShape as any).parent = this;
 
         if(this.jsonElement.hasOwnProperty("limits")){
 
@@ -143,7 +143,7 @@ class Conclusion extends DiagramElement {
             }
         })
         this.artifacts = new Array<Artifact>();
-        this.visualShape.parent = this;
+        (this.visualShape as any).parent = this;
 
         if(this.jsonElement.hasOwnProperty("limits")){
 
@@ -207,7 +207,7 @@ class Evidence extends DiagramElement {
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10 }, text: { text: name, fill: 'white' } }
         });
-        this.visualShape.parent = this;
+        (this.visualShape as any).parent = this;
     }
 
 }
@@ -225,7 +225,7 @@ class Strategy extends DiagramElement {
             }
         });
         this.artifacts = this.createArtifactsFromJson();
-        this.visualShape.parent = this;
+        (this.visualShape as any).parent = this;
     }
 
     private createArtifactsFromJson(){
