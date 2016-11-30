@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import './rxjs-extensions';
-import { MainComponent } from './components/main.component';
-import { ActionsToolbarComponent } from './components/actions.toolbar.component';
-import { DiagramComponent } from './components/diagram.component';
-import { EditToolbarComponent } from './components/edit.toolbar.component';
-import { PropertiesComponent } from './components/properties.component';
 
 import { KeysPipe } from './pipes/KeysPipe';
+
+import { ActionsToolbarComponent } from './components/actions.toolbar.component';
+import { EditToolbarComponent } from './components/edit.toolbar.component';
+import { PropertiesComponent } from './components/properties.component';
+import { DiagramComponent } from './components/diagram.component';
+import { MainComponent } from './components/main.component';
 
 @NgModule({
     imports: [
@@ -19,27 +20,25 @@ import { KeysPipe } from './pipes/KeysPipe';
         HttpModule
     ],
     declarations: [
-        MainComponent,
+        KeysPipe,
         ActionsToolbarComponent,
-        DiagramComponent,
         EditToolbarComponent,
         PropertiesComponent,
-        KeysPipe
+        DiagramComponent,
+        MainComponent
 
     ],
     providers: [
-        MainComponent,
         ActionsToolbarComponent,
-        DiagramComponent,
         EditToolbarComponent,
-        PropertiesComponent
+        PropertiesComponent,
+        DiagramComponent,
+        MainComponent
     ],
     bootstrap: [
-        MainComponent,
-        ActionsToolbarComponent,
-        DiagramComponent,
-        EditToolbarComponent,
-        PropertiesComponent
+        MainComponent
     ]
 })
-export class AppModule { }
+export class AppModule {
+
+}

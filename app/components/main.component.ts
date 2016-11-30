@@ -1,8 +1,5 @@
-import {Component, OnInit, ViewChild, ElementRef, Renderer, AfterViewInit, ReflectiveInjector} from '@angular/core';
- import { DiagramComponent } from "./diagram.component";
-// import { EditToolbarComponent } from "./edit.toolbar.component";
-// import { ActionsToolbarComponent } from "./actions.toolbar.component";
-
+import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {DiagramComponent} from "./diagram.component";
 
 @Component({
     //moduleId: module.id,
@@ -17,7 +14,7 @@ export class MainComponent  implements OnInit, AfterViewInit {
     private inputElement : HTMLInputElement;
     public importFileValue: string;
 
-    constructor (private diagramComponent: DiagramComponent  ) {
+    constructor (private diagramComponent: DiagramComponent) {
 
     }
 

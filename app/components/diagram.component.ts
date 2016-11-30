@@ -1,18 +1,21 @@
 import { Component } from '@angular/core';
 
+import { EditToolbarComponent } from './edit.toolbar.component';
+import { ActionsToolbarComponent } from './actions.toolbar.component';
 import { PropertiesComponent } from './properties.component';
-import { Diagram } from '../services/diagram';
+import '../services/diagram';
 
 @Component({
     //moduleId: module.id,
     selector: 'diagram-view',
     templateUrl: 'app/components/diagram.component.html',
-    providers: [PropertiesComponent, Diagram]
     //styleUrls: ['./css/app.css']
 })
 export class DiagramComponent {
     graph : any;
-    constructor(private propertiesComponent: PropertiesComponent) {
+    constructor(private editToolbarComponent: EditToolbarComponent,
+                private actionsToolbarComponent: ActionsToolbarComponent,
+                private propertiesComponent: PropertiesComponent) {
         this.graph = Diagram.getGraph();
         //$('#myholder').on('elementclick', function (e) { alert("hello") }, false);
     }
