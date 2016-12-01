@@ -97,6 +97,10 @@ export class DiagramComponent {
     }
 
     public getSVGFromDiagram() : any {
+
+        if (this._previousHighlightingCel)
+            this._previousHighlightingCel.unhighlight();
+
         return $('#myholder').html();
     }
 }

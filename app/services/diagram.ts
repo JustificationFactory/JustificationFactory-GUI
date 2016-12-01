@@ -49,7 +49,13 @@ class LinkElement extends DiagramElement {
         this.visualShape = new joint.dia.Link({
             source: { id: sourceElement.visualShape.id },
             target: { id: targetElement.visualShape.id },
-            attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' }
+            attrs: {
+                '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z'},
+                '.link-tools': { visibility: "collapse" },
+                '.marker-arrowheads': { visibility: "collapse" },
+                '.marker-vertices': { visibility: "collapse" },
+                '.labels': { visibility: "collapse" },
+                '.connection-wrap': { visibility: "collapse" }
             }
         });
     }
@@ -254,7 +260,12 @@ class Artifact extends DiagramElement {
                     'stroke': '#4b4a67',
                     'stroke-dasharray': '1.5'
                 },
-                '.marker-target': { fill : 'none' }
+                '.marker-target': { fill : 'none' },
+                '.link-tools': { visibility: "collapse" },
+                '.marker-arrowheads': { visibility: "collapse" },
+                '.marker-vertices': { visibility: "collapse" },
+                '.labels': { visibility: "collapse" },
+                '.connection-wrap': { visibility: "collapse" }
             }
         });
         return link;
@@ -288,33 +299,13 @@ class Actor extends Artifact{
     constructor(name: string, jsonElement: any, role: string) {
         super(name, jsonElement, role);
         this.behavior = Behavior.Near;
-        this.visualShape = new (joint.shapes as any).org.Member({
-            attrs: {
-                '.card': { fill: "#BBBBBB", stroke: 'none'},
-                image: { 'xlink:href': 'images/User.ico', opacity: 0.7 },
-                '.rank': { text: role, fill: "#000", 'word-spacing': '-5px', 'letter-spacing': 0},
-                '.name': { text: name, fill: "#000", 'font-size': 13, 'font-family': 'Arial', 'letter-spacing': 0 }
-            },
-            size: { width: Util.getElementWidthFromTextLength(role) + 50 }
+        this.visualShape = new joint.shapes.basic.Rect({
+            id: Util.getNewGuid(),
+            size: { width: Util.getElementWidthFromTextLength(name),
+                height: Util.getElementHeightFromTextLength(name) },
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: name, fill: 'black' } },
+            markup: Util.getSVGActorImage(role)
         });
-    }
-    makeLinkWithParent(parentElement) {
-        var link = new LinkElement(this,parentElement);
-        link.visualShape = new (joint.shapes as any).org.Arrow({
-            source: { id: this.visualShape.id },
-            target: { id: parentElement.visualShape.id },
-            attrs: {
-                '.connection': {
-                    'fill': 'none',
-                    'stroke-linejoin': 'round',
-                    'stroke-width': '2',
-                    'stroke': '#4b4a67',
-                    'stroke-dasharray': '1.5'
-                },
-                '.marker-target': { fill : 'none' }
-            }
-        });
-        return link;
     }
 }
 class ForEach extends Artifact{
@@ -352,6 +343,47 @@ class Util{
 
         // then to call it, plus stitch in '4' in the third group
         return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+    }
+
+    static getSVGActorImage(actorType: string) : string {
+        var result =  '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" tooltipPlacement="top" tooltip="'+ actorType +'" width="40pt" height="40pt"  viewBox="0 0 300 300"  preserveAspectRatio="xMidYMid meet">';
+
+        if (actorType.toLowerCase().indexOf('expert') >= 0) {
+            result += `<g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#030303" stroke="none">
+                        <path class="node" id="node1" d="M1526 2694 c-223 -54 -386 -263 -386 -494 0 -140 50 -262 149 -360
+                        102 -102 218 -150 357 -150 146 0 258 46 359 145 72 70 109 133 136 230 103
+                        374 -235 721 -615 629z"></path>
+                        <path class="node" id="node2" d="M1249 1616 c-150 -45 -278 -138 -360 -263 -101 -152 -119 -249 -119
+                        -636 l0 -267 23 -9 c192 -77 639 -151 911 -151 276 0 610 62 776 143 l45 22
+                        -1 320 c-1 316 -1 321 -27 400 -73 223 -237 382 -458 444 -70 19 -98 21 -395
+                        20 -302 0 -323 -2 -395 -23z m549 -100 c5 -22 -75 -194 -98 -213 -9 -8 -10
+                        -12 -3 -13 13 0 13 -1 57 -620 4 -51 1 -60 -43 -127 -25 -40 -51 -75 -57 -77
+                        -6 -2 -31 30 -56 72 l-45 77 13 225 c17 289 32 443 45 451 6 3 3 11 -7 19 -9
+                        8 -36 56 -60 108 -59 125 -60 123 115 120 125 -3 136 -4 139 -22z"></path>
+                        </g>
+                        <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#9E9E9E" stroke="none">
+                        
+                        <path class="node" id="node4" d="M1511 1526 c-9 -11 -2 -33 33 -108 24 -52 51 -100 60 -108 10 -8 13
+                        -16 7 -19 -13 -8 -28 -162 -45 -451 l-13 -225 45 -77 c25 -42 50 -74 56 -72 6
+                        2 32 37 57 77 44 67 47 76 43 127 -44 619 -44 620 -57 620 -7 1 -6 5 3 13 23
+                        19 103 191 98 213 -3 18 -14 19 -139 22 -108 2 -139 0 -148 -12z"></path>
+                        </g>`;
+        }
+        else {
+            result += `<g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#030303" stroke="none">
+                        <path class="node" id="node1" d="M1526 2694 c-223 -54 -386 -263 -386 -494 0 -140 50 -262 149 -360
+                        102 -102 218 -150 357 -150 146 0 258 46 359 145 72 70 109 133 136 230 103
+                        374 -235 721 -615 629z"></path>
+                        <path class="node" id="node2" d="M1249 1616 c-150 -45 -278 -138 -360 -263 -101 -152 -119 -249 -119
+                            -636 l0 -267 23 -9 c192 -77 639 -151 911 -151 276 0 610 62 776 143 l45 22
+                        -1 320 c-1 316 -1 321 -27 400 -73 223 -237 382 -458 444 -70 19 -98 21 -395
+                        20 -302 0 -323 -2 -395 -23z"></path>
+                        </g>`;
+        }
+
+        result += '</svg> <text x="0" y="100" font-size="14"></text>'; //this works like a template for actor name !
+
+        return result;
     }
 }
 
