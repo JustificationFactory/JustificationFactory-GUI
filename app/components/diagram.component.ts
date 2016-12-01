@@ -118,7 +118,7 @@ export class DiagramComponent{
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
             this.test = "allo";
-            alert("hello");
+            /*alert("hello");*/
             //DiagramComponent._propertiesComponent.setElement((cellView.model as any).parent);
             //DiagramComponent._actionsToolbarComponent.setElement((cellView.model as any).parent);
         }
