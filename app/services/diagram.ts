@@ -72,7 +72,7 @@ class Support extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(conclusion.name), height: Util.getElementHeightFromTextLength(conclusion.name) },
-            attrs: { rect: { fill: '#CCCC00 ', rx: 5, ry: 10  }, text: { text: conclusion.name, fill: 'white' } }
+            attrs: { rect: { fill: '#CCCC00 ', rx: 5, ry: 10  }, text: { text: conclusion.name, fill: 'black' } }
 
         });
         (this.visualShape as any).parent = this;
@@ -96,7 +96,7 @@ class Support extends DiagramElement {
                     var x1=x-15
                     var   y1=y-15
                     var wlimit=Util.getElementWidthFromTextLength(limit)-10
-                    var rect= '<rect width="'+wlimit.toString()+'" height="25" stroke="red" x="'+ x1.toString()+'" y="'+y1.toString()+'" >'+' </rect>'
+                    var rect= '<rect width="'+wlimit.toString()+'" height="25" stroke="black" fill="red" x="'+ x1.toString()+'" y="'+y1.toString()+'" >'+' </rect>'
                     var port = {
                         id: limit,
                         group: 'a',
@@ -112,7 +112,7 @@ class Support extends DiagramElement {
                                 }
                             }
                         },
-                        attrs: { rect: { fill: '#DF0606 '}, text: { text: limit, fill: 'white' }},
+                        attrs: { rect: { fill: '#DF0606 ', rx: 5, ry: 10}, text: { text: limit, fill: 'white' }},
                         markup: rect
                     };
 
@@ -137,7 +137,7 @@ class Conclusion extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'white' } },
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'black' } },
             ports: {
 
             }
@@ -164,7 +164,7 @@ class Conclusion extends DiagramElement {
                     var x1=x-15
                     var   y1=y-15
                     var wlimit=Util.getElementWidthFromTextLength(limit)-10
-                    var rect= '<rect width="'+wlimit.toString()+'" height="25" stroke="red" x="'+ x1.toString()+'" y="'+y1.toString()+'" >'+' </rect>'
+                    var rect= '<rect width="'+wlimit.toString()+'" height="25" stroke="black" fill="red" x="'+ x1.toString()+'" y="'+y1.toString()+'" >'+' </rect>'
                     var port = {
                         id: limit,
                         group: 'a',
@@ -180,7 +180,7 @@ class Conclusion extends DiagramElement {
                                 }
                             }
                         },
-                        attrs: { rect: { fill: '#DF0606'}, text: { text: limit, fill: 'white' }},
+                        attrs: { rect: { fill: '#DF0606', rx: 5, ry: 10}, text: { text: limit, fill: 'white' }},
                         markup: rect
                     };
 
@@ -205,7 +205,7 @@ class Evidence extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10 }, text: { text: name, fill: 'white' } }
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10 }, text: { text: name, fill: 'black' } }
         });
         (this.visualShape as any).parent = this;
     }

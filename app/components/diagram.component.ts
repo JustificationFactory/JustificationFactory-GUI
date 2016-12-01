@@ -66,7 +66,6 @@ export class DiagramComponent {
 
         DiagramComponent._graph.resetCells(cells);
         joint.layout.DirectedGraph.layout(DiagramComponent._graph, { rankDir: 'BT', rankSep: 50, edgeSep: 50, nodeSep: 50 });
-        DiagramComponent._graph.translate(200,0);
         for (var el of elements) {
             cells.push(el.visualShape);
 
