@@ -9,7 +9,16 @@
                 <actionstoolbar-view class="actionstoolbar-view"></actionstoolbar-view>
             </div>
             <div class="row diagram">
-                <div id="myholder" style="width: 100%;"></div>
+                <div id="myholder" style="width: 100%;">
+                    <div (click)="zoomIn()" class="btn btn-default" >
+                        Zoom+
+                    </div>
+                    <div (click)="zoomOut()" class="btn btn-default" >
+                        Zoom-
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
