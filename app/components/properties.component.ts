@@ -52,16 +52,21 @@ export class PropertiesComponent implements OnChanges{
          else{
          this.tree = this.createKeysFromJson(this.json, "json");
          }*/
-        if(this.selectedElement){
-            this.test =this.selectedElement.name
-            this.getNodeSettings()
-        }
-        else{      this.test = "hoho" + this.nbChanges++;}
+        this.test = "hoho" + this.nbChanges++;
 
 
         //if(changes['selectedElement'])
 
         //alert("toto")
+
+        /*********haifa :p *****/
+        if(this.selectedElement){
+
+            this.getNodeSettings()
+        }
+
+
+
     }
     /**************************************************************Properties****************************************************************************/
     @Input() test: string = "achraf";
