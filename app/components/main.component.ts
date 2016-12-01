@@ -1,10 +1,10 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
 import {DiagramComponent} from "./diagram.component";
 
 @Component({
     //moduleId: module.id,
     selector: 'main-view',
-    templateUrl: 'app/components/main.component.html',
+    templateUrl: 'app/components/main.component.html'
     //styleUrls: ['./css/app.css']
 })
 export class MainComponent  implements OnInit, AfterViewInit {
@@ -14,8 +14,10 @@ export class MainComponent  implements OnInit, AfterViewInit {
     private inputElement : HTMLInputElement;
     public importFileValue: string;
 
-    constructor (private diagramComponent: DiagramComponent) {
+    @ViewChild(DiagramComponent) private diagramComponent : DiagramComponent;
 
+    constructor (diagramComponent : DiagramComponent) {
+        this.diagramComponent = diagramComponent;
     }
 
     ngOnInit(): void {
@@ -86,3 +88,5 @@ export class MainComponent  implements OnInit, AfterViewInit {
         doc.end();
     }
 }
+
+export var maVar = "";

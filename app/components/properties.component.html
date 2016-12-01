@@ -35,7 +35,7 @@
 
     <!-- Default panel contents -->
     <div class="panel-heading text-center">Properties</div>
-
+        <input #refreshProperties type="button" (click)="onRefresh($event)"/>
     <!-- Table -->
     <table class="table table table-striped">
         <tbody *ngFor="let entry of tree">
@@ -44,6 +44,7 @@
                <tr>text.text : {{e.value.text}}</tr>
            </span>-->
        </tbody>
+        {{test}}
    </table>
 </div>
 </nav>

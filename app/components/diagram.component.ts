@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 
 import { EditToolbarComponent } from './edit.toolbar.component';
 import { ActionsToolbarComponent } from './actions.toolbar.component';
@@ -10,25 +10,47 @@ import '../services/diagram';
     selector: 'diagram-view',
     templateUrl: 'app/components/diagram.component.html',
     //styleUrls: ['./css/app.css']
+/*    host: {
+        "(document: click)": "handleEvent( $event )",
+        "(document: mousedown)": "handleEvent( $event )",
+        "(document: mouseup)": "handleEvent( $event )"
+    }*/
 })
-export class DiagramComponent {
+export class DiagramComponent{
     private static _graph: joint.dia.Graph;
     private static _paper: joint.dia.Paper;
     private static _editToolbarComponent: EditToolbarComponent;
     private static _actionsToolbarComponent: ActionsToolbarComponent;
     private static _propertiesComponent: PropertiesComponent;
 
+    selectedElement = null;
+    @Input() diagramLoaded;
+    test = "achraf";
+    //selectedElement = null;
+
+
+/*    notifyChildren() {
+        this.parentSubject.next('some value');
+    }
+
+    ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+        alert("change");
+    }*/
+
+
     constructor(editToolbarComponent: EditToolbarComponent,
                 actionsToolbarComponent: ActionsToolbarComponent,
-                propertiesComponent: PropertiesComponent) {
+                propertiesComponent: PropertiesComponent
+                ) {
 
         DiagramComponent._editToolbarComponent = editToolbarComponent;
         DiagramComponent._actionsToolbarComponent = actionsToolbarComponent;
         DiagramComponent._propertiesComponent = propertiesComponent;
-
-        //this.graph = Diagram.getGraph();
-        //$('#myholder').on('elementclick', function (e) { alert("hello") }, false);
     }
+
+    /*public handleEvent($event){
+        this.test = "you";
+    }*/
 
     public showDiagram(elements: DiagramElement[]){
         if(!DiagramComponent._graph) {
@@ -45,6 +67,7 @@ export class DiagramComponent {
         });
 
         DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
+
 
         //$('#myholder').on('elementclick', function (e) { alert("hello") });
 
@@ -83,7 +106,7 @@ export class DiagramComponent {
 
     private _previousHighlightingCel : joint.dia.CellView;
 
-    private cellClick(cellView : joint.dia.CellView, event, x, y) {
+    public cellClick(cellView : joint.dia.CellView, event, x, y) {
         if (this._previousHighlightingCel)
             this._previousHighlightingCel.unhighlight();
 
@@ -91,8 +114,11 @@ export class DiagramComponent {
 
         if ((cellView.model as any).parent) {
             cellView.highlight();
-            DiagramComponent._propertiesComponent.setElement((cellView.model as any).parent);
-            DiagramComponent._actionsToolbarComponent.setElement((cellView.model as any).parent);
+            this.selectedElement = (cellView.model as any).parent;
+            this.test = "allo";
+            alert("hello");
+            //DiagramComponent._propertiesComponent.setElement((cellView.model as any).parent);
+            //DiagramComponent._actionsToolbarComponent.setElement((cellView.model as any).parent);
         }
     }
 
@@ -100,4 +126,6 @@ export class DiagramComponent {
         return $('#myholder').html();
     }
 }
+
+
 
