@@ -17,8 +17,8 @@ export class DiagramComponent{
     private static _editToolbarComponent: EditToolbarComponent;
     private static _actionsToolbarComponent: ActionsToolbarComponent;
     private static _propertiesComponent: PropertiesComponent;
-    private static _graphScale : number =1 ;
 
+    _graphScale : number =1 ;
     selectedElement = null;
 
     constructor(editToolbarComponent: EditToolbarComponent,
@@ -108,15 +108,13 @@ export class DiagramComponent{
     };
 
     public zoomOut() {
-
-        DiagramComponent._graphScale -= 0.1;
-        this.zoom(DiagramComponent._graphScale, DiagramComponent._graphScale);
+        this._graphScale -= 0.1;
+        this.zoom(this._graphScale, this._graphScale);
     };
 
     public zoomIn() {
-
-        DiagramComponent._graphScale += 0.1;
-        this.zoom(DiagramComponent._graphScale, DiagramComponent._graphScale);
+        this._graphScale += 0.1;
+        this.zoom(this._graphScale, this._graphScale);
     };
 }
 
