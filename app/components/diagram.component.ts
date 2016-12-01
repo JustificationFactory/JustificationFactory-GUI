@@ -39,8 +39,8 @@ export class DiagramComponent{
         if (!DiagramComponent._paper) {
             DiagramComponent._paper = new joint.dia.Paper({
                 el: $('#myholder'),
-                width: 1600,
-                height: 600,
+                width: 850,
+                height: 620,
                 model: DiagramComponent._graph,
                 gridSize: 1,
                 interactive: false
@@ -66,7 +66,16 @@ export class DiagramComponent{
         }
 
         DiagramComponent._graph.resetCells(cells);
-        joint.layout.DirectedGraph.layout(DiagramComponent._graph, { rankDir: 'BT', rankSep: 50, edgeSep: 50, nodeSep: 50 });
+
+        joint.layout.DirectedGraph.layout(DiagramComponent._graph, {
+            rankDir: 'BT',
+            rankSep: 50,
+            edgeSep: 50,
+            nodeSep: 50 ,
+            marginX: 50,
+            marginY: 20
+        });
+
         for (var el of elements) {
             cells.push(el.visualShape);
 
