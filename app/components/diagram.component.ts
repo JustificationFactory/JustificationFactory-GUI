@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { EditToolbarComponent } from './edit.toolbar.component';
 import { ActionsToolbarComponent } from './actions.toolbar.component';
@@ -10,11 +10,6 @@ import '../services/diagram';
     selector: 'diagram-view',
     templateUrl: 'app/components/diagram.component.html',
     //styleUrls: ['./css/app.css']
-/*    host: {
-        "(document: click)": "handleEvent( $event )",
-        "(document: mousedown)": "handleEvent( $event )",
-        "(document: mouseup)": "handleEvent( $event )"
-    }*/
 })
 export class DiagramComponent{
     private static _graph: joint.dia.Graph;
@@ -25,19 +20,6 @@ export class DiagramComponent{
     private static _graphScale : number =1 ;
 
     selectedElement = null;
-    @Input() diagramLoaded;
-    test = "achraf";
-    //selectedElement = null;
-
-
-/*    notifyChildren() {
-        this.parentSubject.next('some value');
-    }
-
-    ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-        alert("change");
-    }*/
-
 
     constructor(editToolbarComponent: EditToolbarComponent,
                 actionsToolbarComponent: ActionsToolbarComponent,
@@ -48,10 +30,6 @@ export class DiagramComponent{
         DiagramComponent._actionsToolbarComponent = actionsToolbarComponent;
         DiagramComponent._propertiesComponent = propertiesComponent;
     }
-    
-    /*public handleEvent($event){
-        this.test = "you";
-    }*/
 
     public showDiagram(elements: DiagramElement[]){
         if(!DiagramComponent._graph) {
@@ -68,10 +46,6 @@ export class DiagramComponent{
         });
 
         DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
-
-
-        //$('#myholder').on('elementclick', function (e) { alert("hello") });
-
 
         $('#myholder').replaceWith(DiagramComponent._paper.el);
 
@@ -117,10 +91,6 @@ export class DiagramComponent{
         if ((cellView.model as any).parent) {
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
-            this.test = "allo";
-            /*alert("hello");*/
-            //DiagramComponent._propertiesComponent.setElement((cellView.model as any).parent);
-            //DiagramComponent._actionsToolbarComponent.setElement((cellView.model as any).parent);
         }
     }
 
