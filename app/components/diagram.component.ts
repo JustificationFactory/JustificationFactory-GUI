@@ -22,6 +22,7 @@ export class DiagramComponent{
     private static _editToolbarComponent: EditToolbarComponent;
     private static _actionsToolbarComponent: ActionsToolbarComponent;
     private static _propertiesComponent: PropertiesComponent;
+    private static _graphScale : number =1 ;
 
     selectedElement = null;
     @Input() diagramLoaded;
@@ -117,7 +118,7 @@ export class DiagramComponent{
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
             this.test = "allo";
-            alert("hello");
+            /*alert("hello");*/
             //DiagramComponent._propertiesComponent.setElement((cellView.model as any).parent);
             //DiagramComponent._actionsToolbarComponent.setElement((cellView.model as any).parent);
         }
@@ -126,7 +127,27 @@ export class DiagramComponent{
     public getSVGFromDiagram() : any {
         return $('#myholder').html();
     }
+
+
+    public zoom(a,b) {
+        DiagramComponent._paper.scale(a,b);
+    };
+
+    public zoomOut() {
+
+        DiagramComponent._graphScale -= 0.1;
+        this.zoom(DiagramComponent._graphScale, DiagramComponent._graphScale);
+    };
+
+    public zoomIn() {
+
+        DiagramComponent._graphScale += 0.1;
+        this.zoom(DiagramComponent._graphScale, DiagramComponent._graphScale);
+    };
 }
+
+
+
 
 
 

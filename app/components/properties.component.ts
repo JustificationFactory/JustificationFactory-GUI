@@ -7,19 +7,69 @@ import { Subject }    from 'rxjs/Subject';
     selector: 'properties-view',
     templateUrl: 'app/components/properties.component.html',
     //styleUrls: ['./css/app.css']
-/*    host: {
-        "(document: click)": "onRefresh( $event )",
-        "(document: mousedown)": "onRefresh( $event )",
-        "(document: mouseup)": "onRefresh( $event )"
-    }*/
+    /*    host: {
+     "(document: click)": "onRefresh( $event )",
+     "(document: mousedown)": "onRefresh( $event )",
+     "(document: mouseup)": "onRefresh( $event )"
+     }*/
 })
 export class PropertiesComponent implements OnChanges{
+    /*******************************************visual settings******************************************************************************/
+    @Input() map=[{key: "a", val: "b"}]
+
+    private  getNodeSettings()
+    {this.map=[]
+        this.map.push({key:"label", val:this.selectedElement.name})
+        if(this.selectedElement.visualShape.attributes.type=="basic.Rect"){
+            this.map.push({key:"border",val:"rectangle"})
+            this.map.push({key:"remplissage",val:this.selectedElement.visualShape.attributes.attrs.rect.fill})
+            this.map.push({key:"contour color",val:this.selectedElement.visualShape.attributes.attrs.rect.stroke})
+
+
+        }
+        else if(this.selectedElement.visualShape.attributes.type=="basic.Path"){
+            this.map.push({key:"border",val:this.selectedElement.visualShape.attributes.attrs.path.d})
+            this.map.push({key:"remplissage",val:this.selectedElement.visualShape.attributes.attrs.path.fill})
+            this.map.push({key:"contour color",val:this.selectedElement.visualShape.attributes.attrs.path.stroke})
+        }
+
+        for(var _i = 0; _i < (Object.keys(this.selectedElement.visualShape.portData.ports)).length; _i++ ){
+            this.map.push({key:"Limit["+_i.toString()+"]",val:this.selectedElement.visualShape.portData.ports[_i].id})
+
+
+        }
+
+    }
+
+
+    /******************************************* used by visual settings && Properties******************************************************************************/
 
     @Input() selectedElement : DiagramElement = null;
+    ngOnChanges(changes: SimpleChanges) {
+        /*       if(this.nbChanges < 1){
+         this.nbChanges++;
+         }
+         else{
+         this.tree = this.createKeysFromJson(this.json, "json");
+         }*/
+        if(this.selectedElement){
+            this.test =this.selectedElement.name
+            this.getNodeSettings()
+        }
+        else{      this.test = "hoho" + this.nbChanges++;}
+
+
+        //if(changes['selectedElement'])
+
+        //alert("toto")
+    }
+    /**************************************************************Properties****************************************************************************/
     @Input() test: string = "achraf";
     //@ViewChild('refreshProperties') refreshProperties : ElementRef;
     tree : any = this.tree = [{key: "a", value: "b"}];
     nbChanges = 0;
+
+
 
     constructor(private renderer:Renderer){
         this.tree = [{key: "a", value: "b"}];
@@ -34,21 +84,7 @@ export class PropertiesComponent implements OnChanges{
             }
         }]
     }
-    ngOnChanges(changes: SimpleChanges) {
- /*       if(this.nbChanges < 1){
-            this.nbChanges++;
-        }
-        else{
-            this.tree = this.createKeysFromJson(this.json, "json");
-        }*/
 
-            this.test = "hoho" + this.nbChanges++;
-
-
-        //if(changes['selectedElement'])
-
-        //alert("toto")
-    }
 
 
     public setElement(diagramElement : DiagramElement){
@@ -56,10 +92,10 @@ export class PropertiesComponent implements OnChanges{
         this.test = "youu";
         //this.updatePropertiesPanel();
         /*let event = new MouseEvent('click');
-        alert(this.refreshProperties)
-        this.renderer.invokeElementMethod(
-            this.refreshProperties.nativeElement,'dispatchEvent', [event]
-        );*/
+         alert(this.refreshProperties)
+         this.renderer.invokeElementMethod(
+         this.refreshProperties.nativeElement,'dispatchEvent', [event]
+         );*/
     }
 
 
