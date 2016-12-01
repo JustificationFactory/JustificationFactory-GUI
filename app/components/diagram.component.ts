@@ -47,7 +47,7 @@ export class DiagramComponent{
         DiagramComponent._actionsToolbarComponent = actionsToolbarComponent;
         DiagramComponent._propertiesComponent = propertiesComponent;
     }
-
+    
     /*public handleEvent($event){
         this.test = "you";
     }*/
@@ -72,6 +72,8 @@ export class DiagramComponent{
         //$('#myholder').on('elementclick', function (e) { alert("hello") });
 
 
+        $('#myholder').replaceWith(DiagramComponent._paper.el);
+
         // construction des artifacts à partir de JSON
         // add artifacts de graph
         var cells : joint.dia.Cell[] = [];
@@ -88,7 +90,6 @@ export class DiagramComponent{
 
         DiagramComponent._graph.resetCells(cells);
         joint.layout.DirectedGraph.layout(DiagramComponent._graph, { rankDir: 'BT', rankSep: 50, edgeSep: 50, nodeSep: 50 });
-        DiagramComponent._graph.translate(200,0);
         for (var el of elements) {
             cells.push(el.visualShape);
 
