@@ -9,12 +9,21 @@
                 <actionstoolbar-view class="actionstoolbar-view"></actionstoolbar-view>
             </div>
             <div class="row diagram">
-                <div id="myholder" style="width: 100%;"></div>
+                <div id="myholder" style="width: 100%;">
+                    <div (click)="zoomIn()" class="btn btn-default" >
+                        Zoom+
+                    </div>
+                    <div (click)="zoomOut()" class="btn btn-default" >
+                        Zoom-
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
-        <properties-view></properties-view>
+        <properties-view [test]="test" [selectedElement]="selectedElement"></properties-view>
     </div>
 </div>
