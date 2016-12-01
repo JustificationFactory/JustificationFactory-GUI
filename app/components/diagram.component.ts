@@ -47,7 +47,7 @@ export class DiagramComponent{
         DiagramComponent._actionsToolbarComponent = actionsToolbarComponent;
         DiagramComponent._propertiesComponent = propertiesComponent;
     }
-    
+
     /*public handleEvent($event){
         this.test = "you";
     }*/
