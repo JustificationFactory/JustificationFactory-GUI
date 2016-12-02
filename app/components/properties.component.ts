@@ -95,12 +95,18 @@ export class PropertiesComponent implements OnChanges{
                 e: "e1",
                 f: "f1"
             }
-        }]
+        },
+            {
+                d : {
+                    e: "e2",
+                    f: "f2"
+                }
+            }]
     }
 
 
 
-    public setElement(diagramElement : DiagramElement){
+/*    public setElement(diagramElement : DiagramElement){
         //PropertiesComponent.currentElement = diagramElement;
         this.test = "youu";
         //this.updatePropertiesPanel();
@@ -108,8 +114,9 @@ export class PropertiesComponent implements OnChanges{
          alert(this.refreshProperties)
          this.renderer.invokeElementMethod(
          this.refreshProperties.nativeElement,'dispatchEvent', [event]
-         );*/
-    }
+         );
+    }*/
+
 
 
     private updateVisualPanel(){
