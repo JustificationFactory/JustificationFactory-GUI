@@ -6,8 +6,3 @@ body {
     font-size: 1.2em;
     color: white;
 }
-
-.diagram{
-    overflow: auto;
-    margin: 10px;
-}

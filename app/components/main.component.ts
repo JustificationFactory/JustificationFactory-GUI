@@ -88,5 +88,3 @@ export class MainComponent  implements OnInit, AfterViewInit {
         doc.end();
     }
 }
-
-export var maVar = "";

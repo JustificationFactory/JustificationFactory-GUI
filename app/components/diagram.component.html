@@ -7,23 +7,20 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="row">
                 <actionstoolbar-view class="actionstoolbar-view"></actionstoolbar-view>
-            </div>
-            <div class="row diagram">
-                <div id="myholder" style="width: 100%;">
-                    <div (click)="zoomIn()" class="btn btn-default" >
-                        Zoom+
-                    </div>
-                    <div (click)="zoomOut()" class="btn btn-default" >
-                        Zoom-
-                    </div>
-
+                <div (click)="zoomIn()" class="btn btn-default" >
+                    Zoom+
                 </div>
-
+                <div (click)="zoomOut()" class="btn btn-default" >
+                    Zoom-
+                </div>
+            </div>
+            <div class="row">
+                <div id="myholder" style="width: 100%;"></div>
             </div>
         </div>
 
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
-        <properties-view [test]="test" [selectedElement]="selectedElement"></properties-view>
+        <properties-view [selectedElement]="selectedElement"></properties-view>
     </div>
 </div>

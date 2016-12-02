@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { EditToolbarComponent } from './edit.toolbar.component';
 import { ActionsToolbarComponent } from './actions.toolbar.component';
@@ -10,11 +10,6 @@ import '../services/diagram';
     selector: 'diagram-view',
     templateUrl: 'app/components/diagram.component.html',
     //styleUrls: ['./css/app.css']
-/*    host: {
-        "(document: click)": "handleEvent( $event )",
-        "(document: mousedown)": "handleEvent( $event )",
-        "(document: mouseup)": "handleEvent( $event )"
-    }*/
 })
 export class DiagramComponent{
     private static _graph: joint.dia.Graph;
@@ -22,22 +17,9 @@ export class DiagramComponent{
     private static _editToolbarComponent: EditToolbarComponent;
     private static _actionsToolbarComponent: ActionsToolbarComponent;
     private static _propertiesComponent: PropertiesComponent;
-    private static _graphScale : number =1 ;
 
+    _graphScale : number =1 ;
     selectedElement = null;
-    @Input() diagramLoaded;
-    test = "achraf";
-    //selectedElement = null;
-
-
-/*    notifyChildren() {
-        this.parentSubject.next('some value');
-    }
-
-    ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-        alert("change");
-    }*/
-
 
     constructor(editToolbarComponent: EditToolbarComponent,
                 actionsToolbarComponent: ActionsToolbarComponent,
@@ -49,29 +31,23 @@ export class DiagramComponent{
         DiagramComponent._propertiesComponent = propertiesComponent;
     }
 
-    /*public handleEvent($event){
-        this.test = "you";
-    }*/
-
     public showDiagram(elements: DiagramElement[]){
         if(!DiagramComponent._graph) {
             DiagramComponent._graph = new Graph;
         }
 
-        DiagramComponent._paper = new joint.dia.Paper({
-            el: $('#myholder'),
-            width: 1600,
-            height: 600,
-            model: DiagramComponent._graph,
-            gridSize: 1,
-            interactive: false
-        });
+        if (!DiagramComponent._paper) {
+            DiagramComponent._paper = new joint.dia.Paper({
+                el: $('#myholder'),
+                width: 850,
+                height: 620,
+                model: DiagramComponent._graph,
+                gridSize: 1,
+                interactive: false
+            });
 
-        DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
-
-
-        //$('#myholder').on('elementclick', function (e) { alert("hello") });
-
+            DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
+        }
 
         $('#myholder').replaceWith(DiagramComponent._paper.el);
 
@@ -90,7 +66,16 @@ export class DiagramComponent{
         }
 
         DiagramComponent._graph.resetCells(cells);
-        joint.layout.DirectedGraph.layout(DiagramComponent._graph, { rankDir: 'BT', rankSep: 50, edgeSep: 50, nodeSep: 50 });
+
+        joint.layout.DirectedGraph.layout(DiagramComponent._graph, {
+            rankDir: 'BT',
+            rankSep: 50,
+            edgeSep: 50,
+            nodeSep: 50 ,
+            marginX: 50,
+            marginY: 20
+        });
+
         for (var el of elements) {
             cells.push(el.visualShape);
 
@@ -117,14 +102,14 @@ export class DiagramComponent{
         if ((cellView.model as any).parent) {
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
-            this.test = "allo";
-            /*alert("hello");*/
-            //DiagramComponent._propertiesComponent.setElement((cellView.model as any).parent);
-            //DiagramComponent._actionsToolbarComponent.setElement((cellView.model as any).parent);
         }
     }
 
     public getSVGFromDiagram() : any {
+
+        if (this._previousHighlightingCel)
+            this._previousHighlightingCel.unhighlight();
+
         return $('#myholder').html();
     }
 
@@ -134,15 +119,13 @@ export class DiagramComponent{
     };
 
     public zoomOut() {
-
-        DiagramComponent._graphScale -= 0.1;
-        this.zoom(DiagramComponent._graphScale, DiagramComponent._graphScale);
+        this._graphScale -= 0.1;
+        this.zoom(this._graphScale, this._graphScale);
     };
 
     public zoomIn() {
-
-        DiagramComponent._graphScale += 0.1;
-        this.zoom(DiagramComponent._graphScale, DiagramComponent._graphScale);
+        this._graphScale += 0.1;
+        this.zoom(this._graphScale, this._graphScale);
     };
 }
 
