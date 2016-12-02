@@ -53,10 +53,11 @@ export class PropertiesComponent implements OnChanges{
          this.tree = this.createKeysFromJson(this.json, "json");
          }*/
         if(this.selectedElement){
-            this.test =this.selectedElement.name
-            this.getNodeSettings()
+            this.test =this.selectedElement.name;
+            this.getNodeSettings();
+            this.tree = this.createKeysFromJson(this.selectedElement.jsonElement, "");
         }
-        else{      this.test = "hoho" + this.nbChanges++;}
+        //else{      this.test = "hoho" + this.nbChanges++;}
 
 
         //if(changes['selectedElement'])
@@ -129,7 +130,13 @@ export class PropertiesComponent implements OnChanges{
                 if(typeof i == 'number')
                     subKey = '[' + i + ']';
                 else{
-                    subKey = '.' + i;
+                    if(key != ""){
+                        subKey = '.' + i;
+                    }
+                    else{
+                        subKey = i;
+                    }
+
                 }
 
                 if(typeof  val === 'object'){

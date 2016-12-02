@@ -13,6 +13,17 @@
             border: 1px solid #ddd;
             height: 400px;
         }
+        div.businessProperties{
+            height : 30em;
+            overflow: auto;
+        }
+        table.businessProperties{
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+        .businessProperty{
+            text-overflow: clip;
+        }
     </style>
 </head>
 <body>
@@ -25,7 +36,7 @@
         <table class="table table table-striped">
             <tbody>
             <tr *ngFor="let nodeProp of map">
-                <td>{{nodeProp.key}} : {{nodeProp.val}}</td>
+                <td >{{nodeProp.key}} : {{nodeProp.val}}</td>
             </tr>
             </tbody>
         </table>
@@ -36,17 +47,18 @@
 
         <!-- Default panel contents -->
     <div class="panel-heading text-center">Properties</div>
-        <input #refreshProperties type="button" (click)="onRefresh($event)"/>
+        <!-- <input #refreshProperties type="button" (click)="onRefresh($event)"/>-->
     <!-- Table -->
-    <table class="table table table-striped">
-        <tbody *ngFor="let entry of tree">
-            <tr>{{entry.key}} : {{entry.value}}</tr>
-        <!--<span *ngFor="let e of entry.value.nodes | keys">
-               <tr>text.text : {{e.value.text}}</tr>
-           </span>-->
-       </tbody>
-        {{test}}
-   </table>
+    <div class="businessProperties">
+        <table class="table table table-striped businessProperties">
+            <tbody >
+                <tr class="businessProperty" *ngFor="let entry of tree">
+                    <td>{{entry.key}} : {{entry.value}}</td>
+                </tr>
+           </tbody>
+            <!--{{test}}-->
+       </table>
+    </div>
 </div>
 </nav>
 <script src="../../js/jquery-1.12.4.min.js"></script>
