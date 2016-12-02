@@ -19,27 +19,40 @@ export class PropertiesComponent implements OnChanges{
 
     private  getNodeSettings()
     {this.map=[]
-        this.map.push({key:"label", val:this.selectedElement.name})
+        this.map.push({key:"Label", val:this.selectedElement.name})
         if(this.selectedElement.visualShape.attributes.type=="basic.Rect"){
-            this.map.push({key:"border",val:"rectangle"})
-            this.map.push({key:"remplissage",val:this.selectedElement.visualShape.attributes.attrs.rect.fill})
-            this.map.push({key:"contour color",val:this.selectedElement.visualShape.attributes.attrs.rect.stroke})
+            this.map.push({key:"Shape",val:"Rectangle"})
+            this.map.push({key:"Background",val:this.selectedElement.visualShape.attributes.attrs.rect.fill})
+            this.map.push({key:"Border color",val:this.selectedElement.visualShape.attributes.attrs.rect.stroke})
 
 
         }
         else if(this.selectedElement.visualShape.attributes.type=="basic.Path"){
-            this.map.push({key:"border",val:this.selectedElement.visualShape.attributes.attrs.path.d})
-            this.map.push({key:"remplissage",val:this.selectedElement.visualShape.attributes.attrs.path.fill})
-            this.map.push({key:"contour color",val:this.selectedElement.visualShape.attributes.attrs.path.stroke})
+            this.map.push({key:"Shape",val:this.selectedElement.visualShape.attributes.attrs.path.d})
+            this.map.push({key:"Background",val:this.selectedElement.visualShape.attributes.attrs.path.fill})
+            this.map.push({key:"Border color",val:this.selectedElement.visualShape.attributes.attrs.path.stroke})
+        }
+        this.map.push({key:"Line Type",val:"--------------"})
+      for(var _j = 0; _j < (Object.keys(this.selectedElement.visualShape.portData.ports)).length; _j++ ){
+            this.map.push({key:"Limit["+_j.toString()+"]",val:this.selectedElement.visualShape.portData.ports[_j].id})
+          var limit_markup=this.selectedElement.visualShape.portData.ports[_j].markup.split(' ');
+            for(var _i = 0; _i< limit_markup.length; _i++ ){
+             if (limit_markup[_i].includes("rect")) { this.map.push({key:"> Shape",val:"Rectangle"})}
+             if (limit_markup[_i].includes("fill")) {
+               var backgd=limit_markup[_i].split("=")[1]
+                 this.map.push({key:"> Background",val:backgd})
+       }
+
+                 }
+
+            }
+
+
+
+
+
         }
 
-        for(var _i = 0; _i < (Object.keys(this.selectedElement.visualShape.portData.ports)).length; _i++ ){
-            this.map.push({key:"Limit["+_i.toString()+"]",val:this.selectedElement.visualShape.portData.ports[_i].id})
-
-
-        }
-
-    }
 
 
     /******************************************* used by visual settings && Properties******************************************************************************/
