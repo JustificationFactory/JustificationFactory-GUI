@@ -15,11 +15,16 @@ import { Subject }    from 'rxjs/Subject';
 })
 export class PropertiesComponent implements OnChanges{
     /*******************************************visual settings******************************************************************************/
+    @Input() node="test"
     @Input() map=[{key: "a", val: "b"}]
-
+    @Input() limitList=[{key: "a", val: "b"}]
+    @Input() limitProp=[{key: "a", val: "b"}]
     private  getNodeSettings()
     {this.map=[]
-        this.map.push({key:"Label", val:this.selectedElement.name})
+        this.node=[]
+        this.limitList=[]
+        this.limitProp=[]
+        this.node=this.selectedElement.name;
         if(this.selectedElement.visualShape.attributes.type=="basic.Rect"){
             this.map.push({key:"Shape",val:"Rectangle"})
             this.map.push({key:"Background",val:this.selectedElement.visualShape.attributes.attrs.rect.fill})
@@ -28,28 +33,31 @@ export class PropertiesComponent implements OnChanges{
 
         }
         else if(this.selectedElement.visualShape.attributes.type=="basic.Path"){
-            this.map.push({key:"Shape",val:this.selectedElement.visualShape.attributes.attrs.path.d})
+            if(this.selectedElement.visualShape.attributes.attrs.path.d=="M 10 0 L 100 0 L 90 150 L 0 150 Z"){
+                this.map.push({key:"Shape",val:"parallélogramme"})
+            }
+            else{
+            this.map.push({key:"Shape",val:this.selectedElement.visualShape.attributes.attrs.path.d})}
             this.map.push({key:"Background",val:this.selectedElement.visualShape.attributes.attrs.path.fill})
             this.map.push({key:"Border color",val:this.selectedElement.visualShape.attributes.attrs.path.stroke})
         }
-        this.map.push({key:"Line Type",val:"--------------"})
+if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
       for(var _j = 0; _j < (Object.keys(this.selectedElement.visualShape.portData.ports)).length; _j++ ){
-            this.map.push({key:"Limit["+_j.toString()+"]",val:this.selectedElement.visualShape.portData.ports[_j].id})
-          var limit_markup=this.selectedElement.visualShape.portData.ports[_j].markup.split(' ');
-            for(var _i = 0; _i< limit_markup.length; _i++ ){
-             if (limit_markup[_i].includes("rect")) { this.map.push({key:"> Shape",val:"Rectangle"})}
-             if (limit_markup[_i].includes("fill")) {
-               var backgd=limit_markup[_i].split("=")[1]
-                 this.map.push({key:"> Background",val:backgd})
-       }
+            this.limitList.push({key:"Limit["+_j.toString()+"]",val:this.selectedElement.visualShape.portData.ports[_j].id})
+            }
 
-                 }
+        var limit_markup=this.selectedElement.visualShape.portData.ports[0].markup.split(' ');
+        for(var _i = 0; _i< limit_markup.length; _i++ ){
+            if (limit_markup[_i].includes("rect")) { this.limitProp.push({key:"Shape",val:"Rectangle"})}
+            if (limit_markup[_i].includes("fill")) {
+                var backgd=limit_markup[_i].split("=")[1].replace(new RegExp("[^(a-zA-Z)]", "g"), '');
+                this.limitProp.push({key:"Background",val:backgd})
 
             }
 
+        }
 
-
-
+}
 
         }
 
@@ -74,17 +82,13 @@ export class PropertiesComponent implements OnChanges{
 
         /*********haifa :p *****/
         if(this.selectedElement){
-<<<<<<< HEAD
+
             this.test =this.selectedElement.name;
             this.getNodeSettings();
             this.tree = this.createKeysFromJson(this.selectedElement.jsonElement, "");
         }
-        //else{      this.test = "hoho" + this.nbChanges++;}
-=======
 
-            this.getNodeSettings()
-        }
->>>>>>> e5e270c6a802323c6da4331c7eb8823c9630f527
+
 
 
 

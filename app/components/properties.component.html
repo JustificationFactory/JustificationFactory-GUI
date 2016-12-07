@@ -4,7 +4,39 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../../css/bootstrap.min.css" >
     <link rel="stylesheet" href="../../css/app.css" >
+<script>
+    window.onload=function(){
+        var output = "collapse";
+        var outputref="#collapse";
+        var i=1;
+        outputref=outputref+i.toString();
+         output=output+i.toString();
+                        i++;
+    };
+    // on initialise 2 variables qui nous permettront d'envoyer la couleur dans le bon champ.
 
+    champ="";
+    formulaire="";
+
+    function ouvrir_palette(formulaire_recupere,champ_recupere)
+    {
+
+        formulaire=formulaire_recupere;
+        champ=champ_recupere;
+
+        ma_palette=window.open("colorLab.html","Palette_de_couleur","height=380,width=400,status=0, scrollbars=0,,menubar=0");
+        // on ouvre la palette
+
+    }
+
+    function valid_couleur(couleur) //fonction appelée lorsqu'on valide la palette. On récupère la couleur.
+    {
+
+        document.forms[formulaire].elements[champ].value=couleur;
+
+    }
+
+</script>
     <style>
         nav {
             background-color:#bcd;
@@ -24,42 +56,100 @@
         .businessProperty{
             text-overflow: clip;
         }
+        div.view{
+            height : 30em;
+            overflow: auto;
+        }
+        table.view{
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+
+        .viewProperty{
+            text-overflow: clip;
+        }
     </style>
 </head>
 <body>
 <nav class="col-sm-12">
     <div class="panel panel-primary">
-    <!-- Default panel contents -->
-    <div class="panel-heading text-center"><h3>Properties View </h3></div>
-
-        <!-- Table -->
-        <table class="table table table-striped">
-            <tbody>
-            <tr *ngFor="let nodeProp of map">
-               <h4> <td >{{nodeProp.key}} : {{nodeProp.val}}</td></h4>
-            </tr>
-            </tbody>
-        </table>
+        <!-- Default panel contents -->
 
 
+        <div class="panel-heading text-center"><label>Properties View </label></div>
+        <div class="view">
+                      <div class="panel-group" id="accordion">
+                <div class="panel panel-default" >
+                    <div class="panel-heading" >
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                <label >{{node}} </label></a>
+                        </h4>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse in">
+                        <div class="panel-body">
 
+                            <table class="table table table-striped   view">
+                                <tbody>
+                                <tr class="viewProperty"  *ngFor="let nodeProp of map">
+                                    <td > <label >{{nodeProp.key}} </label>: {{nodeProp.val}}</td>
+                                </tr>
+                                <div class="form-group">
+                                    <label for="sel1">Select list:</label>
+                                    <select class="form-control" id="sel1">
+                                        <option selected="selected">Line continue</option>
+                                        <option >line discontinue</option>
 
+                                    </select>
+                                </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+</div>
+            <div class="panel-group" id="accordion1">
+            <div class="panel panel-default"  *ngFor="let limitname of limitList" >
+                    <div class="panel-heading" >
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="collapse">
+                                {{limitname.key}}:{{limitname.val}}</a>
+                        </h4>
+                    </div>
+                    <div id="collapse" class="panel-collapse collapse in">
+                        <div class="panel-body">
+
+                            <table class="table table table-striped   view">
+                                <tbody>
+                                <tr class="viewProperty" *ngFor="let x of limitProp">
+                                    <td > <label >{{x.key}} </label>: {{x.val}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
 
         <!-- Default panel contents -->
-    <div class="panel-heading text-center">Properties</div>
+        <div class="panel-heading text-center">Properties</div>
         <!-- <input #refreshProperties type="button" (click)="onRefresh($event)"/>-->
-    <!-- Table -->
-    <div class="businessProperties">
-        <table class="table table table-striped businessProperties">
-            <tbody >
+        <!-- Table -->
+        <div class="businessProperties">
+            <table class="table table table-striped businessProperties">
+                <tbody >
                 <tr class="businessProperty" *ngFor="let entry of tree">
                     <td>{{entry.key}} : {{entry.value}}</td>
                 </tr>
-           </tbody>
-            <!--{{test}}-->
-       </table>
+                </tbody>
+                <!--{{test}}-->
+            </table>
+        </div>
     </div>
-</div>
+
 </nav>
 <script src="../../js/jquery-1.12.4.min.js"></script>
 <script src="../../js/bootstrap.min.js" ></script>
