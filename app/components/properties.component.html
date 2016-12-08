@@ -107,16 +107,16 @@
                         </div>
                     </div>
                 </div>
-</div>
-            <div class="panel-group" id="accordion1">
+
+
             <div class="panel panel-default"  *ngFor="let limitname of limitList" >
                     <div class="panel-heading" >
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="collapse">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
                                 {{limitname.key}}:{{limitname.val}}</a>
                         </h4>
                     </div>
-                    <div id="collapse" class="panel-collapse collapse in">
+                    <div id="collapse2" class="panel-collapse collapse in">
                         <div class="panel-body">
 
                             <table class="table table table-striped   view">
