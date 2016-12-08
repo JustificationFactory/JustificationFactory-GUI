@@ -43,10 +43,10 @@
             border-radius: 15px;
             padding: 0 !important;
             border: 1px solid #ddd;
-            height: 400px;
+            height: 15em;
         }
         div.businessProperties{
-            height : 30em;
+            height : 20em;
             overflow: auto;
         }
         table.businessProperties{
@@ -57,7 +57,7 @@
             text-overflow: clip;
         }
         div.view{
-            height : 30em;
+            height : 20em;
             overflow: auto;
         }
         table.view{
@@ -94,14 +94,14 @@
                                 <tr class="viewProperty"  *ngFor="let nodeProp of map">
                                     <td > <label >{{nodeProp.key}} </label>: {{nodeProp.val}}</td>
                                 </tr>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="sel1">Select list:</label>
                                     <select class="form-control" id="sel1">
                                         <option selected="selected">Line continue</option>
                                         <option >line discontinue</option>
 
                                     </select>
-                                </div>
+                                </div>-->
                                 </tbody>
                             </table>
                         </div>

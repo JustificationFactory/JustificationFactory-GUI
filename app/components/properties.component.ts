@@ -15,10 +15,10 @@ import { Subject }    from 'rxjs/Subject';
 })
 export class PropertiesComponent implements OnChanges{
     /*******************************************visual settings******************************************************************************/
-    @Input() node="test"
-    @Input() map=[{key: "a", val: "b"}]
-    @Input() limitList=[{key: "a", val: "b"}]
-    @Input() limitProp=[{key: "a", val: "b"}]
+    @Input() node=""
+    @Input() map=[]
+    @Input() limitList=[]
+    @Input() limitProp=[]
     private  getNodeSettings()
     {this.map=[]
         this.node=[]
@@ -96,13 +96,13 @@ if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
     /**************************************************************Properties****************************************************************************/
     @Input() test: string = "achraf";
     //@ViewChild('refreshProperties') refreshProperties : ElementRef;
-    tree : any = this.tree = [{key: "a", value: "b"}];
+    tree : any = this.tree = [];
     nbChanges = 0;
 
 
 
     constructor(private renderer:Renderer){
-        this.tree = [{key: "a", value: "b"}];
+        this.tree = [];
     }
     private json : any = {
         a : "a",
