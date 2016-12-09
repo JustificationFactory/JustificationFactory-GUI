@@ -45,7 +45,6 @@ export class MainComponent  implements OnInit, AfterViewInit {
         console.log(this.importFileReader.result.substring(0, 200));
         var json : any = JSON.parse(this.importFileReader.result);
 
-        //TODO: Load JointJS diagram
         var parse : ParseJson2DiagramElements = new ParseJson2DiagramElements(json);
 
         var listElements = parse.getDiagramElements();
@@ -72,7 +71,6 @@ export class MainComponent  implements OnInit, AfterViewInit {
         event.preventDefault();
 
         //new PDFDocument({compress: false}); // It's easier to find bugs with uncompressed files
-        //TODO: , margin: 10 ==> Don't work !
         var doc = new PDFDocument({ size: 'A4', layout: 'portrait' });
         var stream = doc.pipe(new blobStream());
 

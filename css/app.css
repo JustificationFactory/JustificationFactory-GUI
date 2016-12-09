@@ -6,3 +6,8 @@ body {
     font-size: 1.2em;
     color: white;
 }
+
+#ruler {
+    visibility: hidden;
+    white-space: nowrap;
+}

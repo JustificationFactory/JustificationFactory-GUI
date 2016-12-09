@@ -43,7 +43,7 @@ export class DiagramComponent{
                 height: 620,
                 model: DiagramComponent._graph,
                 gridSize: 1,
-                interactive: false
+                interactive: true
             });
 
             DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
@@ -58,8 +58,8 @@ export class DiagramComponent{
             cells.push(el.visualShape);
 
             for(var artifact of el.artifacts){
-                cells.push(artifact.visualShape);
                 if(artifact.behavior == Behavior.Near){
+                    cells.push(artifact.visualShape);
                     cells.push(artifact.makeLinkWithParent(el).visualShape);
                 }
             }
