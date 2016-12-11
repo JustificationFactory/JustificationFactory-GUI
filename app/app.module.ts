@@ -12,12 +12,15 @@ import { EditToolbarComponent } from './components/edit.toolbar.component';
 import { PropertiesComponent } from './components/properties.component';
 import { DiagramComponent } from './components/diagram.component';
 import { MainComponent } from './components/main.component';
+import {PaletteComponent} from './components/palette.component'
+import {DialogAnchorDirective} from './components/dialoganchor.directive';
 
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule
+        HttpModule,
+
     ],
     declarations: [
         KeysPipe,
@@ -26,7 +29,8 @@ import { MainComponent } from './components/main.component';
         PropertiesComponent,
         DiagramComponent,
         MainComponent
-
+        PaletteComponent,
+        DialogAnchorDirective
 
     ],
     providers: [
@@ -35,6 +39,7 @@ import { MainComponent } from './components/main.component';
         PropertiesComponent,
         DiagramComponent,
         MainComponent,
+        PaletteComponent,
         Renderer
     ],
     bootstrap: [
