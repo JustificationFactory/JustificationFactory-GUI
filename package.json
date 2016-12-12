@@ -1,7 +1,7 @@
 {
   "name": "argumentation-webserver",
   "version": "0.0.1",
-    "scripts": {
+  "scripts": {
     "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
@@ -21,12 +21,13 @@
     "@angular/upgrade": "~2.2.0",
     "angular-in-memory-web-api": "~0.1.15",
     "core-js": "^2.4.1",
+    "dagre": "~0.7.0",
+    "jointjs": "~1.0.0",
+    "ng2-tree": "^1.0.0",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.40",
-    "zone.js": "^0.6.25",
-    "dagre": "~0.7.0",
-    "jointjs" : "~1.0.0"
+    "zone.js": "^0.6.25"
   },
   "devDependencies": {
     "concurrently": "^3.1.0",
@@ -34,9 +35,7 @@
     "typescript": "^2.0.3",
     "typings": "^0.6.8",
     "@types/core-js": "^0.9.34",
-    "@types/dagre" : "~0.7.0",
-    "@types/jointjs" : "~1.0.0"
+    "@types/dagre": "~0.7.0",
+    "@types/jointjs": "~1.0.0"
   }
 }
-
-

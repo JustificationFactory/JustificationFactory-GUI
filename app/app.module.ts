@@ -17,7 +17,7 @@ import { MainComponent } from './components/main.component';
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule
+        HttpModule,
     ],
     declarations: [
         KeysPipe,
@@ -25,8 +25,7 @@ import { MainComponent } from './components/main.component';
         EditToolbarComponent,
         PropertiesComponent,
         DiagramComponent,
-        MainComponent
-
+        MainComponent,
 
     ],
     providers: [
@@ -35,7 +34,7 @@ import { MainComponent } from './components/main.component';
         PropertiesComponent,
         DiagramComponent,
         MainComponent,
-        Renderer
+        Renderer,
     ],
     bootstrap: [
         MainComponent

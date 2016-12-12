@@ -85,7 +85,7 @@ if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
 
             this.test =this.selectedElement.name;
             this.getNodeSettings();
-            this.tree = this.createKeysFromJson(this.selectedElement.jsonElement, "");
+            this.tree = this.addGroups(this.createKeysFromJson(this.selectedElement.jsonElement, ""));
         }
 
 
@@ -145,17 +145,6 @@ if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
 
     }
 
-    private static createMapFromJson(json : any) : any[] {
-        let keys = [];
-        keys.push({key: "a", value: json.a});
-        keys.push({key: "b", value: json.b});
-        for (var element  of json.c){
-            keys.push({key: "c.d.e", value: json.c[0].d.e});
-            keys.push({key: "c.d.f", value: json.c[0].d.f});
-        }
-        return keys;
-    }
-
     private  createKeysFromJson(json : any, key : string) : any[] {
 
         let keys = [];
@@ -172,9 +161,7 @@ if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
                     else{
                         subKey = i;
                     }
-
                 }
-
                 if(typeof  val === 'object'){
                     keys = keys.concat(x.createKeysFromJson(val, key + subKey))
                 }
@@ -185,5 +172,64 @@ if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
             });
         }
         return keys;
+    }
+
+    private removeUnusedKeys(keys : any){
+        keys.forEach( function (arrayItem)
+        {
+            //remove array numbers
+            arrayItem.key = arrayItem.key.replace(/\[\w*\]/g,"");
+
+            //remove elements with $
+            if(arrayItem.key.indexOf("$") !== -1){
+                var index = keys.indexOf(arrayItem);
+                if (index > -1) {
+                    keys.splice(index, 1);
+                }
+            }
+        });
+        return keys;
+    }
+
+    private addGroups(keys : any){
+        let properties = [];
+
+        var i=0;
+        var group1 = {
+            label : "Group1",
+            elements : []
+        };
+        var group2 = {
+            label : "Group2",
+            elements : []
+        };
+        keys.forEach( function (arrayItem)
+        {
+            //remove elements with $
+            if(arrayItem.key.indexOf("$") !== -1){
+                var index = keys.indexOf(arrayItem);
+                if (index > -1) {
+                    keys.splice(index, 1);
+                }
+                return;
+            }
+
+            //group is Mock
+            if(i< keys.length / 2)
+                group1.elements.push({
+                    key: arrayItem.key,
+                    viewKey: arrayItem.key.replace(/\[\w*\]/g,""),
+                    value: arrayItem.value
+                });
+            else
+                group2.elements.push({
+                    key: arrayItem.key,
+                    viewKey: arrayItem.key.replace(/\[\w*\]/g,""),
+                    value: arrayItem.value
+                });
+            i = i + 1;
+        });
+        properties.push(group1,group2);
+        return properties;
     }
 }
