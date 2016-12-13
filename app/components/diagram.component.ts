@@ -14,21 +14,14 @@ import '../services/diagram';
 export class DiagramComponent{
     private static _graph: joint.dia.Graph;
     private static _paper: joint.dia.Paper;
-    private static _editToolbarComponent: EditToolbarComponent;
-    private static _actionsToolbarComponent: ActionsToolbarComponent;
-    private static _propertiesComponent: PropertiesComponent;
 
-    _graphScale : number =1 ;
+    _initialPaperWidth : number = 850 ;
+    _initialPaperHeight : number = 620 ;
+    _graphScale : number = 1 ;
     selectedElement = null;
 
-    constructor(editToolbarComponent: EditToolbarComponent,
-                actionsToolbarComponent: ActionsToolbarComponent,
-                propertiesComponent: PropertiesComponent
-                ) {
+    constructor() {
 
-        DiagramComponent._editToolbarComponent = editToolbarComponent;
-        DiagramComponent._actionsToolbarComponent = actionsToolbarComponent;
-        DiagramComponent._propertiesComponent = propertiesComponent;
     }
 
     public showDiagram(elements: DiagramElement[]){
@@ -39,17 +32,19 @@ export class DiagramComponent{
         if (!DiagramComponent._paper) {
             DiagramComponent._paper = new joint.dia.Paper({
                 el: $('#myholder'),
-                width: 850,
-                height: 620,
+                width: this._initialPaperWidth,
+                height: this._initialPaperHeight,
                 model: DiagramComponent._graph,
                 gridSize: 1,
-                interactive: false
+                interactive: true
             });
 
             DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
         }
 
         $('#myholder').replaceWith(DiagramComponent._paper.el);
+
+        this.resetZoom();
 
         // construction des artifacts à partir de JSON
         // add artifacts de graph
@@ -58,8 +53,8 @@ export class DiagramComponent{
             cells.push(el.visualShape);
 
             for(var artifact of el.artifacts){
-                cells.push(artifact.visualShape);
                 if(artifact.behavior == Behavior.Near){
+                    cells.push(artifact.visualShape);
                     cells.push(artifact.makeLinkWithParent(el).visualShape);
                 }
             }
@@ -110,23 +105,33 @@ export class DiagramComponent{
         if (this._previousHighlightingCel)
             this._previousHighlightingCel.unhighlight();
 
+        this.resetZoom();
+
         return $('#myholder').html();
     }
 
 
-    public zoom(a,b) {
-        DiagramComponent._paper.scale(a,b);
+    public refreshPaper() {
+        DiagramComponent._paper.scale(this._graphScale,this._graphScale);
+        (DiagramComponent._paper.svg as any).width.baseVal.valueInSpecifiedUnits = this._initialPaperWidth * this._graphScale;
+        (DiagramComponent._paper.svg as any).height.baseVal.valueInSpecifiedUnits = this._initialPaperHeight * this._graphScale;
     };
 
     public zoomOut() {
         this._graphScale -= 0.1;
-        this.zoom(this._graphScale, this._graphScale);
+        this.refreshPaper();
+
     };
 
     public zoomIn() {
         this._graphScale += 0.1;
-        this.zoom(this._graphScale, this._graphScale);
+        this.refreshPaper();
     };
+
+    public resetZoom() {
+        this._graphScale = 1;
+        this.refreshPaper();
+    }
 }
 
 

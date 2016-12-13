@@ -4,39 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../../css/bootstrap.min.css" >
     <link rel="stylesheet" href="../../css/app.css" >
-<script>
-    window.onload=function(){
-        var output = "collapse";
-        var outputref="#collapse";
-        var i=1;
-        outputref=outputref+i.toString();
-         output=output+i.toString();
-                        i++;
-    };
-    // on initialise 2 variables qui nous permettront d'envoyer la couleur dans le bon champ.
 
-    champ="";
-    formulaire="";
-
-    function ouvrir_palette(formulaire_recupere,champ_recupere)
-    {
-
-        formulaire=formulaire_recupere;
-        champ=champ_recupere;
-
-        ma_palette=window.open("colorLab.html","Palette_de_couleur","height=380,width=400,status=0, scrollbars=0,,menubar=0");
-        // on ouvre la palette
-
-    }
-
-    function valid_couleur(couleur) //fonction appelée lorsqu'on valide la palette. On récupère la couleur.
-    {
-
-        document.forms[formulaire].elements[champ].value=couleur;
-
-    }
-
-</script>
     <style>
         nav {
             background-color:#bcd;
@@ -77,6 +45,8 @@
 <nav class="col-sm-12">
     <div class="panel panel-primary">
         <!-- Default panel contents -->
+        <div dialogAnchor></div>
+        <div class="open-button" (click)='openDialogBox()'>Edit</div>
 
 
         <div class="panel-heading text-center"><label>Properties View </label></div>

@@ -1,11 +1,14 @@
-import {Component, Input, Renderer, ElementRef, ViewChild, SimpleChanges, OnChanges} from '@angular/core';
+import {Component, Input, Renderer, ViewChild, SimpleChanges, OnChanges} from '@angular/core';
 import  '../services/diagram';
 import { Subject }    from 'rxjs/Subject';
-
+import {PaletteComponent} from './palette.component';
+import {DialogAnchorDirective} from './dialoganchor.directive';
 @Component({
     //moduleId: module.id,
     selector: 'properties-view',
     templateUrl: 'app/components/properties.component.html',
+
+    entryComponents: [PaletteComponent]
     //styleUrls: ['./css/app.css']
     /*    host: {
      "(document: click)": "onRefresh( $event )",
@@ -14,11 +17,20 @@ import { Subject }    from 'rxjs/Subject';
      }*/
 })
 export class PropertiesComponent implements OnChanges{
+
+
+
+    @ViewChild(DialogAnchorDirective) dialogAnchor: DialogAnchorDirective;
+
+    openDialogBox() {
+        this.dialogAnchor.createDialog(PaletteComponent);
+    }
+
     /*******************************************visual settings******************************************************************************/
-    @Input() node=""
-    @Input() map=[]
-    @Input() limitList=[]
-    @Input() limitProp=[]
+    @Input() node="test"
+    @Input() map=[{key: "a", val: "b"}]
+    @Input() limitList=[{key: "a", val: "b"}]
+    @Input() limitProp=[{key: "a", val: "b"}]
     private  getNodeSettings()
     {this.map=[]
         this.node=[]
@@ -37,30 +49,29 @@ export class PropertiesComponent implements OnChanges{
                 this.map.push({key:"Shape",val:"parallélogramme"})
             }
             else{
-            this.map.push({key:"Shape",val:this.selectedElement.visualShape.attributes.attrs.path.d})}
+                this.map.push({key:"Shape",val:this.selectedElement.visualShape.attributes.attrs.path.d})}
             this.map.push({key:"Background",val:this.selectedElement.visualShape.attributes.attrs.path.fill})
             this.map.push({key:"Border color",val:this.selectedElement.visualShape.attributes.attrs.path.stroke})
         }
-if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
-      for(var _j = 0; _j < (Object.keys(this.selectedElement.visualShape.portData.ports)).length; _j++ ){
-            this.limitList.push({key:"Limit["+_j.toString()+"]",val:this.selectedElement.visualShape.portData.ports[_j].id})
+        if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
+            for(var _j = 0; _j < (Object.keys(this.selectedElement.visualShape.portData.ports)).length; _j++ ){
+                this.limitList.push({key:"Limit["+_j.toString()+"]",val:this.selectedElement.visualShape.portData.ports[_j].id})
             }
 
-        var limit_markup=this.selectedElement.visualShape.portData.ports[0].markup.split(' ');
-        for(var _i = 0; _i< limit_markup.length; _i++ ){
-            if (limit_markup[_i].includes("rect")) { this.limitProp.push({key:"Shape",val:"Rectangle"})}
-            if (limit_markup[_i].includes("fill")) {
-                var backgd=limit_markup[_i].split("=")[1].replace(new RegExp("[^(a-zA-Z)]", "g"), '');
-                this.limitProp.push({key:"Background",val:backgd})
+            var limit_markup=this.selectedElement.visualShape.portData.ports[0].markup.split(' ');
+            for(var _i = 0; _i< limit_markup.length; _i++ ){
+                if (limit_markup[_i].includes("rect")) { this.limitProp.push({key:"Shape",val:"Rectangle"})}
+                if (limit_markup[_i].includes("fill")) {
+                    var backgd=limit_markup[_i].split("=")[1].replace(new RegExp("[^(a-zA-Z)]", "g"), '');
+                    this.limitProp.push({key:"Background",val:backgd})
+
+                }
 
             }
 
         }
 
-}
-
-        }
-
+    }
 
 
     /******************************************* used by visual settings && Properties******************************************************************************/
@@ -102,6 +113,7 @@ if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
 
 
     constructor(private renderer:Renderer){
+
         this.tree = [];
     }
     private json : any = {

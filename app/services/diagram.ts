@@ -69,72 +69,30 @@ class LinkElement extends DiagramElement {
         this.targetElement = newElement;
         this.visualShape.attributes.target.id = newElement.visualShape.id;
     }
- }
+}
+
 class Support extends DiagramElement {
     artifacts: Array<Artifact>;
 
     constructor(public conclusion: Conclusion, public evidence: Evidence) {
         super(conclusion.name, conclusion.jsonElement, conclusion.type);
+
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
-            size: { width: Util.getElementWidthFromTextLength(conclusion.name), height: Util.getElementHeightFromTextLength(conclusion.name) },
+            size: { width: Util.getElementWidthFromTextLength(conclusion.name), height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#CCCC00 ', rx: 5, ry: 10  }, text: { text: conclusion.name, fill: 'black' } }
-
         });
+
+        this.artifacts = Util.getLimitationsFromJson(conclusion.jsonElement, this);
         (this.visualShape as any).parent = this;
 
-        if(this.jsonElement.hasOwnProperty("limits")){
-
-            if((Object.keys(this.jsonElement.limits[0])).length<= 2){
-                var x=this.visualShape.attributes.position.x;
-                var w=Util.getElementWidthFromTextLength(conclusion.name);
-                var h=this.visualShape.attributes.height;
-                var y=this.visualShape.attributes.position.y;
-                var i=0;
-                var ports;
-                for(var limit of (Object.keys(this.jsonElement.limits[0]))) {
-                    x=(this.visualShape.attributes.position.x-Util.getElementWidthFromTextLength(limit)/2)-4;
-                    this.artifacts.push(new Limitation(limit, this.jsonElement.limits[0][limit], "type"))
-                    if(i>0){
-                        x=x+w*1.4;
-                        i++;}
-                    else{ i++;}
-                    var x1=x-15
-                    var   y1=y-15
-                    var wlimit=Util.getElementWidthFromTextLength(limit)-10
-                    var rect= '<rect width="'+wlimit.toString()+'" height="25" stroke="black" fill="red" x="'+ x1.toString()+'" y="'+y1.toString()+'" >'+' </rect>'
-                    var port = {
-                        id: limit,
-                        group: 'a',
-                        args: {},
-                        label: {
-                            position: {
-                                name : 'manual',
-                                args: {
-                                    x: x,
-                                    y: y,
-                                    angle: 0,
-                                    attrs: { }
-                                }
-                            }
-                        },
-                        attrs: { rect: { fill: '#DF0606 ', rx: 5, ry: 10}, text: { text: limit, fill: 'white' }},
-                        markup: rect
-                    };
-
-                    if(i==1){
-                        ports=[port];}
-                    else{ ports.push(port);}
-
-                };
-
-                (this.visualShape as any).addPorts(ports);
-            }
-        } else {}
+        if (this.artifacts.length > 0) {
+            this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
+            this.visualShape.attributes.attrs.text.y = 0;
+        }
     }
-
-
 }
+
 class Conclusion extends DiagramElement {
     artifacts: Array<Artifact>;
     constructor(name: string, jsonElement: any, type: string) {
@@ -143,66 +101,18 @@ class Conclusion extends DiagramElement {
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'black' } },
-            ports: {
-
-            }
+            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'black'} }
         })
-        this.artifacts = new Array<Artifact>();
+
+        this.artifacts = Util.getLimitationsFromJson(jsonElement, this);
         (this.visualShape as any).parent = this;
 
-        if(this.jsonElement.hasOwnProperty("limits")){
-
-            if((Object.keys(this.jsonElement.limits[0])).length<= 2){
-                var x=this.visualShape.attributes.position.x;
-                var w=Util.getElementWidthFromTextLength(name);
-                var h=this.visualShape.attributes.height;
-                var y=this.visualShape.attributes.position.y;
-                var i=0;
-                var ports;
-                for(var limit of (Object.keys(this.jsonElement.limits[0]))) {
-                    x=(this.visualShape.attributes.position.x-Util.getElementWidthFromTextLength(limit)/2)-4;
-                    this.artifacts.push(new Limitation(limit, this.jsonElement.limits[0][limit], "type"))
-                    if(i>0){
-                        x=x+w*1.4;
-                        i++;}
-                    else{ i++;}
-                    var x1=x-15
-                    var   y1=y-15
-                    var wlimit=Util.getElementWidthFromTextLength(limit)-10
-                    var rect= '<rect width="'+wlimit.toString()+'" height="25" stroke="black" fill="red" x="'+ x1.toString()+'" y="'+y1.toString()+'" >'+' </rect>'
-                    var port = {
-                        id: limit,
-                        group: 'a',
-                        args: {},
-                        label: {
-                            position: {
-                                name : 'manual',
-                                args: {
-                                    x: x,
-                                    y: y,
-                                    angle: 0,
-                                    attrs: { }
-                                }
-                            }
-                        },
-                        attrs: { rect: { fill: '#DF0606', rx: 5, ry: 10}, text: { text: limit, fill: 'white' }},
-                        markup: rect
-                    };
-
-                    if(i==1){
-                        ports=[port];}
-                    else{ ports.push(port);}
-
-                };
-
-                (this.visualShape as any).addPorts(ports);
-            }
-        } else {}
+        if (this.artifacts.length > 0) {
+            this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
+            this.visualShape.attributes.attrs.text.y = 0;
+        }
     }
-
 }
-
 
 class Evidence extends DiagramElement {
     artifacts: Array<Artifact>;
@@ -234,7 +144,7 @@ class Strategy extends DiagramElement {
         (this.visualShape as any).parent = this;
     }
 
-    private createArtifactsFromJson(){
+    private createArtifactsFromJson() : Array<Artifact> {
         var actor = new Actor(this.jsonElement.actor[0].name[0],this.jsonElement.actor[0], this.jsonElement.actor[0].role[0]);
         var rationale = new Rationale("",this.jsonElement.rationale[0],"");
 
@@ -273,16 +183,144 @@ class Artifact extends DiagramElement {
 }
 
 class Limitation extends Artifact{
-    constructor(name: string, jsonElement: any, type: string) {
+    constructor(name: string, jsonElement: any, type: string, parentElement: DiagramElement, index: number) {
         super(name, jsonElement, type);
         this.behavior = Behavior.Embeded;
-        this.visualShape = new joint.shapes.basic.Rect({
-            id: Util.getNewGuid(),
-            //size: { width: width, height: height },
-            attrs: { rect: { fill: '#DF0606' }, text: { text: name, fill: 'white' } }
-        });
+
+        // A port haven't got a "visual shape"
+
+        var widthRect = Util.getElementWidthFromTextLength(name);
+        var xRect = 0;
+        var yRect = 0;
+        var xEcartFromMiddle = 18;
+        var yLabel = 0;
+
+        //TODO: Find how to remove port transformation (matrix...)
+        // "y" of rectangle must be 25 after transformation
+        // "y" of rectangle's label must be 42 after transformation
+
+        switch (index) {
+            case 0:
+                //For the first limitation
+                //transformation applies to the port:
+                //      Limitation #1 : transform="matrix(1 0 0 1 0 22)" => y : + 22
+
+                //We end the first limitation's rectangle just before the middle of the conclusion
+                if (widthRect > ((parentElement.visualShape.attributes.size.width / 2) - xEcartFromMiddle)) {
+                    //if rectangle of the first port is greater than the half of the conclusion
+                    //x position shift to the left
+                    xRect = -(widthRect - (parentElement.visualShape.attributes.size.width / 2) + xEcartFromMiddle);
+                }
+                else
+                    xRect = (parentElement.visualShape.attributes.size.width / 2) - xEcartFromMiddle - widthRect;
+
+                yRect = 3; // 22 + 3 = 25
+                yLabel = 20; // 22 + 20 = 42
+                break;
+
+            case 1 :
+                //For the second limitation
+                //transformation applies to the port:
+                //      Limitation #1 : transform="matrix(1 0 0 1 0 11)" => y : + 11
+                //      Limitation #2 : transform="matrix(1 0 0 1 0 33)" => y : + 33
+
+                //We begin the second limitation's rectangle just after the middle of the conclusion
+                if ((parentElement.visualShape as any).portData.ports[0].attrs.rect.width > ((parentElement.visualShape.attributes.size.width / 2) - xEcartFromMiddle)) {
+                    //if rectangle of the first port is greater than the half of the conclusion
+                    //x position shift to the left
+                    xRect = (parentElement.visualShape as any).portData.ports[0].attrs.rect.x
+                            + (parentElement.visualShape as any).portData.ports[0].attrs.rect.width
+                            + (xEcartFromMiddle * 2);
+                }
+                else
+                    xRect = (parentElement.visualShape.attributes.size.width / 2) + xEcartFromMiddle;
+
+                yRect = -8; // 33 - 8 = 25
+                yLabel = 9; // 33 + 9 = 42
+                break;
+
+            case 2 :
+                //For the third limitation (and so on...)
+                //transformation applies to the port:
+                //      Limitation #1 : transform="matrix(1 0 0 1 0 7)"  => y : + 7
+                //      Limitation #2 : transform="matrix(1 0 0 1 0 22)" => y : + 22
+                //      Limitation #3 : transform="matrix(1 0 0 1 0 37)" => y : + 37
+
+                //just show '...' instead of the real name, to indicate there are more than 2 limitations
+                name = '...';
+                widthRect = 30;
+                var xMargeOtherLimitations = 3;
+
+                //We put the third limitation's rectangle at the middle middle of the conclusion
+                if ((parentElement.visualShape as any).portData.ports[0].attrs.rect.width > ((parentElement.visualShape.attributes.size.width / 2) - xEcartFromMiddle)) {
+                    //if rectangle of the first port is greater than the half of the conclusion
+                    //x position shift to the left
+                    xRect = (parentElement.visualShape as any).portData.ports[0].attrs.rect.x
+                            + (parentElement.visualShape as any).portData.ports[0].attrs.rect.width
+                            + xMargeOtherLimitations;
+                }
+                else
+                    xRect = (parentElement.visualShape.attributes.size.width / 2) - (xEcartFromMiddle - xMargeOtherLimitations);
+
+                yRect = -12; // 37 - 12 = 25
+                yLabel = 2; // 37 + 2 = 39 (42 - 3 => for vertical alignment of "...")
+                break;
+
+            default :
+                //no more limitations are accepted
+        }
+
+        var nameLength = $('#ruler').html(name).width();
+        var xLabel = xRect + ((widthRect - nameLength) / 2);
+
+        if (index < 3) {
+            var port = {
+                id: Util.getNewGuid(),
+                label: {
+                    position: {
+                        name: 'manual',
+                        args: {
+                            x: xLabel,
+                            y: yLabel,
+                        }
+                    }
+                },
+                markup: 'rect',
+                attrs: {
+                    rect: {
+                        fill: '#DF0606',
+                        rx: 5,
+                        ry: 10,
+                        x: xRect,
+                        y: yRect,
+                        width: widthRect,
+                        height: 25,
+                        stroke: 'black'
+                    },
+                    text: {
+                        text: name,
+                        fill: 'white',
+                    }
+                }
+            };
+
+            (parentElement.visualShape as any).addPorts([port]);
+
+            //we must change "y" of previous ports after addPort, otherwise "y" re-switch to previous value
+            if ((parentElement.visualShape as any).portData.ports.length == 2) {
+                (parentElement.visualShape as any).portData.ports[0].attrs.rect.y = 14; // 11 + 14 = 25
+                (parentElement.visualShape as any).portData.ports[0].label.position.args.y = 31; // 11 + 31 = 42
+            }
+            else if ((parentElement.visualShape as any).portData.ports.length == 3) {
+                (parentElement.visualShape as any).portData.ports[0].attrs.rect.y = 18; // 7 + 18 = 25
+                (parentElement.visualShape as any).portData.ports[0].label.position.args.y = 35; // 7 + 35 = 42
+                (parentElement.visualShape as any).portData.ports[1].attrs.rect.y = 3; // 22 + 3 = 25
+                (parentElement.visualShape as any).portData.ports[1].label.position.args.y = 20; // 22 + 20 = 42
+            }
+        }
     }
 }
+
 class Rationale extends Artifact{
     constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
@@ -295,6 +333,7 @@ class Rationale extends Artifact{
         });
     }
 }
+
 class Actor extends Artifact{
     constructor(name: string, jsonElement: any, role: string) {
         super(name, jsonElement, role);
@@ -308,6 +347,7 @@ class Actor extends Artifact{
         });
     }
 }
+
 class ForEach extends Artifact{
     constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
@@ -317,13 +357,9 @@ class ForEach extends Artifact{
 
 class Util{
     static getElementWidthFromTextLength(name: string){
-        var maxLineLength = _.max(name.split('\n'), function(l) { return l.length; }).length;
-        // Compute width/height of the rectangle based on the number
-        // of lines in the label and the letter size. 0.6 * letterSize is
-        // an approximation of the monospace font letter width.
-        var letterSize = 8;
-        var width = 2 * (letterSize * (0.6 * maxLineLength + 1));
-        return width;
+        var maxLine = _.max(name.split('\n'), function(l) { return l.length; });
+        var maxLineWidth = $('#ruler').html(maxLine).width();
+        return maxLineWidth + 40;;
     }
 
     static getElementHeightFromTextLength(name: string){
@@ -336,6 +372,8 @@ class Util{
         return height;
     }
 
+    static HeightToAddIfArtifactEmbeded : number = 12;
+
     static getNewGuid() : String {
         function S4() {
             return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -343,6 +381,19 @@ class Util{
 
         // then to call it, plus stitch in '4' in the third group
         return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+    }
+
+    static getLimitationsFromJson(jsonElement: any, parentElement: DiagramElement) : Array<Artifact> {
+        var artifacts = new Array<Artifact>();
+        var index = 0;
+
+        if(jsonElement.hasOwnProperty("limits")){
+            for(var limit of Object.keys(jsonElement.limits[0])) {
+                artifacts.push(new Limitation(limit, jsonElement.limits[0][limit], "", parentElement, index++))
+            };
+        }
+
+        return artifacts;
     }
 
     static getSVGActorImage(actorType: string) : string {
@@ -381,7 +432,7 @@ class Util{
                         </g>`;
         }
 
-        result += '</svg> <text x="0" y="100" font-size="14"></text>'; //this works like a template for actor name !
+        result += '</svg> <text x="-10" y="100" font-size="14"></text>'; //this works like a template for actor name !
 
         return result;
     }
