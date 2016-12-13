@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+
 import './rxjs-extensions';
 
 import { KeysPipe } from './pipes/KeysPipe';
@@ -14,12 +15,11 @@ import { DiagramComponent } from './components/diagram.component';
 import { MainComponent } from './components/main.component';
 import {PaletteComponent} from './components/palette.component';
 import {DialogAnchorDirective} from './components/dialoganchor.directive';
-
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule,
+        HttpModule
     ],
     declarations: [
         KeysPipe,

@@ -225,18 +225,19 @@ export class PropertiesComponent implements OnChanges{
                 }
                 return;
             }
-
+            var itemViewKey = arrayItem.key.replace(/\[\w*\]/g,"")
+                                            .replace(/\._/g,"");
             //group is Mock
             if(i< keys.length / 2)
                 group1.elements.push({
                     key: arrayItem.key,
-                    viewKey: arrayItem.key.replace(/\[\w*\]/g,""),
+                    viewKey: itemViewKey,
                     value: arrayItem.value
                 });
             else
                 group2.elements.push({
                     key: arrayItem.key,
-                    viewKey: arrayItem.key.replace(/\[\w*\]/g,""),
+                    viewKey: itemViewKey,
                     value: arrayItem.value
                 });
             i = i + 1;
