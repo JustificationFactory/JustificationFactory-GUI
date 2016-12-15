@@ -28,20 +28,22 @@ export class PropertiesComponent implements OnChanges{
 
     /*******************************************visual settings******************************************************************************/
     @Input() node="test"
-    @Input() map=[{key: "a", val: "b"}]
-    @Input() limitList=[{key: "a", val: "b"}]
-    @Input() limitProp=[{key: "a", val: "b"}]
+    @Input() map=[]
+    @Input() limitList=[]
+    @Input() limitProp=[]
+
+    @Input()  co="white"
+    @Input() bco="white"
     private  getNodeSettings()
     {this.map=[]
-        this.node=[]
+
         this.limitList=[]
         this.limitProp=[]
         this.node=this.selectedElement.name;
         if(this.selectedElement.visualShape.attributes.type=="basic.Rect"){
             this.map.push({key:"Shape",val:"Rectangle"})
-            this.map.push({key:"Background",val:this.selectedElement.visualShape.attributes.attrs.rect.fill})
-            this.map.push({key:"Border color",val:this.selectedElement.visualShape.attributes.attrs.rect.stroke})
-
+            this.bco=this.selectedElement.visualShape.attributes.attrs.rect.stroke;
+            this.co=this.selectedElement.visualShape.attributes.attrs.rect.fill;
 
         }
         else if(this.selectedElement.visualShape.attributes.type=="basic.Path"){
@@ -50,8 +52,9 @@ export class PropertiesComponent implements OnChanges{
             }
             else{
                 this.map.push({key:"Shape",val:this.selectedElement.visualShape.attributes.attrs.path.d})}
-            this.map.push({key:"Background",val:this.selectedElement.visualShape.attributes.attrs.path.fill})
-            this.map.push({key:"Border color",val:this.selectedElement.visualShape.attributes.attrs.path.stroke})
+
+            this.co=this.selectedElement.visualShape.attributes.attrs.path.fill
+            this.bco=this.selectedElement.visualShape.attributes.attrs.path.stroke
         }
         if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
             for(var _j = 0; _j < (Object.keys(this.selectedElement.visualShape.portData.ports)).length; _j++ ){
@@ -93,7 +96,6 @@ export class PropertiesComponent implements OnChanges{
 
         /*********haifa :p *****/
         if(this.selectedElement){
-
             this.test =this.selectedElement.name;
             this.getNodeSettings();
             this.tree = this.addGroups(this.createKeysFromJson(this.selectedElement.jsonElement, ""));

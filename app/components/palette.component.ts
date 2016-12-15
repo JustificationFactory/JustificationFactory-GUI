@@ -4,7 +4,7 @@
 import { Component ,EventEmitter} from '@angular/core';
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {DiagramComponent} from './diagram.component'
+import {PropertiesComponent} from './properties.component'
 
 
 @Component({
@@ -51,6 +51,9 @@ import {DiagramComponent} from './diagram.component'
 
 })
 export class PaletteComponent {
+ posX=860;
+ posY=120;
+
 
     close = new EventEmitter();
 
@@ -62,32 +65,27 @@ export class PaletteComponent {
 
         document.addEventListener("mousedown", this.mouseDown);
         document.addEventListener("mouseup", this.mouseUp);
+/*
         document.addEventListener("mousemove", this.mouseMove);
+*/
     }
     mouseDown = (ev: MouseEvent) => {
         this.calcul(ev);
+
     }
     mouseUp = (ev: MouseEvent) => {
         this.clic=false;this.clic2=false;
     }
-    mouseMove = (ev: MouseEvent) => {
+/*    mouseMove = (ev: MouseEvent) => {
         this.calcul(ev);
-    }
+    }*/
 
 
-
+ test=1;
     champ="";
     formulaire="";
 
-    ouvrir_palette(formulaire_recupere,champ_recupere)
-    {
 
-        this.formulaire=formulaire_recupere;
-        this.champ=champ_recupere;
-
-        var   ma_palette=window.open("/about","Palette_de_couleur","height=380,width=400,status=0, scrollbars=0,,menubar=0");
-
-    }
 
     valid_couleur(couleur)
     {
@@ -127,14 +125,18 @@ export class PaletteComponent {
 
         if(axe=="x")
         {
-            var rep=e.clientX;
+            /*var rep=e.clientX;*/
+            return (event.pageX !== undefined ? event.pageX : event.touches[0].pageX) -this.posX- window.pageXOffset;
+
         }
         else
         {
-            var rep=e.clientY;
+          /*  var rep=e.clientY;*/
+            return (event.pageY !== undefined ? event.pageY : event.touches[0].pageY) -this.posY- window.pageYOffset;
+
         }
 
-        return rep;
+      /*  return rep;*/
 
     }
 
@@ -154,54 +156,55 @@ export class PaletteComponent {
     public calcul(event)
     {
 
-        if(this.clic && this.position('y',event)<=450 && this.position('y',event)>=150)
+        if(this.clic && this.position('y',event)<=320 && this.position('y',event)>=20)
         {
-            if( document.getElementById("curseur1").style.top) this.position('y',event)-7;
-            if((this.position('y',event)-150)<=50)
+
+            document.getElementById("curseur1").style.top=this.position('y',event)-7+"px";
+            if((this.position('y',event)-20)<=50)
             {
 
                 this.r=255;
                 this.g=0;
-                this.b=Math.round((this.position('y',event)-150)*255/50);
+                this.b=Math.round((this.position('y',event)-20)*255/50);
 
             }
-            else if((this.position('y',event)-150)<=100)
+            else if((this.position('y',event)-20)<=100)
             {
 
-                this.r=Math.round(255-((this.position('y',event)-200)*255/50));
+                this.r=Math.round(255-((this.position('y',event)-70)*255/50));
                 this.g=0;
                 this.b=255;
 
             }
-            else if((this.position('y',event)-150)<=150)
+            else if((this.position('y',event)-20)<=150)
             {
 
                 this.r=0;
-                this.g=Math.round((this.position('y',event)-250)*255/50);
+                this.g=Math.round((this.position('y',event)-120)*255/50);
                 this.b=255;
 
             }
-            else if((this.position('y',event)-150)<=200)
+            else if((this.position('y',event)-20)<=200)
             {
 
                 this.r=0;
                 this.g=255;
-                this.b=Math.round(255-((this.position('y',event)-300)*255/50));
+                this.b=Math.round(255-((this.position('y',event)-170)*255/50));
 
             }
-            else if((this.position('y',event)-150)<=250)
+            else if((this.position('y',event)-20)<=250)
             {
 
-                this.r=Math.round((this.position('y',event)-350)*255/50);
+                this.r=Math.round((this.position('y',event)-220)*255/50);
                 this.g=255;
                 this.b=0;
 
             }
-            else if((this.position('y',event)-150)<=300)
+            else if((this.position('y',event)-20)<=300)
             {
 
                 this.r=255;
-                this.g=Math.round(255-((this.position('y',event)-400)*255/50));
+                this.g=Math.round(255-((this.position('y',event)-270)*255/50));
                 this.b=0;
 
             }
@@ -213,14 +216,14 @@ export class PaletteComponent {
         if(this.clic2)
         {
 
-            if(this.position('y',event)>10 && this.position('y',event)<320)
+            if(this.position('y',event)>20 && this.position('y',event)<320)
             {
                 document.getElementById("curseur2").style.top=(this.position('y',event)-10)+"px";
                 this.y=this.position('y',event);
 
             }
 
-            if(this.position('x',event)>920 && this.position('x',event)<1260)
+            if(this.position('x',event)>60 && this.position('x',event)<360)
             {
                 document.getElementById("curseur2").style.left=(this.position('x',event)-10)+"px";
 
@@ -259,7 +262,8 @@ export class PaletteComponent {
 
 
         document.getElementById('resultat').style.backgroundColor="rgb("+this.r_1+","+this.g_1+","+this.b_1+")";
-
+        document.getElementById('recolor').style.backgroundColor="rgb("+this.r_1+","+this.g_1+","+this.b_1+")";
+        document.getElementById('res').style.backgroundColor="rgb("+this.r_1+","+this.g_1+","+this.b_1+")";
     }
 
     public hexadecimal(nombre)
@@ -320,6 +324,6 @@ window.onload = () => {
     var obj = <HTMLImageElement>document.getElementById("dialog");
     obj.addEventListener("mousedown", palette.mouseDown);
     obj.addEventListener("mouseup", palette.mouseUp);
-    obj.addEventListener("mousemove", palette.mouseMove);
+  /*  obj.addEventListener("mousemove", palette.mouseMove);*/
 
 };

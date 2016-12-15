@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
-
 <style type="text/css">
+    .skin_bouton_OK
+    {
+        position:absolute;
+        top:330px;
+        left:220px;
+    }
 
 
     .skin_barre  /* on reprend le nom qu'on a mis dans 'class=' */
@@ -12,24 +15,30 @@
 
         width:30px;
         height:300px;
-        top:30px;
-        left:23px;
-        position:absolute;
+        /* on définit la taille du div (celle de l'image) */
 
+        top:20px;
+        left:23px;
+        /* et sa position initiale */
+
+        position:absolute;
+        /* le div n'est plus fixe mais libre */
 
         background-image:url('../../images/degrade.jpg');
-              cursor:s-resize;
+        /* on définit ici l'image à afficher dans le div */
 
+        cursor:s-resize;
+        /* et enfin on définit le curseur à afficher lorsque la souris passe sur ce div */
     }
 
-
+    /* =====  de même pour les autres  ===== */
 
     .skin_curseur1
     {
         width:45px;
         height:15px;
         position:absolute;
-        top:22px;
+        top:12px;
         left:15px;
         cursor:s-resize;
         background-image:url('../../images/curseur1.png');
@@ -40,10 +49,9 @@
         width:300px;
         height:300px;
         position:absolute;
-        top:30px;
-        left:60px;
+        top:20px;left:60px;
         cursor:move;
-        background-color:red;
+        background-color:red;  /* on définit la couleur initiale du carré */
         background-image:url('../../images/degrade n-b.png');
     }
 
@@ -52,7 +60,7 @@
         width:20px;
         height:20px;
         position:absolute;
-        top:20px;
+        top:10px;
         left:350px;
         cursor:move;
         background-image:url('../../images/curseur2.png');
@@ -63,9 +71,9 @@
         position:absolute;
         top:330px;
         left:60px;
-        border:1px solid black;
+        border:1px solid black; /* dessine un cadre noir autour du 'input' et d'un pixel d'épaisseur */
         background-color:red;
-        text-align:center;
+        text-align:center;  /* on aligne le texte au centre */
     }
 
 </style>
@@ -74,7 +82,7 @@
 
 <body>
 <div class="dialog" id="dialog">
-    <header><div class="title">Dialog box</div><div class="exit-button" (click)="onClickedExit()">x</div></header>
+    <header><div class="title">Palette box</div><div class="exit-button" (click)="onClickedExit()">x</div></header>
     <div id="barre"    class="skin_barre"    (click)="clique('barre')"> </div>
     <div id="curseur1" class="skin_curseur1" (click)="clique('barre')"> </div>
     <div id="carre"    class="skin_carre"    (click)="clique('carre')"> </div>
@@ -83,7 +91,7 @@
 
     <form>
         <input type="text" id="resultat" class="skin_resultat" size=20 name="affichage_couleur" value="#FF0000" />
-        <input type="button" value=" OK " (click)="valider()" class="skin_bouton_OK" />
+        <input type="button"  value=" OK " (click)="valider()" class="skin_bouton_OK" />
     </form>
 </div>
 </body>
