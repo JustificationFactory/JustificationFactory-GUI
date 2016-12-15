@@ -39,6 +39,15 @@
         .panel{
             margin-bottom: 0px !important;
         }
+        .open-button
+        {
+
+            width: 10px;
+            height: 10px;
+            border:1px solid black;
+            /*background-color:$co;*/
+            text-align:center;
+        }
     </style>
 </head>
 <body>
@@ -46,8 +55,6 @@
     <div class="panel panel-primary">
         <!-- Default panel contents -->
         <div dialogAnchor></div>
-        <div class="open-button" (click)='openDialogBox()'>Edit</div>
-
 
         <div class="panel-heading text-center"><label>Properties View </label></div>
         <div class="view">
@@ -65,8 +72,13 @@
                             <table class="table table table-striped   view">
                                 <tbody>
                                 <tr class="viewProperty"  *ngFor="let nodeProp of map">
-                                    <td > <label >{{nodeProp.key}} </label>: {{nodeProp.val}}</td>
+                                    <td > <label >{{nodeProp.key}} </label>: {{nodeProp.val}} </td>
                                 </tr>
+                                <tr>    <td> <label >Background </label>: {{co}}<div  class="open-button"  [style.background-color]="co" id="recolor" (click)='openDialogBox()' ></div></td></tr>
+                                  <tr>     <td> <label >Border color </label>: {{bco}}
+                                           <div  class="open-button"   [style.background-color]="bco"id="bcolor" (click)='openDialogBox()' ></div></td></tr>
+
+
                                 <!-- <div class="form-group">
                                     <label for="sel1">Select list:</label>
                                     <select class="form-control" id="sel1">
