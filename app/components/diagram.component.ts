@@ -38,9 +38,10 @@ export class DiagramComponent{
                 gridSize: 1,
                 interactive: true
             });
-
-            DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
         }
+
+        DiagramComponent._paper.off('cell:pointerdown', this.cellClick, this);
+        DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
 
         $('#myholder').replaceWith(DiagramComponent._paper.el);
 
@@ -84,6 +85,10 @@ export class DiagramComponent{
                 }
             }
         }
+    }
+
+    public resetEvents() {
+        DiagramComponent._paper.off('cell:pointerdown', this.cellClick, this);
     }
 
     private _previousHighlightingCel : joint.dia.CellView;

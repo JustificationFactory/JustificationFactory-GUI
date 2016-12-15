@@ -55,6 +55,7 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
 
     btnCloseClick(event) {
+        this.diagramComponent.resetEvents();
         this.diagramLoaded = false;
         ($("#importFile")[0] as any).value = "";
     }
