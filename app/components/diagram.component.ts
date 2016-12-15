@@ -15,8 +15,8 @@ export class DiagramComponent{
     private static _graph: joint.dia.Graph;
     private static _paper: joint.dia.Paper;
 
-    _initialPaperWidth : number = 850 ;
-    _initialPaperHeight : number = 620 ;
+    _initialPaperWidth : number = 810 ;
+    _initialPaperHeight : number = 610 ;
     _graphScale : number = 1 ;
     selectedElement = null;
 
@@ -36,7 +36,8 @@ export class DiagramComponent{
                 height: this._initialPaperHeight,
                 model: DiagramComponent._graph,
                 gridSize: 1,
-                interactive: true
+                interactive: true,
+                restrictTranslate: true
             });
         }
 
@@ -68,8 +69,8 @@ export class DiagramComponent{
             rankSep: 50,
             edgeSep: 50,
             nodeSep: 50 ,
-            marginX: 50,
-            marginY: 20
+            marginX: 10,
+            marginY: 10
         });
 
         for (var el of elements) {
@@ -78,10 +79,22 @@ export class DiagramComponent{
             for(var artifact of el.artifacts){
                 if(artifact.behavior == Behavior.Near){
                     el.visualShape.embed(artifact.visualShape);
-                    if(artifact instanceof Actor)
-                        (artifact.visualShape as any).position(- artifact.visualShape.prop('size/width') - 50 ,-20, {parentRelative : true});
-                    else
-                        (artifact.visualShape as any).position(el.visualShape.prop('size/width') + 50 ,0, {parentRelative : true});
+
+                    if(artifact instanceof Actor) {
+                        if ((el.visualShape as any).attributes.position.x >= (artifact.visualShape.prop('size/width') + 50))
+                            (artifact.visualShape as any).position(-artifact.visualShape.prop('size/width') - 50, -20, {parentRelative: true});
+                        else if ((el.visualShape as any).attributes.position.x >= (artifact.visualShape.prop('size/width') + 10))
+                            (artifact.visualShape as any).position(-artifact.visualShape.prop('size/width') - 10, -20, {parentRelative: true});
+                        //else : let in his place !
+
+                    }
+                    else {
+                        if ((el.visualShape as any).attributes.position.x <= (this._initialPaperWidth - el.visualShape.prop('size/width') - 50))
+                            (artifact.visualShape as any).position(el.visualShape.prop('size/width') + 50, 0, {parentRelative: true});
+                        else if ((el.visualShape as any).attributes.position.x <= (this._initialPaperWidth - el.visualShape.prop('size/width') - 10))
+                            (artifact.visualShape as any).position(el.visualShape.prop('size/width') + 10, 0, {parentRelative: true});
+                        //else : let in his place !
+                    }
                 }
             }
         }
