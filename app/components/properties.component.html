@@ -93,11 +93,11 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default"  *ngFor="let limitname of limitList" >
+                <div class="panel panel-default" *ngIf="limitExist">
                     <div class="panel-heading" >
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                                {{limitname.key}}:{{limitname.val}}</a>
+                                Limits</a>
                         </h4>
                     </div>
                     <div id="collapse2" class="panel-collapse collapse in">

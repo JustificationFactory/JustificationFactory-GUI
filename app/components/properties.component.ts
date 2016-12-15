@@ -29,17 +29,19 @@ export class PropertiesComponent implements OnChanges{
     /*******************************************visual settings******************************************************************************/
     @Input() node="test"
     @Input() map=[]
-    @Input() limitList=[]
+    @Input() limitExist=false;
     @Input() limitProp=[]
 
     @Input()  co="white"
     @Input() bco="white"
-    private  getNodeSettings()
-    {this.map=[]
 
-        this.limitList=[]
+    private  getNodeSettings() {
+
+        this.map=[]
+        this.limitExist=false;
         this.limitProp=[]
         this.node=this.selectedElement.name;
+
         if(this.selectedElement.visualShape.attributes.type=="basic.Rect"){
             this.map.push({key:"Shape",val:"Rectangle"})
             this.bco=this.selectedElement.visualShape.attributes.attrs.rect.stroke;
@@ -56,24 +58,14 @@ export class PropertiesComponent implements OnChanges{
             this.co=this.selectedElement.visualShape.attributes.attrs.path.fill
             this.bco=this.selectedElement.visualShape.attributes.attrs.path.stroke
         }
-        if((Object.keys(this.selectedElement.visualShape.portData.ports)).length>1){
-            for(var _j = 0; _j < (Object.keys(this.selectedElement.visualShape.portData.ports)).length; _j++ ){
-                this.limitList.push({key:"Limit["+_j.toString()+"]",val:this.selectedElement.visualShape.portData.ports[_j].id})
+
+        if((Object.keys((this.selectedElement.visualShape as any).portData.ports)).length>1){
+            this.limitExist = true;
+            if ((this.selectedElement.visualShape as any).portData.ports[0].attrs.rect) {
+                this.limitProp.push({key:"Shape",val:"Rectangle"});
+                this.limitProp.push({key:"Background",val: (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.fill})
             }
-
-            var limit_markup=this.selectedElement.visualShape.portData.ports[0].markup.split(' ');
-            for(var _i = 0; _i< limit_markup.length; _i++ ){
-                if (limit_markup[_i].includes("rect")) { this.limitProp.push({key:"Shape",val:"Rectangle"})}
-                if (limit_markup[_i].includes("fill")) {
-                    var backgd=limit_markup[_i].split("=")[1].replace(new RegExp("[^(a-zA-Z)]", "g"), '');
-                    this.limitProp.push({key:"Background",val:backgd})
-
-                }
-
-            }
-
         }
-
     }
 
 
