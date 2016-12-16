@@ -94,6 +94,19 @@ export class DiagramComponent{
         }
     }
 
+    onSelectedElementChange(element: DiagramElement) {
+        let newAttrs = element.visualShape.attributes.attrs;
+        //To generate a update of the element view
+        //A re-initilization of 1 attribut is needed
+        element.visualShape.attr({
+            text: {
+                fill: '?'
+            }
+        });
+        //And after we can put again all correct attributes
+        element.visualShape.attr(newAttrs);
+    }
+
     public resetEvents() {
         DiagramComponent._paper.off('cell:pointerdown', this.cellClick, this);
     }

@@ -129,13 +129,12 @@ export class PaletteComponent {
 
     @Input() showDialog = false;
     @Input() selectedColorHex = "#FF0000";
+    @Output() selectedColorHexChange: EventEmitter<string> = new EventEmitter(); //For two-way binding (ex: prop1Change)
     @Input() selectedColorRgb = "rgb(255,0,0)";
     @Input() carreColorRgb = "rgb(255,0,0)";
     @Input() curseur1TopPosition = "13px";
     @Input() curseur2TopPosition = "10px";
     @Input() curseur2LeftPosition = "350px";
-
-    @Output() colorChanged: EventEmitter<string> = new EventEmitter();
 
     constructor() {
     }
@@ -146,7 +145,8 @@ export class PaletteComponent {
 
     onClickedExit() {
         this.showDialog = false;
-        this.colorChanged.emit(this.selectedColorHex);
+
+        this.selectedColorHexChange.emit(this.selectedColorHex);
     }
 
     mouseUpBarre(event: MouseEvent) {

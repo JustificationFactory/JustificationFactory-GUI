@@ -1,4 +1,4 @@
-import {Component, Input, SimpleChanges, OnChanges} from '@angular/core';
+import {Component, Input, SimpleChanges, OnChanges, EventEmitter, Output} from '@angular/core';
 import  '../services/diagram';
 
 
@@ -9,6 +9,7 @@ import  '../services/diagram';
 export class PropertiesComponent implements OnChanges {
 
     @Input() selectedElement : DiagramElement = null;
+    @Output() selectedElementChange : EventEmitter<DiagramElement> = new EventEmitter(); //For two-way binding (ex: prop1Change)
     tree = [];
 
     constructor(){
@@ -74,43 +75,27 @@ export class PropertiesComponent implements OnChanges {
 
     private  setNodeSettings() {
 
+        //Set visual properties of element
+        if(this.selectedElement.visualShape.attributes.type == "basic.Rect"){
 
-        //...
-        var a = "";
-        // this.ShapeOfElement = "";
-        // this.BackgroundColorOfElement = "white";
-        // this.BorderColorOfElement = "white";
-        // this.limitExist = false;
-        // this.ShapeOfLimits = "";
-        // this.BackgroundColorOfLimits = "white";
-        // this.BorderColorOfLimits = "white";
-        //
-        // //Set visual properties of element
-        // if(this.selectedElement.visualShape.attributes.type == "basic.Rect"){
-        //     this.ShapeOfElement = "Rectangle";
-        //
-        //     this.BackgroundColorOfElement = this.selectedElement.visualShape.attributes.attrs.rect.fill;
-        //     this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.rect.stroke;
-        // }
-        // else if(this.selectedElement.visualShape.attributes.type == "basic.Path"){
-        //     if(this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.ParallelogramShape)
-        //         this.ShapeOfElement = "Parallelogram";
-        //     else
-        //         this.ShapeOfElement = this.selectedElement.visualShape.attributes.attrs.path.d;
-        //
-        //     this.BackgroundColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.fill;
-        //     this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.stroke;
-        // }
-        //
-        // //Set visual properties of Limits
-        // if((Object.keys((this.selectedElement.visualShape as any).portData.ports)).length>1){
-        //     this.limitExist = true;
-        //     if ((this.selectedElement.visualShape as any).portData.ports[0].attrs.rect) {
-        //         this.ShapeOfLimits = "Rectangle";
-        //         this.BackgroundColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.fill;
-        //         this.BorderColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.stroke;
-        //     }
-        // }
+            this.selectedElement.visualShape.attributes.attrs.rect.fill = this.BackgroundColorOfElement;
+            this.selectedElement.visualShape.attributes.attrs.rect.stroke = this.BorderColorOfElement;
+        }
+        else if(this.selectedElement.visualShape.attributes.type == "basic.Path"){
+
+            this.selectedElement.visualShape.attributes.attrs.path.fill = this.BackgroundColorOfElement;
+            this.selectedElement.visualShape.attributes.attrs.path.stroke = this.BorderColorOfElement;
+        }
+
+        //Set visual properties of Limits
+        for (var port of (this.selectedElement.visualShape as any).portData.ports){
+            if (port.attrs.rect) {
+                port.attrs.rect.fill = this.BackgroundColorOfLimits;
+                port.attrs.rect.stroke = this.BorderColorOfLimits;
+            }
+        }
+
+        this.selectedElementChange.emit(this.selectedElement);
     }
 
     onColorChanged(newColorHexa: string) {

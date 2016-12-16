@@ -16,7 +16,7 @@ class DiagramElement {
     type:string;
     artifacts: Array<Artifact>;
 
-    public static ParallelogramShape : string = "M 10 0 L 100 0 L 90 150 L 0 150 Z";
+    public static ParallelogramShape : string = "M 10 0 L 70 0 L 60 30 L 0 30 Z";
 
     constructor(name: string, jsonElement: any, type: string) {
         this.name = name;

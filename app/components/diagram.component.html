@@ -17,6 +17,6 @@
 
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
-        <properties-view [selectedElement]="selectedElement"></properties-view>
+        <properties-view [(selectedElement)]="selectedElement" (selectedElementChange)="onSelectedElementChange($event)" ></properties-view>
     </div>
 </div>
