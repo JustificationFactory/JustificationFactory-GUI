@@ -113,7 +113,9 @@ export class PropertiesComponent implements OnChanges {
         // }
     }
 
-
+    onColorChanged(newColorHexa: string) {
+        this.setNodeSettings();
+    }
 
     /*********************************************************Business Properties****************************************************************************/
 

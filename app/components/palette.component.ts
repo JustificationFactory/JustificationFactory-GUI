@@ -1,7 +1,7 @@
 /**
  * Created by Haifa GHIDHAOUI on 11/12/2016.
  */
-import {Component, EventEmitter, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
 
@@ -135,6 +135,8 @@ export class PaletteComponent {
     @Input() curseur2TopPosition = "10px";
     @Input() curseur2LeftPosition = "350px";
 
+    @Output() colorChanged: EventEmitter<string> = new EventEmitter();
+
     constructor() {
     }
 
@@ -144,6 +146,7 @@ export class PaletteComponent {
 
     onClickedExit() {
         this.showDialog = false;
+        this.colorChanged.emit(this.selectedColorHex);
     }
 
     mouseUpBarre(event: MouseEvent) {

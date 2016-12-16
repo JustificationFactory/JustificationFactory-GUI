@@ -20,10 +20,10 @@
                             <td > <label >Shape: </label>{{ShapeOfElement}}</td>
                         </tr>
                         <tr>
-                            <td> <label >Background: </label>{{BackgroundColorOfElement}} <paletteColor [selectedColorHex]="BackgroundColorOfElement"></paletteColor> </td>
+                            <td> <label >Background: </label>{{BackgroundColorOfElement}} <paletteColor [selectedColorHex]="BackgroundColorOfElement" (colorChanged)="onColorChanged($event)"></paletteColor> </td>
                         </tr>
                         <tr>
-                            <td> <label >Border color:</label>{{BorderColorOfElement}} <paletteColor [selectedColorHex]="BorderColorOfElement"></paletteColor> </td>
+                            <td> <label >Border color:</label>{{BorderColorOfElement}} <paletteColor [selectedColorHex]="BorderColorOfElement" (colorChanged)="onColorChanged($event)"></paletteColor> </td>
                         </tr>
                         </tbody>
                     </table>
@@ -47,10 +47,10 @@
                             <td > <label >Shape: </label>{{ShapeOfLimits}}</td>
                         </tr>
                         <tr>
-                            <td> <label >Background: </label>{{BackgroundColorOfLimits}} <paletteColor [selectedColorHex]="BackgroundColorOfLimits"></paletteColor></td>
+                            <td> <label >Background: </label>{{BackgroundColorOfLimits}} <paletteColor [selectedColorHex]="BackgroundColorOfLimits" (colorChanged)="onColorChanged($event)"></paletteColor></td>
                         </tr>
                         <tr>
-                            <td> <label >Border color: </label>{{BorderColorOfLimits}} <paletteColor [selectedColorHex]="BorderColorOfLimits"></paletteColor></td>
+                            <td> <label >Border color: </label>{{BorderColorOfLimits}} <paletteColor [selectedColorHex]="BorderColorOfLimits" (colorChanged)="onColorChanged($event)"></paletteColor></td>
                         </tr>
                         </tbody>
                     </table>
