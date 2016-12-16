@@ -1,8 +1,6 @@
 
 <div class="panel panel-primary panel-properties panel-no-margin-bottom">
 
-    <div dialogAnchor></div>
-
     <div class="panel-heading text-center"><label>Properties View</label></div>
 
     <div class="panel-group panel-properties-view" id="accordion">
@@ -10,7 +8,7 @@
             <div class="panel-heading" >
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                        <label >{{node}} </label></a>
+                        <label >{{ElementName}} </label></a>
                 </h4>
             </div>
             <div id="collapse1" class="panel-collapse collapse in">
@@ -18,22 +16,15 @@
 
                     <table class="table table table-striped table-properties-details">
                         <tbody>
-                        <tr class="tr-property-detail"  *ngFor="let nodeProp of map">
-                            <td > <label >{{nodeProp.key}} </label>: {{nodeProp.val}} </td>
+                        <tr class="tr-property-detail">
+                            <td > <label >Shape: </label>{{ShapeOfElement}}</td>
                         </tr>
-                        <tr>    <td> <label >Background </label>: {{co}}<div  class="property-open-button"  [style.background-color]="co" id="recolor" (click)='openDialogBox()' ></div></td></tr>
-                          <tr>     <td> <label >Border color </label>: {{bco}}
-                                   <div  class="property-open-button"   [style.background-color]="bco"id="bcolor" (click)='openDialogBox()' ></div></td></tr>
-
-
-                        <!-- <div class="form-group">
-                            <label for="sel1">Select list:</label>
-                            <select class="form-control" id="sel1">
-                                <option selected="selected">Line continue</option>
-                                <option >line discontinue</option>
-
-                            </select>
-                        </div>-->
+                        <tr>
+                            <td> <label >Background: </label>{{BackgroundColorOfElement}} <paletteColor [selectedColorHex]="BackgroundColorOfElement"></paletteColor> </td>
+                        </tr>
+                        <tr>
+                            <td> <label >Border color:</label>{{BorderColorOfElement}} <paletteColor [selectedColorHex]="BorderColorOfElement"></paletteColor> </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -52,15 +43,20 @@
 
                     <table class="table table table-striped table-properties-details">
                         <tbody>
-                        <tr class="tr-property-detail" *ngFor="let x of limitProp">
-                            <td > <label >{{x.key}} </label>: {{x.val}}</td>
+                        <tr class="tr-property-detail">
+                            <td > <label >Shape: </label>{{ShapeOfLimits}}</td>
+                        </tr>
+                        <tr>
+                            <td> <label >Background: </label>{{BackgroundColorOfLimits}} <paletteColor [selectedColorHex]="BackgroundColorOfLimits"></paletteColor></td>
+                        </tr>
+                        <tr>
+                            <td> <label >Border color: </label>{{BorderColorOfLimits}} <paletteColor [selectedColorHex]="BorderColorOfLimits"></paletteColor></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
     </div>
 
 

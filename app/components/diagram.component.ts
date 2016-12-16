@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
-
-import { EditToolbarComponent } from './edit.toolbar.component';
-import { ActionsToolbarComponent } from './actions.toolbar.component';
-import { PropertiesComponent } from './properties.component';
 import '../services/diagram';
 
 @Component({
-    //moduleId: module.id,
     selector: 'diagram-view',
     templateUrl: 'app/components/diagram.component.html',
-    //styleUrls: ['./css/app.css']
 })
 export class DiagramComponent{
     private static _graph: joint.dia.Graph;

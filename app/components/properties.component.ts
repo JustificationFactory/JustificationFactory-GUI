@@ -1,155 +1,121 @@
-import {Component, Input, Renderer, ViewChild, SimpleChanges, OnChanges} from '@angular/core';
+import {Component, Input, SimpleChanges, OnChanges} from '@angular/core';
 import  '../services/diagram';
-import { Subject }    from 'rxjs/Subject';
-import {PaletteComponent} from './palette.component';
-import {DialogAnchorDirective} from './dialoganchor.directive';
+
+
 @Component({
-    //moduleId: module.id,
     selector: 'properties-view',
     templateUrl: 'app/components/properties.component.html',
-
-    entryComponents: [PaletteComponent]
-    //styleUrls: ['./css/app.css']
-    /*    host: {
-     "(document: click)": "onRefresh( $event )",
-     "(document: mousedown)": "onRefresh( $event )",
-     "(document: mouseup)": "onRefresh( $event )"
-     }*/
 })
-export class PropertiesComponent implements OnChanges{
-
-
-
-    @ViewChild(DialogAnchorDirective) dialogAnchor: DialogAnchorDirective;
-
-    openDialogBox() {
-        this.dialogAnchor.createDialog(PaletteComponent);
-    }
-
-    /*******************************************visual settings******************************************************************************/
-    @Input() node="test"
-    @Input() map=[]
-    @Input() limitExist=false;
-    @Input() limitProp=[]
-
-    @Input()  co="white"
-    @Input() bco="white"
-
-    private  getNodeSettings() {
-
-        this.map=[]
-        this.limitExist=false;
-        this.limitProp=[]
-        this.node=this.selectedElement.name;
-
-        if(this.selectedElement.visualShape.attributes.type=="basic.Rect"){
-            this.map.push({key:"Shape",val:"Rectangle"})
-            this.bco=this.selectedElement.visualShape.attributes.attrs.rect.stroke;
-            this.co=this.selectedElement.visualShape.attributes.attrs.rect.fill;
-
-        }
-        else if(this.selectedElement.visualShape.attributes.type=="basic.Path"){
-            if(this.selectedElement.visualShape.attributes.attrs.path.d=="M 10 0 L 100 0 L 90 150 L 0 150 Z"){
-                this.map.push({key:"Shape",val:"parallélogramme"})
-            }
-            else{
-                this.map.push({key:"Shape",val:this.selectedElement.visualShape.attributes.attrs.path.d})}
-
-            this.co=this.selectedElement.visualShape.attributes.attrs.path.fill
-            this.bco=this.selectedElement.visualShape.attributes.attrs.path.stroke
-        }
-
-        if((Object.keys((this.selectedElement.visualShape as any).portData.ports)).length>1){
-            this.limitExist = true;
-            if ((this.selectedElement.visualShape as any).portData.ports[0].attrs.rect) {
-                this.limitProp.push({key:"Shape",val:"Rectangle"});
-                this.limitProp.push({key:"Background",val: (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.fill})
-            }
-        }
-    }
-
-
-    /******************************************* used by visual settings && Properties******************************************************************************/
+export class PropertiesComponent implements OnChanges {
 
     @Input() selectedElement : DiagramElement = null;
+    tree = [];
+
+    constructor(){
+
+    }
+
     ngOnChanges(changes: SimpleChanges) {
-        /*       if(this.nbChanges < 1){
-         this.nbChanges++;
-         }
-         else{
-         this.tree = this.createKeysFromJson(this.json, "json");
-         }*/
-        this.test = "hoho" + this.nbChanges++;
-
-
-        //if(changes['selectedElement'])
-
-        //alert("toto")
-
-        /*********haifa :p *****/
         if(this.selectedElement){
-            this.test =this.selectedElement.name;
             this.getNodeSettings();
             this.tree = this.addGroups(this.createKeysFromJson(this.selectedElement.jsonElement, ""));
         }
-
-
-
-
-
     }
-    /**************************************************************Properties****************************************************************************/
-    @Input() test: string = "achraf";
-    //@ViewChild('refreshProperties') refreshProperties : ElementRef;
-    tree : any = this.tree = [];
-    nbChanges = 0;
 
+    /*******************************************visual settings******************************************************************************/
+    @Input() ElementName="";
+    @Input() ShapeOfElement = "";
+    @Input() BackgroundColorOfElement = "white";
+    @Input() BorderColorOfElement = "white";
+    @Input() limitExist=false;
+    @Input() ShapeOfLimits = "";
+    @Input() BackgroundColorOfLimits = "white";
+    @Input() BorderColorOfLimits = "white";
 
+    private  getNodeSettings() {
 
-    constructor(private renderer:Renderer){
+        //Initialization of properties
+        this.ElementName = this.selectedElement.name;
+        this.ShapeOfElement = "";
+        this.BackgroundColorOfElement = "white";
+        this.BorderColorOfElement = "white";
+        this.limitExist = false;
+        this.ShapeOfLimits = "";
+        this.BackgroundColorOfLimits = "white";
+        this.BorderColorOfLimits = "white";
 
-        this.tree = [];
-    }
-    private json : any = {
-        a : "a",
-        b : "b",
-        c : [{
-            d : {
-                e: "e1",
-                f: "f1"
+        //Set visual properties of element
+        if(this.selectedElement.visualShape.attributes.type == "basic.Rect"){
+            this.ShapeOfElement = "Rectangle";
+
+            this.BackgroundColorOfElement = this.selectedElement.visualShape.attributes.attrs.rect.fill;
+            this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.rect.stroke;
+        }
+        else if(this.selectedElement.visualShape.attributes.type == "basic.Path"){
+            if(this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.ParallelogramShape)
+                this.ShapeOfElement = "Parallelogram";
+            else
+                this.ShapeOfElement = this.selectedElement.visualShape.attributes.attrs.path.d;
+
+            this.BackgroundColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.fill;
+            this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.stroke;
+        }
+
+        //Set visual properties of Limits
+        if((Object.keys((this.selectedElement.visualShape as any).portData.ports)).length>1){
+            this.limitExist = true;
+            if ((this.selectedElement.visualShape as any).portData.ports[0].attrs.rect) {
+                this.ShapeOfLimits = "Rectangle";
+                this.BackgroundColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.fill;
+                this.BorderColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.stroke;
             }
-        },
-            {
-                d : {
-                    e: "e2",
-                    f: "f2"
-                }
-            }]
+        }
+    }
+
+    private  setNodeSettings() {
+
+
+        //...
+        var a = "";
+        // this.ShapeOfElement = "";
+        // this.BackgroundColorOfElement = "white";
+        // this.BorderColorOfElement = "white";
+        // this.limitExist = false;
+        // this.ShapeOfLimits = "";
+        // this.BackgroundColorOfLimits = "white";
+        // this.BorderColorOfLimits = "white";
+        //
+        // //Set visual properties of element
+        // if(this.selectedElement.visualShape.attributes.type == "basic.Rect"){
+        //     this.ShapeOfElement = "Rectangle";
+        //
+        //     this.BackgroundColorOfElement = this.selectedElement.visualShape.attributes.attrs.rect.fill;
+        //     this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.rect.stroke;
+        // }
+        // else if(this.selectedElement.visualShape.attributes.type == "basic.Path"){
+        //     if(this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.ParallelogramShape)
+        //         this.ShapeOfElement = "Parallelogram";
+        //     else
+        //         this.ShapeOfElement = this.selectedElement.visualShape.attributes.attrs.path.d;
+        //
+        //     this.BackgroundColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.fill;
+        //     this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.stroke;
+        // }
+        //
+        // //Set visual properties of Limits
+        // if((Object.keys((this.selectedElement.visualShape as any).portData.ports)).length>1){
+        //     this.limitExist = true;
+        //     if ((this.selectedElement.visualShape as any).portData.ports[0].attrs.rect) {
+        //         this.ShapeOfLimits = "Rectangle";
+        //         this.BackgroundColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.fill;
+        //         this.BorderColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.stroke;
+        //     }
+        // }
     }
 
 
 
-/*    public setElement(diagramElement : DiagramElement){
-        //PropertiesComponent.currentElement = diagramElement;
-        this.test = "youu";
-        //this.updatePropertiesPanel();
-        /*let event = new MouseEvent('click');
-         alert(this.refreshProperties)
-         this.renderer.invokeElementMethod(
-         this.refreshProperties.nativeElement,'dispatchEvent', [event]
-         );
-    }*/
-
-
-
-    private updateVisualPanel(){
-
-    }
-
-    private updatePropertiesPanel(){
-        this.tree = this.createKeysFromJson(this.json, "json");
-
-    }
+    /*********************************************************Business Properties****************************************************************************/
 
     private  createKeysFromJson(json : any, key : string) : any[] {
 

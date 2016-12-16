@@ -1,11 +1,7 @@
 /**
  * Created by Haifa GHIDHAOUI on 11/12/2016.
  */
-import { Component ,EventEmitter} from '@angular/core';
-import { ModuleWithProviders }  from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {PropertiesComponent} from './properties.component'
-
+import {Component, EventEmitter, Input} from '@angular/core';
 
 @Component({
 
@@ -45,202 +41,179 @@ import {PropertiesComponent} from './properties.component'
             cursor: pointer;
             padding: 0 5px;
         }
+        
+        .skin_bouton_OK
+        {
+            position:absolute;
+            top:330px;
+            left:220px;
+        }
+    
+    
+        .skin_barre  /* on reprend le nom qu'on a mis dans 'class=' */
+        {
+    
+            width:30px;
+            height:300px;
+            /* on définit la taille du div (celle de l'image) */
+    
+            top:20px;
+            left:23px;
+            /* et sa position initiale */
+    
+            position:absolute;
+            /* le div n'est plus fixe mais libre */
+    
+            background-image:url('../../images/degrade.jpg');
+            /* on définit ici l'image à afficher dans le div */
+    
+            cursor:s-resize;
+            /* et enfin on définit le curseur à afficher lorsque la souris passe sur ce div */
+        }
+    
+        /* =====  de même pour les autres  ===== */
+    
+        .skin_curseur1
+        {
+            width:45px;
+            height:15px;
+            position:absolute;
+            top:12px;
+            left:15px;
+            cursor:s-resize;
+            background-image:url('../../images/curseur1.png');
+        }
+    
+        .skin_carre
+        {
+            width:300px;
+            height:300px;
+            position:absolute;
+            top:20px;left:60px;
+            cursor:move;
+            background-color:red;  /* on définit la couleur initiale du carré */
+            background-image:url('../../images/degrade n-b.png');
+        }
+    
+        .skin_curseur2
+        {
+            width:20px;
+            height:20px;
+            position:absolute;
+            top:10px;
+            left:350px;
+            cursor:move;
+            background-image:url('../../images/curseur2.png');
+        }
+    
+        .skin_resultat
+        {
+            position:absolute;
+            top:330px;
+            left:60px;
+            border:1px solid black; /* dessine un cadre noir autour du 'input' et d'un pixel d'épaisseur */
+            background-color:red;
+            text-align:center;  /* on aligne le texte au centre */
+        }
+
     `]
-
-
 
 })
 export class PaletteComponent {
- posX=860;
- posY=120;
-
-
-    close = new EventEmitter();
-
-    onClickedExit() {
-        this.close.emit('event');
-    }
-
-    constructor() {
-
-        document.addEventListener("mousedown", this.mouseDown);
-        document.addEventListener("mouseup", this.mouseUp);
-/*
-        document.addEventListener("mousemove", this.mouseMove);
-*/
-    }
-    mouseDown = (ev: MouseEvent) => {
-        this.calcul(ev);
-
-    }
-    mouseUp = (ev: MouseEvent) => {
-        this.clic=false;this.clic2=false;
-    }
-/*    mouseMove = (ev: MouseEvent) => {
-        this.calcul(ev);
-    }*/
-
-
- test=1;
-    champ="";
-    formulaire="";
-
-
-
-    valid_couleur(couleur)
-    {
-
-        document.forms[formulaire].elements[champ].value=couleur;
-
-    }
-
-
-    clic=false;
-
-    clic2=false;
-
-
+    dialogXpos=860;
+    dialogYpos=120;
     r=255;g=0;b=0;
-
-
     r_1=255;g_1=0;b_1=0;
-
-
     blanc=0;noir=1;
     x=360;y=30;
-    docOnMouseMove(){
-        document.onmousemove=this.calcul;}
-    docOnMouseDown(){
-        document.onmousedown=this.calcul;}
-    docOnMouseUp(){
-        if( document.onmouseup) { this.clic=false;this.clic2=false; }
+
+    @Input() showDialog = false;
+    @Input() selectedColorHex = "#FF0000";
+    @Input() selectedColorRgb = "rgb(255,0,0)";
+    @Input() carreColorRgb = "rgb(255,0,0)";
+    @Input() curseur1TopPosition = "13px";
+    @Input() curseur2TopPosition = "10px";
+    @Input() curseur2LeftPosition = "350px";
+
+    constructor() {
     }
 
+    openDialogBox() {
+        this.showDialog = true;
+    }
 
-    public  position(axe,event)
-    {
+    onClickedExit() {
+        this.showDialog = false;
+    }
 
+    mouseUpBarre(event: MouseEvent) {
+        let yMouse = this.position('y',event);
 
-        var e = event || window.event;
+        if((yMouse<=320) && (yMouse>=20)) {
+            this.curseur1TopPosition = yMouse-7+"px";
 
+            if((yMouse-20)<=50) {
+                this.r=255;
+                this.g=0;
+                this.b=Math.round((yMouse-20)*255/50);
+            }
+            else if((yMouse-20)<=100) {
+                this.r=Math.round(255-((yMouse-70)*255/50));
+                this.g=0;
+                this.b=255;
+            }
+            else if((yMouse-20)<=150) {
+                this.r=0;
+                this.g=Math.round((yMouse-120)*255/50);
+                this.b=255;
+            }
+            else if((yMouse-20)<=200) {
+                this.r=0;
+                this.g=255;
+                this.b=Math.round(255-((yMouse-170)*255/50));
+            }
+            else if((yMouse-20)<=250) {
+                this.r=Math.round((yMouse-220)*255/50);
+                this.g=255;
+                this.b=0;
+            }
+            else if((yMouse-20)<=300) {
+                this.r=255;
+                this.g=Math.round(255-((yMouse-270)*255/50));
+                this.b=0;
+            }
+
+            this.carreColorRgb = "rgb("+this.r+","+this.g+","+this.b+")";
+            this.afficher();
+        }
+    }
+
+    mouseUpCarre(event: MouseEvent) {
+        let xMouse = this.position('x',event);
+        let yMouse = this.position('y',event);
+
+        if((yMouse>20) && (yMouse<320)){
+            this.curseur2TopPosition = (yMouse-10)+"px";
+            this.y = yMouse;
+        }
+
+        if((xMouse>60) && (xMouse<360)) {
+            this.curseur2LeftPosition = (xMouse-10)+"px";
+            this.x = xMouse;
+        }
+
+        this.afficher();
+    }
+
+    public  position(axe,event) {
         if(axe=="x")
-        {
-            /*var rep=e.clientX;*/
-            return (event.pageX !== undefined ? event.pageX : event.touches[0].pageX) -this.posX- window.pageXOffset;
-
-        }
+            return (event.pageX !== undefined ? event.pageX : event.touches[0].pageX) -this.dialogXpos- window.pageXOffset;
         else
-        {
-          /*  var rep=e.clientY;*/
-            return (event.pageY !== undefined ? event.pageY : event.touches[0].pageY) -this.posY- window.pageYOffset;
-
-        }
-
-      /*  return rep;*/
-
+            return (event.pageY !== undefined ? event.pageY : event.touches[0].pageY) -this.dialogYpos- window.pageYOffset;
     }
 
-    public clique(objet : string)
-    {
-
-        if(objet=="barre")
-        {
-            this.clic=true;
-        }
-        else
-        {
-            this.clic2=true;
-        }
-
-    }
-    public calcul(event)
-    {
-
-        if(this.clic && this.position('y',event)<=320 && this.position('y',event)>=20)
-        {
-
-            document.getElementById("curseur1").style.top=this.position('y',event)-7+"px";
-            if((this.position('y',event)-20)<=50)
-            {
-
-                this.r=255;
-                this.g=0;
-                this.b=Math.round((this.position('y',event)-20)*255/50);
-
-            }
-            else if((this.position('y',event)-20)<=100)
-            {
-
-                this.r=Math.round(255-((this.position('y',event)-70)*255/50));
-                this.g=0;
-                this.b=255;
-
-            }
-            else if((this.position('y',event)-20)<=150)
-            {
-
-                this.r=0;
-                this.g=Math.round((this.position('y',event)-120)*255/50);
-                this.b=255;
-
-            }
-            else if((this.position('y',event)-20)<=200)
-            {
-
-                this.r=0;
-                this.g=255;
-                this.b=Math.round(255-((this.position('y',event)-170)*255/50));
-
-            }
-            else if((this.position('y',event)-20)<=250)
-            {
-
-                this.r=Math.round((this.position('y',event)-220)*255/50);
-                this.g=255;
-                this.b=0;
-
-            }
-            else if((this.position('y',event)-20)<=300)
-            {
-
-                this.r=255;
-                this.g=Math.round(255-((this.position('y',event)-270)*255/50));
-                this.b=0;
-
-            }
-
-            document.getElementById("carre").style.backgroundColor="rgb("+this.r+","+this.g+","+this.b+")";
-            this.afficher();
-        }
-
-        if(this.clic2)
-        {
-
-            if(this.position('y',event)>20 && this.position('y',event)<320)
-            {
-                document.getElementById("curseur2").style.top=(this.position('y',event)-10)+"px";
-                this.y=this.position('y',event);
-
-            }
-
-            if(this.position('x',event)>60 && this.position('x',event)<360)
-            {
-                document.getElementById("curseur2").style.left=(this.position('x',event)-10)+"px";
-
-                this.x=this.position('x',event);
-
-            }
-
-            this.afficher();
-        }
-
-    }
-
-
-
-    public afficher() // ici on gère l'affichage de la couleur
-    {
-
+    //Display selected color
+    public afficher() {
         this.noir=Math.round( (this.x-60)*100/300)/100;
         this.blanc=Math.round((this.y-20)*100/300)/100;
 
@@ -252,78 +225,34 @@ export class PaletteComponent {
         this.g_1=Math.round(this.g_1*this.noir);
         this.b_1=Math.round(this.b_1*this.noir);
 
-
-
         var r_hexa = this.hexadecimal( Math.floor(this.r_1 /16) ) + this.hexadecimal( this.r_1 % 16 );
-        var  g_hexa = this.hexadecimal( Math.floor(this.g_1 /16) ) + this.hexadecimal( this.g_1 % 16 );
+        var g_hexa = this.hexadecimal( Math.floor(this.g_1 /16) ) + this.hexadecimal( this.g_1 % 16 );
         var b_hexa = this.hexadecimal( Math.floor(this.b_1 /16) ) + this.hexadecimal( this.b_1 % 16 );
 
-        document.getElementById("resultat").value = "#" + r_hexa + g_hexa + b_hexa;
-
-
-        document.getElementById('resultat').style.backgroundColor="rgb("+this.r_1+","+this.g_1+","+this.b_1+")";
-        document.getElementById('recolor').style.backgroundColor="rgb("+this.r_1+","+this.g_1+","+this.b_1+")";
-        document.getElementById('res').style.backgroundColor="rgb("+this.r_1+","+this.g_1+","+this.b_1+")";
+        this.selectedColorHex = "#" + r_hexa + g_hexa + b_hexa;
+        this.selectedColorRgb = "rgb("+this.r_1+","+this.g_1+","+this.b_1+")";
     }
 
-    public hexadecimal(nombre)
-    {
-
-        if(nombre < 10)
-        {
+    public hexadecimal(nombre) {
+        if(nombre < 10) {
             return nombre.toString(); // le nombre en chaîne de caractères.
         }
-        else
-        {
-
-            switch (nombre)
-            {
+        else {
+            switch (nombre) {
                 case 10:
                     return "A";
-                    break;
                 case 11:
                     return "B";
-                    break;
                 case 12:
                     return "C";
-                    break;
                 case 13:
                     return "D";
-                    break;
                 case 14:
                     return "E";
-                    break;
                 case 15:
                     return "F";
-                    break;
-
             }
         }
-
     }
-
-
-    public valider()
-    {
-
-
-        window.opener.valid_couleur(document.getElementById("resultat").value);
-
-        window.close();
-
-
-    }
-
-
-
 }
 
-window.onload = () => {
-    var palette=new PaletteComponent()
-
-    var obj = <HTMLImageElement>document.getElementById("dialog");
-    obj.addEventListener("mousedown", palette.mouseDown);
-    obj.addEventListener("mouseup", palette.mouseUp);
-  /*  obj.addEventListener("mousemove", palette.mouseMove);*/
-
-};

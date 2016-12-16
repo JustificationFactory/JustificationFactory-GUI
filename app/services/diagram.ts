@@ -16,6 +16,8 @@ class DiagramElement {
     type:string;
     artifacts: Array<Artifact>;
 
+    public static ParallelogramShape : string = "M 10 0 L 100 0 L 90 150 L 0 150 Z";
+
     constructor(name: string, jsonElement: any, type: string) {
         this.name = name;
         this.jsonElement = jsonElement;
@@ -136,7 +138,7 @@ class Strategy extends DiagramElement {
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
-                path: { d: 'M 10 0 L 100 0 L 90 150 L 0 150 Z', fill: 'green'},
+                path: { d: DiagramElement.ParallelogramShape, fill: 'green'},
                 text: { text: name, 'ref-y': .3, fill: 'white' }
             }
         });
