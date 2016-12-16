@@ -30,11 +30,39 @@ body {
     padding: 1px;
     background-color: rgba(200,200,200,.2);
 }
-
 .btn-zoom-plus {
     top: 43px;
 }
-
 .btn-zoom-minus {
     top: 70px;
+}
+
+.panel-properties {
+    background-color:#bcd;
+    border-radius: 15px;
+    padding: 0 !important;
+    border: 1px solid #ddd;
+    height: 15em;
+}
+.panel-properties-view{
+    height : 20em;
+    overflow: auto;
+}
+.table-properties-details{
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+.tr-property-detail{
+    text-overflow: clip;
+}
+.panel-no-margin-bottom{
+    margin-bottom: 0px !important;
+}
+.property-open-button
+{
+
+    width: 10px;
+    height: 10px;
+    border:1px solid black;
+    text-align:center;
 }

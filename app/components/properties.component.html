@@ -1,162 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../css/bootstrap.min.css" >
-    <link rel="stylesheet" href="../../css/app.css" >
 
-    <style>
-        nav {
-            background-color:#bcd;
-            border-radius: 15px;
-            padding: 0 !important;
-            border: 1px solid #ddd;
-            height: 15em;
-        }
-        div.businessProperties{
-            height : 20em;
-            overflow: auto;
-        }
-        table.businessProperties{
-            table-layout: fixed;
-            word-wrap: break-word;
-        }
-        .businessProperty{
-            text-overflow: clip;
-        }
-        div.view{
-            height : 20em;
-            overflow: auto;
-        }
-        table.view{
-            table-layout: fixed;
-            word-wrap: break-word;
-        }
+<div class="panel panel-primary panel-properties panel-no-margin-bottom">
 
-        .viewProperty{
-            text-overflow: clip;
-        }
-        .panel{
-            margin-bottom: 0px !important;
-        }
-        .open-button
-        {
+    <div dialogAnchor></div>
 
-            width: 10px;
-            height: 10px;
-            border:1px solid black;
-            /*background-color:$co;*/
-            text-align:center;
-        }
-    </style>
-</head>
-<body>
-<nav class="col-sm-12">
-    <div class="panel panel-primary">
-        <!-- Default panel contents -->
-        <div dialogAnchor></div>
+    <div class="panel-heading text-center"><label>Properties View</label></div>
 
-        <div class="panel-heading text-center"><label>Properties View </label></div>
-        <div class="view">
-            <div class="panel-group" id="accordion">
-                <div class="panel panel-default" >
-                    <div class="panel-heading" >
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                                <label >{{node}} </label></a>
-                        </h4>
-                    </div>
-                    <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body">
-
-                            <table class="table table table-striped   view">
-                                <tbody>
-                                <tr class="viewProperty"  *ngFor="let nodeProp of map">
-                                    <td > <label >{{nodeProp.key}} </label>: {{nodeProp.val}} </td>
-                                </tr>
-                                <tr>    <td> <label >Background </label>: {{co}}<div  class="open-button"  [style.background-color]="co" id="recolor" (click)='openDialogBox()' ></div></td></tr>
-                                  <tr>     <td> <label >Border color </label>: {{bco}}
-                                           <div  class="open-button"   [style.background-color]="bco"id="bcolor" (click)='openDialogBox()' ></div></td></tr>
-
-
-                                <!-- <div class="form-group">
-                                    <label for="sel1">Select list:</label>
-                                    <select class="form-control" id="sel1">
-                                        <option selected="selected">Line continue</option>
-                                        <option >line discontinue</option>
-
-                                    </select>
-                                </div>-->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default" *ngIf="limitExist">
-                    <div class="panel-heading" >
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                                Limits</a>
-                        </h4>
-                    </div>
-                    <div id="collapse2" class="panel-collapse collapse in">
-                        <div class="panel-body">
-
-                            <table class="table table table-striped   view">
-                                <tbody>
-                                <tr class="viewProperty" *ngFor="let x of limitProp">
-                                    <td > <label >{{x.key}} </label>: {{x.val}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Default panel contents -->
-        <div class="panel-heading text-center">Properties</div>
-        <!-- <input #refreshProperties type="button" (click)="onRefresh($event)"/>-->
-        <!-- Table -->
-<!--    <div class="businessProperties">
-           <table class="table table table-striped businessProperties">
-               <tbody >
-               <tr class="businessProperty" *ngFor="let entry of tree">
-                   <td>{{entry.label}} : {{entry.value}}</td>
-               </tr>
-               </tbody>
-
-            </table>
-        </div>-->
-
-        <div class="panel panel-default"  *ngFor="let entry of tree" >
+    <div class="panel-group panel-properties-view" id="accordion">
+        <div class="panel panel-default" >
             <div class="panel-heading" >
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#{{entry.label}}">
-                        {{entry.label}}</a>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                        <label >{{node}} </label></a>
                 </h4>
             </div>
-            <div id="{{entry.label}}" class="panel-collapse collapse in">
+            <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
 
-                    <table class="table table table-striped   view">
+                    <table class="table table table-striped table-properties-details">
                         <tbody>
-                        <tr class="viewProperty" *ngFor="let prop of entry.elements">
-                            <td > <label >{{prop.viewKey}} </label>: {{prop.value}}</td>
+                        <tr class="tr-property-detail"  *ngFor="let nodeProp of map">
+                            <td > <label >{{nodeProp.key}} </label>: {{nodeProp.val}} </td>
+                        </tr>
+                        <tr>    <td> <label >Background </label>: {{co}}<div  class="property-open-button"  [style.background-color]="co" id="recolor" (click)='openDialogBox()' ></div></td></tr>
+                          <tr>     <td> <label >Border color </label>: {{bco}}
+                                   <div  class="property-open-button"   [style.background-color]="bco"id="bcolor" (click)='openDialogBox()' ></div></td></tr>
+
+
+                        <!-- <div class="form-group">
+                            <label for="sel1">Select list:</label>
+                            <select class="form-control" id="sel1">
+                                <option selected="selected">Line continue</option>
+                                <option >line discontinue</option>
+
+                            </select>
+                        </div>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default panel-no-margin-bottom" *ngIf="limitExist">
+            <div class="panel-heading" >
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                        Limits</a>
+                </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse in">
+                <div class="panel-body">
+
+                    <table class="table table table-striped table-properties-details">
+                        <tbody>
+                        <tr class="tr-property-detail" *ngFor="let x of limitProp">
+                            <td > <label >{{x.key}} </label>: {{x.val}}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
     </div>
 
-</nav>
-<script src="../../js/jquery-1.12.4.min.js"></script>
-<script src="../../js/bootstrap.min.js" ></script>
-</body>
-</html>
+
+
+    <div class="panel-heading text-center">Properties</div>
+
+    <div class="panel panel-default panel-no-margin-bottom"  *ngFor="let entry of tree" >
+        <div class="panel-heading" >
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#{{entry.label}}">
+                    {{entry.label}}</a>
+            </h4>
+        </div>
+        <div id="{{entry.label}}" class="panel-collapse collapse in">
+            <div class="panel-body">
+
+                <table class="table table table-striped table-properties-details">
+                    <tbody>
+                    <tr class="tr-property-detail" *ngFor="let prop of entry.elements">
+                        <td > <label >{{prop.viewKey}} </label>: {{prop.value}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
