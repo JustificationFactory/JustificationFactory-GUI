@@ -69,3 +69,8 @@ body {
     border:1px solid black;
     text-align:center;
 }
+
+.properties-header {
+    text-align: center;
+    color: #999;
+}
