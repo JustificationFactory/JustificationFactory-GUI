@@ -35,8 +35,10 @@ export class DiagramComponent{
             });
         }
 
-        DiagramComponent._paper.off('cell:pointerdown', this.cellClick, this);
+        this.resetEvents();
+        DiagramComponent._paper.on('blank:pointerdown', this.blankClick, this);
         DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
+
 
         $('#myholder').replaceWith(DiagramComponent._paper.el);
 
@@ -102,13 +104,16 @@ export class DiagramComponent{
     }
 
     public resetEvents() {
+        DiagramComponent._paper.off('blank:pointerdown', this.blankClick, this);
         DiagramComponent._paper.off('cell:pointerdown', this.cellClick, this);
     }
 
+    public blankClick(event, x, y) {
+        this.unhighlightAllCells();
+    }
+
     public cellClick(cellView : joint.dia.CellView, event, x, y) {
-        DiagramComponent._graph.getCells().forEach(cell => {
-            cell.findView(DiagramComponent._paper).unhighlight();
-        });
+        this.unhighlightAllCells();
 
         if ((cellView.model as any).parent) {
             cellView.highlight();
@@ -116,10 +121,14 @@ export class DiagramComponent{
         }
     }
 
-    public resetDiagram() {
+    private unhighlightAllCells() {
         DiagramComponent._graph.getCells().forEach(cell => {
             cell.findView(DiagramComponent._paper).unhighlight();
         });
+    }
+
+    public resetDiagram() {
+        this.unhighlightAllCells();
 
         this.resetZoom();
     }
