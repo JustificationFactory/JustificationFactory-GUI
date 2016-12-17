@@ -25,6 +25,9 @@
                         <tr>
                             <td> <label >Border color:</label>{{BorderColorOfElement}} <paletteColor [(selectedColorHex)]="BorderColorOfElement" (selectedColorHexChange)="onColorChanged($event)"></paletteColor> </td>
                         </tr>
+                        <tr>
+                            <td> <label >Text color:</label>{{TextColorOfElement}} <paletteColor [(selectedColorHex)]="TextColorOfElement" (selectedColorHexChange)="onColorChanged($event)"></paletteColor> </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -51,6 +54,9 @@
                         </tr>
                         <tr>
                             <td> <label >Border color: </label>{{BorderColorOfLimits}} <paletteColor [(selectedColorHex)]="BorderColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
+                        </tr>
+                        <tr>
+                            <td> <label >Text color: </label>{{TextColorOfLimits}} <paletteColor [(selectedColorHex)]="TextColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
                         </tr>
                         </tbody>
                     </table>

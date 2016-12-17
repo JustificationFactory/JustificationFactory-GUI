@@ -28,10 +28,12 @@ export class PropertiesComponent implements OnChanges {
     @Input() ShapeOfElement = "";
     @Input() BackgroundColorOfElement = "white";
     @Input() BorderColorOfElement = "white";
+    @Input() TextColorOfElement = "white";
     @Input() limitExist=false;
     @Input() ShapeOfLimits = "";
     @Input() BackgroundColorOfLimits = "white";
     @Input() BorderColorOfLimits = "white";
+    @Input() TextColorOfLimits = "white";
 
     private  getNodeSettings() {
 
@@ -40,10 +42,12 @@ export class PropertiesComponent implements OnChanges {
         this.ShapeOfElement = "";
         this.BackgroundColorOfElement = "white";
         this.BorderColorOfElement = "white";
+        this.TextColorOfElement = "white";
         this.limitExist = false;
         this.ShapeOfLimits = "";
         this.BackgroundColorOfLimits = "white";
         this.BorderColorOfLimits = "white";
+        this.TextColorOfLimits = "white";
 
         //Set visual properties of element
         if(this.selectedElement.visualShape.attributes.type == "basic.Rect"){
@@ -62,6 +66,8 @@ export class PropertiesComponent implements OnChanges {
             this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.stroke;
         }
 
+        this.TextColorOfElement = this.selectedElement.visualShape.attributes.attrs.text.fill;
+
         //Set visual properties of Limits
         if((Object.keys((this.selectedElement.visualShape as any).portData.ports)).length>1){
             this.limitExist = true;
@@ -69,6 +75,7 @@ export class PropertiesComponent implements OnChanges {
                 this.ShapeOfLimits = "Rectangle";
                 this.BackgroundColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.fill;
                 this.BorderColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.stroke;
+                this.TextColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.text.fill;
             }
         }
     }
@@ -87,11 +94,14 @@ export class PropertiesComponent implements OnChanges {
             this.selectedElement.visualShape.attributes.attrs.path.stroke = this.BorderColorOfElement;
         }
 
+        this.selectedElement.visualShape.attributes.attrs.text.fill = this.TextColorOfElement;
+
         //Set visual properties of Limits
         for (var port of (this.selectedElement.visualShape as any).portData.ports){
             if (port.attrs.rect) {
                 port.attrs.rect.fill = this.BackgroundColorOfLimits;
                 port.attrs.rect.stroke = this.BorderColorOfLimits;
+                port.attrs.text.fill = this.TextColorOfLimits;
             }
         }
 

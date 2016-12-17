@@ -105,13 +105,10 @@ export class DiagramComponent{
         DiagramComponent._paper.off('cell:pointerdown', this.cellClick, this);
     }
 
-    private _previousHighlightingCel : joint.dia.CellView;
-
     public cellClick(cellView : joint.dia.CellView, event, x, y) {
-        if (this._previousHighlightingCel)
-            this._previousHighlightingCel.unhighlight();
-
-        this._previousHighlightingCel = cellView;
+        DiagramComponent._graph.getCells().forEach(cell => {
+            cell.findView(DiagramComponent._paper).unhighlight();
+        });
 
         if ((cellView.model as any).parent) {
             cellView.highlight();
@@ -119,12 +116,16 @@ export class DiagramComponent{
         }
     }
 
-    public getSVGFromDiagram() : any {
-
-        if (this._previousHighlightingCel)
-            this._previousHighlightingCel.unhighlight();
+    public resetDiagram() {
+        DiagramComponent._graph.getCells().forEach(cell => {
+            cell.findView(DiagramComponent._paper).unhighlight();
+        });
 
         this.resetZoom();
+    }
+
+    public getSVGFromDiagram() : any {
+        this.resetDiagram();
 
         return $('#myholder').html();
     }
