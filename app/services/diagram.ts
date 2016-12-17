@@ -16,6 +16,8 @@ class DiagramElement {
     type:string;
     artifacts: Array<Artifact>;
 
+    public static RectangleShape : string = "M 0 0 L 60 0 L 60 30 L 0 30 Z";
+    public static RoundedRectangleShape : string = "M 0 6 Q 0 0 6 0 L 54 0 Q 60 0 60 6 L 60 24 Q 60 30 54 30 L 6 30 Q 0 30 0 24 Z";
     public static ParallelogramShape : string = "M 10 0 L 70 0 L 60 30 L 0 30 Z";
 
     constructor(name: string, jsonElement: any, type: string) {
@@ -79,10 +81,13 @@ class Support extends DiagramElement {
     constructor(public conclusion: Conclusion, public evidence: Evidence) {
         super(conclusion.name, conclusion.jsonElement, conclusion.type);
 
-        this.visualShape = new joint.shapes.basic.Rect({
+        this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(conclusion.name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00 ', rx: 5, ry: 10  }, text: { text: conclusion.name, fill: 'black' } }
+            attrs: {
+                path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
+                text: { text: conclusion.name, 'ref-y': .3, fill: 'black' }
+            }
         });
 
         this.artifacts = Util.getLimitationsFromJson(conclusion.jsonElement, this);
@@ -90,7 +95,7 @@ class Support extends DiagramElement {
 
         if (this.artifacts.length > 0) {
             this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
-            this.visualShape.attributes.attrs.text.y = 0;
+            this.visualShape.attributes.attrs.text.y = 5;
         }
     }
 }
@@ -100,10 +105,13 @@ class Conclusion extends DiagramElement {
     constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
 
-        this.visualShape = new joint.shapes.basic.Rect({
+        this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10  }, text: { text: name, fill: 'black'} }
+            attrs: {
+                path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
+                text: { text: name, 'ref-y': .3, fill: 'black' }
+            }
         })
 
         this.artifacts = Util.getLimitationsFromJson(jsonElement, this);
@@ -111,7 +119,7 @@ class Conclusion extends DiagramElement {
 
         if (this.artifacts.length > 0) {
             this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
-            this.visualShape.attributes.attrs.text.y = 0;
+            this.visualShape.attributes.attrs.text.y = 5;
         }
     }
 }
@@ -120,10 +128,14 @@ class Evidence extends DiagramElement {
     artifacts: Array<Artifact>;
     constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
-        this.visualShape = new joint.shapes.basic.Rect({
+        this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#CCCC00', rx: 5, ry: 10 }, text: { text: name, fill: 'black' } }
+            attrs: {
+                path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
+                text: { text: name, 'ref-y': .3, fill: 'black' }
+            }
+
         });
         (this.visualShape as any).parent = this;
     }
@@ -231,8 +243,8 @@ class Limitation extends Artifact{
                     //if rectangle of the first port is greater than the half of the conclusion
                     //x position shift to the left
                     xRect = (parentElement.visualShape as any).portData.ports[0].attrs.rect.x
-                            + (parentElement.visualShape as any).portData.ports[0].attrs.rect.width
-                            + (xEcartFromMiddle * 2);
+                        + (parentElement.visualShape as any).portData.ports[0].attrs.rect.width
+                        + (xEcartFromMiddle * 2);
                 }
                 else
                     xRect = (parentElement.visualShape.attributes.size.width / 2) + xEcartFromMiddle;
@@ -258,8 +270,8 @@ class Limitation extends Artifact{
                     //if rectangle of the first port is greater than the half of the conclusion
                     //x position shift to the left
                     xRect = (parentElement.visualShape as any).portData.ports[0].attrs.rect.x
-                            + (parentElement.visualShape as any).portData.ports[0].attrs.rect.width
-                            + xMargeOtherLimitations;
+                        + (parentElement.visualShape as any).portData.ports[0].attrs.rect.width
+                        + xMargeOtherLimitations;
                 }
                 else
                     xRect = (parentElement.visualShape.attributes.size.width / 2) - (xEcartFromMiddle - xMargeOtherLimitations);
@@ -269,7 +281,7 @@ class Limitation extends Artifact{
                 break;
 
             default :
-                //no more limitations are accepted
+            //no more limitations are accepted
         }
 
         var nameLength = $('#ruler').html(name).width();
@@ -437,6 +449,17 @@ class Util{
         result += '</svg> <text x="-10" y="100" font-size="14"></text>'; //this works like a template for actor name !
 
         return result;
+    }
+
+    static roundedRectangleSvg(x, y, w, h, r1, r2, r3, r4) : string {
+        let result = [];
+
+        result = result.concat(["M",x,r1+y, "Q",x,y, x+r1,y]); //A
+        result = result.concat(["L",x+w-r2,y, "Q",x+w,y, x+w,y+r2]); //B
+        result = result.concat(["L",x+w,y+h-r3, "Q",x+w,y+h, x+w-r3,y+h]); //C
+        result = result.concat(["L",x+r4,y+h, "Q",x,y+h, x,y+h-r4, "Z"]); //D
+
+        return result.toString().replace(/,/g, " ");
     }
 }
 

@@ -40,8 +40,10 @@ export class DiagramComponent{
         }
         DiagramComponent._paper.setOrigin(0,0);
         var dragStartPosition = null;
-        DiagramComponent._paper.off('cell:pointerclick', this.cellClick, this);
+        this.resetEvents();
+        //DiagramComponent._paper.off('cell:pointerclick', this.cellClick, this);
         DiagramComponent._paper.on('cell:pointerclick', this.cellClick, this);
+        DiagramComponent._paper.on('blank:pointerclick', this.blankClick, this);
 
         DiagramComponent._paper.on('blank:pointerdown',
             function(event, x, y) {
@@ -54,7 +56,6 @@ export class DiagramComponent{
 
         DiagramComponent._paper.on('cell:pointerup blank:pointerup', function(cellView, x, y) {
              dragStartPosition = null;
-
             //alert("up : " + dragStartPosition);
         });
 
@@ -72,6 +73,7 @@ export class DiagramComponent{
                 }
 
             });
+
 
         $('#myholder').replaceWith(DiagramComponent._paper.el);
 
@@ -138,15 +140,15 @@ export class DiagramComponent{
 
     public resetEvents() {
         DiagramComponent._paper.off('cell:pointerclick', this.cellClick, this);
+        DiagramComponent._paper.off('blank:pointerclick', this.blankClick, this);
     }
 
-    private _previousHighlightingCel : joint.dia.CellView;
+    public blankClick(event, x, y) {
+        this.unhighlightAllCells();
+    }
 
     public cellClick(cellView : joint.dia.CellView, event, x, y) {
-        if (this._previousHighlightingCel)
-            this._previousHighlightingCel.unhighlight();
-
-        this._previousHighlightingCel = cellView;
+        this.unhighlightAllCells();
 
         if ((cellView.model as any).parent) {
             cellView.highlight();
@@ -154,12 +156,20 @@ export class DiagramComponent{
         }
     }
 
-    public getSVGFromDiagram() : any {
+    private unhighlightAllCells() {
+        DiagramComponent._graph.getCells().forEach(cell => {
+            cell.findView(DiagramComponent._paper).unhighlight();
+        });
+    }
 
-        if (this._previousHighlightingCel)
-            this._previousHighlightingCel.unhighlight();
+    public resetDiagram() {
+        this.unhighlightAllCells();
 
         this.resetZoom();
+    }
+
+    public getSVGFromDiagram() : any {
+        this.resetDiagram();
 
         return $('#myholder').html();
     }
