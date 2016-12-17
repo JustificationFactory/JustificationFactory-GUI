@@ -35,6 +35,11 @@ export class PropertiesComponent implements OnChanges {
     @Input() BorderColorOfLimits = "white";
     @Input() TextColorOfLimits = "white";
 
+    SHAPE_RECTANGLE = "Rectangle";
+    SHAPE_ROUNDEDRECTANGLE = "Rounded rectangle";
+    SHAPE_PARALLELOGRAM = "Parallelogram";
+    @Input() ShapesList = [this.SHAPE_ROUNDEDRECTANGLE, this.SHAPE_RECTANGLE, this.SHAPE_PARALLELOGRAM];
+
     private  getNodeSettings() {
 
         //Initialization of properties
@@ -50,23 +55,20 @@ export class PropertiesComponent implements OnChanges {
         this.TextColorOfLimits = "white";
 
         //Set visual properties of element
-        if(this.selectedElement.visualShape.attributes.type == "basic.Rect"){
-            this.ShapeOfElement = "Rectangle";
-
-            this.BackgroundColorOfElement = this.selectedElement.visualShape.attributes.attrs.rect.fill;
-            this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.rect.stroke;
-        }
-        else if(this.selectedElement.visualShape.attributes.type == "basic.Path"){
-            if(this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.ParallelogramShape)
-                this.ShapeOfElement = "Parallelogram";
+        if(this.selectedElement.visualShape.attributes.attrs.path){
+            if(this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.RectangleShape)
+                this.ShapeOfElement = this.SHAPE_RECTANGLE;
+            else if(this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.RoundedRectangleShape)
+                this.ShapeOfElement = this.SHAPE_ROUNDEDRECTANGLE;
+            else if(this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.ParallelogramShape)
+                this.ShapeOfElement = this.SHAPE_PARALLELOGRAM;
             else
-                this.ShapeOfElement = this.selectedElement.visualShape.attributes.attrs.path.d;
+                this.ShapeOfElement = "";
 
             this.BackgroundColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.fill;
             this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.stroke;
+            this.TextColorOfElement = this.selectedElement.visualShape.attributes.attrs.text.fill;
         }
-
-        this.TextColorOfElement = this.selectedElement.visualShape.attributes.attrs.text.fill;
 
         //Set visual properties of Limits
         if((Object.keys((this.selectedElement.visualShape as any).portData.ports)).length>1){
@@ -83,18 +85,19 @@ export class PropertiesComponent implements OnChanges {
     private  setNodeSettings() {
 
         //Set visual properties of element
-        if(this.selectedElement.visualShape.attributes.type == "basic.Rect"){
+        if(this.selectedElement.visualShape.attributes.attrs.path){
 
-            this.selectedElement.visualShape.attributes.attrs.rect.fill = this.BackgroundColorOfElement;
-            this.selectedElement.visualShape.attributes.attrs.rect.stroke = this.BorderColorOfElement;
-        }
-        else if(this.selectedElement.visualShape.attributes.type == "basic.Path"){
+            if(this.ShapeOfElement == this.SHAPE_PARALLELOGRAM)
+                this.selectedElement.visualShape.attributes.attrs.path.d = DiagramElement.ParallelogramShape;
+            else if(this.ShapeOfElement == this.SHAPE_RECTANGLE)
+                this.selectedElement.visualShape.attributes.attrs.path.d = DiagramElement.RectangleShape;
+            else
+                this.ShapeOfElement = this.SHAPE_ROUNDEDRECTANGLE;
 
             this.selectedElement.visualShape.attributes.attrs.path.fill = this.BackgroundColorOfElement;
             this.selectedElement.visualShape.attributes.attrs.path.stroke = this.BorderColorOfElement;
+            this.selectedElement.visualShape.attributes.attrs.text.fill = this.TextColorOfElement;
         }
-
-        this.selectedElement.visualShape.attributes.attrs.text.fill = this.TextColorOfElement;
 
         //Set visual properties of Limits
         for (var port of (this.selectedElement.visualShape as any).portData.ports){
@@ -108,6 +111,11 @@ export class PropertiesComponent implements OnChanges {
         this.selectedElementChange.emit(this.selectedElement);
     }
 
+    onShapeOfElementValueChanged(event: any) {
+        this.ShapeOfElement = event.srcElement.value;
+        this.setNodeSettings();
+    }
+    
     onColorChanged(newColorHexa: string) {
         this.setNodeSettings();
     }

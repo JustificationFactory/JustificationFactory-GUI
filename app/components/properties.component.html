@@ -17,7 +17,11 @@
                     <table class="table table table-striped table-properties-details">
                         <tbody>
                         <tr class="tr-property-detail">
-                            <td > <label >Shape: </label>{{ShapeOfElement}}</td>
+                            <td > <label >Shape: </label>
+                                <select class="form-control" value="{{ShapeOfElement}}" (change)="onShapeOfElementValueChanged($event)">
+                                    <option *ngFor="let shape of ShapesList" value="{{shape}}">{{shape}}</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td> <label >Background: </label>{{BackgroundColorOfElement}} <paletteColor [(selectedColorHex)]="BackgroundColorOfElement" (selectedColorHexChange)="onColorChanged($event)"></paletteColor> </td>
@@ -46,9 +50,6 @@
 
                     <table class="table table table-striped table-properties-details">
                         <tbody>
-                        <tr class="tr-property-detail">
-                            <td > <label >Shape: </label>{{ShapeOfLimits}}</td>
-                        </tr>
                         <tr>
                             <td> <label >Background: </label>{{BackgroundColorOfLimits}} <paletteColor [(selectedColorHex)]="BackgroundColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
                         </tr>
