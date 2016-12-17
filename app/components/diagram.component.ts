@@ -95,16 +95,10 @@ export class DiagramComponent{
     }
 
     onSelectedElementChange(element: DiagramElement) {
-        let newAttrs = element.visualShape.attributes.attrs;
-        //To generate a update of the element view
-        //A re-initilization of 1 attribut is needed
-        element.visualShape.attr({
-            text: {
-                fill: '?'
-            }
-        });
-        //And after we can put again all correct attributes
-        element.visualShape.attr(newAttrs);
+        //We must redraw the graph because for PATH case, if we just set atrributes
+        //the origin PATH SVG shape appear (bug !)
+        DiagramComponent._graph.resetCells(DiagramComponent._graph.getCells());
+        element.visualShape.findView(DiagramComponent._paper).highlight();
     }
 
     public resetEvents() {
