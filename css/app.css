@@ -12,10 +12,13 @@ body {
     white-space: nowrap;
 }
 
-#myholder {
+#myholderScroll{
     width: 100%;
     height: 80vh;
     overflow-y: scroll;
+}
+#myholder {
+
 }
 
 .row-without-margin {

@@ -33,6 +33,7 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
     }
 
+
     private inputChanged = (evt: Event) => {
         console.log('File detected');
         this.importFileReader.readAsText(this.inputElement.files[0]);

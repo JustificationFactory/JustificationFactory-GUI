@@ -11,14 +11,18 @@ export class DiagramComponent{
 
     _initialPaperWidth : number = 810 ;
     _initialPaperHeight : number = 610 ;
-    _graphScale : number = 1 ;
+    private static _graphScale : number = 1 ;
     selectedElement = null;
+
 
     constructor() {
 
     }
 
+
+
     public showDiagram(elements: DiagramElement[]){
+
         if(!DiagramComponent._graph) {
             DiagramComponent._graph = new Graph;
         }
@@ -34,9 +38,40 @@ export class DiagramComponent{
                 restrictTranslate: true
             });
         }
+        DiagramComponent._paper.setOrigin(0,0);
+        var dragStartPosition = null;
+        DiagramComponent._paper.off('cell:pointerclick', this.cellClick, this);
+        DiagramComponent._paper.on('cell:pointerclick', this.cellClick, this);
 
-        DiagramComponent._paper.off('cell:pointerdown', this.cellClick, this);
-        DiagramComponent._paper.on('cell:pointerdown', this.cellClick, this);
+        DiagramComponent._paper.on('blank:pointerdown',
+            function(event, x, y) {
+                //alert(DiagramComponent._graphScale);
+                dragStartPosition = { x: x * DiagramComponent._graphScale , y: y * DiagramComponent._graphScale};
+                //alert("down : " + dragStartPosition.x + " : " + dragStartPosition.y);
+                //this.dragStartPosition = { x: x, y: y};
+            }
+        );
+
+        DiagramComponent._paper.on('cell:pointerup blank:pointerup', function(cellView, x, y) {
+             dragStartPosition = null;
+
+            //alert("up : " + dragStartPosition);
+        });
+
+        $('#myholder').mousemove(function(event) {
+                //alert("move without if : " + dragStartPosition);
+                if (dragStartPosition != null ){
+                    //alert("move with if : " + dragStartPosition);
+                    event.target.style.cursor = 'move';
+                    DiagramComponent._paper.setOrigin(
+                        event.offsetX - dragStartPosition.x,
+                        event.offsetY - dragStartPosition.y);
+                }
+                else{
+                    event.target.style.cursor = 'default';
+                }
+
+            });
 
         $('#myholder').replaceWith(DiagramComponent._paper.el);
 
@@ -102,7 +137,7 @@ export class DiagramComponent{
     }
 
     public resetEvents() {
-        DiagramComponent._paper.off('cell:pointerdown', this.cellClick, this);
+        DiagramComponent._paper.off('cell:pointerclick', this.cellClick, this);
     }
 
     private _previousHighlightingCel : joint.dia.CellView;
@@ -131,24 +166,24 @@ export class DiagramComponent{
 
 
     public refreshPaper() {
-        DiagramComponent._paper.scale(this._graphScale,this._graphScale);
-        (DiagramComponent._paper.svg as any).width.baseVal.valueInSpecifiedUnits = this._initialPaperWidth * this._graphScale;
-        (DiagramComponent._paper.svg as any).height.baseVal.valueInSpecifiedUnits = this._initialPaperHeight * this._graphScale;
+        DiagramComponent._paper.scale(DiagramComponent._graphScale,DiagramComponent._graphScale);
+        (DiagramComponent._paper.svg as any).width.baseVal.valueInSpecifiedUnits = this._initialPaperWidth * DiagramComponent._graphScale;
+        (DiagramComponent._paper.svg as any).height.baseVal.valueInSpecifiedUnits = this._initialPaperHeight * DiagramComponent._graphScale;
     };
 
     public zoomOut() {
-        this._graphScale -= 0.1;
+        DiagramComponent._graphScale -= 0.1;
         this.refreshPaper();
 
     };
 
     public zoomIn() {
-        this._graphScale += 0.1;
+        DiagramComponent._graphScale += 0.1;
         this.refreshPaper();
     };
 
     public resetZoom() {
-        this._graphScale = 1;
+        DiagramComponent._graphScale = 1;
         this.refreshPaper();
     }
 }
