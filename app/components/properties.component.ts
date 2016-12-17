@@ -115,7 +115,7 @@ export class PropertiesComponent implements OnChanges {
         this.ShapeOfElement = event.srcElement.value;
         this.setNodeSettings();
     }
-    
+
     onColorChanged(newColorHexa: string) {
         this.setNodeSettings();
     }

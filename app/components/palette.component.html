@@ -6,10 +6,10 @@
     <div class="skin_carre"    (mouseup)="mouseUpCarre($event)" [style.background-color]="carreColorRgb"> </div>
     <div class="skin_curseur2" (mouseup)="mouseUpCarre($event)" [style.top]="curseur2TopPosition" [style.left]="curseur2LeftPosition"> </div>
 
-    <form>
+    <div>
         <input type="text" class="skin_resultat" size=20 name="affichage_couleur" value="{{selectedColorHex}}" [style.background-color]="selectedColorRgb" />
-        <input type="button"  value=" OK " (click)="onClickedExit()" class="skin_bouton_OK" />
-    </form>
+        <input type="button"  value=" OK " (click)="onClickedSave()" class="skin_bouton_OK" />
+    </div>
 </div>
 
 <div  class="property-open-button"  [style.background-color]="selectedColorHex" (click)='openDialogBox()' ></div>

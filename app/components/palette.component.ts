@@ -41,14 +41,6 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
             cursor: pointer;
             padding: 0 5px;
         }
-        
-        .skin_bouton_OK
-        {
-            position:absolute;
-            top:330px;
-            left:220px;
-        }
-    
     
         .skin_barre  /* on reprend le nom qu'on a mis dans 'class=' */
         {
@@ -115,7 +107,14 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
             background-color:red;
             text-align:center;  /* on aligne le texte au centre */
         }
-
+        
+        .skin_bouton_OK
+        {
+            position:absolute;
+            top:329px;
+            left:235px;
+        }
+    
     `]
 
 })
@@ -136,16 +135,30 @@ export class PaletteComponent {
     @Input() curseur2TopPosition = "10px";
     @Input() curseur2LeftPosition = "350px";
 
+    selectedColorHexOldValue = "";
+
     constructor() {
     }
 
     openDialogBox() {
+        this.selectedColorHexOldValue = this.selectedColorHex;
+        let rgbObj = this.hexToRgb(this.selectedColorHex);
+
+        if (rgbObj)
+            this.selectedColorRgb = "rgb("+rgbObj.r+","+rgbObj.g+","+rgbObj.b+")";
+        else
+            this.selectedColorRgb = this.selectedColorHex;
+
         this.showDialog = true;
     }
 
     onClickedExit() {
+        this.selectedColorHex = this.selectedColorHexOldValue;
         this.showDialog = false;
+    }
 
+    onClickedSave() {
+        this.showDialog = false;
         this.selectedColorHexChange.emit(this.selectedColorHex);
     }
 
@@ -256,6 +269,15 @@ export class PaletteComponent {
                     return "F";
             }
         }
+    }
+
+    hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : null;
     }
 }
 
