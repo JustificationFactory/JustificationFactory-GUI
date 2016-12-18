@@ -93,7 +93,7 @@ export class PropertiesComponent implements OnChanges {
             else if(this.ShapeOfElement == this.SHAPE_RECTANGLE)
                 this.selectedElement.visualShape.attributes.attrs.path.d = DiagramElement.RectangleShape;
             else
-                this.ShapeOfElement = this.SHAPE_ROUNDEDRECTANGLE;
+                this.selectedElement.visualShape.attributes.attrs.path.d = DiagramElement.RoundedRectangleShape;
 
             this.selectedElement.visualShape.attributes.attrs.path.fill = this.BackgroundColorOfElement;
             this.selectedElement.visualShape.attributes.attrs.path.stroke = this.BorderColorOfElement;
