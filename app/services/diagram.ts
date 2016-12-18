@@ -154,15 +154,8 @@ class Strategy extends DiagramElement {
                 text: { text: name, 'ref-y': .3, fill: 'white' }
             }
         });
-        this.artifacts = this.createArtifactsFromJson();
+
         (this.visualShape as any).parent = this;
-    }
-
-    private createArtifactsFromJson() : Array<Artifact> {
-        var actor = new Actor(this.jsonElement.actor[0].name[0],this.jsonElement.actor[0], this.jsonElement.actor[0].role[0]);
-        var rationale = new Rationale("",this.jsonElement.rationale[0],"");
-
-        return [actor, rationale];
     }
 }
 
@@ -342,13 +335,19 @@ class Rationale extends Artifact{
 
         let labelRationale = "";
 
-        if (jsonElement.axonicProject[0].pathology)
-            labelRationale += jsonElement.axonicProject[0].pathology[0];
-        if (jsonElement.axonicProject[0].stimulator) {
+        for(var r of Object.keys(jsonElement.axonicProject[0])) {
             if (labelRationale != "")
                 labelRationale += " & ";
-            labelRationale += jsonElement.axonicProject[0].stimulator[0];
-        }
+            labelRationale += jsonElement.axonicProject[0][r];
+        };
+
+        // if (jsonElement.axonicProject[0].pathology)
+        //     labelRationale += jsonElement.axonicProject[0].pathology[0];
+        // if (jsonElement.axonicProject[0].stimulator) {
+        //     if (labelRationale != "")
+        //         labelRationale += " & ";
+        //     labelRationale += jsonElement.axonicProject[0].stimulator[0];
+        // }
         
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),

@@ -36,6 +36,11 @@ class ParseJson2DiagramElements {
             strategies.push(strategyN);
             links.push(strategyN.makeLinkWithParent(conclusionN));
 
+            strategyN.artifacts = [];
+
+            var rationale = new Rationale("",step.strategy[0].rationale[0],"");
+            strategyN.artifacts.push(rationale);
+
             for(var evidenceRole of step.evidences[0].evidenceRoles) {
                 var nameOfEvidence = evidenceRole.evidence[0].name[0];
                 var typeOfEvidence = this.getTypeFromStringAttributs(JSON.stringify(evidenceRole.evidence[0].element[0].$));
@@ -44,6 +49,9 @@ class ParseJson2DiagramElements {
                 kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
                 links.push(evidenceN.makeLinkWithParent(strategyN));
             }
+
+            var actor = new Actor(step.strategy[0].actor[0].name[0],step.strategy[0].actor[0], step.strategy[0].actor[0].role[0]);
+            strategyN.artifacts.push(actor);
         }
 
         //Merge where Conclusion == Evidence. Replace by Support.
