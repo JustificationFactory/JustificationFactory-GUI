@@ -12,4 +12,10 @@
     </div>
 </div>
 
-<div  class="property-open-button"  [style.background-color]="selectedColorHex" (click)='openDialogBox()' ></div>
+<table>
+    <tr>
+        <td><div  class="property-open-button"  [style.background-color]="selectedColorHex" (click)='openDialogBox()' ></div></td>
+        <td>{{selectedColorHex}}</td>
+    </tr>
+</table>
+

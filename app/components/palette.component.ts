@@ -114,7 +114,14 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
             top:329px;
             left:235px;
         }
-    
+        .property-open-button
+        {
+            margin-right: 5px;
+            width: 10px;
+            height: 10px;
+            border:1px solid black;
+            text-align:center;
+        }
     `]
 
 })

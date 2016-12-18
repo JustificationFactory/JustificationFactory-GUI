@@ -61,14 +61,7 @@ body {
 .panel-no-margin-bottom{
     margin-bottom: 0px !important;
 }
-.property-open-button
-{
 
-    width: 10px;
-    height: 10px;
-    border:1px solid black;
-    text-align:center;
-}
 
 .properties-header {
     text-align: center;
