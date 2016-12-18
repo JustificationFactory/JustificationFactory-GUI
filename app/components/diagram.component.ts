@@ -14,12 +14,9 @@ export class DiagramComponent{
     private static _graphScale : number = 1 ;
     selectedElement = null;
 
-
     constructor() {
 
     }
-
-
 
     public showDiagram(elements: DiagramElement[]){
 
@@ -40,57 +37,41 @@ export class DiagramComponent{
         }
         DiagramComponent._paper.setOrigin(0,0);
         var dragStartPosition = null;
+
         this.resetEvents();
-        //DiagramComponent._paper.off('cell:pointerclick', this.cellClick, this);
         DiagramComponent._paper.on('cell:pointerclick', this.cellClick, this);
         DiagramComponent._paper.on('blank:pointerclick', this.blankClick, this);
 
         DiagramComponent._paper.on('blank:pointerdown',
             function(event, x, y) {
-                //alert(DiagramComponent._graphScale);
                 dragStartPosition = { x: x * DiagramComponent._graphScale , y: y * DiagramComponent._graphScale};
-                //alert("down : " + dragStartPosition.x + " : " + dragStartPosition.y);
-                //this.dragStartPosition = { x: x, y: y};
             }
         );
 
         DiagramComponent._paper.on('cell:pointerup blank:pointerup', function(cellView, x, y) {
              dragStartPosition = null;
-            //alert("up : " + dragStartPosition);
         });
 
         $('#myholder').mousemove(function(event) {
-                //alert("move without if : " + dragStartPosition);
-                if (dragStartPosition != null ){
-                    //alert("move with if : " + dragStartPosition);
-                    event.target.style.cursor = 'move';
-                    DiagramComponent._paper.setOrigin(
-                        event.offsetX - dragStartPosition.x,
-                        event.offsetY - dragStartPosition.y);
-                }
-                else{
-                    event.target.style.cursor = 'default';
-                }
-
-            });
-
+            if (dragStartPosition != null) {
+                (event.target as any).style.cursor = 'move';
+                DiagramComponent._paper.setOrigin(
+                    event.offsetX - dragStartPosition.x,
+                    event.offsetY - dragStartPosition.y);
+            }
+            else {
+                (event.target as any).style.cursor = 'default';
+            }
+        });
 
         $('#myholder').replaceWith(DiagramComponent._paper.el);
 
         this.resetZoom();
 
-        // construction des artifacts à partir de JSON
-        // add artifacts de graph
-        var cells : joint.dia.Cell[] = [];
-        for (var el of elements) {
-            cells.push(el.visualShape);
+        let cells : joint.dia.Cell[] = [];
 
-            for(var artifact of el.artifacts){
-                if(artifact.behavior == Behavior.Near){
-                    cells.push(artifact.visualShape);
-                    cells.push(artifact.makeLinkWithParent(el).visualShape);
-                }
-            }
+        for (let el of elements) {
+            cells.push(el.visualShape);
         }
 
         DiagramComponent._graph.resetCells(cells);
@@ -104,10 +85,9 @@ export class DiagramComponent{
             marginY: 10
         });
 
-        for (var el of elements) {
-            cells.push(el.visualShape);
-
-            for(var artifact of el.artifacts){
+        //Replace Actors and Rationales  near strategies
+        for (let el of elements) {
+            for(let artifact of el.artifacts){
                 if(artifact.behavior == Behavior.Near){
                     el.visualShape.embed(artifact.visualShape);
 

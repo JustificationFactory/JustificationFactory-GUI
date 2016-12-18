@@ -341,14 +341,6 @@ class Rationale extends Artifact{
             labelRationale += jsonElement.axonicProject[0][r];
         };
 
-        // if (jsonElement.axonicProject[0].pathology)
-        //     labelRationale += jsonElement.axonicProject[0].pathology[0];
-        // if (jsonElement.axonicProject[0].stimulator) {
-        //     if (labelRationale != "")
-        //         labelRationale += " & ";
-        //     labelRationale += jsonElement.axonicProject[0].stimulator[0];
-        // }
-        
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(labelRationale),

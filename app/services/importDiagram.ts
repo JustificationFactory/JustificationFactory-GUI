@@ -15,61 +15,70 @@ class ParseJson2DiagramElements {
     }
 
     public getDiagramElements () : DiagramElement[] {
+        let conclusions = new Array<Conclusion>();
+        let strategies = new Array<Strategy>();
+        let actors = new Array<Actor>();
+        let rationales = new Array<Rationale>();
+        let kvevidences = new Array<KeyValueEvidence>();
+        let supports = new Array<Support>();
+        let links = new Array<LinkElement>();
 
-        var conclusions = new Array<Conclusion>();
-        var strategies = new Array<Strategy>();
-        var kvevidences = new Array<KeyValueEvidence>();
-        var supports = new Array<Support>();
-        var links = new Array<LinkElement>();
+        for (let step  of this.globalJson.root.steps[0].step) {
+            let nameOfConclusion = step.conclusion[0].name[0];
+            let typeOfConclusion = this.getTypeFromStringAttributs(JSON.stringify(step.conclusion[0].element[0].$));
 
-        for (var step  of this.globalJson.root.steps[0].step) {
-            var nameOfConclusion = step.conclusion[0].name[0];
-            var typeOfConclusion = this.getTypeFromStringAttributs(JSON.stringify(step.conclusion[0].element[0].$));
-
-            var conclusionN = new Conclusion(nameOfConclusion, step.conclusion[0], typeOfConclusion);
+            let conclusionN = new Conclusion(nameOfConclusion, step.conclusion[0], typeOfConclusion);
             conclusions.push(conclusionN);
 
-            var nameOfstrategy = step.strategy[0].name[0];
-            var typeOfstrategy = this.getTypeFromStringAttributs(JSON.stringify(step.strategy[0].$));
+            let nameOfstrategy = step.strategy[0].name[0];
+            let typeOfstrategy = this.getTypeFromStringAttributs(JSON.stringify(step.strategy[0].$));
 
-            var strategyN = new Strategy(nameOfstrategy, step.strategy[0], typeOfstrategy);
+            let strategyN = new Strategy(nameOfstrategy, step.strategy[0], typeOfstrategy);
             strategies.push(strategyN);
             links.push(strategyN.makeLinkWithParent(conclusionN));
 
             strategyN.artifacts = [];
 
-            var rationale = new Rationale("",step.strategy[0].rationale[0],"");
-            strategyN.artifacts.push(rationale);
+            if (step.strategy[0].rationale) {
+                let rationale = new Rationale("", step.strategy[0].rationale[0], "");
+                strategyN.artifacts.push(rationale);
+                rationales.push(rationale);
+                links.push(rationale.makeLinkWithParent(strategyN));
+            }
 
-            for(var evidenceRole of step.evidences[0].evidenceRoles) {
-                var nameOfEvidence = evidenceRole.evidence[0].name[0];
-                var typeOfEvidence = this.getTypeFromStringAttributs(JSON.stringify(evidenceRole.evidence[0].element[0].$));
+            for(let evidenceRole of step.evidences[0].evidenceRoles) {
+                let nameOfEvidence = evidenceRole.evidence[0].name[0];
+                let typeOfEvidence = this.getTypeFromStringAttributs(JSON.stringify(evidenceRole.evidence[0].element[0].$));
 
-                var evidenceN = new Evidence(nameOfEvidence, evidenceRole.evidence[0], typeOfEvidence);
+                let evidenceN = new Evidence(nameOfEvidence, evidenceRole.evidence[0], typeOfEvidence);
                 kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
                 links.push(evidenceN.makeLinkWithParent(strategyN));
             }
 
-            var actor = new Actor(step.strategy[0].actor[0].name[0],step.strategy[0].actor[0], step.strategy[0].actor[0].role[0]);
-            strategyN.artifacts.push(actor);
+            if (step.strategy[0].actor) {
+                let actor = new Actor(step.strategy[0].actor[0].name[0], step.strategy[0].actor[0], step.strategy[0].actor[0].role[0]);
+                strategyN.artifacts.push(actor);
+                actors.push(actor);
+                links.push(actor.makeLinkWithParent(strategyN));
+            }
         }
 
         //Merge where Conclusion == Evidence. Replace by Support.
-        for(var i = conclusions.length -1 ; i >= 0 ; i--) {
-            var conclusioni = conclusions[i];
+        for(let i = conclusions.length -1 ; i >= 0 ; i--) {
+            let conclusioni = conclusions[i];
 
-            for(var j = kvevidences.length -1 ; j >= 0 ; j--) {
-                var kvevidencej = kvevidences[j];
+            for(let j = kvevidences.length -1 ; j >= 0 ; j--) {
+                let kvevidencej = kvevidences[j];
 
                 if ((kvevidencej.conclusionId !== conclusioni.getId())
                     && (kvevidencej.evidence.name == conclusioni.name)) {
 
                     //Create Support object
-                    var supportl = new Support(conclusioni, kvevidencej.evidence);
+                    let supportl = new Support(conclusioni, kvevidencej.evidence);
                     supports.push(supportl);
 
-                    for(var k = links.length -1 ; k >= 0 ; k--) {
-                        var linkk = links[k];
+                    for(let k = links.length -1 ; k >= 0 ; k--) {
+                        let linkk = links[k];
 
                         if (linkk.sourceElement.getId() === kvevidencej.evidence.getId()) {
                             linkk.setSource(supportl);
@@ -87,17 +96,23 @@ class ParseJson2DiagramElements {
         }
 
 
-        var elementsDiagram: DiagramElement[] = [];
+        let elementsDiagram: DiagramElement[] = [];
 
-        for(var conclusion of conclusions)
+        //keep the order : rationales then evidences then actor => for alignment
+
+        for(let conclusion of conclusions)
             elementsDiagram.push(conclusion);
-        for(var strategy of strategies)
+        for(let strategy of strategies)
             elementsDiagram.push(strategy);
-        for(var kvevidence of kvevidences)
+        for(let rationale of rationales)
+            elementsDiagram.push(rationale);
+        for(let kvevidence of kvevidences)
             elementsDiagram.push(kvevidence.evidence);
-        for(var support of supports)
+        for(let actor of actors)
+            elementsDiagram.push(actor);
+        for(let support of supports)
             elementsDiagram.push(support);
-        for(var link of links)
+        for(let link of links)
             elementsDiagram.push(link);
 
         return elementsDiagram;
