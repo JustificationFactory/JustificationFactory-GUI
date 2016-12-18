@@ -10,7 +10,7 @@ export class PropertiesComponent implements OnChanges {
 
     @Input() selectedElement : DiagramElement = null;
     @Output() selectedElementChange : EventEmitter<DiagramElement> = new EventEmitter(); //For two-way binding (ex: prop1Change)
-    tree = [];
+    @Input() businessTree = [];
 
     constructor(){
 
@@ -18,12 +18,13 @@ export class PropertiesComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if(this.selectedElement){
-            this.getNodeSettings();
-            this.tree = this.addGroups(this.createKeysFromJson(this.selectedElement.jsonElement, ""));
+            this.loadVisualSettings();
+            this.businessTree = this.addBusinessGroupsWithElements();
         }
     }
 
-    /*******************************************visual settings******************************************************************************/
+    /*******************************************visual settings*******************************************************/
+
     @Input() ElementName="";
     @Input() ShapeOfElement = "";
     @Input() BackgroundColorOfElement = "white";
@@ -40,7 +41,7 @@ export class PropertiesComponent implements OnChanges {
     SHAPE_PARALLELOGRAM = "Parallelogram";
     @Input() ShapesList = [this.SHAPE_ROUNDEDRECTANGLE, this.SHAPE_RECTANGLE, this.SHAPE_PARALLELOGRAM];
 
-    private  getNodeSettings() {
+    private  loadVisualSettings() {
 
         //Initialization of properties
         this.ElementName = this.selectedElement.name;
@@ -82,7 +83,7 @@ export class PropertiesComponent implements OnChanges {
         }
     }
 
-    private  setNodeSettings() {
+    private  updateVisualSettings() {
 
         //Set visual properties of element
         if(this.selectedElement.visualShape.attributes.attrs.path){
@@ -113,19 +114,164 @@ export class PropertiesComponent implements OnChanges {
 
     onShapeOfElementValueChanged(event: any) {
         this.ShapeOfElement = event.srcElement.value;
-        this.setNodeSettings();
+        this.updateVisualSettings();
     }
 
     onColorChanged(newColorHexa: string) {
-        this.setNodeSettings();
+        this.updateVisualSettings();
     }
 
-    /*********************************************************Business Properties****************************************************************************/
+    /*******************************************business settings*****************************************************/
+
+    private addBusinessGroupsWithElements(){
+        let properties = [];
+        let keys = this.createKeysFromJson(this.selectedElement.jsonElement, "");
+
+        var groupElements = {
+            label : "Elements",
+            subGroup: [],
+            elements : []
+        };
+        var groupActors = {
+            label : "Actors",
+            subGroup: [],
+            elements : []
+        };
+        var groupRationales = {
+            label : "Rationales",
+            subGroup: [],
+            elements : []
+        };
+        var groupLimits = {
+            label : "Limits",
+            subGroup: [],
+            elements : []
+        };
+
+        let subGroup = {
+            label : "",
+            elements : []
+        };
+
+        keys.sort((a, b) => { return (a.key > b.key) ? 1 : ((b.key > a.key) ? -1 : 0); })
+            .forEach( arrayItem => {
+            //remove elements with $
+            if(arrayItem.key.indexOf("$") !== -1){
+                var index = keys.indexOf(arrayItem);
+                if (index > -1) {
+                    keys.splice(index, 1);
+                }
+                return;
+            }
+            //remove elements with [n]
+            var itemViewKey = arrayItem.key.replace(/\[\w*\]/g,"")
+                .replace(/\._/g,"");
+
+            if (itemViewKey.split(".").length > 1) {
+                let newSubGroup = false;
+
+                if (itemViewKey.split(".").length > 2) {
+                    if (subGroup.label != itemViewKey.split(".")[1]) {
+                        subGroup = {
+                            label: itemViewKey.split(".")[1],
+                            elements: []
+                        };
+                        newSubGroup = true;
+                    }
+                }
+                else {
+                    subGroup = {
+                        label : "",
+                        elements : []
+                    };
+                }
+
+                switch (itemViewKey.split(".")[0]) {
+                    case "actor":
+                        groupActors.elements.push({
+                            key: arrayItem.key,
+                            viewKey: itemViewKey,
+                            value: arrayItem.value
+                        });
+                        break;
+                    case "rationale":
+                        groupRationales.elements.push({
+                            key: arrayItem.key,
+                            viewKey: itemViewKey,
+                            value: arrayItem.value
+                        });
+                        break;
+                    case "limits":
+                        if (subGroup.label !== "") {
+                            subGroup.elements.push({
+                                key: arrayItem.key,
+                                viewKey: itemViewKey,
+                                value: arrayItem.value
+                            });
+
+                            if (newSubGroup) {
+                                groupLimits.subGroup.push(subGroup);
+                            }
+                        }
+                        else {
+                            groupLimits.elements.push({
+                                key: arrayItem.key,
+                                viewKey: itemViewKey,
+                                value: arrayItem.value
+                            });
+                        }
+
+                        break;
+                    default :
+                        if (subGroup.label !== "") {
+                            subGroup.elements.push({
+                                key: arrayItem.key,
+                                viewKey: itemViewKey,
+                                value: arrayItem.value
+                            });
+
+                            if (newSubGroup) {
+                                groupElements.subGroup.push(subGroup);
+                            }
+                        }
+                        else {
+                            groupElements.elements.push({
+                                key: arrayItem.key,
+                                viewKey: itemViewKey,
+                                value: arrayItem.value
+                            });
+                        }
+                }
+            }
+            else {
+                groupElements.elements.push({
+                    key: arrayItem.key,
+                    viewKey: itemViewKey,
+                    value: arrayItem.value
+                });
+            }
+        });
+
+        if ((groupActors.subGroup.length > 0) || (groupActors.elements.length > 0)) {
+            properties.push(groupActors);
+        }
+        if ((groupRationales.subGroup.length > 0) || (groupRationales.elements.length > 0)) {
+            properties.push(groupRationales);
+        }
+        if ((groupLimits.subGroup.length > 0) || (groupLimits.elements.length > 0)) {
+            properties.push(groupLimits);
+        }
+        if ((groupElements.subGroup.length > 0) || (groupElements.elements.length > 0)) {
+            properties.push(groupElements);
+        }
+
+        return properties;
+    }
 
     private  createKeysFromJson(json : any, key : string) : any[] {
-
         let keys = [];
         var x = this;
+
         if(json != null){
             jQuery.each(json, function(i, val) {
                 var subKey;
@@ -145,69 +291,9 @@ export class PropertiesComponent implements OnChanges {
                 else{
                     keys.push({key: key + subKey, value: val})
                 }
-                //alert(i + " : " + val);
             });
         }
         return keys;
     }
 
-    private removeUnusedKeys(keys : any){
-        keys.forEach( function (arrayItem)
-        {
-            //remove array numbers
-            arrayItem.key = arrayItem.key.replace(/\[\w*\]/g,"");
-
-            //remove elements with $
-            if(arrayItem.key.indexOf("$") !== -1){
-                var index = keys.indexOf(arrayItem);
-                if (index > -1) {
-                    keys.splice(index, 1);
-                }
-            }
-        });
-        return keys;
-    }
-
-    private addGroups(keys : any){
-        let properties = [];
-
-        var i=0;
-        var group1 = {
-            label : "Group1",
-            elements : []
-        };
-        var group2 = {
-            label : "Group2",
-            elements : []
-        };
-        keys.forEach( function (arrayItem)
-        {
-            //remove elements with $
-            if(arrayItem.key.indexOf("$") !== -1){
-                var index = keys.indexOf(arrayItem);
-                if (index > -1) {
-                    keys.splice(index, 1);
-                }
-                return;
-            }
-            var itemViewKey = arrayItem.key.replace(/\[\w*\]/g,"")
-                                            .replace(/\._/g,"");
-            //group is Mock
-            if(i< keys.length / 2)
-                group1.elements.push({
-                    key: arrayItem.key,
-                    viewKey: itemViewKey,
-                    value: arrayItem.value
-                });
-            else
-                group2.elements.push({
-                    key: arrayItem.key,
-                    viewKey: itemViewKey,
-                    value: arrayItem.value
-                });
-            i = i + 1;
-        });
-        properties.push(group1,group2);
-        return properties;
-    }
 }

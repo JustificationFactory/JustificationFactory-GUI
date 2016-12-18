@@ -50,7 +50,7 @@
     </div>
 
     <div id="businessPanel" class="tab-pane fade in active">
-        <div class="panel panel-default panel-no-margin-bottom"  *ngFor="let entry of tree" >
+        <div class="panel panel-default panel-no-margin-bottom"  *ngFor="let entry of businessTree" >
             <div class="panel-heading" >
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#{{entry.label}}">{{entry.label}}</a>
@@ -58,9 +58,25 @@
             </div>
             <div id="{{entry.label}}" class="panel-collapse collapse in">
                 <div class="panel-body">
+                    <div class="panel panel-default panel-no-margin-bottom"  *ngFor="let subEntry of entry.subGroup" >
+                        <div class="panel-heading" >
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#{{subEntry.label}}">{{subEntry.label}}</a>
+                            </h4>
+                        </div>
+                        <div id="{{subEntry.label}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table table-striped table-properties-details">
+                                    <tr class="tr-property-detail" *ngFor="let subProp of subEntry.elements">
+                                        <td><label>{{subProp.viewKey}}:</label><div>{{subProp.value}}</div></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                     <table class="table table table-striped table-properties-details">
                         <tr class="tr-property-detail" *ngFor="let prop of entry.elements">
-                            <td><label>{{prop.viewKey}}</label>: {{prop.value}}</td>
+                            <td><label>{{prop.viewKey}}:</label><div>{{prop.value}}</div></td>
                         </tr>
                     </table>
                 </div>

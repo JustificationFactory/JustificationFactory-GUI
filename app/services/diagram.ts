@@ -339,11 +339,22 @@ class Rationale extends Artifact{
     constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
         this.behavior = Behavior.Near;
+
+        let labelRationale = "";
+
+        if (jsonElement.axonicProject[0].pathology)
+            labelRationale += jsonElement.axonicProject[0].pathology[0];
+        if (jsonElement.axonicProject[0].stimulator) {
+            if (labelRationale != "")
+                labelRationale += " & ";
+            labelRationale += jsonElement.axonicProject[0].stimulator[0];
+        }
+        
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
-            size: { width: Util.getElementWidthFromTextLength(jsonElement.axonicProject[0].pathology[0]),
-                height: Util.getElementHeightFromTextLength(jsonElement.axonicProject[0].pathology[0]) },
-            attrs: { rect: { fill: '#FFFFFF' }, text: { text: jsonElement.axonicProject[0].pathology[0], fill: 'black' } }
+            size: { width: Util.getElementWidthFromTextLength(labelRationale),
+                height: Util.getElementHeightFromTextLength(labelRationale) },
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: labelRationale, fill: 'black' } }
         });
     }
 }
