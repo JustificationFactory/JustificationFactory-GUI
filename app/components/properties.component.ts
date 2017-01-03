@@ -113,7 +113,7 @@ export class PropertiesComponent implements OnChanges {
     }
 
     onShapeOfElementValueChanged(event: any) {
-        this.ShapeOfElement = event.srcElement.value;
+        this.ShapeOfElement = event.target.value;
         this.updateVisualSettings();
     }
 
