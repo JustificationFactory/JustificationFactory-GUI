@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--<base href="/">-->
+    <base href="/">
     <title>Argumentation Diagram</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,8 +39,8 @@
     <script src="node_modules/systemjs/dist/system.src.js"></script>
 
     <script>
-        System.import('system-config.js').then(function () {
-            System.import('main');
+        System.import('systemjs.config.js').then(function () {
+            System.import('app');
         }).catch(console.error.bind(console));
 
     </script>
