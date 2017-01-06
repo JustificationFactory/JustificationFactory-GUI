@@ -16,7 +16,6 @@
     "node_modules"
   ],
   "files":[
-    "typings/index.d.ts",
-    "systemjs.config.ts"
+    "typings/index.d.ts"
   ]
 }
