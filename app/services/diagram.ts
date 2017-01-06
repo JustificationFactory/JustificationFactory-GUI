@@ -86,7 +86,7 @@ class Support extends DiagramElement {
             size: { width: Util.getElementWidthFromTextLength(conclusion.name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
                 path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
-                text: { text: conclusion.name, 'ref-y': .3, fill: 'black' }
+                text: { text: conclusion.name, 'ref-y': .3, fill: '#000000' }
             }
         });
 
@@ -110,7 +110,7 @@ class Conclusion extends DiagramElement {
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
                 path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
-                text: { text: name, 'ref-y': .3, fill: 'black' }
+                text: { text: name, 'ref-y': .3, fill: '#000000' }
             }
         })
 
@@ -133,7 +133,7 @@ class Evidence extends DiagramElement {
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
                 path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
-                text: { text: name, 'ref-y': .3, fill: 'black' }
+                text: { text: name, 'ref-y': .3, fill: '#000000' }
             }
 
         });
@@ -150,8 +150,8 @@ class Strategy extends DiagramElement {
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
-                path: { d: DiagramElement.ParallelogramShape, fill: 'green'},
-                text: { text: name, 'ref-y': .3, fill: 'white' }
+                path: { d: DiagramElement.ParallelogramShape, fill: '#008000'},
+                text: { text: name, 'ref-y': .3, fill: '#FFFFFF' }
             }
         });
 
@@ -302,11 +302,11 @@ class Limitation extends Artifact{
                         y: yRect,
                         width: widthRect,
                         height: 25,
-                        stroke: 'black'
+                        stroke: '#000000'
                     },
                     text: {
                         text: name,
-                        fill: 'white',
+                        fill: '#FFFFFF',
                     }
                 }
             };
@@ -345,7 +345,7 @@ class Rationale extends Artifact{
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(labelRationale),
                 height: Util.getElementHeightFromTextLength(labelRationale) },
-            attrs: { rect: { fill: '#FFFFFF' }, text: { text: labelRationale, fill: 'black' } }
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: labelRationale, fill: '#000000' } }
         });
     }
 }
@@ -358,7 +358,7 @@ class Actor extends Artifact{
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name),
                 height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#FFFFFF' }, text: { text: name, fill: 'black' } },
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: name, fill: '#000000' } },
             markup: Util.getSVGActorImage(role)
         });
     }
@@ -375,7 +375,7 @@ class Util{
     static getElementWidthFromTextLength(name: string){
         var maxLine = _.max(name.split('\n'), function(l) { return l.length; });
         var maxLineWidth = $('#ruler').html(maxLine).width();
-        return maxLineWidth + 40;;
+        return maxLineWidth + 40;
     }
 
     static getElementHeightFromTextLength(name: string){
