@@ -176,6 +176,10 @@ export class DiagramComponent{
         DiagramComponent._graphScale = 1;
         this.refreshPaper();
     }
+
+    public getGraphScale() : number {
+        return DiagramComponent._graphScale;
+    }
 }
 
 

@@ -15,6 +15,8 @@ module.exports = function(config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
+      require('karma-firefox-launcher'),
+      require('karma-phantomjs-launcher'),
       require('karma-jasmine-html-reporter')
     ],
 
@@ -62,21 +64,40 @@ module.exports = function(config) {
       { pattern: 'systemjs.config.extras.js', included: false, watched: false },
       'karma-test-shim.js', // optionally extend SystemJS mapping e.g., with barrels
 
-      // transpiled application & spec code paths loaded via module imports
-      { pattern: appBase + '**/*.js', included: false, watched: true },
-      { pattern: testingBase + '**/*.js', included: false, watched: true },
+      'css/bootstrap.min.css',
+      'css/joint.css',
+      'css/app.css',
 
+      'js/jquery-1.12.4.min.js',
+      'js/bootstrap.min.js',
+      'js/lodash.js',
+      'js/backbone.js',
+      'js/graphlib.js',
+      'js/dagre.js',
+      'js/joint.js',
+      'js/joint.shapes.erd.js',
+      'js/pdfkit.js',
+      'js/svg-to-pdfkit.js',
+      'js/blob-stream.js',
+        
+      // transpiled application & spec code paths loaded via module imports
+      { pattern: appBase + '**/*.js', included: true, watched: true },
+      { pattern: testingBase + '**/*.js', included: false, watched: true },
 
       // Asset (HTML & CSS) paths loaded via Angular's component compiler
       // (these paths need to be rewritten, see proxies section)
       { pattern: appBase + '**/*.html', included: false, watched: true },
       { pattern: appBase + '**/*.css', included: false, watched: true },
 
+      { pattern: 'node_modules/@types/**/*.ts', included: false, watched: false },
+      { pattern: 'typings/globals/**/*.ts', included: false, watched: false },
+
       // Paths for debugging with source maps in dev tools
       { pattern: appSrcBase + '**/*.ts', included: false, watched: false },
       { pattern: appBase + '**/*.js.map', included: false, watched: false },
       { pattern: testingSrcBase + '**/*.ts', included: false, watched: false },
       { pattern: testingBase + '**/*.js.map', included: false, watched: false}
+
     ],
 
     // Proxied base paths for loading assets

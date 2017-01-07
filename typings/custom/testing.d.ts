@@ -1,0 +1,1 @@
+declare function define (arrayOfFiles: any, usingFunction: any);
