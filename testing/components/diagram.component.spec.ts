@@ -1,8 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By }              from '@angular/platform-browser';
-import { DebugElement }    from '@angular/core';
-
-import { DiagramComponent } from '../../app/components/diagram.component';
+import {ComponentFixture, TestBed, async} from '@angular/core/testing';
+import {DiagramComponent} from "../../app/components/diagram.component";
+import {PropertiesComponent} from "../../app/components/properties.component";
+import {ActionsToolbarComponent} from "../../app/components/actions.toolbar.component";
+import {EditToolbarComponent} from "../../app/components/edit.toolbar.component";
+import {PaletteComponent} from "../../app/components/palette.component";
 
 describe("diagram.component", () => {
 
@@ -10,19 +11,52 @@ describe("diagram.component", () => {
         let comp:    DiagramComponent;
         let fixture: ComponentFixture<DiagramComponent>;
 
-        beforeEach(() => {
-            // TestBed.configureTestingModule({
-            //     declarations: [ DiagramComponent ], // declare the test component
-            // });
+        beforeEach(async(() => {
+            TestBed.configureTestingModule({
+                declarations: [ DiagramComponent, PropertiesComponent, ActionsToolbarComponent, EditToolbarComponent, PaletteComponent ], // declare the test component
+            });
 
-            //fixture = TestBed.createComponent(DiagramComponent);
-            //
-            // comp = fixture.componentInstance; // BannerComponent test instance
-        });
+            // Overrides here, if you need them
+            TestBed.overrideComponent(DiagramComponent, {
+                set: {
+                    templateUrl: 'base/app/components/diagram.component.html'
+                }
+            })
+            TestBed.overrideComponent(PropertiesComponent, {
+                set: {
+                    templateUrl: 'base/app/components/properties.component.html'
+                }
+            });
+            TestBed.overrideComponent(ActionsToolbarComponent, {
+                set: {
+                    templateUrl: 'base/app/components/actions.toolbar.component.html'
+                }
+            });
+            TestBed.overrideComponent(EditToolbarComponent, {
+                set: {
+                    templateUrl: 'base/app/components/edit.toolbar.component.html'
+                }
+            });
+            TestBed.overrideComponent(PaletteComponent, {
+                set: {
+                    templateUrl: 'base/app/components/palette.component.html'
+                }
+            });
+
+            TestBed.compileComponents().then(() => {
+                //compilation succeed (async needed)
+            }).catch(function(e) {
+                console.log(e); // "zut !"
+            });
+
+        }));
 
         it('Graph Scale = 1', () => {
-            // fixture.detectChanges();
-            // expect(comp.getGraphScale()).toEqual(1);
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            fixture.detectChanges();
+            expect(comp.getGraphScale()).toEqual(1);
         });
     });
 });
