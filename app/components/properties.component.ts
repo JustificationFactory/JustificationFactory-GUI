@@ -267,7 +267,7 @@ export class PropertiesComponent implements OnChanges {
 
         return properties;
     }
-
+    
     private  createKeysFromJson(json : any, key : string) : any[] {
         let keys = [];
         var x = this;

@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
+import {Component, OnInit,HostListener, AfterViewInit, ViewChild} from '@angular/core';
 import {DiagramComponent} from "./diagram.component";
 
 @Component({
@@ -31,6 +31,11 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
 
+    }
+
+    @HostListener('onmousewheel', ['$event'])
+    test(event) {
+        alert("hello");
     }
 
 
