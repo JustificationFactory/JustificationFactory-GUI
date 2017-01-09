@@ -58,5 +58,23 @@ describe("diagram.component", () => {
             fixture.detectChanges();
             expect(comp.getGraphScale()).toEqual(1);
         });
+
+        it('No element selected by default', () => {
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            fixture.detectChanges();
+            expect(comp.selectedElement).toBeNull();
+        });
     });
+
+    //Le chargement d'un diagramme fonctionne (myholder + nombre d'éléments)
+
+    //Charque élément à un parent de type Cell
+
+    //La sélection d'un élément fonctionne (deux sélections à la suite)
+
+    //Le zoom fonctionne correctement
+
+    //Le déplacement du diagramme fonctionne correctement (sur clique gauche de la souris)
 });
