@@ -1,4 +1,4 @@
-///<reference path="../../typings/custom/testing.d.ts"/>
+///<reference path="../../typings/globals/testing/index.d.ts"/>
 ///<reference path="../../app/services/diagram.ts"/>
 
 
@@ -3573,68 +3573,64 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
                 }
             }
 
+            let parse;
+            let listElements:  DiagramElement[];
+            var nb : number;
+
+            beforeEach(() => {
+                parse  = new ImportDiagram.ParseJson2DiagramElements(jsonTest2Step);
+                listElements = parse.getDiagramElements();
+                nb = 0;
+            });
+
             it("Return some elements", function () {
-                let parse  = new ImportDiagram.ParseJson2DiagramElements(jsonTest2Step);
-
-                let listElements = parse.getDiagramElements();
-
                 expect(listElements.length).toBeGreaterThan(0);
             });
 
             it("Number of Conclusions", function () {
-                let parse  = new ImportDiagram.ParseJson2DiagramElements(jsonTest2Step);
-
-                let listElements  : DiagramElement[] = parse.getDiagramElements();
-                var nb : number = 0;
-
                 for (let el of listElements) {
                     if (el instanceof Conclusion)
                     nb++;
                 }
-
                 expect(nb).toEqual(1);
             });
 
             it("Number of Strategies", function () {
-                let parse  = new ImportDiagram.ParseJson2DiagramElements(jsonTest2Step);
-
-                let listElements  : DiagramElement[] = parse.getDiagramElements();
-                var nb : number = 0;
-
                 for (let el of listElements) {
                     if (el instanceof Strategy)
                         nb++;
                 }
-
                 expect(nb).toEqual(2);
             });
 
             it("Number of Evidences", function () {
-                let parse  = new ImportDiagram.ParseJson2DiagramElements(jsonTest2Step);
-
-                let listElements  : DiagramElement[] = parse.getDiagramElements();
-                var nb : number = 0;
-
                 for (let el of listElements) {
                     if (el instanceof Evidence)
                         nb++;
                 }
-
                 expect(nb).toEqual(2);
             });
 
             it("Number of Supports (Evidence and Conclusion in the same time)", function () {
-                let parse  = new ImportDiagram.ParseJson2DiagramElements(jsonTest2Step);
-
-                let listElements  : DiagramElement[] = parse.getDiagramElements();
-                var nb : number = 0;
-
                 for (let el of listElements) {
                     if (el instanceof Support)
                         nb++;
                 }
-
                 expect(nb).toEqual(1);
+            });
+
+
+            it('Each element have a property visualShape typed Cell (JointJS) witch have a parent property typed : DiagramElement (Business)', () => {
+                let allElementOk = true;
+                for (let el of listElements) {
+                    if (!(el instanceof Artifact) && !(el instanceof LinkElement)) {
+                        if (!(el.visualShape instanceof Cell))
+                            allElementOk = false;
+                        if (!((el.visualShape as any).parent instanceof DiagramElement))
+                            allElementOk = false;
+                    }
+                }
+                expect(allElementOk).toEqual(true);
             });
         });
     });
