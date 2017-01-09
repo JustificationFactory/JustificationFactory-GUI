@@ -1,4 +1,4 @@
-///<reference path="../../typings/custom/testing.d.ts"/>
+///<reference path="../../typings/globals/testing/index.d.ts"/>
 ///<reference path="../../app/services/diagram.ts"/>
 
 
