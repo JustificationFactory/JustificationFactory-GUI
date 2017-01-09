@@ -3618,6 +3618,20 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
                 }
                 expect(nb).toEqual(1);
             });
+
+
+            it('Each element have a property visualShape typed Cell (JointJS) witch have a parent property typed : DiagramElement (Business)', () => {
+                let allElementOk = true;
+                for (let el of listElements) {
+                    if (!(el instanceof Artifact) && !(el instanceof LinkElement)) {
+                        if (!(el.visualShape instanceof Cell))
+                            allElementOk = false;
+                        if (!((el.visualShape as any).parent instanceof DiagramElement))
+                            allElementOk = false;
+                    }
+                }
+                expect(allElementOk).toEqual(true);
+            });
         });
     });
 });
