@@ -57,16 +57,76 @@ describe("diagram.component.", () => {
         elements = new Array<DiagramElement>();
         businessSteps = new Array<Step>();
         let step;
-        let conclusion
+        let conclusion, strategy, evidence, rationale, actor;
+
+        //TODO: Links & Supports are not created currently
 
         step = new Step();
-        conclusion = new Conclusion("Establish Effect", {}, "experimentation");
+
+        conclusion = new Conclusion("Experimentation", {}, "experimentation");
         elements.push(conclusion);
         step.push(conclusion);
 
+        strategy = new Strategy("Treat", {}, "humanStrategy");
+        elements.push(strategy);
+        step.push(strategy);
+
+        rationale = new Rationale("", {
+            "axonicProject": [{
+                "pathology": [
+                    "OBESITY"
+                ],
+                "stimulator": [
+                    "AXIS"
+                ]
+            }]}, "");
+        strategy.artifacts.push(rationale);
+        elements.push(rationale);
+
+        evidence = new Evidence("Stimulation 0", {}, "stimulation");
+        elements.push(evidence);
+        step.push(evidence);
+        evidence = new Evidence("Subject 0", {}, "subject");
+        elements.push(evidence);
+        step.push(evidence);
+
+        actor = new Actor("Chloé", {}, "INTERMEDIATE_EXPERT");
+        strategy.artifacts.push(actor);
+        elements.push(actor);
+
         businessSteps.push(step);
 
-        //TODO: ...
+        step = new Step();
+
+        conclusion = new Conclusion("Establish Effect", {}, "establishedEffect");
+        elements.push(conclusion);
+        step.push(conclusion);
+
+        strategy = new Strategy("Establish Effect", {}, "humanStrategy");
+        elements.push(strategy);
+        step.push(strategy);
+
+        rationale = new Rationale("", {
+            "axonicProject": [{
+                "pathology": [
+                    "OBESITY"
+                ],
+                "stimulator": [
+                    "AXIS"
+                ]
+            }]}, "");
+        strategy.artifacts.push(rationale);
+        elements.push(rationale);
+
+        evidence = new Evidence("Experimentation", {}, "experimentation");
+        elements.push(evidence);
+        step.push(evidence);
+
+        actor = new Actor("Chloé", {}, "INTERMEDIATE_EXPERT");
+        strategy.artifacts.push(actor);
+        elements.push(actor);
+
+        businessSteps.push(step);
     }));
 
 
@@ -116,7 +176,7 @@ describe("diagram.component.", () => {
 
             fixture.detectChanges();
 
-            expect(el.innerHTML).not.toEqual("");
+            expect(el.innerHTML.slice(0, 4)).toEqual("<svg");
         });
 
         it('Number of elements in the diagram', () => {
@@ -129,8 +189,7 @@ describe("diagram.component.", () => {
 
             fixture.detectChanges();
 
-            //TODO: ...
-            expect(comp.getCellsGraph().length).toEqual(1);
+            expect(comp.getCellsGraph().length).toEqual(11);
         });
 
         it('Business list. Number of steps', () => {
@@ -143,7 +202,7 @@ describe("diagram.component.", () => {
 
             fixture.detectChanges();
 
-            expect(comp.businessSteps.length).toEqual(1);
+            expect(comp.businessSteps.length).toEqual(2);
         });
 
     });
