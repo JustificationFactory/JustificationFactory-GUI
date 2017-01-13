@@ -4,13 +4,17 @@ import {PropertiesComponent} from "../../app/components/properties.component";
 import {ActionsToolbarComponent} from "../../app/components/actions.toolbar.component";
 import {EditToolbarComponent} from "../../app/components/edit.toolbar.component";
 import {PaletteComponent} from "../../app/components/palette.component";
+import {DebugElement} from "@angular/core";
+import {By} from "@angular/platform-browser";
 
-describe("diagram.component", () => {
+describe("diagram.component.", () => {
 
     let comp:    DiagramComponent;
     let fixture: ComponentFixture<DiagramComponent>;
     let elements: Array<DiagramElement>;
     let businessSteps: Array<Step>;
+    let de: DebugElement;
+    let el: HTMLElement;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -66,7 +70,19 @@ describe("diagram.component", () => {
     }));
 
 
-    describe("Initial values", () => {
+    describe("Initial values.", () => {
+        it('myholder tag empty', () => {
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            de = fixture.debugElement.query(By.css('#myholder'));
+            el = de.nativeElement;
+
+            fixture.detectChanges();
+
+            expect(el.innerHTML).toEqual("");
+        });
+
         it('Graph Scale = 1', () => {
             fixture = TestBed.createComponent(DiagramComponent);
             comp = fixture.componentInstance; // DiagramComponent test instance
@@ -85,11 +101,14 @@ describe("diagram.component", () => {
 
     });
 
-    describe("Loading diagram", () => {
+    describe("Loading diagram.", () => {
 
         it('myholder tag filled', () => {
             fixture = TestBed.createComponent(DiagramComponent);
             comp = fixture.componentInstance; // DiagramComponent test instance
+
+            de = fixture.debugElement.query(By.css('#myholder'));
+            el = de.nativeElement;
 
             fixture.detectChanges();
 
@@ -97,8 +116,7 @@ describe("diagram.component", () => {
 
             fixture.detectChanges();
 
-            //TODO: ...
-            expect(true).toEqual(true);
+            expect(el.innerHTML).not.toEqual("");
         });
 
         it('Number of elements in the diagram', () => {
@@ -130,7 +148,7 @@ describe("diagram.component", () => {
 
     });
 
-    describe("Diagram manipulations", () => {
+    describe("Diagram manipulations.", () => {
 
         it('We can select an element two times and have correct property label each time', () => {
             //TODO: ...

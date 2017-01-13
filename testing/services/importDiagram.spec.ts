@@ -3,9 +3,9 @@
 
 
 define(['app/services/importDiagram.js'], function(ImportDiagram) {
-    describe("importDiagram", function () {
+    describe("importDiagram.", function () {
 
-        describe("ParseJson2DiagramElements", function () {
+        describe("ParseJson2DiagramElements.", function () {
             var jsonTest2Step = {
                 "root": {
                     "steps": [
