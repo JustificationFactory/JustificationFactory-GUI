@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import '../services/diagram';
+import {PropertiesComponent} from "./properties.component";
+import {ActionsToolbarComponent} from "./actions.toolbar.component";
 
 @Component({
     selector: 'diagram-view',
@@ -16,7 +18,7 @@ export class DiagramComponent{
     diagramWidth = "col-sm-12 col-md-12 col-lg-12";
     businessSteps: Array<Step>;
 
-    constructor() {
+    constructor(public propertiesComponent: PropertiesComponent, public actionsToolbarComponent: ActionsToolbarComponent) {
 
     }
 
@@ -195,7 +197,7 @@ export class DiagramComponent{
 
     public getCellViewFromCell(cell : Cell) : joint.dia.CellView
     {
-        return DiagramComponent._paper.findView(cell);
+        return DiagramComponent._paper.findViewByModel(cell);
     }
 }
 

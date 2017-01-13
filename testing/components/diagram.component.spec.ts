@@ -24,7 +24,11 @@ describe("diagram.component.", () => {
         // Overrides here, if you need them
         TestBed.overrideComponent(DiagramComponent, {
             set: {
-                templateUrl: 'base/app/components/diagram.component.html'
+                templateUrl: 'base/app/components/diagram.component.html',
+                providers: [
+                    ActionsToolbarComponent,
+                    PropertiesComponent
+                ]
             }
         })
         TestBed.overrideComponent(PropertiesComponent, {
@@ -209,9 +213,33 @@ describe("diagram.component.", () => {
 
     describe("Diagram manipulations.", () => {
 
-        it('We can select an element two times and have correct property label each time', () => {
-            //TODO: ...
-            expect(true).toEqual(true);
+        it('Select a visual element to change business selected element', () => {
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            // fixtureProp = TestBed.createComponent(PropertiesComponent);
+            // compProp = fixtureProp.componentInstance; // PropertiesComponent test instance
+
+            fixture.detectChanges();
+
+            comp.showDiagram(elements, businessSteps);
+
+            fixture.detectChanges();
+
+            let cell0 = comp.getCellsGraph()[0];
+            let name0 = ((cell0 as any).parent as DiagramElement).name;
+            let cellView0 = comp.getCellViewFromCell(cell0);
+
+            var e = new jQuery.Event("click"); // clientX & clientY needed for Firefox browser
+            e.clientX = 10;
+            e.clientY = 10;
+            cellView0.$el.trigger(e);
+
+            fixture.detectChanges();
+
+            expect(comp.selectedElement.name).not.toEqual("");
+
+            expect(comp.selectedElement.name).toEqual(name0);
         });
 
         it('Zoom method change diagram scale', () => {
