@@ -3619,7 +3619,6 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
                 expect(nb).toEqual(1);
             });
 
-
             it('Each element have a property visualShape typed Cell (JointJS) witch have a parent property typed : DiagramElement (Business)', () => {
                 let allElementOk = true;
                 for (let el of deResult.listElements) {
@@ -3631,6 +3630,18 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
                     }
                 }
                 expect(allElementOk).toEqual(true);
+            });
+
+            it("Business list. Number of steps", function () {
+                expect(deResult.businessSteps.length).toEqual(2);
+            });
+
+            it("Business list. Number of Evidences in one step", function () {
+                for (let el of deResult.businessSteps[0]) {
+                    if (el instanceof Evidence)
+                        nb++;
+                }
+                expect(nb).toEqual(2);
             });
         });
     });

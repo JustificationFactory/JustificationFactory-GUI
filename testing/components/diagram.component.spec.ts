@@ -87,7 +87,21 @@ describe("diagram.component", () => {
 
     describe("Loading diagram", () => {
 
-        it('myholder filled and number of elements OK', () => {
+        it('myholder tag filled', () => {
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            fixture.detectChanges();
+
+            comp.showDiagram(elements, businessSteps);
+
+            fixture.detectChanges();
+
+            //TODO: ...
+            expect(true).toEqual(true);
+        });
+
+        it('Number of elements in the diagram', () => {
             fixture = TestBed.createComponent(DiagramComponent);
             comp = fixture.componentInstance; // DiagramComponent test instance
 
@@ -99,6 +113,19 @@ describe("diagram.component", () => {
 
             //TODO: ...
             expect(comp.getCellsGraph().length).toEqual(1);
+        });
+
+        it('Business list. Number of steps', () => {
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            fixture.detectChanges();
+
+            comp.showDiagram(elements, businessSteps);
+
+            fixture.detectChanges();
+
+            expect(comp.businessSteps.length).toEqual(1);
         });
 
     });
