@@ -217,9 +217,6 @@ describe("diagram.component.", () => {
             fixture = TestBed.createComponent(DiagramComponent);
             comp = fixture.componentInstance; // DiagramComponent test instance
 
-            // fixtureProp = TestBed.createComponent(PropertiesComponent);
-            // compProp = fixtureProp.componentInstance; // PropertiesComponent test instance
-
             fixture.detectChanges();
 
             comp.showDiagram(elements, businessSteps);
@@ -243,8 +240,33 @@ describe("diagram.component.", () => {
         });
 
         it('Zoom method change diagram scale', () => {
-            //TODO: ...
-            expect(true).toEqual(true);
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            de = fixture.debugElement.query(By.css('#myholder'));
+            el = de.nativeElement;
+
+            fixture.detectChanges();
+
+            comp.showDiagram(elements, businessSteps);
+
+            fixture.detectChanges();
+
+            comp.zoomIn();
+            fixture.detectChanges();
+            comp.zoomIn();
+            fixture.detectChanges();
+
+            expect(comp.getGraphScale().toString().slice(0, 3)).toEqual("1.2");
+
+            expect(el.innerHTML.indexOf('class="joint-viewport" transform="scale(1.2')).not.toEqual(-1);
+
+            comp.resetZoom();
+            fixture.detectChanges();
+
+            expect(comp.getGraphScale()).toEqual(1);
+
+            expect(el.innerHTML.indexOf('class="joint-viewport" transform="scale(1,')).not.toEqual(-1);
         });
 
         it('The diagram move correctly when we mode the cursor with left click down', () => {
