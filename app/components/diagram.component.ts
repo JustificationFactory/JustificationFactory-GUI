@@ -14,11 +14,15 @@ export class DiagramComponent{
     private static _graphScale : number = 1 ;
     selectedElement = null;
     diagramWidth = "col-sm-12 col-md-12 col-lg-12";
+    businessSteps: Array<Step>;
+
     constructor() {
 
     }
 
-    public showDiagram(elements: DiagramElement[]){
+    public showDiagram(elements: DiagramElement[], bSteps: Array<Step>){
+
+        this.businessSteps = bSteps;
 
         if(!DiagramComponent._graph) {
             DiagramComponent._graph = new Graph;

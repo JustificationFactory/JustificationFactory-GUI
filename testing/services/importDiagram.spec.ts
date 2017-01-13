@@ -3574,21 +3574,21 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
             }
 
             let parse;
-            let listElements:  DiagramElement[];
+            let deResult:  ParseDiagramElementsResult;
             var nb : number;
 
             beforeEach(() => {
                 parse  = new ImportDiagram.ParseJson2DiagramElements(jsonTest2Step);
-                listElements = parse.getDiagramElements();
+                deResult = parse.getDiagramElements();
                 nb = 0;
             });
 
             it("Return some elements", function () {
-                expect(listElements.length).toBeGreaterThan(0);
+                expect(deResult.listElements.length).toBeGreaterThan(0);
             });
 
             it("Number of Conclusions", function () {
-                for (let el of listElements) {
+                for (let el of deResult.listElements) {
                     if (el instanceof Conclusion)
                     nb++;
                 }
@@ -3596,7 +3596,7 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
             });
 
             it("Number of Strategies", function () {
-                for (let el of listElements) {
+                for (let el of deResult.listElements) {
                     if (el instanceof Strategy)
                         nb++;
                 }
@@ -3604,7 +3604,7 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
             });
 
             it("Number of Evidences", function () {
-                for (let el of listElements) {
+                for (let el of deResult.listElements) {
                     if (el instanceof Evidence)
                         nb++;
                 }
@@ -3612,7 +3612,7 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
             });
 
             it("Number of Supports (Evidence and Conclusion in the same time)", function () {
-                for (let el of listElements) {
+                for (let el of deResult.listElements) {
                     if (el instanceof Support)
                         nb++;
                 }
@@ -3622,7 +3622,7 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
 
             it('Each element have a property visualShape typed Cell (JointJS) witch have a parent property typed : DiagramElement (Business)', () => {
                 let allElementOk = true;
-                for (let el of listElements) {
+                for (let el of deResult.listElements) {
                     if (!(el instanceof Artifact) && !(el instanceof LinkElement)) {
                         if (!(el.visualShape instanceof Cell))
                             allElementOk = false;

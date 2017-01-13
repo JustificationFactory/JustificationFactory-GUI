@@ -6,15 +6,21 @@ class KeyValueEvidence {
     }
 }
 
+class ParseDiagramElementsResult {
+    constructor(public listElements: DiagramElement[], public businessSteps: Array<Step>) {
+
+    }
+}
+
 class ParseJson2DiagramElements {
     globalJson: any;
+    businessSteps: Array<Step>;
 
     constructor(globalJson: any) {
-
         this.globalJson = globalJson;
     }
 
-    public getDiagramElements () : DiagramElement[] {
+    public getDiagramElements () : ParseDiagramElementsResult {
         let conclusions = new Array<Conclusion>();
         let strategies = new Array<Strategy>();
         let actors = new Array<Actor>();
@@ -23,18 +29,24 @@ class ParseJson2DiagramElements {
         let supports = new Array<Support>();
         let links = new Array<LinkElement>();
 
+        this.businessSteps = new Array<Step>();
+
         for (let step  of this.globalJson.root.steps[0].step) {
+            let businessStep = new Step();
+
             let nameOfConclusion = step.conclusion[0].name[0];
             let typeOfConclusion = this.getTypeFromStringAttributs(JSON.stringify(step.conclusion[0].element[0].$));
 
             let conclusionN = new Conclusion(nameOfConclusion, step.conclusion[0], typeOfConclusion);
             conclusions.push(conclusionN);
+            businessStep.push(conclusionN);
 
             let nameOfstrategy = step.strategy[0].name[0];
             let typeOfstrategy = this.getTypeFromStringAttributs(JSON.stringify(step.strategy[0].$));
 
             let strategyN = new Strategy(nameOfstrategy, step.strategy[0], typeOfstrategy);
             strategies.push(strategyN);
+            businessStep.push(strategyN);
             links.push(strategyN.makeLinkWithParent(conclusionN));
 
             strategyN.artifacts = [];
@@ -52,6 +64,7 @@ class ParseJson2DiagramElements {
 
                 let evidenceN = new Evidence(nameOfEvidence, evidenceRole.evidence[0], typeOfEvidence);
                 kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
+                businessStep.push(evidenceN);
                 links.push(evidenceN.makeLinkWithParent(strategyN));
             }
 
@@ -61,6 +74,8 @@ class ParseJson2DiagramElements {
                 actors.push(actor);
                 links.push(actor.makeLinkWithParent(strategyN));
             }
+
+            this.businessSteps.push(businessStep);
         }
 
         //Merge where Conclusion == Evidence. Replace by Support.
@@ -115,7 +130,7 @@ class ParseJson2DiagramElements {
         for(let link of links)
             elementsDiagram.push(link);
 
-        return elementsDiagram;
+        return new ParseDiagramElementsResult(elementsDiagram, this.businessSteps);
     }
 
     private getTypeFromStringAttributs (strAttributs : string) : string {

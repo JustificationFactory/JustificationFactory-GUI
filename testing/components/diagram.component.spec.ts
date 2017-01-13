@@ -10,6 +10,7 @@ describe("diagram.component", () => {
     let comp:    DiagramComponent;
     let fixture: ComponentFixture<DiagramComponent>;
     let elements: Array<DiagramElement>;
+    let businessSteps: Array<Step>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -50,8 +51,17 @@ describe("diagram.component", () => {
         });
 
         elements = new Array<DiagramElement>();
+        businessSteps = new Array<Step>();
+        let step;
+        let conclusion
 
-        elements.push(new Conclusion("Establish Effect", {}, "experimentation"));
+        step = new Step();
+        conclusion = new Conclusion("Establish Effect", {}, "experimentation");
+        elements.push(conclusion);
+        step.push(conclusion);
+
+        businessSteps.push(step);
+
         //TODO: ...
     }));
 
@@ -83,7 +93,7 @@ describe("diagram.component", () => {
 
             fixture.detectChanges();
 
-            comp.showDiagram(elements);
+            comp.showDiagram(elements, businessSteps);
 
             fixture.detectChanges();
 

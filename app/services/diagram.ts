@@ -370,6 +370,10 @@ class ForEach extends Artifact{
     }
 }
 
+class Step extends Array<DiagramElement> {
+
+}
+
 class Util{
     static getElementWidthFromTextLength(name: string){
         var maxLine = _.max(name.split('\n'), function(l) { return l.length; });
