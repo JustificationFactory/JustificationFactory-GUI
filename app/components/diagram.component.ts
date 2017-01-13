@@ -139,7 +139,8 @@ export class DiagramComponent{
 
     public resetDiagram() {
         this.unhighlightAllCells();
-
+        if (this._paper)
+            this._paper.setOrigin(0, 0);
         this.resetZoom();
     }
 

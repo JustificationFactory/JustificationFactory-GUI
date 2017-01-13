@@ -239,7 +239,7 @@ describe("diagram.component.", () => {
             expect(comp.selectedElement.name).toEqual(name0);
         });
 
-        it('Zoom method change diagram scale', () => {
+        it('Zoom methods change diagram scale', () => {
             fixture = TestBed.createComponent(DiagramComponent);
             comp = fixture.componentInstance; // DiagramComponent test instance
 
@@ -267,11 +267,6 @@ describe("diagram.component.", () => {
             expect(comp.getGraphScale()).toEqual(1);
 
             expect(el.innerHTML.indexOf('class="joint-viewport" transform="scale(1,')).not.toEqual(-1);
-        });
-
-        it('The diagram move correctly when we mode the cursor with left click down', () => {
-            //TODO: ...
-            expect(true).toEqual(true);
         });
 
     });
