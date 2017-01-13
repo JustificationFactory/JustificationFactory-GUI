@@ -180,6 +180,15 @@ export class DiagramComponent{
     public getGraphScale() : number {
         return DiagramComponent._graphScale;
     }
+
+    public getCellsGraph() : Cell[] {
+        return DiagramComponent._graph.getCells();
+    }
+
+    public getCellViewFromCell(cell : Cell) : joint.dia.CellView
+    {
+        return DiagramComponent._paper.findView(cell);
+    }
 }
 
 

@@ -9,6 +9,7 @@ describe("diagram.component", () => {
 
     let comp:    DiagramComponent;
     let fixture: ComponentFixture<DiagramComponent>;
+    let elements: Array<DiagramElement>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -48,6 +49,10 @@ describe("diagram.component", () => {
             console.log(e); // "zut !"
         });
 
+        elements = new Array<DiagramElement>();
+
+        elements.push(new Conclusion("Establish Effect", {}, "experimentation"));
+        //TODO: ...
     }));
 
 
@@ -73,7 +78,17 @@ describe("diagram.component", () => {
     describe("Loading diagram", () => {
 
         it('myholder filled and number of elements OK', () => {
-            expect(true).toEqual(true);
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            fixture.detectChanges();
+
+            comp.showDiagram(elements);
+
+            fixture.detectChanges();
+
+            //TODO: ...
+            expect(comp.getCellsGraph().length).toEqual(1);
         });
 
     });
@@ -81,14 +96,17 @@ describe("diagram.component", () => {
     describe("Diagram manipulations", () => {
 
         it('We can select an element two times and have correct property label each time', () => {
+            //TODO: ...
             expect(true).toEqual(true);
         });
 
         it('Zoom method change diagram scale', () => {
+            //TODO: ...
             expect(true).toEqual(true);
         });
 
         it('The diagram move correctly when we mode the cursor with left click down', () => {
+            //TODO: ...
             expect(true).toEqual(true);
         });
 
