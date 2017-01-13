@@ -104,7 +104,6 @@ class Conclusion extends DiagramElement {
     artifacts: Array<Artifact>;
     constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
-
         this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },

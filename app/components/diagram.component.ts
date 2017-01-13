@@ -13,7 +13,7 @@ export class DiagramComponent{
     _initialPaperHeight : number = 610 ;
     private static _graphScale : number = 1 ;
     selectedElement = null;
-
+    diagramWidth = "col-sm-12 col-md-12 col-lg-12";
     constructor() {
 
     }
@@ -35,6 +35,8 @@ export class DiagramComponent{
                 restrictTranslate: true
             });
         }
+        this.selectedElement = null;
+        this.diagramWidth = "col-sm-12 col-md-12 col-lg-12";
         DiagramComponent._paper.setOrigin(0,0);
         var dragStartPosition = null;
 
@@ -125,11 +127,13 @@ export class DiagramComponent{
 
     public blankClick(event, x, y) {
         this.unhighlightAllCells();
+        this.selectedElement = null;
+        this.diagramWidth = "col-sm-12 col-md-12 col-lg-12";
     }
 
     public cellClick(cellView : joint.dia.CellView, event, x, y) {
         this.unhighlightAllCells();
-
+        this.diagramWidth = "col-sm-10 col-md-10 col-lg-10";
         if ((cellView.model as any).parent) {
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
