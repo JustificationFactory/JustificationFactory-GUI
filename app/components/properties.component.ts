@@ -98,6 +98,7 @@ export class PropertiesComponent implements OnChanges {
             this.selectedElement.visualShape.attributes.attrs.path.fill = this.BackgroundColorOfElement;
             this.selectedElement.visualShape.attributes.attrs.path.stroke = this.BorderColorOfElement;
             this.selectedElement.visualShape.attributes.attrs.text.fill = this.TextColorOfElement;
+
         }
 
         //Set visual properties of Limits
@@ -116,7 +117,13 @@ export class PropertiesComponent implements OnChanges {
         this.ShapeOfElement = event.target.value;
         this.updateVisualSettings();
     }
-
+    onNameChanged() {
+        if(this.selectedElement.visualShape.attributes.attrs){
+            this.selectedElement.visualShape.attributes.attrs.text.text=this.ElementName;
+            this.selectedElement.name = this.ElementName;
+        }
+        this.selectedElementChange.emit(this.selectedElement);
+    }
     onColorChanged(newColorHexa: string) {
         this.updateVisualSettings();
     }
