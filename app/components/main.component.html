@@ -5,10 +5,10 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Diagram
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" (click)="importFileClicked($event)">Import File</a><input type="file" id="importFile" style="display: none;" value="{{importFileValue}}"></li>
+                    <li><a id="importFileLink" href="#" (click)="importFileClicked($event)">Import File</a><input type="file" id="importFile" style="display: none;" value="{{importFileValue}}"></li>
                     <li><a href="#">Select Web Service Diagram</a></li>
                     <li *ngIf="diagramLoaded"><a href="#" (click)="printToPdfClicked($event)">Print to PDF</a></li>
-                    <li *ngIf="diagramLoaded"><a href="#" (click)="btnCloseClick()">Close</a></li>
+                    <li *ngIf="diagramLoaded"><a id="btnCloseLink" href="#" (click)="btnCloseClick()">Close</a></li>
                 </ul>
             </li>
         </ul>
