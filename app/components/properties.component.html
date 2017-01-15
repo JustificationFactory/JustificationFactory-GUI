@@ -9,6 +9,9 @@
 
     <div id="viewPanel" class="tab-pane fade">
         <table class="table table table-striped table-properties-details">
+            <tr>
+                <td><label id="idInput" for="name">Name:</label><input  class="form-control" [(ngModel)]="ElementName" type="text" (change)="onNameChanged($event)"/> </td>
+            </tr>
             <tr class="tr-property-detail">
                 <td > <label >Shape: </label>
                     <select class="form-control" value="{{ShapeOfElement}}" (change)="onShapeOfElementValueChanged($event)">
@@ -16,6 +19,7 @@
                     </select>
                 </td>
             </tr>
+
             <tr>
                 <td><label>Background:</label><paletteColor [(selectedColorHex)]="BackgroundColorOfElement" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
             </tr>
