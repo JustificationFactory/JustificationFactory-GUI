@@ -71,7 +71,7 @@ describe("main.component", () => {
 
 
 
-    describe("HOHO", () => {
+    describe("close diagram", () => {
 
         it('close clicked', () => {
             fixture = TestBed.createComponent(MainComponent);
