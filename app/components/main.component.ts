@@ -9,7 +9,7 @@ import {DiagramComponent} from "./diagram.component";
 })
 export class MainComponent  implements OnInit, AfterViewInit {
 
-    private diagramLoaded: boolean = false;
+    public diagramLoaded: boolean = false;
     private importFileReader : FileReader;
     private inputElement : HTMLInputElement;
     public importFileValue: string;
@@ -33,12 +33,6 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
     }
 
-    @HostListener('onmousewheel', ['$event'])
-    test(event) {
-        alert("hello");
-    }
-
-
     private inputChanged = (evt: Event) => {
         console.log('File detected');
         this.importFileReader.readAsText(this.inputElement.files[0]);
@@ -61,8 +55,9 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
 
     btnCloseClick(event) {
-        this.diagramComponent.resetEvents();
         this.diagramLoaded = false;
+        this.diagramComponent.resetEvents();
+
         ($("#importFile")[0] as any).value = "";
     }
 
