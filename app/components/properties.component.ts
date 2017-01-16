@@ -132,7 +132,7 @@ export class PropertiesComponent implements OnChanges {
 
     private addBusinessGroupsWithElements(){
         let properties = [];
-        let keys = this.createKeysFromJson(this.selectedElement.jsonElement, "");
+        let keys = this.createKeysFromJson(this.selectedElement.jsonElement[0], "");
 
         var groupElements = {
             label : "Elements",
@@ -163,13 +163,13 @@ export class PropertiesComponent implements OnChanges {
         keys.sort((a, b) => { return (a.key > b.key) ? 1 : ((b.key > a.key) ? -1 : 0); })
             .forEach( arrayItem => {
             //remove elements with $
-            if(arrayItem.key.indexOf("$") !== -1){
+            /*if(arrayItem.key.indexOf("$") !== -1){
                 var index = keys.indexOf(arrayItem);
                 if (index > -1) {
                     keys.splice(index, 1);
                 }
                 return;
-            }
+            }*/
             //remove elements with [n]
             var itemViewKey = arrayItem.key.replace(/\[\w*\]/g,"")
                 .replace(/\._/g,"");

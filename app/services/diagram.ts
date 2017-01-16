@@ -334,10 +334,10 @@ class Rationale extends Artifact{
 
         let labelRationale = "";
 
-        for(var r of Object.keys(jsonElement.axonicProject[0])) {
+        for(var r of Object.values(jsonElement.axonicProject)) {
             if (labelRationale != "")
                 labelRationale += " & ";
-            labelRationale += jsonElement.axonicProject[0][r];
+            labelRationale += r;
         };
 
         this.visualShape = new joint.shapes.basic.Rect({
@@ -406,9 +406,9 @@ class Util{
         var artifacts = new Array<Artifact>();
         var index = 0;
 
-        if(jsonElement.hasOwnProperty("limits")){
-            for(var limit of Object.keys(jsonElement.limits[0])) {
-                artifacts.push(new Limitation(limit, jsonElement.limits[0][limit], "", parentElement, index++))
+        if(jsonElement[0].hasOwnProperty("limits")){
+            for(var limit of Object.keys(jsonElement[0].limits)) {
+                artifacts.push(new Limitation(limit, [jsonElement[0].limits[limit]], "", parentElement, index++))
             };
         }
 
