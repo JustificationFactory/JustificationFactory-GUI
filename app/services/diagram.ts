@@ -346,6 +346,7 @@ class Rationale extends Artifact{
                 height: Util.getElementHeightFromTextLength(labelRationale) },
             attrs: { rect: { fill: '#FFFFFF' }, text: { text: labelRationale, fill: '#000000' } }
         });
+        (this.visualShape as any).parent = this;
     }
 }
 
@@ -360,6 +361,7 @@ class Actor extends Artifact{
             attrs: { rect: { fill: '#FFFFFF' }, text: { text: name, fill: '#000000' } },
             markup: Util.getSVGActorImage(role)
         });
+        (this.visualShape as any).parent = this;
     }
 }
 

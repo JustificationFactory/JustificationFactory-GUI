@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import '../services/diagram';
 
 @Component({
     //moduleId: module.id,
@@ -8,6 +9,8 @@ import { Component } from '@angular/core';
 })
 export class ActionsToolbarComponent {
     private currentElement : DiagramElement;
+    @Input() selectedElement : DiagramElement = null;
+    @Input() _graph : joint.dia.Graph = null;
 
     public setElement(diagramElement : DiagramElement){
         this.currentElement = diagramElement;
@@ -15,6 +18,31 @@ export class ActionsToolbarComponent {
     }
 
     private updateButtons(){
+
+    }
+
+    public removeElement(event) {
+        //this.selectedElement.visualShape.remove();
+        this.removeStep(this.selectedElement.visualShape, this.selectedElement.visualShape.id);
+        //alert(inboundLinks.length);
+        //this.selectedElement.visualShape.get
+    }
+
+    public removeStep(rootElement, rootElementId){
+        var inboundLinks = this._graph.getConnectedLinks(rootElement, { inbound: true });
+        var currentComponent = this;
+        inboundLinks.forEach(function (inboundLink)
+        {
+            //alert(inboundLink.get('source'));
+            var sourceId = inboundLink.get('source').id;
+            if (sourceId) {
+                var source = currentComponent._graph.getCell(sourceId)
+                currentComponent.removeStep(source , rootElementId);
+            }
+        });
+        if(rootElement.parent)
+            if(rootElement.id != rootElementId)
+                rootElement.remove();
 
     }
 
