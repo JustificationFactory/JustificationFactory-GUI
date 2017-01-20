@@ -53,6 +53,7 @@ export class DiagramComponent{
         this._paper.on('blank:pointerdown', this.pointerDown, this);
         this._paper.on('cell:pointerup blank:pointerup', this.pointerUp, this);
         $('#myholder').on('mousemove', this, this.myholderMouseMove);
+        $('#myholder').on("wheel", this,  this.MouseWheelHandler);
 
         $('#myholder').replaceWith(this._paper.el);
 
@@ -114,6 +115,7 @@ export class DiagramComponent{
         this._paper.off('blank:pointerdown', this.pointerDown, this);
         this._paper.off('cell:pointerup blank:pointerup', this.pointerUp, this);
         $('#myholder').off('mousemove', "", this.myholderMouseMove);
+        $('#myholder').off("wheel", "",  this.MouseWheelHandler);
     }
 
     public blankClick(event, x, y) {
@@ -204,6 +206,21 @@ export class DiagramComponent{
         else {
             (event.target as any).style.cursor = 'default';
         }
+    }
+
+    private MouseWheelHandler(event) {
+        if (event.originalEvent && event.originalEvent.ctrlKey) {
+            let delta = event.originalEvent.wheelDelta || -event.originalEvent.deltaY;
+
+            if (delta > 0)
+                event.data.zoomIn();
+            else
+                event.data.zoomOut();
+
+            return false;
+        }
+        else
+            return true;
     }
 }
 
