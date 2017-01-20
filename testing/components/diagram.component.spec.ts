@@ -76,14 +76,11 @@ describe("diagram.component.", () => {
         step.push(strategy);
 
         rationale = new Rationale("", {
-            "axonicProject": [{
-                "pathology": [
-                    "OBESITY"
-                ],
-                "stimulator": [
-                    "AXIS"
-                ]
-            }]}, "");
+            "axonicProject": {
+                "pathology": "OBESITY",
+                "stimulator": "AXIS"
+            }
+        }, "");
         strategy.artifacts.push(rationale);
         elements.push(rationale);
 
@@ -111,14 +108,11 @@ describe("diagram.component.", () => {
         step.push(strategy);
 
         rationale = new Rationale("", {
-            "axonicProject": [{
-                "pathology": [
-                    "OBESITY"
-                ],
-                "stimulator": [
-                    "AXIS"
-                ]
-            }]}, "");
+            "axonicProject": {
+                "pathology": "OBESITY",
+                "stimulator": "AXIS"
+            }
+        }, "");
         strategy.artifacts.push(rationale);
         elements.push(rationale);
 

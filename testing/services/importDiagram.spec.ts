@@ -7,3569 +7,1308 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
 
         describe("ParseJson2DiagramElements.", function () {
             var jsonTest2Step = {
-                "root": {
-                    "steps": [
-                        {
-                            "step": [
-                                {
-                                    "conclusion": [
-                                        {
-                                            "element": [
-                                                {
-                                                    "$": {
-                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                        "xsi:type": "experimentation"
-                                                    },
-                                                    "persistent": [
-                                                        "true"
-                                                    ],
-                                                    "stimulation": [
-                                                        {
-                                                            "code": [
-                                                                "stimulation"
-                                                            ],
-                                                            "path": [
-                                                                "fr.axonic"
-                                                            ],
-                                                            "persistent": [
-                                                                "true"
-                                                            ],
-                                                            "stimulationScheduler": [
-                                                                {
-                                                                    "code": [
-                                                                        "scheduler"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.stimulation"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "from": [
-                                                                        {
-                                                                            "code": [
-                                                                                "from"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation.scheduler"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "2016-10-27T10:36:55.694+02:00",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:dateTime"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "to": [
-                                                                        {
-                                                                            "code": [
-                                                                                "to"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation.scheduler"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "2016-10-27T11:36:55.694+02:00",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:dateTime"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "waveform": [
-                                                                {
-                                                                    "code": [
-                                                                        "waveform"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.stimulation"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "value": [
-                                                                        {
-                                                                            "_": "RECTANGULAR",
-                                                                            "$": {
-                                                                                "xsi:type": "waveformEnum"
-                                                                            }
-                                                                        }
-                                                                    ],
-                                                                    "range": [
-                                                                        {
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "RECTANGULAR",
-                                                                                    "$": {
-                                                                                        "xsi:type": "waveformEnum"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        },
-                                                                        {
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "SINUS",
-                                                                                    "$": {
-                                                                                        "xsi:type": "waveformEnum"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        },
-                                                                        {
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "RAMP",
-                                                                                    "$": {
-                                                                                        "xsi:type": "waveformEnum"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "waveformParameter": [
-                                                                {
-                                                                    "code": [
-                                                                        "waveformParameters"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.stimulation"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "amplitude": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xsi:type": "aContinuousNumber"
-                                                                            },
-                                                                            "code": [
-                                                                                "amplitude"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "1000.1",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "duration": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xsi:type": "aContinuousNumber"
-                                                                            },
-                                                                            "code": [
-                                                                                "duration"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "300",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:int"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "frequency": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xsi:type": "aContinuousNumber"
-                                                                            },
-                                                                            "code": [
-                                                                                "frequency"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "500.0",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "subject": [
-                                                        {
-                                                            "code": [
-                                                                "subject"
-                                                            ],
-                                                            "path": [
-                                                                "fr.axonic"
-                                                            ],
-                                                            "persistent": [
-                                                                "true"
-                                                            ],
-                                                            "dynamicInformations": [
-                                                                {
-                                                                    "code": [
-                                                                        "dynamic"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.subject"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "bmi": [
-                                                                        {
-                                                                            "code": [
-                                                                                "bmi"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.dynamic"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "40.0",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "weight": [
-                                                                        {
-                                                                            "code": [
-                                                                                "weight"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.dynamic"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "130.0",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "id": [
-                                                                {
-                                                                    "code": [
-                                                                        "id"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.subject"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "value": [
-                                                                        {
-                                                                            "_": "12345",
-                                                                            "$": {
-                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                "xsi:type": "xs:string"
-                                                                            }
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "pathologyInformations": [
-                                                                {
-                                                                    "code": [
-                                                                        "pathology"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.subject"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "beginningOfObesity": [
-                                                                        {
-                                                                            "code": [
-                                                                                "beginningObesity"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.pathology"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "2016-10-27T10:36:55.712+02:00",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:dateTime"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "obesityType": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xsi:type": "aRangedEnum"
-                                                                            },
-                                                                            "code": [
-                                                                                "obesityType"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.pathology"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "GYNOID",
-                                                                                    "$": {
-                                                                                        "xsi:type": "obesityType"
-                                                                                    }
-                                                                                }
-                                                                            ],
-                                                                            "range": [
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "ANDROID",
-                                                                                            "$": {
-                                                                                                "xsi:type": "obesityType"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "GYNOID",
-                                                                                            "$": {
-                                                                                                "xsi:type": "obesityType"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "MIXED",
-                                                                                            "$": {
-                                                                                                "xsi:type": "obesityType"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "staticInformations": [
-                                                                {
-                                                                    "code": [
-                                                                        "static"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.subject"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "birthday": [
-                                                                        {
-                                                                            "code": [
-                                                                                "birthday"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.static"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "2016-10-27T10:36:55.709+02:00",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:dateTime"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "gender": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xsi:type": "aRangedEnum"
-                                                                            },
-                                                                            "code": [
-                                                                                "gender"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.static"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "MALE",
-                                                                                    "$": {
-                                                                                        "xsi:type": "gender"
-                                                                                    }
-                                                                                }
-                                                                            ],
-                                                                            "range": [
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "MALE",
-                                                                                            "$": {
-                                                                                                "xsi:type": "gender"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "FEMALE",
-                                                                                            "$": {
-                                                                                                "xsi:type": "gender"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "UNKNOWN",
-                                                                                            "$": {
-                                                                                                "xsi:type": "gender"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "height": [
-                                                                        {
-                                                                            "code": [
-                                                                                "height"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.static"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "70.5",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "name": [
-                                                                        {
-                                                                            "code": [
-                                                                                "name"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.static"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "Paul",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:string"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "name": [
-                                                "Experimentation"
-                                            ],
-                                            "limits": [
-                                                {
-                                                    "subject": [
-                                                        {
-                                                            "code": [
-                                                                "subject"
-                                                            ],
-                                                            "path": [
-                                                                "fr.axonic"
-                                                            ],
-                                                            "persistent": [
-                                                                "true"
-                                                            ],
-                                                            "dynamicInformations": [
-                                                                {
-                                                                    "code": [
-                                                                        "dynamic"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.subject"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "bmi": [
-                                                                        {
-                                                                            "code": [
-                                                                                "bmi"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.dynamic"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "40.0",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "weight": [
-                                                                        {
-                                                                            "code": [
-                                                                                "weight"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.dynamic"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "130.0",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "id": [
-                                                                {
-                                                                    "code": [
-                                                                        "id"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.subject"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "value": [
-                                                                        {
-                                                                            "_": "12345",
-                                                                            "$": {
-                                                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                "xsi:type": "xs:string"
-                                                                            }
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "pathologyInformations": [
-                                                                {
-                                                                    "code": [
-                                                                        "pathology"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.subject"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "beginningOfObesity": [
-                                                                        {
-                                                                            "code": [
-                                                                                "beginningObesity"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.pathology"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "2016-10-27T10:36:55.712+02:00",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:dateTime"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "obesityType": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                "xsi:type": "aRangedEnum"
-                                                                            },
-                                                                            "code": [
-                                                                                "obesityType"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.pathology"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "GYNOID",
-                                                                                    "$": {
-                                                                                        "xsi:type": "obesityType"
-                                                                                    }
-                                                                                }
-                                                                            ],
-                                                                            "range": [
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "ANDROID",
-                                                                                            "$": {
-                                                                                                "xsi:type": "obesityType"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "GYNOID",
-                                                                                            "$": {
-                                                                                                "xsi:type": "obesityType"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "MIXED",
-                                                                                            "$": {
-                                                                                                "xsi:type": "obesityType"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "staticInformations": [
-                                                                {
-                                                                    "code": [
-                                                                        "static"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.subject"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "birthday": [
-                                                                        {
-                                                                            "code": [
-                                                                                "birthday"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.static"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "2016-10-27T10:36:55.709+02:00",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:dateTime"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "gender": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                "xsi:type": "aRangedEnum"
-                                                                            },
-                                                                            "code": [
-                                                                                "gender"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.static"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "MALE",
-                                                                                    "$": {
-                                                                                        "xsi:type": "gender"
-                                                                                    }
-                                                                                }
-                                                                            ],
-                                                                            "range": [
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "MALE",
-                                                                                            "$": {
-                                                                                                "xsi:type": "gender"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "FEMALE",
-                                                                                            "$": {
-                                                                                                "xsi:type": "gender"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "UNKNOWN",
-                                                                                            "$": {
-                                                                                                "xsi:type": "gender"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "height": [
-                                                                        {
-                                                                            "code": [
-                                                                                "height"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.static"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "70.5",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "name": [
-                                                                        {
-                                                                            "code": [
-                                                                                "name"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject.static"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "Paul",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:string"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "stimulation": [
-                                                        {
-                                                            "code": [
-                                                                "stimulation"
-                                                            ],
-                                                            "path": [
-                                                                "fr.axonic"
-                                                            ],
-                                                            "persistent": [
-                                                                "true"
-                                                            ],
-                                                            "stimulationScheduler": [
-                                                                {
-                                                                    "code": [
-                                                                        "scheduler"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.stimulation"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "from": [
-                                                                        {
-                                                                            "code": [
-                                                                                "from"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation.scheduler"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "2016-10-27T10:36:55.694+02:00",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:dateTime"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "to": [
-                                                                        {
-                                                                            "code": [
-                                                                                "to"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation.scheduler"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "2016-10-27T11:36:55.694+02:00",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:dateTime"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "waveform": [
-                                                                {
-                                                                    "code": [
-                                                                        "waveform"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.stimulation"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "value": [
-                                                                        {
-                                                                            "_": "RECTANGULAR",
-                                                                            "$": {
-                                                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                "xsi:type": "waveformEnum"
-                                                                            }
-                                                                        }
-                                                                    ],
-                                                                    "range": [
-                                                                        {
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "RECTANGULAR",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xsi:type": "waveformEnum"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        },
-                                                                        {
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "SINUS",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xsi:type": "waveformEnum"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        },
-                                                                        {
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "RAMP",
-                                                                                    "$": {
-                                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                        "xsi:type": "waveformEnum"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "waveformParameter": [
-                                                                {
-                                                                    "code": [
-                                                                        "waveformParameters"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic.stimulation"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "amplitude": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                "xsi:type": "aContinuousNumber"
-                                                                            },
-                                                                            "code": [
-                                                                                "amplitude"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "1000.1",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "duration": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                "xsi:type": "aContinuousNumber"
-                                                                            },
-                                                                            "code": [
-                                                                                "duration"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "300",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:int"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "frequency": [
-                                                                        {
-                                                                            "$": {
-                                                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                                "xsi:type": "aContinuousNumber"
-                                                                            },
-                                                                            "code": [
-                                                                                "frequency"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "500.0",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:double"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
+                "steps" : {
+                    "step" : [ {
+                        "conclusion" : {
+                            "element" : {
+                                "type" : "experimentation",
+                                "persistent" : true,
+                                "stimulation" : {
+                                    "code" : "stimulation",
+                                    "path" : "fr.axonic",
+                                    "persistent" : true,
+                                    "stimulationScheduler" : {
+                                        "code" : "scheduler",
+                                        "path" : "fr.axonic.stimulation",
+                                        "persistent" : true,
+                                        "from" : {
+                                            "code" : "from",
+                                            "path" : "fr.axonic.stimulation.scheduler",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "dateTime",
+                                                "value" : "2017-01-12T11:20:08.673+01:00"
+                                            }
+                                        },
+                                        "to" : {
+                                            "code" : "to",
+                                            "path" : "fr.axonic.stimulation.scheduler",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "dateTime",
+                                                "value" : "2017-01-12T12:20:08.673+01:00"
+                                            }
                                         }
-                                    ],
-                                    "evidences": [
-                                        {
-                                            "evidenceRoles": [
-                                                {
-                                                    "evidence": [
-                                                        {
-                                                            "element": [
-                                                                {
-                                                                    "$": {
-                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                        "xsi:type": "stimulation"
-                                                                    },
-                                                                    "code": [
-                                                                        "stimulation"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "stimulationScheduler": [
-                                                                        {
-                                                                            "code": [
-                                                                                "scheduler"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "from": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "from"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation.scheduler"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "2016-10-27T10:36:55.694+02:00",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:dateTime"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "to": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "to"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation.scheduler"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "2016-10-27T11:36:55.694+02:00",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:dateTime"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "waveform": [
-                                                                        {
-                                                                            "code": [
-                                                                                "waveform"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "RECTANGULAR",
-                                                                                    "$": {
-                                                                                        "xsi:type": "waveformEnum"
-                                                                                    }
-                                                                                }
-                                                                            ],
-                                                                            "range": [
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "RECTANGULAR",
-                                                                                            "$": {
-                                                                                                "xsi:type": "waveformEnum"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "SINUS",
-                                                                                            "$": {
-                                                                                                "xsi:type": "waveformEnum"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "RAMP",
-                                                                                            "$": {
-                                                                                                "xsi:type": "waveformEnum"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "waveformParameter": [
-                                                                        {
-                                                                            "code": [
-                                                                                "waveformParameters"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "amplitude": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aContinuousNumber"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "amplitude"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "1000.1",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "duration": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aContinuousNumber"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "duration"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "300",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:int"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "frequency": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aContinuousNumber"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "frequency"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "500.0",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "name": [
-                                                                "Stimulation 0"
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "role": [
-                                                        "stimulation"
-                                                    ]
-                                                },
-                                                {
-                                                    "evidence": [
-                                                        {
-                                                            "element": [
-                                                                {
-                                                                    "$": {
-                                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                        "xsi:type": "subject"
-                                                                    },
-                                                                    "code": [
-                                                                        "subject"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "dynamicInformations": [
-                                                                        {
-                                                                            "code": [
-                                                                                "dynamic"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "bmi": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "bmi"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.dynamic"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "40.0",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "weight": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "weight"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.dynamic"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "130.0",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "id": [
-                                                                        {
-                                                                            "code": [
-                                                                                "id"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "12345",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:string"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "pathologyInformations": [
-                                                                        {
-                                                                            "code": [
-                                                                                "pathology"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "beginningOfObesity": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "beginningObesity"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.pathology"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "2016-10-27T10:36:55.712+02:00",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:dateTime"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "obesityType": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aRangedEnum"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "obesityType"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.pathology"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "GYNOID",
-                                                                                            "$": {
-                                                                                                "xsi:type": "obesityType"
-                                                                                            }
-                                                                                        }
-                                                                                    ],
-                                                                                    "range": [
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "ANDROID",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "obesityType"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "GYNOID",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "obesityType"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "MIXED",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "obesityType"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "staticInformations": [
-                                                                        {
-                                                                            "code": [
-                                                                                "static"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "birthday": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "birthday"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.static"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "2016-10-27T10:36:55.709+02:00",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:dateTime"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "gender": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aRangedEnum"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "gender"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.static"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "MALE",
-                                                                                            "$": {
-                                                                                                "xsi:type": "gender"
-                                                                                            }
-                                                                                        }
-                                                                                    ],
-                                                                                    "range": [
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "MALE",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "gender"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "FEMALE",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "gender"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "UNKNOWN",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "gender"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "height": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "height"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.static"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "70.5",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "name": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "name"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.static"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "Paul",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:string"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "name": [
-                                                                "Subject 0"
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "role": [
-                                                        "subject"
-                                                    ]
-                                                }
-                                            ]
+                                    },
+                                    "waveform" : {
+                                        "code" : "waveform",
+                                        "path" : "fr.axonic.stimulation",
+                                        "persistent" : true,
+                                        "value" : "RECTANGULAR",
+                                        "range" : [ {
+                                            "persistent" : true,
+                                            "value" : "RECTANGULAR"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "SINUS"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "RAMP"
+                                        } ]
+                                    },
+                                    "waveformParameter" : {
+                                        "code" : "waveformParameters",
+                                        "path" : "fr.axonic.stimulation",
+                                        "persistent" : true,
+                                        "amplitude" : {
+                                            "type" : "aContinuousNumber",
+                                            "code" : "amplitude",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 1000.1
+                                            }
+                                        },
+                                        "duration" : {
+                                            "type" : "aContinuousNumber",
+                                            "code" : "duration",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "int",
+                                                "value" : 300
+                                            }
+                                        },
+                                        "frequency" : {
+                                            "type" : "aContinuousNumber",
+                                            "code" : "frequency",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 500.0
+                                            }
                                         }
-                                    ],
-                                    "strategy": [
-                                        {
-                                            "$": {
-                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                "xsi:type": "humanStrategy"
-                                            },
-                                            "name": [
-                                                "Treat"
-                                            ],
-                                            "rationale": [
-                                                {
-                                                    "axonicProject": [
-                                                        {
-                                                            "pathology": [
-                                                                "OBESITY"
-                                                            ],
-                                                            "stimulator": [
-                                                                "AXIS"
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "actor": [
-                                                {
-                                                    "name": [
-                                                        "Chloé"
-                                                    ],
-                                                    "role": [
-                                                        "INTERMEDIATE_EXPERT"
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
+                                    }
                                 },
-                                {
-                                    "conclusion": [
-                                        {
-                                            "element": [
-                                                {
-                                                    "$": {
-                                                        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                        "xsi:type": "establishedEffect"
-                                                    },
-                                                    "persistent": [
-                                                        "true"
-                                                    ],
-                                                    "effects": [
-                                                        {
-                                                            "persistent": [
-                                                                "true"
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "experimentation": [
-                                                        {
-                                                            "persistent": [
-                                                                "true"
-                                                            ],
-                                                            "stimulation": [
-                                                                {
-                                                                    "code": [
-                                                                        "stimulation"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "stimulationScheduler": [
-                                                                        {
-                                                                            "code": [
-                                                                                "scheduler"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "from": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "from"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation.scheduler"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "2016-10-27T10:36:55.694+02:00",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:dateTime"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "to": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "to"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation.scheduler"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "2016-10-27T11:36:55.694+02:00",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:dateTime"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "waveform": [
-                                                                        {
-                                                                            "code": [
-                                                                                "waveform"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "RECTANGULAR",
-                                                                                    "$": {
-                                                                                        "xsi:type": "waveformEnum"
-                                                                                    }
-                                                                                }
-                                                                            ],
-                                                                            "range": [
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "RECTANGULAR",
-                                                                                            "$": {
-                                                                                                "xsi:type": "waveformEnum"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "SINUS",
-                                                                                            "$": {
-                                                                                                "xsi:type": "waveformEnum"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "RAMP",
-                                                                                            "$": {
-                                                                                                "xsi:type": "waveformEnum"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "waveformParameter": [
-                                                                        {
-                                                                            "code": [
-                                                                                "waveformParameters"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.stimulation"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "amplitude": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aContinuousNumber"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "amplitude"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "1000.1",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "duration": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aContinuousNumber"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "duration"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "300",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:int"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "frequency": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aContinuousNumber"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "frequency"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "500.0",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "subject": [
-                                                                {
-                                                                    "code": [
-                                                                        "subject"
-                                                                    ],
-                                                                    "path": [
-                                                                        "fr.axonic"
-                                                                    ],
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "dynamicInformations": [
-                                                                        {
-                                                                            "code": [
-                                                                                "dynamic"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "bmi": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "bmi"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.dynamic"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "40.0",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "weight": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "weight"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.dynamic"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "130.0",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "id": [
-                                                                        {
-                                                                            "code": [
-                                                                                "id"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "value": [
-                                                                                {
-                                                                                    "_": "12345",
-                                                                                    "$": {
-                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                        "xsi:type": "xs:string"
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "pathologyInformations": [
-                                                                        {
-                                                                            "code": [
-                                                                                "pathology"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "beginningOfObesity": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "beginningObesity"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.pathology"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "2016-10-27T10:36:55.712+02:00",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:dateTime"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "obesityType": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aRangedEnum"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "obesityType"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.pathology"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "GYNOID",
-                                                                                            "$": {
-                                                                                                "xsi:type": "obesityType"
-                                                                                            }
-                                                                                        }
-                                                                                    ],
-                                                                                    "range": [
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "ANDROID",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "obesityType"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "GYNOID",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "obesityType"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "MIXED",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "obesityType"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "staticInformations": [
-                                                                        {
-                                                                            "code": [
-                                                                                "static"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic.subject"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "birthday": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "birthday"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.static"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "2016-10-27T10:36:55.709+02:00",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:dateTime"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "gender": [
-                                                                                {
-                                                                                    "$": {
-                                                                                        "xsi:type": "aRangedEnum"
-                                                                                    },
-                                                                                    "code": [
-                                                                                        "gender"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.static"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "MALE",
-                                                                                            "$": {
-                                                                                                "xsi:type": "gender"
-                                                                                            }
-                                                                                        }
-                                                                                    ],
-                                                                                    "range": [
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "MALE",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "gender"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "FEMALE",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "gender"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "UNKNOWN",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "gender"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "height": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "height"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.static"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "70.5",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:double"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "name": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "name"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject.static"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "Paul",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:string"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "name": [
-                                                "Establish Effect"
-                                            ]
+                                "subject" : {
+                                    "code" : "subject",
+                                    "path" : "fr.axonic",
+                                    "persistent" : true,
+                                    "dynamicInformations" : {
+                                        "code" : "dynamic",
+                                        "path" : "fr.axonic.subject",
+                                        "persistent" : true,
+                                        "bmi" : {
+                                            "code" : "bmi",
+                                            "path" : "fr.axonic.subject.dynamic",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 40.0
+                                            }
+                                        },
+                                        "weight" : {
+                                            "code" : "weight",
+                                            "path" : "fr.axonic.subject.dynamic",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 130.0
+                                            }
                                         }
-                                    ],
-                                    "evidences": [
-                                        {
-                                            "evidenceRoles": [
-                                                {
-                                                    "evidence": [
-                                                        {
-                                                            "$": {
-                                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                                "xsi:type": "conclusion"
-                                                            },
-                                                            "element": [
-                                                                {
-                                                                    "$": {
-                                                                        "xsi:type": "experimentation"
-                                                                    },
-                                                                    "persistent": [
-                                                                        "true"
-                                                                    ],
-                                                                    "stimulation": [
-                                                                        {
-                                                                            "code": [
-                                                                                "stimulation"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "stimulationScheduler": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "scheduler"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "from": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "from"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation.scheduler"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "2016-10-27T10:36:55.694+02:00",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:dateTime"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "to": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "to"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation.scheduler"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "2016-10-27T11:36:55.694+02:00",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:dateTime"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "waveform": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "waveform"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "RECTANGULAR",
-                                                                                            "$": {
-                                                                                                "xsi:type": "waveformEnum"
-                                                                                            }
-                                                                                        }
-                                                                                    ],
-                                                                                    "range": [
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "RECTANGULAR",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "waveformEnum"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "SINUS",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "waveformEnum"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "RAMP",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "waveformEnum"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "waveformParameter": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "waveformParameters"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "amplitude": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aContinuousNumber"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "amplitude"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "1000.1",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "duration": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aContinuousNumber"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "duration"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "300",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:int"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "frequency": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aContinuousNumber"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "frequency"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "500.0",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "subject": [
-                                                                        {
-                                                                            "code": [
-                                                                                "subject"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "dynamicInformations": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "dynamic"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "bmi": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "bmi"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.dynamic"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "40.0",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "weight": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "weight"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.dynamic"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "130.0",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "id": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "id"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "12345",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:string"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "pathologyInformations": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "pathology"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "beginningOfObesity": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "beginningObesity"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.pathology"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "2016-10-27T10:36:55.712+02:00",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:dateTime"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "obesityType": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aRangedEnum"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "obesityType"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.pathology"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "GYNOID",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "obesityType"
-                                                                                                    }
-                                                                                                }
-                                                                                            ],
-                                                                                            "range": [
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "ANDROID",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "obesityType"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                },
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "GYNOID",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "obesityType"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                },
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "MIXED",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "obesityType"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "staticInformations": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "static"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "birthday": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "birthday"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.static"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "2016-10-27T10:36:55.709+02:00",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:dateTime"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "gender": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aRangedEnum"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "gender"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.static"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "MALE",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "gender"
-                                                                                                    }
-                                                                                                }
-                                                                                            ],
-                                                                                            "range": [
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "MALE",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "gender"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                },
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "FEMALE",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "gender"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                },
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "UNKNOWN",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "gender"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "height": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "height"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.static"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "70.5",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "name": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "name"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.static"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "Paul",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:string"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ],
-                                                            "name": [
-                                                                "Experimentation"
-                                                            ],
-                                                            "limits": [
-                                                                {
-                                                                    "subject": [
-                                                                        {
-                                                                            "code": [
-                                                                                "subject"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "dynamicInformations": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "dynamic"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "bmi": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "bmi"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.dynamic"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "40.0",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "weight": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "weight"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.dynamic"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "130.0",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "id": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "id"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "12345",
-                                                                                            "$": {
-                                                                                                "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                "xsi:type": "xs:string"
-                                                                                            }
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "pathologyInformations": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "pathology"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "beginningOfObesity": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "beginningObesity"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.pathology"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "2016-10-27T10:36:55.712+02:00",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:dateTime"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "obesityType": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aRangedEnum"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "obesityType"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.pathology"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "GYNOID",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "obesityType"
-                                                                                                    }
-                                                                                                }
-                                                                                            ],
-                                                                                            "range": [
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "ANDROID",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "obesityType"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                },
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "GYNOID",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "obesityType"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                },
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "MIXED",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "obesityType"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "staticInformations": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "static"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.subject"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "birthday": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "birthday"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.static"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "2016-10-27T10:36:55.709+02:00",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:dateTime"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "gender": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aRangedEnum"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "gender"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.static"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "MALE",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "gender"
-                                                                                                    }
-                                                                                                }
-                                                                                            ],
-                                                                                            "range": [
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "MALE",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "gender"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                },
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "FEMALE",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "gender"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                },
-                                                                                                {
-                                                                                                    "persistent": [
-                                                                                                        "true"
-                                                                                                    ],
-                                                                                                    "value": [
-                                                                                                        {
-                                                                                                            "_": "UNKNOWN",
-                                                                                                            "$": {
-                                                                                                                "xsi:type": "gender"
-                                                                                                            }
-                                                                                                        }
-                                                                                                    ]
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "height": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "height"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.static"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "70.5",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "name": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "name"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.subject.static"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "Paul",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:string"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ],
-                                                                    "stimulation": [
-                                                                        {
-                                                                            "code": [
-                                                                                "stimulation"
-                                                                            ],
-                                                                            "path": [
-                                                                                "fr.axonic"
-                                                                            ],
-                                                                            "persistent": [
-                                                                                "true"
-                                                                            ],
-                                                                            "stimulationScheduler": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "scheduler"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "from": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "from"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation.scheduler"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "2016-10-27T10:36:55.694+02:00",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:dateTime"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "to": [
-                                                                                        {
-                                                                                            "code": [
-                                                                                                "to"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation.scheduler"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "2016-10-27T11:36:55.694+02:00",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:dateTime"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "waveform": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "waveform"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "value": [
-                                                                                        {
-                                                                                            "_": "RECTANGULAR",
-                                                                                            "$": {
-                                                                                                "xsi:type": "waveformEnum"
-                                                                                            }
-                                                                                        }
-                                                                                    ],
-                                                                                    "range": [
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "RECTANGULAR",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "waveformEnum"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "SINUS",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "waveformEnum"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        },
-                                                                                        {
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "RAMP",
-                                                                                                    "$": {
-                                                                                                        "xsi:type": "waveformEnum"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            "waveformParameter": [
-                                                                                {
-                                                                                    "code": [
-                                                                                        "waveformParameters"
-                                                                                    ],
-                                                                                    "path": [
-                                                                                        "fr.axonic.stimulation"
-                                                                                    ],
-                                                                                    "persistent": [
-                                                                                        "true"
-                                                                                    ],
-                                                                                    "amplitude": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aContinuousNumber"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "amplitude"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "1000.1",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "duration": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aContinuousNumber"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "duration"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "300",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:int"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ],
-                                                                                    "frequency": [
-                                                                                        {
-                                                                                            "$": {
-                                                                                                "xsi:type": "aContinuousNumber"
-                                                                                            },
-                                                                                            "code": [
-                                                                                                "frequency"
-                                                                                            ],
-                                                                                            "path": [
-                                                                                                "fr.axonic.stimulation"
-                                                                                            ],
-                                                                                            "persistent": [
-                                                                                                "true"
-                                                                                            ],
-                                                                                            "value": [
-                                                                                                {
-                                                                                                    "_": "500.0",
-                                                                                                    "$": {
-                                                                                                        "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-                                                                                                        "xsi:type": "xs:double"
-                                                                                                    }
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "role": [
-                                                        ""
-                                                    ]
-                                                }
-                                            ]
+                                    },
+                                    "id" : {
+                                        "code" : "id",
+                                        "path" : "fr.axonic.subject",
+                                        "persistent" : true,
+                                        "value" : {
+                                            "type" : "string",
+                                            "value" : "12345"
                                         }
-                                    ],
-                                    "strategy": [
-                                        {
-                                            "$": {
-                                                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                                "xsi:type": "humanStrategy"
-                                            },
-                                            "name": [
-                                                "Establish Effect"
-                                            ],
-                                            "rationale": [
-                                                {
-                                                    "axonicProject": [
-                                                        {
-                                                            "pathology": [
-                                                                "OBESITY"
-                                                            ],
-                                                            "stimulator": [
-                                                                "AXIS"
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "actor": [
-                                                {
-                                                    "name": [
-                                                        "Chloé"
-                                                    ],
-                                                    "role": [
-                                                        "INTERMEDIATE_EXPERT"
-                                                    ]
-                                                }
-                                            ]
+                                    },
+                                    "pathologyInformations" : {
+                                        "code" : "pathology",
+                                        "path" : "fr.axonic.subject",
+                                        "persistent" : true,
+                                        "beginningOfObesity" : {
+                                            "code" : "beginningObesity",
+                                            "path" : "fr.axonic.subject.pathology",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "dateTime",
+                                                "value" : "2017-01-12T11:20:08.694+01:00"
+                                            }
+                                        },
+                                        "obesityType" : {
+                                            "type" : "aRangedEnum",
+                                            "code" : "obesityType",
+                                            "path" : "fr.axonic.subject.pathology",
+                                            "persistent" : true,
+                                            "value" : "GYNOID",
+                                            "range" : [ {
+                                                "persistent" : true,
+                                                "value" : "ANDROID"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "GYNOID"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "MIXED"
+                                            } ]
                                         }
-                                    ]
+                                    },
+                                    "staticInformations" : {
+                                        "code" : "static",
+                                        "path" : "fr.axonic.subject",
+                                        "persistent" : true,
+                                        "birthday" : {
+                                            "code" : "birthday",
+                                            "path" : "fr.axonic.subject.static",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "dateTime",
+                                                "value" : "2017-01-12T11:20:08.691+01:00"
+                                            }
+                                        },
+                                        "gender" : {
+                                            "type" : "aRangedEnum",
+                                            "code" : "gender",
+                                            "path" : "fr.axonic.subject.static",
+                                            "persistent" : true,
+                                            "value" : "MALE",
+                                            "range" : [ {
+                                                "persistent" : true,
+                                                "value" : "MALE"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "FEMALE"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "UNKNOWN"
+                                            } ]
+                                        },
+                                        "height" : {
+                                            "code" : "height",
+                                            "path" : "fr.axonic.subject.static",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 70.5
+                                            }
+                                        },
+                                        "name" : {
+                                            "code" : "name",
+                                            "path" : "fr.axonic.subject.static",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "string",
+                                                "value" : "Paul"
+                                            }
+                                        }
+                                    }
                                 }
-                            ]
+                            },
+                            "name" : "Experimentation",
+                            "limits" : {
+                                "subject" : [ {
+                                    "code" : "subject",
+                                    "path" : "fr.axonic",
+                                    "persistent" : true,
+                                    "dynamicInformations" : {
+                                        "code" : "dynamic",
+                                        "path" : "fr.axonic.subject",
+                                        "persistent" : true,
+                                        "bmi" : {
+                                            "code" : "bmi",
+                                            "path" : "fr.axonic.subject.dynamic",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 40.0
+                                            }
+                                        },
+                                        "weight" : {
+                                            "code" : "weight",
+                                            "path" : "fr.axonic.subject.dynamic",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 130.0
+                                            }
+                                        }
+                                    },
+                                    "id" : {
+                                        "code" : "id",
+                                        "path" : "fr.axonic.subject",
+                                        "persistent" : true,
+                                        "value" : {
+                                            "type" : "string",
+                                            "value" : "12345"
+                                        }
+                                    },
+                                    "pathologyInformations" : {
+                                        "code" : "pathology",
+                                        "path" : "fr.axonic.subject",
+                                        "persistent" : true,
+                                        "beginningOfObesity" : {
+                                            "code" : "beginningObesity",
+                                            "path" : "fr.axonic.subject.pathology",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "dateTime",
+                                                "value" : "2017-01-12T11:20:08.694+01:00"
+                                            }
+                                        },
+                                        "obesityType" : {
+                                            "type" : "aRangedEnum",
+                                            "code" : "obesityType",
+                                            "path" : "fr.axonic.subject.pathology",
+                                            "persistent" : true,
+                                            "value" : "GYNOID",
+                                            "range" : [ {
+                                                "persistent" : true,
+                                                "value" : "ANDROID"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "GYNOID"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "MIXED"
+                                            } ]
+                                        }
+                                    },
+                                    "staticInformations" : {
+                                        "code" : "static",
+                                        "path" : "fr.axonic.subject",
+                                        "persistent" : true,
+                                        "birthday" : {
+                                            "code" : "birthday",
+                                            "path" : "fr.axonic.subject.static",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "dateTime",
+                                                "value" : "2017-01-12T11:20:08.691+01:00"
+                                            }
+                                        },
+                                        "gender" : {
+                                            "type" : "aRangedEnum",
+                                            "code" : "gender",
+                                            "path" : "fr.axonic.subject.static",
+                                            "persistent" : true,
+                                            "value" : "MALE",
+                                            "range" : [ {
+                                                "persistent" : true,
+                                                "value" : "MALE"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "FEMALE"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "UNKNOWN"
+                                            } ]
+                                        },
+                                        "height" : {
+                                            "code" : "height",
+                                            "path" : "fr.axonic.subject.static",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 70.5
+                                            }
+                                        },
+                                        "name" : {
+                                            "code" : "name",
+                                            "path" : "fr.axonic.subject.static",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "string",
+                                                "value" : "Paul"
+                                            }
+                                        }
+                                    }
+                                } ],
+                                "stimulation" : [ {
+                                    "code" : "stimulation",
+                                    "path" : "fr.axonic",
+                                    "persistent" : true,
+                                    "stimulationScheduler" : {
+                                        "code" : "scheduler",
+                                        "path" : "fr.axonic.stimulation",
+                                        "persistent" : true,
+                                        "from" : {
+                                            "code" : "from",
+                                            "path" : "fr.axonic.stimulation.scheduler",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "dateTime",
+                                                "value" : "2017-01-12T11:20:08.673+01:00"
+                                            }
+                                        },
+                                        "to" : {
+                                            "code" : "to",
+                                            "path" : "fr.axonic.stimulation.scheduler",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "dateTime",
+                                                "value" : "2017-01-12T12:20:08.673+01:00"
+                                            }
+                                        }
+                                    },
+                                    "waveform" : {
+                                        "code" : "waveform",
+                                        "path" : "fr.axonic.stimulation",
+                                        "persistent" : true,
+                                        "value" : "RECTANGULAR",
+                                        "range" : [ {
+                                            "persistent" : true,
+                                            "value" : "RECTANGULAR"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "SINUS"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "RAMP"
+                                        } ]
+                                    },
+                                    "waveformParameter" : {
+                                        "code" : "waveformParameters",
+                                        "path" : "fr.axonic.stimulation",
+                                        "persistent" : true,
+                                        "amplitude" : {
+                                            "type" : "aContinuousNumber",
+                                            "code" : "amplitude",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 1000.1
+                                            }
+                                        },
+                                        "duration" : {
+                                            "type" : "aContinuousNumber",
+                                            "code" : "duration",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "int",
+                                                "value" : 300
+                                            }
+                                        },
+                                        "frequency" : {
+                                            "type" : "aContinuousNumber",
+                                            "code" : "frequency",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "double",
+                                                "value" : 500.0
+                                            }
+                                        }
+                                    }
+                                } ]
+                            }
+                        },
+                        "evidences" : {
+                            "evidenceRoles" : [ {
+                                "evidence" : {
+                                    "element" : {
+                                        "type" : "stimulation",
+                                        "code" : "stimulation",
+                                        "path" : "fr.axonic",
+                                        "persistent" : true,
+                                        "stimulationScheduler" : {
+                                            "code" : "scheduler",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "from" : {
+                                                "code" : "from",
+                                                "path" : "fr.axonic.stimulation.scheduler",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "dateTime",
+                                                    "value" : "2017-01-12T11:20:08.673+01:00"
+                                                }
+                                            },
+                                            "to" : {
+                                                "code" : "to",
+                                                "path" : "fr.axonic.stimulation.scheduler",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "dateTime",
+                                                    "value" : "2017-01-12T12:20:08.673+01:00"
+                                                }
+                                            }
+                                        },
+                                        "waveform" : {
+                                            "code" : "waveform",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "value" : "RECTANGULAR",
+                                            "range" : [ {
+                                                "persistent" : true,
+                                                "value" : "RECTANGULAR"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "SINUS"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "RAMP"
+                                            } ]
+                                        },
+                                        "waveformParameter" : {
+                                            "code" : "waveformParameters",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "amplitude" : {
+                                                "type" : "aContinuousNumber",
+                                                "code" : "amplitude",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 1000.1
+                                                }
+                                            },
+                                            "duration" : {
+                                                "type" : "aContinuousNumber",
+                                                "code" : "duration",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "int",
+                                                    "value" : 300
+                                                }
+                                            },
+                                            "frequency" : {
+                                                "type" : "aContinuousNumber",
+                                                "code" : "frequency",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 500.0
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "name" : "Stimulation 0"
+                                },
+                                "role" : "stimulation"
+                            }, {
+                                "evidence" : {
+                                    "element" : {
+                                        "type" : "subject",
+                                        "code" : "subject",
+                                        "path" : "fr.axonic",
+                                        "persistent" : true,
+                                        "dynamicInformations" : {
+                                            "code" : "dynamic",
+                                            "path" : "fr.axonic.subject",
+                                            "persistent" : true,
+                                            "bmi" : {
+                                                "code" : "bmi",
+                                                "path" : "fr.axonic.subject.dynamic",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 40.0
+                                                }
+                                            },
+                                            "weight" : {
+                                                "code" : "weight",
+                                                "path" : "fr.axonic.subject.dynamic",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 130.0
+                                                }
+                                            }
+                                        },
+                                        "id" : {
+                                            "code" : "id",
+                                            "path" : "fr.axonic.subject",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "string",
+                                                "value" : "12345"
+                                            }
+                                        },
+                                        "pathologyInformations" : {
+                                            "code" : "pathology",
+                                            "path" : "fr.axonic.subject",
+                                            "persistent" : true,
+                                            "beginningOfObesity" : {
+                                                "code" : "beginningObesity",
+                                                "path" : "fr.axonic.subject.pathology",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "dateTime",
+                                                    "value" : "2017-01-12T11:20:08.694+01:00"
+                                                }
+                                            },
+                                            "obesityType" : {
+                                                "type" : "aRangedEnum",
+                                                "code" : "obesityType",
+                                                "path" : "fr.axonic.subject.pathology",
+                                                "persistent" : true,
+                                                "value" : "GYNOID",
+                                                "range" : [ {
+                                                    "persistent" : true,
+                                                    "value" : "ANDROID"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "GYNOID"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "MIXED"
+                                                } ]
+                                            }
+                                        },
+                                        "staticInformations" : {
+                                            "code" : "static",
+                                            "path" : "fr.axonic.subject",
+                                            "persistent" : true,
+                                            "birthday" : {
+                                                "code" : "birthday",
+                                                "path" : "fr.axonic.subject.static",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "dateTime",
+                                                    "value" : "2017-01-12T11:20:08.691+01:00"
+                                                }
+                                            },
+                                            "gender" : {
+                                                "type" : "aRangedEnum",
+                                                "code" : "gender",
+                                                "path" : "fr.axonic.subject.static",
+                                                "persistent" : true,
+                                                "value" : "MALE",
+                                                "range" : [ {
+                                                    "persistent" : true,
+                                                    "value" : "MALE"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "FEMALE"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "UNKNOWN"
+                                                } ]
+                                            },
+                                            "height" : {
+                                                "code" : "height",
+                                                "path" : "fr.axonic.subject.static",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 70.5
+                                                }
+                                            },
+                                            "name" : {
+                                                "code" : "name",
+                                                "path" : "fr.axonic.subject.static",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "string",
+                                                    "value" : "Paul"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "name" : "Subject 0"
+                                },
+                                "role" : "subject"
+                            } ]
+                        },
+                        "strategy" : {
+                            "type" : "humanStrategy",
+                            "name" : "Treat",
+                            "rationale" : {
+                                "axonicProject" : {
+                                    "pathology" : "OBESITY",
+                                    "stimulator" : "AXIS"
+                                }
+                            },
+                            "actor" : {
+                                "name" : "Chloé",
+                                "role" : "INTERMEDIATE_EXPERT"
+                            },
+                            "minimumRole" : "TECHNICIAN"
                         }
-                    ]
+                    }, {
+                        "conclusion" : {
+                            "element" : {
+                                "type" : "establishedEffect",
+                                "persistent" : true,
+                                "effects" : [ {
+                                    "persistent" : true,
+                                    "effectType" : {
+                                        "code" : "effectType",
+                                        "path" : "fr.axonic",
+                                        "persistent" : true,
+                                        "value" : "UNKNOWN",
+                                        "range" : [ {
+                                            "persistent" : true,
+                                            "value" : "EFFICIENT"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "UNDESIRABLE"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "STRONGLY_UNDESIRABLE"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "UNKNOWN"
+                                        } ]
+                                    }
+                                }, {
+                                    "persistent" : true,
+                                    "effectType" : {
+                                        "code" : "effectType",
+                                        "path" : "fr.axonic",
+                                        "persistent" : true,
+                                        "value" : "UNDESIRABLE",
+                                        "range" : [ {
+                                            "persistent" : true,
+                                            "value" : "EFFICIENT"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "UNDESIRABLE"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "STRONGLY_UNDESIRABLE"
+                                        }, {
+                                            "persistent" : true,
+                                            "value" : "UNKNOWN"
+                                        } ]
+                                    }
+                                } ],
+                                "experimentation" : {
+                                    "persistent" : true,
+                                    "stimulation" : {
+                                        "code" : "stimulation",
+                                        "path" : "fr.axonic",
+                                        "persistent" : true,
+                                        "stimulationScheduler" : {
+                                            "code" : "scheduler",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "from" : {
+                                                "code" : "from",
+                                                "path" : "fr.axonic.stimulation.scheduler",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "dateTime",
+                                                    "value" : "2017-01-12T11:20:08.673+01:00"
+                                                }
+                                            },
+                                            "to" : {
+                                                "code" : "to",
+                                                "path" : "fr.axonic.stimulation.scheduler",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "dateTime",
+                                                    "value" : "2017-01-12T12:20:08.673+01:00"
+                                                }
+                                            }
+                                        },
+                                        "waveform" : {
+                                            "code" : "waveform",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "value" : "RECTANGULAR",
+                                            "range" : [ {
+                                                "persistent" : true,
+                                                "value" : "RECTANGULAR"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "SINUS"
+                                            }, {
+                                                "persistent" : true,
+                                                "value" : "RAMP"
+                                            } ]
+                                        },
+                                        "waveformParameter" : {
+                                            "code" : "waveformParameters",
+                                            "path" : "fr.axonic.stimulation",
+                                            "persistent" : true,
+                                            "amplitude" : {
+                                                "type" : "aContinuousNumber",
+                                                "code" : "amplitude",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 1000.1
+                                                }
+                                            },
+                                            "duration" : {
+                                                "type" : "aContinuousNumber",
+                                                "code" : "duration",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "int",
+                                                    "value" : 300
+                                                }
+                                            },
+                                            "frequency" : {
+                                                "type" : "aContinuousNumber",
+                                                "code" : "frequency",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 500.0
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "subject" : {
+                                        "code" : "subject",
+                                        "path" : "fr.axonic",
+                                        "persistent" : true,
+                                        "dynamicInformations" : {
+                                            "code" : "dynamic",
+                                            "path" : "fr.axonic.subject",
+                                            "persistent" : true,
+                                            "bmi" : {
+                                                "code" : "bmi",
+                                                "path" : "fr.axonic.subject.dynamic",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 40.0
+                                                }
+                                            },
+                                            "weight" : {
+                                                "code" : "weight",
+                                                "path" : "fr.axonic.subject.dynamic",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 130.0
+                                                }
+                                            }
+                                        },
+                                        "id" : {
+                                            "code" : "id",
+                                            "path" : "fr.axonic.subject",
+                                            "persistent" : true,
+                                            "value" : {
+                                                "type" : "string",
+                                                "value" : "12345"
+                                            }
+                                        },
+                                        "pathologyInformations" : {
+                                            "code" : "pathology",
+                                            "path" : "fr.axonic.subject",
+                                            "persistent" : true,
+                                            "beginningOfObesity" : {
+                                                "code" : "beginningObesity",
+                                                "path" : "fr.axonic.subject.pathology",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "dateTime",
+                                                    "value" : "2017-01-12T11:20:08.694+01:00"
+                                                }
+                                            },
+                                            "obesityType" : {
+                                                "type" : "aRangedEnum",
+                                                "code" : "obesityType",
+                                                "path" : "fr.axonic.subject.pathology",
+                                                "persistent" : true,
+                                                "value" : "GYNOID",
+                                                "range" : [ {
+                                                    "persistent" : true,
+                                                    "value" : "ANDROID"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "GYNOID"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "MIXED"
+                                                } ]
+                                            }
+                                        },
+                                        "staticInformations" : {
+                                            "code" : "static",
+                                            "path" : "fr.axonic.subject",
+                                            "persistent" : true,
+                                            "birthday" : {
+                                                "code" : "birthday",
+                                                "path" : "fr.axonic.subject.static",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "dateTime",
+                                                    "value" : "2017-01-12T11:20:08.691+01:00"
+                                                }
+                                            },
+                                            "gender" : {
+                                                "type" : "aRangedEnum",
+                                                "code" : "gender",
+                                                "path" : "fr.axonic.subject.static",
+                                                "persistent" : true,
+                                                "value" : "MALE",
+                                                "range" : [ {
+                                                    "persistent" : true,
+                                                    "value" : "MALE"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "FEMALE"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "UNKNOWN"
+                                                } ]
+                                            },
+                                            "height" : {
+                                                "code" : "height",
+                                                "path" : "fr.axonic.subject.static",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "double",
+                                                    "value" : 70.5
+                                                }
+                                            },
+                                            "name" : {
+                                                "code" : "name",
+                                                "path" : "fr.axonic.subject.static",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "string",
+                                                    "value" : "Paul"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "name" : "Establish Effect"
+                        },
+                        "evidences" : {
+                            "evidenceRoles" : [ {
+                                "evidence" : {
+                                    "type" : "conclusion",
+                                    "element" : {
+                                        "type" : "experimentation",
+                                        "persistent" : true,
+                                        "stimulation" : {
+                                            "code" : "stimulation",
+                                            "path" : "fr.axonic",
+                                            "persistent" : true,
+                                            "stimulationScheduler" : {
+                                                "code" : "scheduler",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "from" : {
+                                                    "code" : "from",
+                                                    "path" : "fr.axonic.stimulation.scheduler",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "dateTime",
+                                                        "value" : "2017-01-12T11:20:08.673+01:00"
+                                                    }
+                                                },
+                                                "to" : {
+                                                    "code" : "to",
+                                                    "path" : "fr.axonic.stimulation.scheduler",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "dateTime",
+                                                        "value" : "2017-01-12T12:20:08.673+01:00"
+                                                    }
+                                                }
+                                            },
+                                            "waveform" : {
+                                                "code" : "waveform",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "value" : "RECTANGULAR",
+                                                "range" : [ {
+                                                    "persistent" : true,
+                                                    "value" : "RECTANGULAR"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "SINUS"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "RAMP"
+                                                } ]
+                                            },
+                                            "waveformParameter" : {
+                                                "code" : "waveformParameters",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "amplitude" : {
+                                                    "type" : "aContinuousNumber",
+                                                    "code" : "amplitude",
+                                                    "path" : "fr.axonic.stimulation",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 1000.1
+                                                    }
+                                                },
+                                                "duration" : {
+                                                    "type" : "aContinuousNumber",
+                                                    "code" : "duration",
+                                                    "path" : "fr.axonic.stimulation",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "int",
+                                                        "value" : 300
+                                                    }
+                                                },
+                                                "frequency" : {
+                                                    "type" : "aContinuousNumber",
+                                                    "code" : "frequency",
+                                                    "path" : "fr.axonic.stimulation",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 500.0
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "subject" : {
+                                            "code" : "subject",
+                                            "path" : "fr.axonic",
+                                            "persistent" : true,
+                                            "dynamicInformations" : {
+                                                "code" : "dynamic",
+                                                "path" : "fr.axonic.subject",
+                                                "persistent" : true,
+                                                "bmi" : {
+                                                    "code" : "bmi",
+                                                    "path" : "fr.axonic.subject.dynamic",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 40.0
+                                                    }
+                                                },
+                                                "weight" : {
+                                                    "code" : "weight",
+                                                    "path" : "fr.axonic.subject.dynamic",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 130.0
+                                                    }
+                                                }
+                                            },
+                                            "id" : {
+                                                "code" : "id",
+                                                "path" : "fr.axonic.subject",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "string",
+                                                    "value" : "12345"
+                                                }
+                                            },
+                                            "pathologyInformations" : {
+                                                "code" : "pathology",
+                                                "path" : "fr.axonic.subject",
+                                                "persistent" : true,
+                                                "beginningOfObesity" : {
+                                                    "code" : "beginningObesity",
+                                                    "path" : "fr.axonic.subject.pathology",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "dateTime",
+                                                        "value" : "2017-01-12T11:20:08.694+01:00"
+                                                    }
+                                                },
+                                                "obesityType" : {
+                                                    "type" : "aRangedEnum",
+                                                    "code" : "obesityType",
+                                                    "path" : "fr.axonic.subject.pathology",
+                                                    "persistent" : true,
+                                                    "value" : "GYNOID",
+                                                    "range" : [ {
+                                                        "persistent" : true,
+                                                        "value" : "ANDROID"
+                                                    }, {
+                                                        "persistent" : true,
+                                                        "value" : "GYNOID"
+                                                    }, {
+                                                        "persistent" : true,
+                                                        "value" : "MIXED"
+                                                    } ]
+                                                }
+                                            },
+                                            "staticInformations" : {
+                                                "code" : "static",
+                                                "path" : "fr.axonic.subject",
+                                                "persistent" : true,
+                                                "birthday" : {
+                                                    "code" : "birthday",
+                                                    "path" : "fr.axonic.subject.static",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "dateTime",
+                                                        "value" : "2017-01-12T11:20:08.691+01:00"
+                                                    }
+                                                },
+                                                "gender" : {
+                                                    "type" : "aRangedEnum",
+                                                    "code" : "gender",
+                                                    "path" : "fr.axonic.subject.static",
+                                                    "persistent" : true,
+                                                    "value" : "MALE",
+                                                    "range" : [ {
+                                                        "persistent" : true,
+                                                        "value" : "MALE"
+                                                    }, {
+                                                        "persistent" : true,
+                                                        "value" : "FEMALE"
+                                                    }, {
+                                                        "persistent" : true,
+                                                        "value" : "UNKNOWN"
+                                                    } ]
+                                                },
+                                                "height" : {
+                                                    "code" : "height",
+                                                    "path" : "fr.axonic.subject.static",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 70.5
+                                                    }
+                                                },
+                                                "name" : {
+                                                    "code" : "name",
+                                                    "path" : "fr.axonic.subject.static",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "string",
+                                                        "value" : "Paul"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "name" : "Experimentation",
+                                    "limits" : {
+                                        "subject" : [ {
+                                            "code" : "subject",
+                                            "path" : "fr.axonic",
+                                            "persistent" : true,
+                                            "dynamicInformations" : {
+                                                "code" : "dynamic",
+                                                "path" : "fr.axonic.subject",
+                                                "persistent" : true,
+                                                "bmi" : {
+                                                    "code" : "bmi",
+                                                    "path" : "fr.axonic.subject.dynamic",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 40.0
+                                                    }
+                                                },
+                                                "weight" : {
+                                                    "code" : "weight",
+                                                    "path" : "fr.axonic.subject.dynamic",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 130.0
+                                                    }
+                                                }
+                                            },
+                                            "id" : {
+                                                "code" : "id",
+                                                "path" : "fr.axonic.subject",
+                                                "persistent" : true,
+                                                "value" : {
+                                                    "type" : "string",
+                                                    "value" : "12345"
+                                                }
+                                            },
+                                            "pathologyInformations" : {
+                                                "code" : "pathology",
+                                                "path" : "fr.axonic.subject",
+                                                "persistent" : true,
+                                                "beginningOfObesity" : {
+                                                    "code" : "beginningObesity",
+                                                    "path" : "fr.axonic.subject.pathology",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "dateTime",
+                                                        "value" : "2017-01-12T11:20:08.694+01:00"
+                                                    }
+                                                },
+                                                "obesityType" : {
+                                                    "type" : "aRangedEnum",
+                                                    "code" : "obesityType",
+                                                    "path" : "fr.axonic.subject.pathology",
+                                                    "persistent" : true,
+                                                    "value" : "GYNOID",
+                                                    "range" : [ {
+                                                        "persistent" : true,
+                                                        "value" : "ANDROID"
+                                                    }, {
+                                                        "persistent" : true,
+                                                        "value" : "GYNOID"
+                                                    }, {
+                                                        "persistent" : true,
+                                                        "value" : "MIXED"
+                                                    } ]
+                                                }
+                                            },
+                                            "staticInformations" : {
+                                                "code" : "static",
+                                                "path" : "fr.axonic.subject",
+                                                "persistent" : true,
+                                                "birthday" : {
+                                                    "code" : "birthday",
+                                                    "path" : "fr.axonic.subject.static",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "dateTime",
+                                                        "value" : "2017-01-12T11:20:08.691+01:00"
+                                                    }
+                                                },
+                                                "gender" : {
+                                                    "type" : "aRangedEnum",
+                                                    "code" : "gender",
+                                                    "path" : "fr.axonic.subject.static",
+                                                    "persistent" : true,
+                                                    "value" : "MALE",
+                                                    "range" : [ {
+                                                        "persistent" : true,
+                                                        "value" : "MALE"
+                                                    }, {
+                                                        "persistent" : true,
+                                                        "value" : "FEMALE"
+                                                    }, {
+                                                        "persistent" : true,
+                                                        "value" : "UNKNOWN"
+                                                    } ]
+                                                },
+                                                "height" : {
+                                                    "code" : "height",
+                                                    "path" : "fr.axonic.subject.static",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 70.5
+                                                    }
+                                                },
+                                                "name" : {
+                                                    "code" : "name",
+                                                    "path" : "fr.axonic.subject.static",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "string",
+                                                        "value" : "Paul"
+                                                    }
+                                                }
+                                            }
+                                        } ],
+                                        "stimulation" : [ {
+                                            "code" : "stimulation",
+                                            "path" : "fr.axonic",
+                                            "persistent" : true,
+                                            "stimulationScheduler" : {
+                                                "code" : "scheduler",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "from" : {
+                                                    "code" : "from",
+                                                    "path" : "fr.axonic.stimulation.scheduler",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "dateTime",
+                                                        "value" : "2017-01-12T11:20:08.673+01:00"
+                                                    }
+                                                },
+                                                "to" : {
+                                                    "code" : "to",
+                                                    "path" : "fr.axonic.stimulation.scheduler",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "dateTime",
+                                                        "value" : "2017-01-12T12:20:08.673+01:00"
+                                                    }
+                                                }
+                                            },
+                                            "waveform" : {
+                                                "code" : "waveform",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "value" : "RECTANGULAR",
+                                                "range" : [ {
+                                                    "persistent" : true,
+                                                    "value" : "RECTANGULAR"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "SINUS"
+                                                }, {
+                                                    "persistent" : true,
+                                                    "value" : "RAMP"
+                                                } ]
+                                            },
+                                            "waveformParameter" : {
+                                                "code" : "waveformParameters",
+                                                "path" : "fr.axonic.stimulation",
+                                                "persistent" : true,
+                                                "amplitude" : {
+                                                    "type" : "aContinuousNumber",
+                                                    "code" : "amplitude",
+                                                    "path" : "fr.axonic.stimulation",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 1000.1
+                                                    }
+                                                },
+                                                "duration" : {
+                                                    "type" : "aContinuousNumber",
+                                                    "code" : "duration",
+                                                    "path" : "fr.axonic.stimulation",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "int",
+                                                        "value" : 300
+                                                    }
+                                                },
+                                                "frequency" : {
+                                                    "type" : "aContinuousNumber",
+                                                    "code" : "frequency",
+                                                    "path" : "fr.axonic.stimulation",
+                                                    "persistent" : true,
+                                                    "value" : {
+                                                        "type" : "double",
+                                                        "value" : 500.0
+                                                    }
+                                                }
+                                            }
+                                        } ]
+                                    }
+                                },
+                                "role" : ""
+                            } ]
+                        },
+                        "strategy" : {
+                            "type" : "humanStrategy",
+                            "name" : "Establish Effect",
+                            "rationale" : {
+                                "axonicProject" : {
+                                    "pathology" : "OBESITY",
+                                    "stimulator" : "AXIS"
+                                }
+                            },
+                            "actor" : {
+                                "name" : "Chloé",
+                                "role" : "INTERMEDIATE_EXPERT"
+                            },
+                            "minimumRole" : "JUNIOR_EXPERT"
+                        }
+                    } ]
                 }
             }
 

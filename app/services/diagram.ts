@@ -408,7 +408,7 @@ class Util{
         var artifacts = new Array<Artifact>();
         var index = 0;
 
-        if(jsonElement[0].hasOwnProperty("limits")){
+        if(jsonElement[0] && jsonElement[0].hasOwnProperty("limits")){
             for(var limit of Object.keys(jsonElement[0].limits)) {
                 artifacts.push(new Limitation(limit, [jsonElement[0].limits[limit]], "", parentElement, index++))
             };
