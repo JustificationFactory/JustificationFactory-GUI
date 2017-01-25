@@ -23,7 +23,13 @@ export class ActionsToolbarComponent {
 
     public removeElement(event) {
         //this.selectedElement.visualShape.remove();
-        this.removeStep(this.selectedElement.visualShape, this.selectedElement.visualShape.id);
+        if(this.selectedElement.constructor.name != "Strategy"){
+            var confirmDelete = confirm("Do you want to delete this element ?");
+            if( confirmDelete == true ){
+                this.removeStep(this.selectedElement.visualShape, this.selectedElement.visualShape.id);
+            }
+        }
+
         //alert(inboundLinks.length);
         //this.selectedElement.visualShape.get
     }
