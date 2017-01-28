@@ -17,15 +17,9 @@ describe("main.component", () => {
         TestBed.configureTestingModule({
             declarations: [ MainComponent, DiagramComponent, PropertiesComponent, ActionsToolbarComponent, EditToolbarComponent, PaletteComponent ], // declare the test component
             providers: [
-                {
-                    provide: Http, useFactory: (backend, options) => {
-                    return new Http(backend, options);
-                },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
-                MockBackend,
-                BaseRequestOptions,
-                DiagramComponent
+                DiagramComponent,
+                ActionsToolbarComponent,
+                PropertiesComponent
             ]
         });
 

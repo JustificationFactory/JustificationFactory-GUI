@@ -85,6 +85,11 @@ export class PropertiesComponent implements OnChanges {
 
     private  updateVisualSettings() {
 
+        if(this.selectedElement.visualShape.attributes.attrs){
+            this.selectedElement.visualShape.attributes.attrs.text.text=this.ElementName;
+            this.selectedElement.name = this.ElementName;
+        }
+
         //Set visual properties of element
         if(this.selectedElement.visualShape.attributes.attrs.path){
 
@@ -117,12 +122,9 @@ export class PropertiesComponent implements OnChanges {
         this.ShapeOfElement = event.target.value;
         this.updateVisualSettings();
     }
-    onNameChanged() {
-        if(this.selectedElement.visualShape.attributes.attrs){
-            this.selectedElement.visualShape.attributes.attrs.text.text=this.ElementName;
-            this.selectedElement.name = this.ElementName;
-        }
-        this.selectedElementChange.emit(this.selectedElement);
+    onNameChanged(event: any) {
+        this.ElementName = event.target.value;
+        this.updateVisualSettings();
     }
     onColorChanged(newColorHexa: string) {
         this.updateVisualSettings();
