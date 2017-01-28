@@ -339,11 +339,14 @@ class Rationale extends Artifact{
 
         let labelRationale = "";
 
-        for(var r of Object.values(jsonElement.axonicProject)) {
-            if (labelRationale != "")
-                labelRationale += " & ";
-            labelRationale += r;
-        };
+        if (jsonElement.axonicProject) {
+            for (var r of Object.values(jsonElement.axonicProject)) {
+                if (labelRationale != "")
+                    labelRationale += " & ";
+                labelRationale += r;
+            }
+            ;
+        }
 
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
