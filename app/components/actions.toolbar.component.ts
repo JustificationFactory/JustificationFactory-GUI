@@ -22,16 +22,16 @@ export class ActionsToolbarComponent {
     }
 
     public removeElement(event) {
-        //this.selectedElement.visualShape.remove();
-        if(this.selectedElement.constructor.name != "Strategy"){
+        if(!this.disableRemoveNode()){
+
+            //this.selectedElement.visualShape.remove();
+
+
             var confirmDelete = confirm("Do you want to delete this element ?");
             if( confirmDelete == true ){
                 this.removeStep(this.selectedElement.visualShape, this.selectedElement.visualShape.id);
             }
         }
-
-        //alert(inboundLinks.length);
-        //this.selectedElement.visualShape.get
     }
 
     public removeStep(rootElement, rootElementId){
@@ -52,4 +52,14 @@ export class ActionsToolbarComponent {
 
     }
 
+    public disableRemoveNode() : boolean {
+        let disable = (this.selectedElement == null);
+
+        if (!disable) {
+            if (!(this.selectedElement instanceof Support))
+                disable = true;
+        }
+
+        return disable;
+    }
 }
