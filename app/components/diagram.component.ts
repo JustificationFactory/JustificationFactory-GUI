@@ -27,6 +27,7 @@ export class DiagramComponent{
     public showDiagram(elements: DiagramElement[], bSteps: Array<Step>){
 
         this.businessSteps = bSteps;
+        console.log(JSON.stringify(this.businessSteps));
 
         if(!this._graph) {
             this._graph = new Graph;
