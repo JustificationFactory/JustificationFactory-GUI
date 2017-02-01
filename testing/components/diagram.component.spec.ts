@@ -140,6 +140,7 @@ describe("diagram.component.", () => {
                 "stimulator": "AXIS"
             }
         }, "");
+
         strategy.artifacts.push(rationale);
         elements.push(rationale);
         evidence = new Evidence("StimulationComputed", {}, "stimulationComputed");
