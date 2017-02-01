@@ -65,6 +65,7 @@ describe("diagram.component.", () => {
 
         //TODO: Links & Supports are not created currently
 
+
         step = new Step();
 
         conclusion = new Conclusion("Experimentation", {}, "experimentation");
@@ -123,8 +124,39 @@ describe("diagram.component.", () => {
         actor = new Actor("Chloé", {}, "INTERMEDIATE_EXPERT");
         strategy.artifacts.push(actor);
         elements.push(actor);
-
         businessSteps.push(step);
+
+        /****************************ACTOR: Computer *************************/
+        step = new Step();
+        conclusion = new Conclusion("ExperimentationComputed", {}, "experimentationComputed");
+        elements.push(conclusion);
+        step.push(conclusion);
+        strategy= new Strategy("TreatComputed", {}, "computedStrategy");
+        elements.push(strategy);
+        step.push(strategy);
+        rationale = new Rationale("", {
+            "axonicProject": {
+                "pathology": "OBESITY",
+                "stimulator": "AXIS"
+            }
+        }, "");
+        strategy.artifacts.push(rationale);
+        elements.push(rationale);
+        evidence = new Evidence("StimulationComputed", {}, "stimulationComputed");
+        elements.push(evidence);
+        step.push(evidence);
+        evidence = new Evidence("SubjectComputed 0", {}, "subjectComputed");
+        elements.push(evidence);
+        step.push(evidence);
+        actor = new Actor("", {}, "computedStrategy");
+        strategy.artifacts.push(actor);
+        elements.push(actor);
+        businessSteps.push(step);
+
+        /**************************************************/
+
+
+
     }));
 
 
@@ -187,7 +219,7 @@ describe("diagram.component.", () => {
 
             fixture.detectChanges();
 
-            expect(comp.getCellsGraph().length).toEqual(11);
+            expect(comp.getCellsGraph().length).toEqual(17);
         });
 
         it('Business list. Number of steps', () => {
@@ -200,7 +232,7 @@ describe("diagram.component.", () => {
 
             fixture.detectChanges();
 
-            expect(comp.businessSteps.length).toEqual(2);
+            expect(comp.businessSteps.length).toEqual(3);
         });
 
     });
