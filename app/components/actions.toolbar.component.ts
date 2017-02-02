@@ -46,7 +46,7 @@ export class ActionsToolbarComponent {
             //alert(inboundLink.get('source'));
             var sourceId = inboundLink.get('source').id;
             if (sourceId) {
-                var source = currentComponent._graph.getCell(sourceId).parent;
+                var source = (currentComponent._graph.getCell(sourceId) as any).parent;
                 //currentComponent.removeFromBusiness(source.name);
                 currentComponent.removeStep(source , rootElementId);
 
