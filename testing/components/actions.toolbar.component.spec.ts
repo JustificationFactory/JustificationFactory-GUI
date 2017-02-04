@@ -5,7 +5,7 @@ import {ActionsToolbarComponent} from "../../app/components/actions.toolbar.comp
 import {EditToolbarComponent} from "../../app/components/edit.toolbar.component";
 import {PaletteComponent} from "../../app/components/palette.component";
 import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
+
 
 describe("actions.toolbar.component.", () => {
 
@@ -188,13 +188,14 @@ describe("actions.toolbar.component.", () => {
             actionsToolbarComp = actionsToolbarFixture.componentInstance; // DiagramComponent test instance
             actionsToolbarComp.businessSteps = businessSteps;
             actionsToolbarComp._graph = comp.getGraph();
+
             expect(comp.getCellsGraph().length).toEqual(nbElements);
+
             actionsToolbarComp.removeStep(selectedElement, selectedElement.visualShape.id);
+
             actionsToolbarFixture.detectChanges();
             fixture.detectChanges();
-            //de = fixture.debugElement.query(By.css('main-view'));
-            //el = de.nativeElement;
-            console.log("toto : " + comp.getCellsGraph());
+
             expect(comp.getCellsGraph().length).toEqual(nbElements - nbElementsThatMustBeDeletedInThisTest);
             expect(comp.businessSteps.length).toEqual(1);
 

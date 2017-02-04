@@ -276,15 +276,11 @@ describe("diagram.component.", () => {
 
             fixture.detectChanges();
 
-            //de = fixture.debugElement.query(By.css('main-view'));
-            //el = de.nativeElement;
             expect(fixture.nativeElement.querySelector('properties-view') === null).toBe(true);
-            //expect(de).toEqual(null);
 
             let cell0 = comp.getCellsGraph()[0];
             let name0 = ((cell0 as any).parent as DiagramElement).name;
             let cellView0 = comp.getCellViewFromCell(cell0);
-
 
             var e = new jQuery.Event("click"); // clientX & clientY needed for Firefox browser
             e.clientX = 10;
