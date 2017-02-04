@@ -223,6 +223,14 @@ export class DiagramComponent{
         else
             return true;
     }
+
+    public getPaper() {
+        return this._paper;
+    }
+
+    public getGraph() {
+        return this._graph;
+    }
 }
 
 

@@ -266,6 +266,43 @@ describe("diagram.component.", () => {
             expect(comp.selectedElement.name).toEqual(name0);
         });
 
+        it('select and unselect elements => Show and Hide properties components', () => {
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            fixture.detectChanges();
+
+            comp.showDiagram(elements, businessSteps);
+
+            fixture.detectChanges();
+
+            //de = fixture.debugElement.query(By.css('main-view'));
+            //el = de.nativeElement;
+            expect(fixture.nativeElement.querySelector('properties-view') === null).toBe(true);
+            //expect(de).toEqual(null);
+
+            let cell0 = comp.getCellsGraph()[0];
+            let name0 = ((cell0 as any).parent as DiagramElement).name;
+            let cellView0 = comp.getCellViewFromCell(cell0);
+
+
+            var e = new jQuery.Event("click"); // clientX & clientY needed for Firefox browser
+            e.clientX = 10;
+            e.clientY = 10;
+            cellView0.$el.trigger(e);
+
+            fixture.detectChanges();
+            expect(fixture.nativeElement.querySelector('properties-view') === null).toBe(false);
+
+            var e = new jQuery.Event("click"); // clientX & clientY needed for Firefox browser
+            e.clientX = 10;
+            e.clientY = 10;
+            comp.getPaper().$el.trigger(e);
+
+            fixture.detectChanges();
+            expect(fixture.nativeElement.querySelector('properties-view') === null).toBe(true);
+        });
+
         it('Zoom methods change diagram scale', () => {
             fixture = TestBed.createComponent(DiagramComponent);
             comp = fixture.componentInstance; // DiagramComponent test instance
