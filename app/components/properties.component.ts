@@ -305,4 +305,8 @@ export class PropertiesComponent implements OnChanges {
         return keys;
     }
 
+    public getElementName() : String {
+        return this.ElementName;
+    }
+
 }

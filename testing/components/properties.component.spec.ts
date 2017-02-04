@@ -4,13 +4,13 @@ import {PropertiesComponent} from "../../app/components/properties.component";
 import {ActionsToolbarComponent} from "../../app/components/actions.toolbar.component";
 import {EditToolbarComponent} from "../../app/components/edit.toolbar.component";
 import {PaletteComponent} from "../../app/components/palette.component";
-import {DebugElement} from "@angular/core";
+import {DebugElement, SimpleChanges, SimpleChange} from "@angular/core";
 import {By} from "@angular/platform-browser";
 
-describe("diagram.component.", () => {
+describe("properties.component.", () => {
 
-    let comp:    DiagramComponent;
-    let fixture: ComponentFixture<DiagramComponent>;
+    let comp:    PropertiesComponent;
+    let fixture: ComponentFixture<PropertiesComponent>;
     let elements: Array<DiagramElement>;
     let businessSteps: Array<Step>;
     let de: DebugElement;
@@ -161,146 +161,100 @@ describe("diagram.component.", () => {
     }));
 
 
-    describe("Initial values.", () => {
-        it('myholder tag empty', () => {
-            fixture = TestBed.createComponent(DiagramComponent);
-            comp = fixture.componentInstance; // DiagramComponent test instance
+    describe("Load an element.", () => {
+        it('check name', () => {
+            fixture = TestBed.createComponent(PropertiesComponent);
+            comp = fixture.componentInstance; // PropertiesComponent test instance
 
-            de = fixture.debugElement.query(By.css('#myholder'));
+            fixture.detectChanges();
+
+            expect(comp.getElementName()).toEqual("");
+
+            comp.selectedElement = businessSteps[0][2];
+
+            let cs = new SimpleChange("", "Stimulation 0");
+            comp.ngOnChanges({ "selectedElement": cs });
+
+            expect(comp.getElementName()).toEqual("Stimulation 0");
+
+            de = fixture.debugElement.query(By.css('.properties-header'));
             el = de.nativeElement;
 
             fixture.detectChanges();
 
-            expect(el.innerHTML).toEqual("");
+            expect(el.innerHTML).toEqual("Stimulation 0");
         });
 
-        it('Graph Scale = 1', () => {
-            fixture = TestBed.createComponent(DiagramComponent);
-            comp = fixture.componentInstance; // DiagramComponent test instance
+        it('check view values', () => {
+            fixture = TestBed.createComponent(PropertiesComponent);
+            comp = fixture.componentInstance; // PropertiesComponent test instance
+
+            comp.selectedElement = businessSteps[0][2];
+
+            let cs = new SimpleChange("", "Stimulation 0");
+            comp.ngOnChanges({ "selectedElement": cs });
 
             fixture.detectChanges();
-            expect(comp.getGraphScale()).toEqual(1);
-        });
 
-        it('No element selected by default', () => {
-            fixture = TestBed.createComponent(DiagramComponent);
-            comp = fixture.componentInstance; // DiagramComponent test instance
-
-            fixture.detectChanges();
-            expect(comp.selectedElement).toBeNull();
-        });
-
-    });
-
-    describe("Loading diagram.", () => {
-
-        it('myholder tag filled', () => {
-            fixture = TestBed.createComponent(DiagramComponent);
-            comp = fixture.componentInstance; // DiagramComponent test instance
-
-            de = fixture.debugElement.query(By.css('#myholder'));
+            de = fixture.debugElement.query(By.css('.testing-element-shape'));
             el = de.nativeElement;
 
-            fixture.detectChanges();
+            expect((el as any).value).toEqual("Rounded rectangle");
 
-            comp.showDiagram(elements, businessSteps);
-
-            fixture.detectChanges();
-
-            expect(el.innerHTML.slice(0, 4)).toEqual("<svg");
-        });
-
-        it('Number of elements in the diagram', () => {
-            fixture = TestBed.createComponent(DiagramComponent);
-            comp = fixture.componentInstance; // DiagramComponent test instance
-
-            fixture.detectChanges();
-
-            comp.showDiagram(elements, businessSteps);
-
-            fixture.detectChanges();
-
-            expect(comp.getCellsGraph().length).toEqual(17);
-        });
-
-        it('Business list. Number of steps', () => {
-            fixture = TestBed.createComponent(DiagramComponent);
-            comp = fixture.componentInstance; // DiagramComponent test instance
-
-            fixture.detectChanges();
-
-            comp.showDiagram(elements, businessSteps);
-
-            fixture.detectChanges();
-
-            expect(comp.businessSteps.length).toEqual(3);
-        });
-
-    });
-
-    describe("Diagram manipulations.", () => {
-
-        it('Select a visual element to change business selected element', () => {
-            fixture = TestBed.createComponent(DiagramComponent);
-            comp = fixture.componentInstance; // DiagramComponent test instance
-
-            fixture.detectChanges();
-
-            comp.showDiagram(elements, businessSteps);
-
-            fixture.detectChanges();
-
-            let cell0 = comp.getCellsGraph()[0];
-            let name0 = ((cell0 as any).parent as DiagramElement).name;
-            let cellView0 = comp.getCellViewFromCell(cell0);
-
-            var e = new jQuery.Event("click"); // clientX & clientY needed for Firefox browser
-            e.clientX = 10;
-            e.clientY = 10;
-            cellView0.$el.trigger(e);
-
-            fixture.detectChanges();
-
-            expect(comp.selectedElement.name).not.toEqual("");
-
-            expect(comp.selectedElement.name).toEqual(name0);
-        });
-
-        it('Zoom methods change diagram scale', () => {
-            fixture = TestBed.createComponent(DiagramComponent);
-            comp = fixture.componentInstance; // DiagramComponent test instance
-
-            de = fixture.debugElement.query(By.css('#myholder'));
+            de = fixture.debugElement.query(By.css('.testing-border-color'));
             el = de.nativeElement;
 
-            fixture.detectChanges();
-
-            comp.showDiagram(elements, businessSteps);
-
-            fixture.detectChanges();
-
-            comp.zoomIn();
-            fixture.detectChanges();
-            comp.zoomIn();
-            fixture.detectChanges();
-
-            expect(comp.getGraphScale().toString().slice(0, 3)).toEqual("1.2");
-
-            expect(el.innerHTML.indexOf('class="joint-viewport" transform="scale(1.2')).not.toEqual(-1);
-
-            comp.resetZoom();
-            fixture.detectChanges();
-
-            expect(comp.getGraphScale()).toEqual(1);
-
-            expect(el.innerHTML.indexOf('class="joint-viewport" transform="scale(1,')).not.toEqual(-1);
+            expect((el as any).attributes["ng-reflect-selected-color-hex"].value).toEqual("#000000");
         });
-
     });
 
-    //TODO: For one day...! Currently we don't arrive to access sub components!
-    // spyOn(comp.propertiesComponent, 'ngOnChanges').and.callThrough();
-    // fixture.detectChanges();
-    // expect(comp.propertiesComponent.ngOnChanges).toHaveBeenCalled();
+    describe("Properties manipulations.", () => {
+        it('change name', () => {
+            fixture = TestBed.createComponent(PropertiesComponent);
+            comp = fixture.componentInstance; // PropertiesComponent test instance
+
+            comp.selectedElement = businessSteps[0][2];
+
+            let cs = new SimpleChange("", "Stimulation 0");
+            comp.ngOnChanges({ "selectedElement": cs });
+
+            fixture.detectChanges();
+
+            de = fixture.debugElement.query(By.css('.testing-element-name'));
+            (de.nativeElement as any).value = "Test change name!";
+            (de as any).triggerEventHandler("change", {"target": de.nativeElement});
+
+            fixture.detectChanges();
+
+            expect(comp.getElementName()).toEqual("Test change name!");
+            expect(comp.selectedElement.name).toEqual("Test change name!");
+        });
+
+        it('change view values', () => {
+            fixture = TestBed.createComponent(PropertiesComponent);
+            comp = fixture.componentInstance; // PropertiesComponent test instance
+
+            comp.selectedElement = businessSteps[0][2];
+
+            let cs = new SimpleChange("", "Stimulation 0");
+            comp.ngOnChanges({ "selectedElement": cs });
+
+            fixture.detectChanges();
+
+            de = fixture.debugElement.query(By.css('.testing-element-shape'));
+            (de.nativeElement as any).value = comp.SHAPE_PARALLELOGRAM;
+            (de as any).triggerEventHandler("change", {"target": de.nativeElement});
+
+            de = fixture.debugElement.query(By.css('.testing-border-color'));
+            (de.nativeElement as any).attributes["ng-reflect-selected-color-hex"].value = "#111111";
+            (de as any).triggerEventHandler("selectedColorHexChange", "#111111");
+
+            fixture.detectChanges();
+
+            expect(comp.selectedElement.visualShape.attributes.attrs.path.d).toEqual(DiagramElement.ParallelogramShape);
+            expect(comp.BorderColorOfElement).toEqual("#111111");
+            expect(comp.selectedElement.visualShape.attributes.attrs.path.stroke).toEqual("#111111");
+        });
+    });
 
 });
