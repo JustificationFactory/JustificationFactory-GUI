@@ -86,7 +86,7 @@ class Support extends DiagramElement {
             size: { width: Util.getElementWidthFromTextLength(conclusion.name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
                 path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
-                text: { text: conclusion.name, 'ref-y': .3, fill: 'black' }
+                text: { text: conclusion.name, 'ref-y': .3, fill: '#000000' }
             }
         });
 
@@ -104,13 +104,12 @@ class Conclusion extends DiagramElement {
     artifacts: Array<Artifact>;
     constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
-
         this.visualShape = new joint.shapes.basic.Path({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
                 path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
-                text: { text: name, 'ref-y': .3, fill: 'black' }
+                text: { text: name, 'ref-y': .3, fill: '#000000' }
             }
         })
 
@@ -133,7 +132,7 @@ class Evidence extends DiagramElement {
             size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
             attrs: {
                 path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
-                text: { text: name, 'ref-y': .3, fill: 'black' }
+                text: { text: name, 'ref-y': .3, fill: '#000000' }
             }
 
         });
@@ -146,14 +145,19 @@ class Strategy extends DiagramElement {
     artifacts: Array<Artifact>;
     constructor(name: string, jsonElement: any, type: string) {
         super(name, jsonElement, type);
-        this.visualShape = new joint.shapes.basic.Path({
-            id: Util.getNewGuid(),
-            size: { width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name) },
-            attrs: {
-                path: { d: DiagramElement.ParallelogramShape, fill: 'green'},
-                text: { text: name, 'ref-y': .3, fill: 'white' }
-            }
-        });
+
+            this.visualShape = new joint.shapes.basic.Path({
+                id: Util.getNewGuid(),
+                size: {
+                    width: Util.getElementWidthFromTextLength(name),
+                    height: Util.getElementHeightFromTextLength(name)
+                },
+                attrs: {
+                    path: {d: DiagramElement.ParallelogramShape, fill: '#008000'},
+                    text: {text: name, 'ref-y': .3, fill: '#FFFFFF'}
+                }
+
+            });
 
         (this.visualShape as any).parent = this;
     }
@@ -302,11 +306,11 @@ class Limitation extends Artifact{
                         y: yRect,
                         width: widthRect,
                         height: 25,
-                        stroke: 'black'
+                        stroke: '#000000'
                     },
                     text: {
                         text: name,
-                        fill: 'white',
+                        fill: '#FFFFFF',
                     }
                 }
             };
@@ -335,18 +339,22 @@ class Rationale extends Artifact{
 
         let labelRationale = "";
 
-        for(var r of Object.keys(jsonElement.axonicProject[0])) {
-            if (labelRationale != "")
-                labelRationale += " & ";
-            labelRationale += jsonElement.axonicProject[0][r];
-        };
+        if (jsonElement.axonicProject) {
+            for (var r of Object.values(jsonElement.axonicProject)) {
+                if (labelRationale != "")
+                    labelRationale += " & ";
+                labelRationale += r;
+            }
+            ;
+        }
 
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(labelRationale),
                 height: Util.getElementHeightFromTextLength(labelRationale) },
-            attrs: { rect: { fill: '#FFFFFF' }, text: { text: labelRationale, fill: 'black' } }
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: labelRationale, fill: '#000000' } }
         });
+        (this.visualShape as any).parent = this;
     }
 }
 
@@ -358,9 +366,10 @@ class Actor extends Artifact{
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name),
                 height: Util.getElementHeightFromTextLength(name) },
-            attrs: { rect: { fill: '#FFFFFF' }, text: { text: name, fill: 'black' } },
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: name, fill: '#000000' } },
             markup: Util.getSVGActorImage(role)
         });
+        (this.visualShape as any).parent = this;
     }
 }
 
@@ -371,11 +380,15 @@ class ForEach extends Artifact{
     }
 }
 
+class Step extends Array<DiagramElement> {
+
+}
+
 class Util{
     static getElementWidthFromTextLength(name: string){
         var maxLine = _.max(name.split('\n'), function(l) { return l.length; });
         var maxLineWidth = $('#ruler').html(maxLine).width();
-        return maxLineWidth + 40;;
+        return maxLineWidth + 40;
     }
 
     static getElementHeightFromTextLength(name: string){
@@ -403,9 +416,9 @@ class Util{
         var artifacts = new Array<Artifact>();
         var index = 0;
 
-        if(jsonElement.hasOwnProperty("limits")){
-            for(var limit of Object.keys(jsonElement.limits[0])) {
-                artifacts.push(new Limitation(limit, jsonElement.limits[0][limit], "", parentElement, index++))
+        if(jsonElement[0] && jsonElement[0].hasOwnProperty("limits")){
+            for(var limit of Object.keys(jsonElement[0].limits)) {
+                artifacts.push(new Limitation(limit, [jsonElement[0].limits[limit]], "", parentElement, index++))
             };
         }
 
@@ -436,7 +449,22 @@ class Util{
                         19 103 191 98 213 -3 18 -14 19 -139 22 -108 2 -139 0 -148 -12z"></path>
                         </g>`;
         }
-        else {
+        else {if(actorType.toLowerCase().indexOf('computed')>=0 ){
+
+
+          result += `<g transform="translate(0.000000,300.000000)  scale(0.400000,-0.400000)" fill="#030303" stroke="none">
+	<path   d="M128,80H32C14.313,80,0,94.344,0,112v352c0,17.688,14.313,32,32,32h96c17.688,0,32-14.313,32-32V112
+		C160,94.344,145.688,80,128,80z M48,400c-8.844,0-16-7.156-16-16s7.156-16,16-16s16,7.156,16,16S56.844,400,48,400z M128,208H32
+		v-32h96V208z M128,144H32v-32h96V144z"/>
+	
+	<path  d="M480,16H96c-17.688,0-32,14.344-32,32h32h96h288v256H192v64h288c17.688,0,32-14.313,32-32V48C512,30.344,497.688,16,480,16
+		z M288,352c-8.844,0-16-7.156-16-16s7.156-16,16-16s16,7.156,16,16S296.844,352,288,352z"/>
+		      
+
+</g>`;
+        }else
+
+        {
             result += `<g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#030303" stroke="none">
                         <path class="node" id="node1" d="M1526 2694 c-223 -54 -386 -263 -386 -494 0 -140 50 -262 149 -360
                         102 -102 218 -150 357 -150 146 0 258 46 359 145 72 70 109 133 136 230 103
@@ -446,7 +474,7 @@ class Util{
                         -1 320 c-1 316 -1 321 -27 400 -73 223 -237 382 -458 444 -70 19 -98 21 -395
                         20 -302 0 -323 -2 -395 -23z"></path>
                         </g>`;
-        }
+        }}
 
         result += '</svg> <text x="-10" y="100" font-size="14"></text>'; //this works like a template for actor name !
 

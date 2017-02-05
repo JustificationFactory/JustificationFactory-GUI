@@ -1,70 +1,62 @@
 import { Component } from '@angular/core';
 import '../services/diagram';
+import {PropertiesComponent} from "./properties.component";
+import {ActionsToolbarComponent} from "./actions.toolbar.component";
 
 @Component({
     selector: 'diagram-view',
     templateUrl: 'app/components/diagram.component.html',
 })
 export class DiagramComponent{
-    private static _graph: joint.dia.Graph;
-    private static _paper: joint.dia.Paper;
+    private _graph: joint.dia.Graph;
+    private _paper: joint.dia.Paper;
 
-    _initialPaperWidth : number = 810 ;
-    _initialPaperHeight : number = 610 ;
-    private static _graphScale : number = 1 ;
+    private _initialPaperWidth : number = 810 ;
+    private _initialPaperHeight : number = 610 ;
+    private _graphScale : number = 1 ;
+    private _dragStartPosition = null;
+
     selectedElement = null;
+    diagramWidth = "col-sm-12 col-md-12 col-lg-12";
+    businessSteps: Array<Step>;
 
-    constructor() {
+    constructor(public propertiesComponent: PropertiesComponent, public actionsToolbarComponent: ActionsToolbarComponent) {
 
     }
 
-    public showDiagram(elements: DiagramElement[]){
+    public showDiagram(elements: DiagramElement[], bSteps: Array<Step>){
 
-        if(!DiagramComponent._graph) {
-            DiagramComponent._graph = new Graph;
+        this.businessSteps = bSteps;
+        console.log(JSON.stringify(this.businessSteps));
+
+        if(!this._graph) {
+            this._graph = new Graph;
         }
 
-        if (!DiagramComponent._paper) {
-            DiagramComponent._paper = new joint.dia.Paper({
+        if (!this._paper) {
+            this._paper = new joint.dia.Paper({
                 el: $('#myholder'),
                 width: this._initialPaperWidth,
                 height: this._initialPaperHeight,
-                model: DiagramComponent._graph,
+                model: this._graph,
                 gridSize: 1,
                 interactive: true,
                 restrictTranslate: true
             });
         }
-        DiagramComponent._paper.setOrigin(0,0);
-        var dragStartPosition = null;
+        this.selectedElement = null;
+        this.diagramWidth = "col-sm-12 col-md-12 col-lg-12";
+        this._paper.setOrigin(0,0);
 
         this.resetEvents();
-        DiagramComponent._paper.on('cell:pointerclick', this.cellClick, this);
-        DiagramComponent._paper.on('blank:pointerclick', this.blankClick, this);
+        this._paper.on('cell:pointerclick', this.cellClick, this);
+        this._paper.on('blank:pointerclick', this.blankClick, this);
+        this._paper.on('blank:pointerdown', this.pointerDown, this);
+        this._paper.on('cell:pointerup blank:pointerup', this.pointerUp, this);
+        $('#myholder').on('mousemove', this, this.myholderMouseMove);
+        $('#myholder').on("wheel", this,  this.MouseWheelHandler);
 
-        DiagramComponent._paper.on('blank:pointerdown',
-            function(event, x, y) {
-                dragStartPosition = { x: x * DiagramComponent._graphScale , y: y * DiagramComponent._graphScale};
-            }
-        );
-
-        DiagramComponent._paper.on('cell:pointerup blank:pointerup', function(cellView, x, y) {
-             dragStartPosition = null;
-        });
-
-        $('#myholder').mousemove(function(event) {
-            if (dragStartPosition != null) {
-                (event.target as any).style.cursor = 'move';
-                DiagramComponent._paper.setOrigin(
-                    event.offsetX - dragStartPosition.x,
-                    event.offsetY - dragStartPosition.y);
-            }
-            else {
-                (event.target as any).style.cursor = 'default';
-            }
-        });
-
-        $('#myholder').replaceWith(DiagramComponent._paper.el);
+        $('#myholder').replaceWith(this._paper.el);
 
         this.resetZoom();
 
@@ -74,9 +66,9 @@ export class DiagramComponent{
             cells.push(el.visualShape);
         }
 
-        DiagramComponent._graph.resetCells(cells);
+        this._graph.resetCells(cells);
 
-        joint.layout.DirectedGraph.layout(DiagramComponent._graph, {
+        joint.layout.DirectedGraph.layout(this._graph, {
             rankDir: 'BT',
             rankSep: 50,
             edgeSep: 50,
@@ -114,22 +106,28 @@ export class DiagramComponent{
     onSelectedElementChange(element: DiagramElement) {
         //We must redraw the graph because for PATH case, if we just set atrributes
         //the origin PATH SVG shape appear (bug !)
-        DiagramComponent._graph.resetCells(DiagramComponent._graph.getCells());
-        element.visualShape.findView(DiagramComponent._paper).highlight();
+        this._graph.resetCells(this._graph.getCells());
+        element.visualShape.findView(this._paper).highlight();
     }
 
     public resetEvents() {
-        DiagramComponent._paper.off('cell:pointerclick', this.cellClick, this);
-        DiagramComponent._paper.off('blank:pointerclick', this.blankClick, this);
+        this._paper.off('cell:pointerclick', this.cellClick, this);
+        this._paper.off('blank:pointerclick', this.blankClick, this);
+        this._paper.off('blank:pointerdown', this.pointerDown, this);
+        this._paper.off('cell:pointerup blank:pointerup', this.pointerUp, this);
+        $('#myholder').off('mousemove', "", this.myholderMouseMove);
+        $('#myholder').off("wheel", "",  this.MouseWheelHandler);
     }
 
     public blankClick(event, x, y) {
         this.unhighlightAllCells();
+        this.selectedElement = null;
+        this.diagramWidth = "col-sm-12 col-md-12 col-lg-12";
     }
 
     public cellClick(cellView : joint.dia.CellView, event, x, y) {
         this.unhighlightAllCells();
-
+        this.diagramWidth = "col-sm-10 col-md-10 col-lg-10";
         if ((cellView.model as any).parent) {
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
@@ -137,14 +135,15 @@ export class DiagramComponent{
     }
 
     private unhighlightAllCells() {
-        DiagramComponent._graph.getCells().forEach(cell => {
-            cell.findView(DiagramComponent._paper).unhighlight();
+        this._graph.getCells().forEach(cell => {
+            cell.findView(this._paper).unhighlight();
         });
     }
 
     public resetDiagram() {
         this.unhighlightAllCells();
-
+        if (this._paper)
+            this._paper.setOrigin(0, 0);
         this.resetZoom();
     }
 
@@ -156,25 +155,81 @@ export class DiagramComponent{
 
 
     public refreshPaper() {
-        DiagramComponent._paper.scale(DiagramComponent._graphScale,DiagramComponent._graphScale);
-        (DiagramComponent._paper.svg as any).width.baseVal.valueInSpecifiedUnits = this._initialPaperWidth * DiagramComponent._graphScale;
-        (DiagramComponent._paper.svg as any).height.baseVal.valueInSpecifiedUnits = this._initialPaperHeight * DiagramComponent._graphScale;
+        this._paper.scale(this._graphScale,this._graphScale);
+        (this._paper.svg as any).width.baseVal.valueInSpecifiedUnits = this._initialPaperWidth * this._graphScale;
+        (this._paper.svg as any).height.baseVal.valueInSpecifiedUnits = this._initialPaperHeight * this._graphScale;
     };
 
     public zoomOut() {
-        DiagramComponent._graphScale -= 0.1;
+        this._graphScale -= 0.1;
         this.refreshPaper();
 
     };
 
     public zoomIn() {
-        DiagramComponent._graphScale += 0.1;
+        this._graphScale += 0.1;
         this.refreshPaper();
     };
 
     public resetZoom() {
-        DiagramComponent._graphScale = 1;
+        this._graphScale = 1;
         this.refreshPaper();
+    }
+
+    public getGraphScale() : number {
+        return this._graphScale;
+    }
+
+    public getCellsGraph() : Cell[] {
+        return this._graph.getCells();
+    }
+
+    public getCellViewFromCell(cell : Cell) : joint.dia.CellView
+    {
+        return this._paper.findViewByModel(cell);
+    }
+
+    private pointerDown(event, x, y) {
+        this._dragStartPosition = { x: x * this._graphScale , y: y * this._graphScale};
+    }
+
+    private pointerUp(cellView, x, y) {
+        this._dragStartPosition = null;
+    }
+
+    private myholderMouseMove(event) {
+        if (event.data._dragStartPosition != null) {
+            (event.target as any).style.cursor = 'move';
+            event.data._paper.setOrigin(
+                event.offsetX - event.data._dragStartPosition.x,
+                event.offsetY - event.data._dragStartPosition.y);
+        }
+        else {
+            (event.target as any).style.cursor = 'default';
+        }
+    }
+
+    private MouseWheelHandler(event) {
+        if (event.originalEvent && event.originalEvent.ctrlKey) {
+            let delta = event.originalEvent.wheelDelta || -event.originalEvent.deltaY;
+
+            if (delta > 0)
+                event.data.zoomIn();
+            else
+                event.data.zoomOut();
+
+            return false;
+        }
+        else
+            return true;
+    }
+
+    public getPaper() {
+        return this._paper;
+    }
+
+    public getGraph() {
+        return this._graph;
     }
 }
 

@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
+import {Component, OnInit,HostListener, AfterViewInit, ViewChild} from '@angular/core';
 import {DiagramComponent} from "./diagram.component";
 
 @Component({
@@ -9,7 +9,7 @@ import {DiagramComponent} from "./diagram.component";
 })
 export class MainComponent  implements OnInit, AfterViewInit {
 
-    private diagramLoaded: boolean = false;
+    public diagramLoaded: boolean = false;
     private importFileReader : FileReader;
     private inputElement : HTMLInputElement;
     public importFileValue: string;
@@ -33,7 +33,6 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
     }
 
-
     private inputChanged = (evt: Event) => {
         console.log('File detected');
         this.importFileReader.readAsText(this.inputElement.files[0]);
@@ -48,16 +47,17 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
         var parse : ParseJson2DiagramElements = new ParseJson2DiagramElements(json);
 
-        var listElements = parse.getDiagramElements();
+        var deResult : ParseDiagramElementsResult = parse.getDiagramElements();
 
-        this.diagramComponent.showDiagram(listElements);
+        this.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
 
     }
 
 
     btnCloseClick(event) {
-        this.diagramComponent.resetEvents();
         this.diagramLoaded = false;
+        this.diagramComponent.resetEvents();
+
         ($("#importFile")[0] as any).value = "";
     }
 

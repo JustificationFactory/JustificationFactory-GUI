@@ -9,18 +9,22 @@
 
     <div id="viewPanel" class="tab-pane fade">
         <table class="table table table-striped table-properties-details">
+            <tr>
+                <td><label>Name:</label><input  class="form-control testing-element-name" value="{{ElementName}}" type="text" (change)="onNameChanged($event)"/> </td>
+            </tr>
             <tr class="tr-property-detail">
                 <td > <label >Shape: </label>
-                    <select class="form-control" value="{{ShapeOfElement}}" (change)="onShapeOfElementValueChanged($event)">
+                    <select class="form-control testing-element-shape" value="{{ShapeOfElement}}" (change)="onShapeOfElementValueChanged($event)">
                         <option *ngFor="let shape of ShapesList" value="{{shape}}">{{shape}}</option>
                     </select>
                 </td>
             </tr>
+
             <tr>
                 <td><label>Background:</label><paletteColor [(selectedColorHex)]="BackgroundColorOfElement" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
             </tr>
             <tr>
-                <td><label>Border color:</label><paletteColor [(selectedColorHex)]="BorderColorOfElement" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
+                <td><label>Border color:</label><paletteColor class="testing-border-color" [(selectedColorHex)]="BorderColorOfElement" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
             </tr>
             <tr>
                 <td><label>Text color:</label><paletteColor [(selectedColorHex)]="TextColorOfElement" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>

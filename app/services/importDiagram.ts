@@ -6,15 +6,21 @@ class KeyValueEvidence {
     }
 }
 
+class ParseDiagramElementsResult {
+    constructor(public listElements: DiagramElement[], public businessSteps: Array<Step>) {
+
+    }
+}
+
 class ParseJson2DiagramElements {
     globalJson: any;
+    businessSteps: Array<Step>;
 
     constructor(globalJson: any) {
-
         this.globalJson = globalJson;
     }
 
-    public getDiagramElements () : DiagramElement[] {
+    public getDiagramElements () : ParseDiagramElementsResult {
         let conclusions = new Array<Conclusion>();
         let strategies = new Array<Strategy>();
         let actors = new Array<Actor>();
@@ -23,44 +29,59 @@ class ParseJson2DiagramElements {
         let supports = new Array<Support>();
         let links = new Array<LinkElement>();
 
-        for (let step  of this.globalJson.root.steps[0].step) {
-            let nameOfConclusion = step.conclusion[0].name[0];
-            let typeOfConclusion = this.getTypeFromStringAttributs(JSON.stringify(step.conclusion[0].element[0].$));
+        this.businessSteps = new Array<Step>();
 
-            let conclusionN = new Conclusion(nameOfConclusion, step.conclusion[0], typeOfConclusion);
+        for (let step  of this.globalJson.steps.step) {
+            let businessStep = new Step();
+
+            let nameOfConclusion = step.conclusion.name;
+            let typeOfConclusion = step.conclusion.element.type;
+
+            let conclusionN = new Conclusion(nameOfConclusion, [step.conclusion], typeOfConclusion);
             conclusions.push(conclusionN);
+            businessStep.push(conclusionN);
 
-            let nameOfstrategy = step.strategy[0].name[0];
-            let typeOfstrategy = this.getTypeFromStringAttributs(JSON.stringify(step.strategy[0].$));
+            let nameOfstrategy = step.strategy.name;
+            let typeOfstrategy = step.strategy.type;
 
-            let strategyN = new Strategy(nameOfstrategy, step.strategy[0], typeOfstrategy);
+            let strategyN = new Strategy(nameOfstrategy, [step.strategy], typeOfstrategy);
             strategies.push(strategyN);
+            businessStep.push(strategyN);
             links.push(strategyN.makeLinkWithParent(conclusionN));
 
             strategyN.artifacts = [];
 
-            if (step.strategy[0].rationale) {
-                let rationale = new Rationale("", step.strategy[0].rationale[0], "");
+           if (step.strategy.rationale) {
+                let rationale = new Rationale("", [step.strategy.rationale][0], "");
                 strategyN.artifacts.push(rationale);
                 rationales.push(rationale);
                 links.push(rationale.makeLinkWithParent(strategyN));
             }
 
-            for(let evidenceRole of step.evidences[0].evidenceRoles) {
-                let nameOfEvidence = evidenceRole.evidence[0].name[0];
-                let typeOfEvidence = this.getTypeFromStringAttributs(JSON.stringify(evidenceRole.evidence[0].element[0].$));
+            for(let evidenceRole of step.evidences.evidenceRoles) {
+                let nameOfEvidence = evidenceRole.evidence.name;
+                let typeOfEvidence = evidenceRole.evidence.element.type;
 
-                let evidenceN = new Evidence(nameOfEvidence, evidenceRole.evidence[0], typeOfEvidence);
+                let evidenceN = new Evidence(nameOfEvidence, [evidenceRole.evidence], typeOfEvidence);
                 kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
+                businessStep.push(evidenceN);
                 links.push(evidenceN.makeLinkWithParent(strategyN));
             }
 
-            if (step.strategy[0].actor) {
-                let actor = new Actor(step.strategy[0].actor[0].name[0], step.strategy[0].actor[0], step.strategy[0].actor[0].role[0]);
+            if (step.strategy.actor) {
+                let actor = new Actor(step.strategy.actor.name, step.strategy.actor, step.strategy.actor.role);
                 strategyN.artifacts.push(actor);
                 actors.push(actor);
                 links.push(actor.makeLinkWithParent(strategyN));
             }
+            if(step.strategy.type.toLowerCase().indexOf('computed') >= 0){
+                let actor = new Actor("", step.strategy.type, step.strategy.type);
+                strategyN.artifacts.push(actor);
+                actors.push(actor);
+                links.push(actor.makeLinkWithParent(strategyN));
+            }
+
+            this.businessSteps.push(businessStep);
         }
 
         //Merge where Conclusion == Evidence. Replace by Support.
@@ -115,7 +136,7 @@ class ParseJson2DiagramElements {
         for(let link of links)
             elementsDiagram.push(link);
 
-        return elementsDiagram;
+        return new ParseDiagramElementsResult(elementsDiagram, this.businessSteps);
     }
 
     private getTypeFromStringAttributs (strAttributs : string) : string {

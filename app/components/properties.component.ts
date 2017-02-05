@@ -85,6 +85,11 @@ export class PropertiesComponent implements OnChanges {
 
     private  updateVisualSettings() {
 
+        if(this.selectedElement.visualShape.attributes.attrs){
+            this.selectedElement.visualShape.attributes.attrs.text.text=this.ElementName;
+            this.selectedElement.name = this.ElementName;
+        }
+
         //Set visual properties of element
         if(this.selectedElement.visualShape.attributes.attrs.path){
 
@@ -98,6 +103,7 @@ export class PropertiesComponent implements OnChanges {
             this.selectedElement.visualShape.attributes.attrs.path.fill = this.BackgroundColorOfElement;
             this.selectedElement.visualShape.attributes.attrs.path.stroke = this.BorderColorOfElement;
             this.selectedElement.visualShape.attributes.attrs.text.fill = this.TextColorOfElement;
+
         }
 
         //Set visual properties of Limits
@@ -113,10 +119,13 @@ export class PropertiesComponent implements OnChanges {
     }
 
     onShapeOfElementValueChanged(event: any) {
-        this.ShapeOfElement = event.srcElement.value;
+        this.ShapeOfElement = event.target.value;
         this.updateVisualSettings();
     }
-
+    onNameChanged(event: any) {
+        this.ElementName = event.target.value;
+        this.updateVisualSettings();
+    }
     onColorChanged(newColorHexa: string) {
         this.updateVisualSettings();
     }
@@ -125,7 +134,7 @@ export class PropertiesComponent implements OnChanges {
 
     private addBusinessGroupsWithElements(){
         let properties = [];
-        let keys = this.createKeysFromJson(this.selectedElement.jsonElement, "");
+        let keys = this.createKeysFromJson(this.selectedElement.jsonElement[0], "");
 
         var groupElements = {
             label : "Elements",
@@ -156,13 +165,13 @@ export class PropertiesComponent implements OnChanges {
         keys.sort((a, b) => { return (a.key > b.key) ? 1 : ((b.key > a.key) ? -1 : 0); })
             .forEach( arrayItem => {
             //remove elements with $
-            if(arrayItem.key.indexOf("$") !== -1){
+            /*if(arrayItem.key.indexOf("$") !== -1){
                 var index = keys.indexOf(arrayItem);
                 if (index > -1) {
                     keys.splice(index, 1);
                 }
                 return;
-            }
+            }*/
             //remove elements with [n]
             var itemViewKey = arrayItem.key.replace(/\[\w*\]/g,"")
                 .replace(/\._/g,"");
@@ -267,7 +276,7 @@ export class PropertiesComponent implements OnChanges {
 
         return properties;
     }
-
+    
     private  createKeysFromJson(json : any, key : string) : any[] {
         let keys = [];
         var x = this;
@@ -294,6 +303,10 @@ export class PropertiesComponent implements OnChanges {
             });
         }
         return keys;
+    }
+
+    public getElementName() : String {
+        return this.ElementName;
     }
 
 }

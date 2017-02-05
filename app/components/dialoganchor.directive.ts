@@ -22,7 +22,7 @@ export class DialogAnchorDirective {
             this.componentFactoryResolver.resolveComponentFactory(paletteComponent);
         let paletteComponentRef = this.viewContainer.createComponent(paletteComponentFactory);
 
-        paletteComponentRef.instance.close.subscribe(() => {
+        (paletteComponentRef.instance as any).close.subscribe(() => {
             paletteComponentRef.destroy();
         });
 
