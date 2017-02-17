@@ -1,4 +1,4 @@
-import {Component, OnInit,HostListener, AfterViewInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterContentInit} from '@angular/core';
 import {DiagramComponent} from "./diagram.component";
 
 @Component({
@@ -7,7 +7,7 @@ import {DiagramComponent} from "./diagram.component";
     templateUrl: 'app/components/main.component.html'
     //styleUrls: ['./css/app.css']
 })
-export class MainComponent  implements OnInit, AfterViewInit {
+export class MainComponent  implements OnInit, AfterContentInit {
 
     public diagramLoaded: boolean = false;
     private importFileReader : FileReader;
@@ -18,6 +18,7 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
     constructor (diagramComponent : DiagramComponent) {
         this.diagramComponent = diagramComponent;
+
     }
 
     ngOnInit(): void {
@@ -27,10 +28,15 @@ export class MainComponent  implements OnInit, AfterViewInit {
 
         this.importFileReader.onload = this.fileReaderLoaded;
         this.inputElement.addEventListener('change', this.inputChanged, false);
+
     }
 
-    ngAfterViewInit() {
-
+    ngAfterContentInit() {
+        // Component content has been initialized
+        if ((sessionStorage.getItem("state") != null) && (sessionStorage.getItem("state") != "")) {
+            //this.diagramComponent.loadDiagramFromJSON(JSON.parse(sessionStorage.getItem("state")));
+            this.diagramLoaded = true;
+        }
     }
 
     private inputChanged = (evt: Event) => {

@@ -15,6 +15,7 @@ class DiagramElement {
     description:string;
     type:string;
     artifacts: Array<Artifact>;
+    stepId : String;
 
     public static RectangleShape : string = "M 0 0 L 60 0 L 60 30 L 0 30 Z";
     public static RoundedRectangleShape : string = "M 0 6 Q 0 0 6 0 L 54 0 Q 60 0 60 6 L 60 24 Q 60 30 54 30 L 6 30 Q 0 30 0 24 Z";
@@ -337,22 +338,21 @@ class Rationale extends Artifact{
         super(name, jsonElement, type);
         this.behavior = Behavior.Near;
 
-        let labelRationale = "";
+        this.name = "";
 
         if (jsonElement.axonicProject) {
             for (var r of Object.values(jsonElement.axonicProject)) {
-                if (labelRationale != "")
-                    labelRationale += " & ";
-                labelRationale += r;
+                if (this.name != "")
+                    this.name += " & ";
+                this.name += r;
             }
-            ;
         }
 
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
-            size: { width: Util.getElementWidthFromTextLength(labelRationale),
-                height: Util.getElementHeightFromTextLength(labelRationale) },
-            attrs: { rect: { fill: '#FFFFFF' }, text: { text: labelRationale, fill: '#000000' } }
+            size: { width: Util.getElementWidthFromTextLength(this.name),
+                height: Util.getElementHeightFromTextLength(this.name) },
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: this.name, fill: '#000000' } }
         });
         (this.visualShape as any).parent = this;
     }
@@ -380,9 +380,20 @@ class ForEach extends Artifact{
     }
 }
 
-class Step extends Array<DiagramElement> {
+class Step  {
+    private stepId : String;
+    public items : Array<DiagramElement>;
 
+    constructor () {
+        this.stepId = Util.getNewGuid();
+        this.items = new Array<DiagramElement>();
+    }
+
+    public getStepId() : String {
+        return this.stepId;
+    }
 }
+
 
 class Util{
     static getElementWidthFromTextLength(name: string){
@@ -490,6 +501,59 @@ class Util{
         result = result.concat(["L",x+r4,y+h, "Q",x,y+h, x,y+h-r4, "Z"]); //D
 
         return result.toString().replace(/,/g, " ");
+    }
+
+    static stateToJSON(businessSteps : Array<Step>, jsonGraph : any)  {
+        let jsonBusinessSteps = [];
+
+        for (let businessStep of businessSteps) {
+            let businessElements = [];
+
+            for (let item of businessStep.items) {
+                let artifactElements = [];
+
+                for (let artifactElement of item.artifacts) {
+                    artifactElements.push({
+                        elementType: artifactElement.constructor.name,
+                        name: artifactElement.name,
+                        description: artifactElement.description,
+                        type: artifactElement.type,
+                        visualShapeId: (artifactElement.visualShape !== undefined) ? artifactElement.visualShape.id : undefined,
+                        jsonElement: item.jsonElement,
+                    });
+                }
+
+                businessElements.push({
+                    elementType: item.constructor.name,
+                    name: item.name,
+                    description: item.description,
+                    type: item.type,
+                    visualShapeId: item.visualShape.id,
+                    jsonElement: item.jsonElement,
+                    artifacts: artifactElements
+                });
+            }
+
+            jsonBusinessSteps.push({
+                id: businessStep.getStepId(),
+                elements: businessElements
+            });
+        }
+
+        return {
+            current: {
+                changeDate: new Date(),
+                businessSteps: jsonBusinessSteps,
+                graph: jsonGraph
+            },
+            previous: [
+                {
+                    changeDate: new Date(),
+                    businessSteps: undefined,
+                    graph: undefined
+                }
+            ]
+        };
     }
 }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, AfterContentInit} from '@angular/core';
 import '../services/diagram';
 import {PropertiesComponent} from "./properties.component";
 import {ActionsToolbarComponent} from "./actions.toolbar.component";
@@ -7,7 +7,7 @@ import {ActionsToolbarComponent} from "./actions.toolbar.component";
     selector: 'diagram-view',
     templateUrl: 'app/components/diagram.component.html',
 })
-export class DiagramComponent{
+export class DiagramComponent implements AfterContentInit{
     private _graph: joint.dia.Graph;
     private _paper: joint.dia.Paper;
 
@@ -21,6 +21,42 @@ export class DiagramComponent{
     businessSteps: Array<Step>;
 
     constructor(public propertiesComponent: PropertiesComponent, public actionsToolbarComponent: ActionsToolbarComponent) {
+
+    }
+
+    ngAfterContentInit() {
+        // Component content has been initialized
+        if ((sessionStorage.getItem("state") != null) && (sessionStorage.getItem("state") != "")) {
+            this.loadDiagramFromJSON(JSON.parse(sessionStorage.getItem("state")).current.graph);
+
+        }
+    }
+
+    public loadDiagramFromJSON(jsonToLoad: JSON) {
+        if(!this._graph) {
+            this._graph = new Graph;
+        }
+
+        if (!this._paper) {
+            this._paper = new joint.dia.Paper({
+                el: $('#myholder'),
+                width: this._initialPaperWidth,
+                height: this._initialPaperHeight,
+                model: this._graph,
+                gridSize: 1,
+                interactive: true,
+                restrictTranslate: true
+            });
+        }
+        this.selectedElement = null;
+        this.diagramWidth = "col-sm-12 col-md-12 col-lg-12";
+        this._paper.setOrigin(0,0);
+
+        $('#myholder').replaceWith(this._paper.el);
+
+        this.resetZoom();
+
+        this._graph.fromJSON(jsonToLoad);
 
     }
 
@@ -101,6 +137,8 @@ export class DiagramComponent{
                 }
             }
         }
+
+        sessionStorage.setItem("state", JSON.stringify(Util.stateToJSON(this.businessSteps, this._graph.toJSON())));
     }
 
     onSelectedElementChange(element: DiagramElement) {

@@ -63,8 +63,8 @@ export class ActionsToolbarComponent {
         for (var i = 0; i < this.businessSteps.length; i++){
             var step = this.businessSteps[i];
             elements:
-            for (var elementKey in step){
-                var elementValue = step[elementKey];
+            for (var elementKey in step.items){
+                var elementValue = step.items[elementKey];
                 if(elementValue.name == name && elementValue.constructor.name == "Conclusion"){
                     this.businessSteps.splice(i,1);
                     break elements;

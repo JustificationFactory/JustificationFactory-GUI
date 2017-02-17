@@ -39,14 +39,16 @@ class ParseJson2DiagramElements {
 
             let conclusionN = new Conclusion(nameOfConclusion, [step.conclusion], typeOfConclusion);
             conclusions.push(conclusionN);
-            businessStep.push(conclusionN);
+            conclusionN.stepId = businessStep.getStepId();
+            businessStep.items.push(conclusionN);
 
             let nameOfstrategy = step.strategy.name;
             let typeOfstrategy = step.strategy.type;
 
             let strategyN = new Strategy(nameOfstrategy, [step.strategy], typeOfstrategy);
             strategies.push(strategyN);
-            businessStep.push(strategyN);
+            strategyN.stepId = businessStep.getStepId();
+            businessStep.items.push(strategyN);
             links.push(strategyN.makeLinkWithParent(conclusionN));
 
             strategyN.artifacts = [];
@@ -64,7 +66,8 @@ class ParseJson2DiagramElements {
 
                 let evidenceN = new Evidence(nameOfEvidence, [evidenceRole.evidence], typeOfEvidence);
                 kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
-                businessStep.push(evidenceN);
+                evidenceN.stepId = businessStep.getStepId();
+                businessStep.items.push(evidenceN);
                 links.push(evidenceN.makeLinkWithParent(strategyN));
             }
 
@@ -97,6 +100,18 @@ class ParseJson2DiagramElements {
                     //Create Support object
                     let supportl = new Support(conclusioni, kvevidencej.evidence);
                     supports.push(supportl);
+                    supportl.stepId = conclusioni.stepId;
+
+                    //Needed for deserialization. DO NOT add this one to graph!
+                    let supportl2 = new Support(conclusioni, kvevidencej.evidence);
+                    supportl2.visualShape = supportl.visualShape;
+                    supportl2.stepId = kvevidencej.evidence.stepId;
+                    for(let businessStep of this.businessSteps) {
+                        if (supportl.stepId == businessStep.getStepId())
+                            businessStep.items.push(supportl);
+                        if (supportl2.stepId == businessStep.getStepId())
+                            businessStep.items.push(supportl2);
+                    }
 
                     for(let k = links.length -1 ; k >= 0 ; k--) {
                         let linkk = links[k];
