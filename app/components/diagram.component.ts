@@ -10,9 +10,9 @@ import {ActionsToolbarComponent} from "./actions.toolbar.component";
 export class DiagramComponent implements AfterContentInit{
     private _graph: joint.dia.Graph;
     private _paper: joint.dia.Paper;
-
-    private _initialPaperWidth : number = 810 ;
-    private _initialPaperHeight : number = 610 ;
+    private window : Window;
+    private _initialPaperWidth : number = window.innerWidth ; // 810
+    private _initialPaperHeight : number = window.innerHeight ; // 610
     private _graphScale : number = 1 ;
     private _dragStartPosition = null;
 

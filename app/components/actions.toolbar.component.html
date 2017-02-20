@@ -2,5 +2,7 @@
 <div class="btn-toolbar " role="toolbar" aria-label="111">
     <div class="btn-group btn btn-default disabled" role="group" >Hide Node</div>
     <div class="btn-group  btn btn-default disabled" role="group" >Show Node</div>
-    <div class="btn-group btn btn-default" [ngClass]="{'disabled': disableRemoveNode() }" role="group" (click)="removeElement($event)" >Remove Node</div>
+    <div class="btn-group btn btn-default" [ngClass]="{'disabled': disableRemoveNode() }" role="group" (click)="removeElement($event)" >Remove Step</div>
+
+    <div id="disable" class="btn-group btn btn-default" [ngClass]="{'disabled': disableAddSubStep() }" role="group" (click)="addSubStep($event)" >Add Sub Step</div>
 </div>
