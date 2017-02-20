@@ -318,17 +318,21 @@ class Limitation extends Artifact{
 
             (parentElement.visualShape as any).addPorts([port]);
 
-            //we must change "y" of previous ports after addPort, otherwise "y" re-switch to previous value
-            if ((parentElement.visualShape as any).portData.ports.length == 2) {
-                (parentElement.visualShape as any).portData.ports[0].attrs.rect.y = 14; // 11 + 14 = 25
-                (parentElement.visualShape as any).portData.ports[0].label.position.args.y = 31; // 11 + 31 = 42
-            }
-            else if ((parentElement.visualShape as any).portData.ports.length == 3) {
-                (parentElement.visualShape as any).portData.ports[0].attrs.rect.y = 18; // 7 + 18 = 25
-                (parentElement.visualShape as any).portData.ports[0].label.position.args.y = 35; // 7 + 35 = 42
-                (parentElement.visualShape as any).portData.ports[1].attrs.rect.y = 3; // 22 + 3 = 25
-                (parentElement.visualShape as any).portData.ports[1].label.position.args.y = 20; // 22 + 20 = 42
-            }
+            Limitation.reorganizePorts(parentElement.visualShape);
+        }
+    }
+
+    static reorganizePorts(visual_shape : any) {
+        //we must change "y" of previous ports after addPort, otherwise "y" re-switch to previous value
+        if (visual_shape.portData.ports.length == 2) {
+            visual_shape.portData.ports[0].attrs.rect.y = 14; // 11 + 14 = 25
+            visual_shape.portData.ports[0].label.position.args.y = 31; // 11 + 31 = 42
+        }
+        else if (visual_shape.portData.ports.length == 3) {
+            visual_shape.portData.ports[0].attrs.rect.y = 18; // 7 + 18 = 25
+            visual_shape.portData.ports[0].label.position.args.y = 35; // 7 + 35 = 42
+            visual_shape.portData.ports[1].attrs.rect.y = 3; // 22 + 3 = 25
+            visual_shape.portData.ports[1].label.position.args.y = 20; // 22 + 20 = 42
         }
     }
 }
@@ -384,8 +388,12 @@ class Step  {
     private stepId : String;
     public items : Array<DiagramElement>;
 
-    constructor () {
-        this.stepId = Util.getNewGuid();
+    constructor (id: String) {
+        if ((id === undefined) || (id == ""))
+            this.stepId = Util.getNewGuid();
+        else
+            this.stepId = id;
+
         this.items = new Array<DiagramElement>();
     }
 
@@ -523,6 +531,15 @@ class Util{
                     });
                 }
 
+                let jsonSupport : any;
+
+                if (item instanceof Support) {
+                    jsonSupport = {
+                        stepId_conclusion: (item as Support).conclusion.stepId,
+                        stepId_evidence: (item as Support).evidence.stepId
+                    };
+                }
+
                 businessElements.push({
                     elementType: item.constructor.name,
                     name: item.name,
@@ -530,7 +547,8 @@ class Util{
                     type: item.type,
                     visualShapeId: item.visualShape.id,
                     jsonElement: item.jsonElement,
-                    artifacts: artifactElements
+                    artifacts: artifactElements,
+                    support: jsonSupport
                 });
             }
 
@@ -555,5 +573,145 @@ class Util{
             ]
         };
     }
+
+    //
+
+    static stateFromJSON(strStates: String, result : any, indexState: number)  {
+
+        let state : any;
+
+        if (indexState === 0) {
+            state = JSON.parse(sessionStorage.getItem("state")).current;
+
+            result.changeDate = state.changeDate;
+            result.jsonBusinessSteps = state.businessSteps;
+            result.graph = state.graph;
+        }
+        else {
+            //Previous states
+        }
+
+    }
+
+    static businessStepsFromJSON(jsonBusinessSteps: any, cells: Array<Cell>, result : any)  {
+
+        result.businessSteps = new Array<Step>();
+
+        for (let step of jsonBusinessSteps) {
+            let businessStep = new Step(step.id);
+
+            for (let element of step.elements) {
+                let businessElement : DiagramElement;
+
+                switch (element.elementType) {
+                    case "Conclusion":
+                        businessElement = new Conclusion(element.name, element.jsonElement, element.type);
+                        break;
+                    case "Strategy":
+                        businessElement = new Strategy(element.name, element.jsonElement, element.type);
+                        break;
+                    case "Evidence":
+                        businessElement = new Evidence(element.name, element.jsonElement, element.type);
+                        break;
+                    case "Support":
+                        //Intermediate step (not correct Conclusion and Evidence! cf. stateRebuildVisualShapeAssociation function)
+                        businessElement = new Support(new Conclusion(element.name, element.jsonElement, element.type), new Evidence(element.name, element.jsonElement, element.type));
+                        break;
+                }
+
+                if (businessElement !== undefined) {
+                    businessElement.stepId = businessStep.getStepId();
+                    businessElement.description = element.description;
+
+                    //VisualShape association
+                    for (let cell of cells) {
+                        if (element.visualShapeId === cell.id) {
+                            businessElement.visualShape = cell;
+                            (cell as any).parent = businessElement;
+                            break;
+                        }
+                    }
+
+                    if (businessElement.artifacts === undefined)
+                        businessElement.artifacts = new Array<Artifact>();
+
+                    //Artifact association
+                    if (element.artifacts !== undefined) {
+                        for (let artifact of element.artifacts) {
+                            let businessArtifact: Artifact;
+
+                            switch (artifact.elementType) {
+                                case "Limitation":
+                                    //Not necessary: Creation into Conclusion constructor
+                                    break;
+                                case "Actor":
+                                    businessArtifact = new Actor(artifact.name, artifact.jsonElement, artifact.type);
+                                    break;
+                                case "Rationale":
+                                    businessArtifact = new Rationale(artifact.name, artifact.jsonElement, artifact.type);
+                                    break;
+                            }
+
+                            if (businessArtifact !== undefined) {
+                                //VisualShape association
+                                for (let cell of cells) {
+                                    if (artifact.visualShapeId === cell.id) {
+                                        artifact.visualShape = cell;
+                                        (cell as any).parent = artifact;
+                                        break;
+                                    }
+                                }
+
+                                businessElement.artifacts.push(businessArtifact);
+                            }
+                        }
+                    }
+
+                    businessStep.items.push(businessElement);
+                }
+            }
+
+            result.businessSteps.push(businessStep);
+        }
+
+        //Associate correct business element (Conclusion / Evidence) to Support element
+        let supportIds = new Array<String>();
+        for (let step of jsonBusinessSteps) {
+            for (let element of step.elements) {
+                if ((element.elementType == "Support") && (!supportIds.find((s) => { return s === element.visualShapeId})) ) {
+                    supportIds.push(element.visualShapeId);
+                    let support_conclusion: DiagramElement;
+                    let support_evidence: DiagramElement;
+
+                    for (let bStep of result.businessSteps) {
+                        for (let bElement of bStep.items) {
+                            //Find correct Conclusion
+                            if ((element.support.stepId_conclusion === bStep.stepId) && (bElement instanceof Conclusion)) {
+                                support_conclusion = bElement;
+                                break;
+                            }
+
+                            //Find correct Evidence
+                            if ((element.support.stepId_evidence === bStep.stepId) && (bElement instanceof Evidence) && (bElement.name == element.name)) {
+                                support_evidence = bElement;
+                                break;
+                            }
+                        }
+                    }
+
+                    //Find Supports and replace Conclusion and Evidence
+                    for (let bStep of result.businessSteps) {
+                        for (let bElement of bStep.items) {
+                            if (element.visualShapeId === bElement.visualShape.id) {
+                                bElement.conclusion = support_conclusion;
+                                bElement.evidence = support_evidence;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
