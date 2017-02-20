@@ -147,6 +147,13 @@ export class DiagramComponent implements AfterContentInit{
         element.visualShape.findView(this._paper).highlight();
     }
 
+    onStepChange(element: DiagramElement) {
+        //We must redraw the graph because for PATH case, if we just set atrributes
+        //the origin PATH SVG shape appear (bug !)
+        this._graph.resetCells(this._graph.getCells());
+        this.saveGraphState();
+    }
+
     public resetEvents() {
         this._paper.off('cell:pointerclick', this.cellClick, this);
         this._paper.off('blank:pointerclick', this.blankClick, this);

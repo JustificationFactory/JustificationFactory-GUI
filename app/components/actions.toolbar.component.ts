@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, EventEmitter, Output} from '@angular/core';
 import '../services/diagram';
 
 @Component({
@@ -14,6 +14,7 @@ export class ActionsToolbarComponent {
     @Input() _paper : joint.dia.Paper = null;
 
     @Input() businessSteps : Array<Step> = null;
+    @Output() stepChange : EventEmitter<DiagramElement> = new EventEmitter(); //For two-way binding (ex: prop1Change)
 
     private disabled : boolean = this.disableRemoveNode();
 
@@ -35,6 +36,7 @@ export class ActionsToolbarComponent {
             var confirmDelete = confirm("Do you want to delete this element ?");
             if( confirmDelete == true ){
                 this.removeStep(this.selectedElement, this.selectedElement.visualShape.id);
+                this.stepChange.emit();
                 console.log("NEW : " + JSON.stringify(this.businessSteps));
             }
         }
@@ -173,6 +175,7 @@ export class ActionsToolbarComponent {
             //(this.selectedElement.visualShape as any).parent = new Support(this.selectedElement, null);
 
             this._paper.setDimensions(this._paper.options.width + translatePaperWidth, this._paper.options.height + 160);
+            this.stepChange.emit(this.selectedElement);
         }
     }
 

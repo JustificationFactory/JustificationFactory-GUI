@@ -6,7 +6,7 @@
     <div class="{{diagramWidth}}">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="row">
-                <actionstoolbar-view [(businessSteps)]="businessSteps"  [(selectedElement)]="selectedElement" [(_graph)]="_graph" [(_paper)]="_paper" class="actionstoolbar-view"></actionstoolbar-view>
+                <actionstoolbar-view [(businessSteps)]="businessSteps"  (stepChange)="onStepChange($event)" [(selectedElement)]="selectedElement" [(_graph)]="_graph" [(_paper)]="_paper" class="actionstoolbar-view"></actionstoolbar-view>
             </div>
             <div class="row">
                 <div (click)="zoomIn()" class="btn btn-default btn-zoom btn-zoom-plus">+</div>
