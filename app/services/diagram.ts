@@ -511,7 +511,7 @@ class Util{
         return result.toString().replace(/,/g, " ");
     }
 
-    static stateToJSON(businessSteps : Array<Step>, jsonGraph : any)  {
+    static stateToJSON(businessSteps : Array<Step>, jsonGraph : any, states: any)  {
         let jsonBusinessSteps = [];
 
         for (let businessStep of businessSteps) {
@@ -558,38 +558,38 @@ class Util{
             });
         }
 
-        return {
-            current: {
-                changeDate: new Date(),
-                businessSteps: jsonBusinessSteps,
-                graph: jsonGraph
-            },
-            previous: [
-                {
-                    changeDate: new Date(),
-                    businessSteps: undefined,
-                    graph: undefined
-                }
-            ]
-        };
+        if (states === undefined)
+            states = {};
+
+        if (states.previous === undefined)
+            states.previous = [];
+
+        states.currentIndex = 0;
+        if (states.previous.length > 20)
+            states.previous.splice(0, 1);
+        
+        states.previous.push({
+            changeDate: new Date(),
+            businessSteps: jsonBusinessSteps,
+            graph: jsonGraph
+        });
+
+        return states;
     }
 
-    //
+    static stateFromJSON(states: any, result : any, indexState: number)  {
 
-    static stateFromJSON(strStates: String, result : any, indexState: number)  {
+        states.currentIndex = indexState;
 
-        let state : any;
-
-        if (indexState === 0) {
-            state = JSON.parse(sessionStorage.getItem("state")).current;
+        if ((states.previous !== undefined) && (states.previous.length >= (indexState + 1))) {
+            let state = states.previous[states.previous.length - 1 - indexState];
 
             result.changeDate = state.changeDate;
             result.jsonBusinessSteps = state.businessSteps;
             result.graph = state.graph;
         }
-        else {
-            //Previous states
-        }
+
+        return states;
 
     }
 

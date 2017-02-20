@@ -27,7 +27,7 @@ export class DiagramComponent implements AfterContentInit{
     ngAfterContentInit() {
         // Component content has been initialized
         if ((sessionStorage.getItem("state") != null) && (sessionStorage.getItem("state") != "")) {
-            let strStates = sessionStorage.getItem("state");
+            let states = JSON.parse(sessionStorage.getItem("state"));
             let result = {
                 changeDate: new Date(),
                 jsonBusinessSteps: {},
@@ -35,7 +35,7 @@ export class DiagramComponent implements AfterContentInit{
                 graph: {}
             };
 
-            Util.stateFromJSON(strStates, result, 0);
+            Util.stateFromJSON(states, result, 0);
 
             this.initializeGraph();
 
@@ -136,7 +136,12 @@ export class DiagramComponent implements AfterContentInit{
     }
 
     private saveGraphState() {
-        sessionStorage.setItem("state", JSON.stringify(Util.stateToJSON(this.businessSteps, this._graph.toJSON())));
+        let states : any;
+
+        if ((sessionStorage.getItem("state") != null) && (sessionStorage.getItem("state") != ""))
+            states = JSON.parse(sessionStorage.getItem("state"));
+
+        sessionStorage.setItem("state", JSON.stringify(Util.stateToJSON(this.businessSteps, this._graph.toJSON(), states)));
     }
 
     onSelectedElementChange(element: DiagramElement) {
