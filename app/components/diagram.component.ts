@@ -27,44 +27,31 @@ export class DiagramComponent implements AfterContentInit{
     ngAfterContentInit() {
         // Component content has been initialized
         if ((sessionStorage.getItem("state") != null) && (sessionStorage.getItem("state") != "")) {
-            this.loadDiagramFromJSON(JSON.parse(sessionStorage.getItem("state")).current.graph);
+            let strStates = sessionStorage.getItem("state");
+            let result = {
+                changeDate: new Date(),
+                jsonBusinessSteps: {},
+                businessSteps: {},
+                graph: {}
+            };
 
+            Util.stateFromJSON(strStates, result, 0);
+
+            this.initializeGraph();
+
+            this._graph.fromJSON(result.graph);
+            for (let g of this._graph.getCells()) {
+                if (((g as any).portData !== undefined) && ((g as any).portData.ports !== undefined) && ((g as any).portData.ports.length > 0))
+                    Limitation.reorganizePorts(g);
+            }
+            this._graph.resetCells(this._graph.getCells());
+
+            Util.businessStepsFromJSON(result.jsonBusinessSteps, this._graph.getCells(), result);
+            this.businessSteps = (result.businessSteps as any);
         }
     }
 
-    public loadDiagramFromJSON(jsonToLoad: JSON) {
-        if(!this._graph) {
-            this._graph = new Graph;
-        }
-
-        if (!this._paper) {
-            this._paper = new joint.dia.Paper({
-                el: $('#myholder'),
-                width: this._initialPaperWidth,
-                height: this._initialPaperHeight,
-                model: this._graph,
-                gridSize: 1,
-                interactive: true,
-                restrictTranslate: true
-            });
-        }
-        this.selectedElement = null;
-        this.diagramWidth = "col-sm-12 col-md-12 col-lg-12";
-        this._paper.setOrigin(0,0);
-
-        $('#myholder').replaceWith(this._paper.el);
-
-        this.resetZoom();
-
-        this._graph.fromJSON(jsonToLoad);
-
-    }
-
-    public showDiagram(elements: DiagramElement[], bSteps: Array<Step>){
-
-        this.businessSteps = bSteps;
-        console.log(JSON.stringify(this.businessSteps));
-
+    private initializeGraph() {
         if(!this._graph) {
             this._graph = new Graph;
         }
@@ -95,6 +82,13 @@ export class DiagramComponent implements AfterContentInit{
         $('#myholder').replaceWith(this._paper.el);
 
         this.resetZoom();
+
+    }
+
+    public showDiagram(elements: DiagramElement[], bSteps: Array<Step>){
+        this.businessSteps = bSteps;
+
+        this.initializeGraph();
 
         let cells : joint.dia.Cell[] = [];
 
@@ -138,6 +132,10 @@ export class DiagramComponent implements AfterContentInit{
             }
         }
 
+        this.saveGraphState();
+    }
+
+    private saveGraphState() {
         sessionStorage.setItem("state", JSON.stringify(Util.stateToJSON(this.businessSteps, this._graph.toJSON())));
     }
 
@@ -145,6 +143,7 @@ export class DiagramComponent implements AfterContentInit{
         //We must redraw the graph because for PATH case, if we just set atrributes
         //the origin PATH SVG shape appear (bug !)
         this._graph.resetCells(this._graph.getCells());
+        this.saveGraphState();
         element.visualShape.findView(this._paper).highlight();
     }
 
@@ -233,6 +232,7 @@ export class DiagramComponent implements AfterContentInit{
 
     private pointerUp(cellView, x, y) {
         this._dragStartPosition = null;
+        this.saveGraphState();
     }
 
     private myholderMouseMove(event) {
