@@ -342,7 +342,7 @@ class Rationale extends Artifact{
         super(name, jsonElement, type);
         this.behavior = Behavior.Near;
 
-        this.name = "";
+        this.name = name;
 
         if (jsonElement.axonicProject) {
             for (var r of Object.values(jsonElement.axonicProject)) {
