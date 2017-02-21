@@ -75,6 +75,14 @@ export class MainComponent  implements OnInit, AfterContentInit {
         $("#importFile")[0].dispatchEvent(evt);
     }
 
+    undoDiagram(event) {
+        this.diagramComponent.undoDiagram();
+    }
+
+    redoDiagram(event) {
+        this.diagramComponent.redoDiagram();
+    }
+
     printToPdfClicked(event) {
         event.preventDefault();
 

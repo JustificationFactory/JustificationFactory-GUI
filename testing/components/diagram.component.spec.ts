@@ -66,15 +66,15 @@ describe("diagram.component.", () => {
         //TODO: Links & Supports are not created currently
 
 
-        step = new Step();
+        step = new Step(undefined);
 
         conclusion = new Conclusion("Experimentation", {}, "experimentation");
         elements.push(conclusion);
-        step.push(conclusion);
+        step.items.push(conclusion);
 
         strategy = new Strategy("Treat", {}, "humanStrategy");
         elements.push(strategy);
-        step.push(strategy);
+        step.items.push(strategy);
 
         rationale = new Rationale("", {
             "axonicProject": {
@@ -87,10 +87,10 @@ describe("diagram.component.", () => {
 
         evidence = new Evidence("Stimulation 0", {}, "stimulation");
         elements.push(evidence);
-        step.push(evidence);
+        step.items.push(evidence);
         evidence = new Evidence("Subject 0", {}, "subject");
         elements.push(evidence);
-        step.push(evidence);
+        step.items.push(evidence);
 
         actor = new Actor("Chloé", {}, "INTERMEDIATE_EXPERT");
         strategy.artifacts.push(actor);
@@ -98,15 +98,15 @@ describe("diagram.component.", () => {
 
         businessSteps.push(step);
 
-        step = new Step();
+        step = new Step(undefined);
 
         conclusion = new Conclusion("Establish Effect", {}, "establishedEffect");
         elements.push(conclusion);
-        step.push(conclusion);
+        step.items.push(conclusion);
 
         strategy = new Strategy("Establish Effect", {}, "humanStrategy");
         elements.push(strategy);
-        step.push(strategy);
+        step.items.push(strategy);
 
         rationale = new Rationale("", {
             "axonicProject": {
@@ -119,7 +119,7 @@ describe("diagram.component.", () => {
 
         evidence = new Evidence("Experimentation", {}, "experimentation");
         elements.push(evidence);
-        step.push(evidence);
+        step.items.push(evidence);
 
         actor = new Actor("Chloé", {}, "INTERMEDIATE_EXPERT");
         strategy.artifacts.push(actor);
@@ -127,13 +127,13 @@ describe("diagram.component.", () => {
         businessSteps.push(step);
 
         /****************************ACTOR: Computer *************************/
-        step = new Step();
+        step = new Step(undefined);
         conclusion = new Conclusion("ExperimentationComputed", {}, "experimentationComputed");
         elements.push(conclusion);
-        step.push(conclusion);
+        step.items.push(conclusion);
         strategy= new Strategy("TreatComputed", {}, "computedStrategy");
         elements.push(strategy);
-        step.push(strategy);
+        step.items.push(strategy);
         rationale = new Rationale("", {
             "axonicProject": {
                 "pathology": "OBESITY",
@@ -145,10 +145,10 @@ describe("diagram.component.", () => {
         elements.push(rationale);
         evidence = new Evidence("StimulationComputed", {}, "stimulationComputed");
         elements.push(evidence);
-        step.push(evidence);
+        step.items.push(evidence);
         evidence = new Evidence("SubjectComputed 0", {}, "subjectComputed");
         elements.push(evidence);
-        step.push(evidence);
+        step.items.push(evidence);
         actor = new Actor("", {}, "computedStrategy");
         strategy.artifacts.push(actor);
         elements.push(actor);
@@ -162,7 +162,7 @@ describe("diagram.component.", () => {
 
 
     describe("Initial values.", () => {
-        it('myholder tag empty', () => {
+        it('myholder tag value', () => {
             fixture = TestBed.createComponent(DiagramComponent);
             comp = fixture.componentInstance; // DiagramComponent test instance
 
@@ -170,8 +170,8 @@ describe("diagram.component.", () => {
             el = de.nativeElement;
 
             fixture.detectChanges();
-
-            expect(el.innerHTML).toEqual("");
+            
+            expect(el.innerHTML.slice(0, 4)).toEqual("<svg");
         });
 
         it('Graph Scale = 1', () => {

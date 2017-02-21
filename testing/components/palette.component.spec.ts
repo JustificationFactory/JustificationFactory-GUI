@@ -4,8 +4,6 @@ import {PropertiesComponent} from "../../app/components/properties.component";
 import {ActionsToolbarComponent} from "../../app/components/actions.toolbar.component";
 import {EditToolbarComponent} from "../../app/components/edit.toolbar.component";
 import {PaletteComponent} from "../../app/components/palette.component";
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
 
 describe("palette.component", () => {
 

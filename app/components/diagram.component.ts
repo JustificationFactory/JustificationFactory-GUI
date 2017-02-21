@@ -15,10 +15,12 @@ export class DiagramComponent implements AfterContentInit{
     private _initialPaperHeight : number = window.innerHeight ; // 610
     private _graphScale : number = 1 ;
     private _dragStartPosition = null;
+    private stateSessionName = "state";
 
     selectedElement = null;
     diagramWidth = "col-sm-12 col-md-12 col-lg-12";
     businessSteps: Array<Step>;
+
 
     constructor(public propertiesComponent: PropertiesComponent, public actionsToolbarComponent: ActionsToolbarComponent) {
 
@@ -26,8 +28,29 @@ export class DiagramComponent implements AfterContentInit{
 
     ngAfterContentInit() {
         // Component content has been initialized
-        if ((sessionStorage.getItem("state") != null) && (sessionStorage.getItem("state") != "")) {
-            let states = JSON.parse(sessionStorage.getItem("state"));
+        this.undo_redo_graphState(false, 0);
+    }
+
+    public undoDiagram() {
+        this.undo_redo_graphState(true, undefined);
+    }
+
+    public redoDiagram() {
+        this.undo_redo_graphState(false, undefined);
+    }
+
+    private diagram_keypress(event) {
+        if (event.charCode !== undefined) {
+            if ((event.ctrlKey === true) && (event.shiftKey === false) && (event.charCode === 26))
+                event.data.undoDiagram();
+            else if ((event.ctrlKey === true) && (event.shiftKey === true) && (event.charCode === 26))
+                event.data.redoDiagram();
+        }
+    }
+
+    private undo_redo_graphState(undo: boolean, specificIndex: number) {
+        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != "")) {
+            let states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
             let result = {
                 changeDate: new Date(),
                 jsonBusinessSteps: {},
@@ -35,7 +58,21 @@ export class DiagramComponent implements AfterContentInit{
                 graph: {}
             };
 
-            Util.stateFromJSON(states, result, 0);
+            if (specificIndex === undefined) {
+               if (states !== undefined) {
+                   if (states.currentIndex !== undefined) {
+                       if ((undo !== undefined) && (undo === false))
+                           specificIndex = states.currentIndex - 1;
+                       else
+                           specificIndex = states.currentIndex + 1;
+                   }
+                   else
+                       specificIndex = 0;
+               }
+            }
+
+            Util.stateFromJSON(states, result, specificIndex);
+            sessionStorage.setItem(this.stateSessionName, JSON.stringify(states));
 
             this.initializeGraph();
 
@@ -45,6 +82,7 @@ export class DiagramComponent implements AfterContentInit{
                     Limitation.reorganizePorts(g);
             }
             this._graph.resetCells(this._graph.getCells());
+            this._startGraphChanged = false;
 
             Util.businessStepsFromJSON(result.jsonBusinessSteps, this._graph.getCells(), result);
             this.businessSteps = (result.businessSteps as any);
@@ -76,8 +114,11 @@ export class DiagramComponent implements AfterContentInit{
         this._paper.on('blank:pointerclick', this.blankClick, this);
         this._paper.on('blank:pointerdown', this.pointerDown, this);
         this._paper.on('cell:pointerup blank:pointerup', this.pointerUp, this);
+        this._graph.on('change', this.graphChanged, this);
         $('#myholder').on('mousemove', this, this.myholderMouseMove);
         $('#myholder').on("wheel", this,  this.MouseWheelHandler);
+        $('#myholder').on("keypress", this,  this.diagram_keypress);
+
 
         $('#myholder').replaceWith(this._paper.el);
 
@@ -131,17 +172,22 @@ export class DiagramComponent implements AfterContentInit{
                 }
             }
         }
+        this._startGraphChanged = false;
 
+        sessionStorage.setItem(this.stateSessionName, "");
         this.saveGraphState();
+        if(bSteps.length >3){
+            for(var i=1;i<=(bSteps.length-3);i++){this.zoomOut();
+                this.zoomOut();}}
     }
 
     private saveGraphState() {
         let states : any;
 
-        if ((sessionStorage.getItem("state") != null) && (sessionStorage.getItem("state") != ""))
-            states = JSON.parse(sessionStorage.getItem("state"));
+        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != ""))
+            states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
 
-        sessionStorage.setItem("state", JSON.stringify(Util.stateToJSON(this.businessSteps, this._graph.toJSON(), states)));
+        sessionStorage.setItem(this.stateSessionName, JSON.stringify(Util.stateToJSON(this.businessSteps, this._graph.toJSON(), states)));
     }
 
     onSelectedElementChange(element: DiagramElement) {
@@ -164,17 +210,21 @@ export class DiagramComponent implements AfterContentInit{
         this._paper.off('blank:pointerclick', this.blankClick, this);
         this._paper.off('blank:pointerdown', this.pointerDown, this);
         this._paper.off('cell:pointerup blank:pointerup', this.pointerUp, this);
+        this._graph.off('change', this.graphChanged, this);
         $('#myholder').off('mousemove', "", this.myholderMouseMove);
         $('#myholder').off("wheel", "",  this.MouseWheelHandler);
+        $('#myholder').off("keypress", "",  this.diagram_keypress);
     }
 
     public blankClick(event, x, y) {
+        $('#myholder').focus();
         this.unhighlightAllCells();
         this.selectedElement = null;
         this.diagramWidth = "col-sm-12 col-md-12 col-lg-12";
     }
 
     public cellClick(cellView : joint.dia.CellView, event, x, y) {
+        $('#myholder').focus();
         this.unhighlightAllCells();
         this.diagramWidth = "col-sm-10 col-md-10 col-lg-10";
         if ((cellView.model as any).parent) {
@@ -243,9 +293,19 @@ export class DiagramComponent implements AfterContentInit{
         this._dragStartPosition = { x: x * this._graphScale , y: y * this._graphScale};
     }
 
-    private pointerUp(cellView, x, y) {
+    private pointerUp(event, x, y) {
         this._dragStartPosition = null;
-        this.saveGraphState();
+
+        if (this._startGraphChanged) {
+            this._startGraphChanged = false;
+            this.saveGraphState();
+        }
+    }
+
+    private _startGraphChanged : Boolean = false;
+
+    private graphChanged(cell) {
+        this._startGraphChanged = true;
     }
 
     private myholderMouseMove(event) {

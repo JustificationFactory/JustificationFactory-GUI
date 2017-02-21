@@ -1376,7 +1376,7 @@ define(['app/services/importDiagram.js'], function(ImportDiagram) {
             });
 
             it("Business list. Number of Evidences in one step", function () {
-                for (let el of deResult.businessSteps[0]) {
+                for (let el of deResult.businessSteps[0].items) {
                     if (el instanceof Evidence)
                         nb++;
                 }
