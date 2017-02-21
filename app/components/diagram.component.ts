@@ -176,6 +176,9 @@ export class DiagramComponent implements AfterContentInit{
 
         sessionStorage.setItem(this.stateSessionName, "");
         this.saveGraphState();
+        if(bSteps.length >3){
+            for(var i=1;i<=(bSteps.length-3);i++){this.zoomOut();
+                this.zoomOut();}}
     }
 
     private saveGraphState() {
