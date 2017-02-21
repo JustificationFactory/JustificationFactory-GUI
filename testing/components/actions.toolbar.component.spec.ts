@@ -85,7 +85,7 @@ describe("actions.toolbar.component.", () => {
 
         elements.push(conclusion);
         nbElements++;
-        step.push(conclusion);
+        step.items.push(conclusion);
 
         strategy = new Strategy("Treat", {}, "humanStrategy");
         elements.push(strategy);
@@ -94,7 +94,7 @@ describe("actions.toolbar.component.", () => {
         elements.push(strategy.makeLinkWithParent(conclusion));
         nbElements++;
         nbElementsThatMustBeDeletedInThisTest++;
-        step.push(strategy);
+        step.items.push(strategy);
 
         rationale = new Rationale("", {
             "axonicProject": {
@@ -114,7 +114,7 @@ describe("actions.toolbar.component.", () => {
         elements.push(evidence.makeLinkWithParent(strategy));
         nbElements++;
         nbElementsThatMustBeDeletedInThisTest++;
-        step.push(evidence);
+        step.items.push(evidence);
         evidence = new Evidence("Subject 0", {}, "subject");
         elements.push(evidence);
         nbElements++;
@@ -122,7 +122,7 @@ describe("actions.toolbar.component.", () => {
         elements.push(evidence.makeLinkWithParent(strategy));
         nbElements++;
         nbElementsThatMustBeDeletedInThisTest++;
-        step.push(evidence);
+        step.items.push(evidence);
 
         actor = new Actor("Chloé", {}, "INTERMEDIATE_EXPERT");
         strategy.artifacts.push(actor);
@@ -137,14 +137,14 @@ describe("actions.toolbar.component.", () => {
         conclusion = new Conclusion("Establish Effect", {}, "establishedEffect");
         elements.push(conclusion);
         nbElements++;
-        step.push(conclusion);
+        step.items.push(conclusion);
 
         strategy = new Strategy("Establish Effect", {}, "humanStrategy");
         elements.push(strategy);
         nbElements++;
         elements.push(strategy.makeLinkWithParent(conclusion));
         nbElements++;
-        step.push(strategy);
+        step.items.push(strategy);
 
         rationale = new Rationale("", {
             "axonicProject": {
@@ -159,7 +159,7 @@ describe("actions.toolbar.component.", () => {
         //evidence = new Evidence("Experimentation", {}, "experimentation");
         elements.push(selectedElement.makeLinkWithParent(strategy));
         nbElements++;
-        step.push(selectedElement);
+        step.items.push(selectedElement);
 
         actor = new Actor("Chloé", {}, "INTERMEDIATE_EXPERT");
         strategy.artifacts.push(actor);
