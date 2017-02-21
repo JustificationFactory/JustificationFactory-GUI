@@ -180,6 +180,7 @@ export class DiagramComponent implements AfterContentInit{
         if ((cellView.model as any).parent) {
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
+            //console.log("selectedId : " + this.selectedElement.stepId);
         }
     }
 

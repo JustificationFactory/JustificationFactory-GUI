@@ -9,6 +9,7 @@ import '../services/diagram';
 })
 export class ActionsToolbarComponent {
     private currentElement : DiagramElement;
+    private nbNewSteps : number = 1;
     @Input() selectedElement : DiagramElement = null;
     @Input() _graph : joint.dia.Graph = null;
     @Input() _paper : joint.dia.Paper = null;
@@ -30,14 +31,26 @@ export class ActionsToolbarComponent {
     public removeElement(event) {
         if(!this.disableRemoveNode()){
 
-            //this.selectedElement.visualShape.remove();
-
+                console.log("business_steps before remove : " + JSON.stringify(this.businessSteps));
 
             var confirmDelete = confirm("Do you want to delete this element ?");
             if( confirmDelete == true ){
+
                 this.removeStep(this.selectedElement, this.selectedElement.visualShape.id);
+
+                let evidence = new Evidence(this.selectedElement.name, this.selectedElement.jsonElement, this.selectedElement.type);
+                evidence.visualShape = this.selectedElement.visualShape;
+                (this._graph.getCell(evidence.visualShape.id) as any).parent = evidence;
+
+                var outboundLinks = this._graph.getConnectedLinks(this.selectedElement.visualShape, { outbound: true });
+                var sourceId = outboundLinks[0].get('target').id;
+                evidence.stepId = (this._graph.getCell(sourceId) as any).parent.stepId;
+
+                this.selectedElement = evidence;
+                //console.log(this.selectedElement.stepId);
+
                 this.stepChange.emit();
-                console.log("NEW : " + JSON.stringify(this.businessSteps));
+                console.log("business_steps after remove : " + JSON.stringify(this.businessSteps));
             }
         }
     }
@@ -48,7 +61,6 @@ export class ActionsToolbarComponent {
         var currentComponent = this;
         inboundLinks.forEach(function (inboundLink)
         {
-            //alert(inboundLink.get('source'));
             var sourceId = inboundLink.get('source').id;
             if (sourceId) {
                 var source = (currentComponent._graph.getCell(sourceId) as any).parent;
@@ -76,6 +88,30 @@ export class ActionsToolbarComponent {
                 }
             }
         }
+        var visualShapeSupport;
+        for (var i = 0; i < this.businessSteps.length; i++){
+            var step = this.businessSteps[i];
+            elements:
+                for (var elementKey in step.items){
+                    var elementValue = step.items[elementKey];
+                    if(elementValue.name == name && elementValue.constructor.name == "Support"){
+                        visualShapeSupport = elementValue.visualShape;
+                        delete step.items.splice(step.items.indexOf(elementValue), 1);
+                        break elements;
+                    }
+                }
+        }
+
+        for (var i = 0; i < this.businessSteps.length; i++){
+            var step = this.businessSteps[i];
+            elements:
+                for (var elementKey in step.items){
+                    var elementValue = step.items[elementKey];
+                    if(elementValue.name == name && elementValue.constructor.name == "Evidence"){
+                        elementValue.visualShape = visualShapeSupport;
+                    }
+                }
+        }
     }
 
     public disableRemoveNode() : boolean {
@@ -102,17 +138,45 @@ export class ActionsToolbarComponent {
 
     public addSubStep() {
         if(!this.disableAddSubStep()) {
-            let strategy = new Strategy("Strategy", {}, "Type");
+
+            //***************** CREATE ELEMENTS *******************
+            //*****************************************************
+            let strategyJsonElement = {
+                "name" : "[Strategy " + this.nbNewSteps + "]",
+                "element" : {
+                    "type" : "Type",
+                }
+            };
+            let strategy = new Strategy("[Strategy " + this.nbNewSteps + "]", strategyJsonElement, "Type");
             var link1 = strategy.makeLinkWithParent(this.selectedElement);
 
-            let evidence = new Evidence("Evidence", {}, "Type");
+            let evidenceJsonElement = {
+                name : "[Evidence " + this.nbNewSteps + "]",
+                element : {
+                    type : "Type",
+                }
+            };
+            let evidence = new Evidence("[Evidence " + this.nbNewSteps + "]", evidenceJsonElement, "Type");
             var link2 = evidence.makeLinkWithParent(strategy);
 
-            let actor = new Actor("Actor", {}, "Role");
+            let actorJsonElement = {
+                "name": "Actor",
+                "role": "Role",
+            };
+            let actor = new Actor("Actor", actorJsonElement, "Role");
             var link3 = actor.makeLinkWithParent(strategy);
 
-            let rationale = new Rationale("Rationales", {}, "");
+            let rationaleJsonElement = {
+                "axonicProject": {
+                    "pathology": "pathology",
+                    "stimulator": "stimulator"
+                }
+            };
+            let rationale = new Rationale("", rationaleJsonElement, "");
             var link4 = rationale.makeLinkWithParent(strategy);
+
+            //***************** POSITION ELEMENTS *******************
+            //*******************************************************
 
             (strategy.visualShape as any).position((this.selectedElement.visualShape as any).attributes.position.x, (this.selectedElement.visualShape as any).attributes.position.y + 80);
             (evidence.visualShape as any).position((strategy.visualShape as any).attributes.position.x, (strategy.visualShape as any).attributes.position.y + 80);
@@ -124,7 +188,10 @@ export class ActionsToolbarComponent {
             (rationale.visualShape as any).position((strategy.visualShape as any).attributes.position.x + rationale.visualShape.prop('size/width') + 50,
                 (strategy.visualShape as any).attributes.position.y);
 
-            this._graph.addCells(strategy.visualShape,
+            //***************** ADD ELEMENTS TO GRAPH ***************
+            //*******************************************************
+
+            this._graph.addCells([strategy.visualShape,
                 link1.visualShape,
                 evidence.visualShape,
                 link2.visualShape,
@@ -132,7 +199,10 @@ export class ActionsToolbarComponent {
                 link3.visualShape,
                 rationale.visualShape,
                 link4.visualShape
-            );
+            ]);
+
+            //***************** POSITION SUBGRAPH *******************
+            //*******************************************************
 
             // récupérer strategy associé au selectedElement
 
@@ -171,11 +241,35 @@ export class ActionsToolbarComponent {
                 }
             });
 
-            // augmenter dimenstion paper
-            //(this.selectedElement.visualShape as any).parent = new Support(this.selectedElement, null);
+            //********* CREATE CONCLUSION FROM EVIDENCE *************
+
+            let conclusion = new Conclusion(this.selectedElement.name, this.selectedElement.jsonElement, this.selectedElement.type);
+
+
+            //************* SWITCH EVIDENCE TO SUPPORT **************
+            //*******************************************************
+
+            let support = new Support(conclusion, this.selectedElement);
+            support.visualShape = this.selectedElement.visualShape;
+            (this._graph.getCell(support.visualShape.id) as any).parent = support;
+
+            //************* INCREASE PAPER DIMENSTION ***************
+            //*******************************************************
 
             this._paper.setDimensions(this._paper.options.width + translatePaperWidth, this._paper.options.height + 160);
+
+            //************* EMIT EVENT TO DIAGRAM COMPONENT *********
+            //*******************************************************
+
             this.stepChange.emit(this.selectedElement);
+
+            //**************** ADD STEP TO BUSINESS *****************
+            //*******************************************************
+
+            this.addStepToBusiness(conclusion, strategy, evidence, rationale, actor, support);
+            console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
+
+            this.nbNewSteps++;
         }
     }
 
@@ -191,6 +285,39 @@ export class ActionsToolbarComponent {
             console.log("name : " + source.name);
             currentComponent.translateSubGraphToRight(source , distance);
         });
+    }
+
+    public addStepToBusiness(conclusion : Conclusion, strategy : Strategy, evidence: Evidence, rationale : Rationale, actoor : Actor, support : Support){
+        let businessStep = new Step();
+
+        conclusion.stepId = businessStep.getStepId();
+        businessStep.items.push(conclusion);
+
+        strategy.stepId = businessStep.getStepId();
+        strategy.artifacts = [];
+        if (rationale) {
+            strategy.artifacts.push(rationale);
+        }
+        if (actoor) {
+            strategy.artifacts.push(actoor);
+        }
+        businessStep.items.push(strategy);
+
+        evidence.stepId = businessStep.getStepId();
+        businessStep.items.push(evidence);
+
+        support.stepId = businessStep.getStepId();
+        businessStep.items.push(support);
+
+        for(let b of this.businessSteps) {
+            console.log("ttest : " + this.selectedElement.stepId + " == " + b.getStepId());
+            if (this.selectedElement.stepId == b.getStepId())
+                b.items.push(support);
+        }
+
+        this.businessSteps.push(businessStep);
+
+        this.selectedElement = support;
     }
 
 }
