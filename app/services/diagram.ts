@@ -597,7 +597,7 @@ class Util{
         else
             states.currentIndex = indexState;
 
-        if ((states.previous !== undefined) && (states.previous.length >= (states.currentIndex + 1))) {
+        if ((states.previous !== undefined) && (states.previous.length >= states.currentIndex)) {
             let state = states.previous[states.previous.length - 1 - states.currentIndex];
 
             result.changeDate = state.changeDate;
