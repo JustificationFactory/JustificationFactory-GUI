@@ -162,17 +162,6 @@ describe("diagram.component.", () => {
 
 
     describe("Initial values.", () => {
-        it('myholder tag value', () => {
-            fixture = TestBed.createComponent(DiagramComponent);
-            comp = fixture.componentInstance; // DiagramComponent test instance
-
-            de = fixture.debugElement.query(By.css('#myholder'));
-            el = de.nativeElement;
-
-            fixture.detectChanges();
-            
-            expect(el.innerHTML.slice(0, 4)).toEqual("<svg");
-        });
 
         it('Graph Scale = 1', () => {
             fixture = TestBed.createComponent(DiagramComponent);
