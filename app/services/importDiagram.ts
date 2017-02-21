@@ -32,7 +32,7 @@ class ParseJson2DiagramElements {
         this.businessSteps = new Array<Step>();
 
         for (let step  of this.globalJson.steps.step) {
-            let businessStep = new Step();
+            let businessStep = new Step(undefined);
 
             let nameOfConclusion = step.conclusion.name;
             let typeOfConclusion = step.conclusion.element.type;

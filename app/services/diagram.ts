@@ -404,6 +404,9 @@ class Step  {
 
 
 class Util{
+    static HeightToAddIfArtifactEmbeded : number = 12;
+    static MaxUndo : number = 20;
+
     static getElementWidthFromTextLength(name: string){
         var maxLine = _.max(name.split('\n'), function(l) { return l.length; });
         var maxLineWidth = $('#ruler').html(maxLine).width();
@@ -419,8 +422,6 @@ class Util{
         var height = 2 * ((name.split('\n').length + 1) * letterSize);
         return height;
     }
-
-    static HeightToAddIfArtifactEmbeded : number = 12;
 
     static getNewGuid() : String {
         function S4() {
@@ -564,8 +565,11 @@ class Util{
         if (states.previous === undefined)
             states.previous = [];
 
+        if ((states.currentIndex !== undefined) && (states.currentIndex > 0) && (states.previous.length >= states.currentIndex))
+            states.previous.splice(states.previous.length - states.currentIndex);
+
         states.currentIndex = 0;
-        if (states.previous.length > 20)
+        if (states.previous.length > Util.MaxUndo)
             states.previous.splice(0, 1);
         
         states.previous.push({
@@ -579,10 +583,17 @@ class Util{
 
     static stateFromJSON(states: any, result : any, indexState: number)  {
 
-        states.currentIndex = indexState;
+        if ((indexState === undefined) || (indexState < 0))
+            states.currentIndex = 0;
+        else if ((indexState === undefined) || (indexState > Util.MaxUndo))
+            states.currentIndex = Util.MaxUndo;
+        else if ((indexState !== undefined) && (states.previous !== undefined) && (indexState > states.previous.length))
+            states.currentIndex = states.previous.length;
+        else
+            states.currentIndex = indexState;
 
-        if ((states.previous !== undefined) && (states.previous.length >= (indexState + 1))) {
-            let state = states.previous[states.previous.length - 1 - indexState];
+        if ((states.previous !== undefined) && (states.previous.length >= (states.currentIndex + 1))) {
+            let state = states.previous[states.previous.length - 1 - states.currentIndex];
 
             result.changeDate = state.changeDate;
             result.jsonBusinessSteps = state.businessSteps;

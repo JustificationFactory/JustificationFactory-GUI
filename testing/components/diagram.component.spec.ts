@@ -66,7 +66,7 @@ describe("diagram.component.", () => {
         //TODO: Links & Supports are not created currently
 
 
-        step = new Step();
+        step = new Step(undefined);
 
         conclusion = new Conclusion("Experimentation", {}, "experimentation");
         elements.push(conclusion);
@@ -98,7 +98,7 @@ describe("diagram.component.", () => {
 
         businessSteps.push(step);
 
-        step = new Step();
+        step = new Step(undefined);
 
         conclusion = new Conclusion("Establish Effect", {}, "establishedEffect");
         elements.push(conclusion);
@@ -127,7 +127,7 @@ describe("diagram.component.", () => {
         businessSteps.push(step);
 
         /****************************ACTOR: Computer *************************/
-        step = new Step();
+        step = new Step(undefined);
         conclusion = new Conclusion("ExperimentationComputed", {}, "experimentationComputed");
         elements.push(conclusion);
         step.push(conclusion);

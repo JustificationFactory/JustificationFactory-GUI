@@ -76,7 +76,7 @@ describe("actions.toolbar.component.", () => {
         nbElements = 0;
         nbElementsThatMustBeDeletedInThisTest = 0;
 
-        step = new Step();
+        step = new Step(undefined);
 
 
 
@@ -132,7 +132,7 @@ describe("actions.toolbar.component.", () => {
 
         businessSteps.push(step);
 
-        step = new Step();
+        step = new Step(undefined);
 
         conclusion = new Conclusion("Establish Effect", {}, "establishedEffect");
         elements.push(conclusion);
