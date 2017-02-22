@@ -104,7 +104,6 @@ export class ActionsToolbarComponent {
 
         for (var i = 0; i < this.businessSteps.length; i++){
             var step = this.businessSteps[i];
-            elements:
                 for (var elementKey in step.items){
                     var elementValue = step.items[elementKey];
                     if(elementValue.name == name && elementValue.constructor.name == "Evidence"){
@@ -288,7 +287,7 @@ export class ActionsToolbarComponent {
     }
 
     public addStepToBusiness(conclusion : Conclusion, strategy : Strategy, evidence: Evidence, rationale : Rationale, actoor : Actor, support : Support){
-        let businessStep = new Step();
+        let businessStep = new Step(undefined);
 
         conclusion.stepId = businessStep.getStepId();
         businessStep.items.push(conclusion);
