@@ -9,7 +9,7 @@ import '../services/diagram';
 })
 export class ActionsToolbarComponent {
     private currentElement : DiagramElement;
-    private nbNewSteps : number = 1;
+    private nbNewSteps : number = Number(sessionStorage.getItem("nbNewSteps"));
     @Input() selectedElement : DiagramElement = null;
     @Input() _graph : joint.dia.Graph = null;
     @Input() _paper : joint.dia.Paper = null;
@@ -31,7 +31,7 @@ export class ActionsToolbarComponent {
     public removeElement(event) {
         if(!this.disableRemoveNode()){
 
-                console.log("business_steps before remove : " + JSON.stringify(this.businessSteps));
+                //console.log("business_steps before remove : " + JSON.stringify(this.businessSteps));
 
             var confirmDelete = confirm("Do you want to delete this element ?");
             if( confirmDelete == true ){
@@ -89,6 +89,7 @@ export class ActionsToolbarComponent {
             }
         }
         var visualShapeSupport;
+        var artifactsSupport;
         for (var i = 0; i < this.businessSteps.length; i++){
             var step = this.businessSteps[i];
             elements:
@@ -96,6 +97,7 @@ export class ActionsToolbarComponent {
                     var elementValue = step.items[elementKey];
                     if(elementValue.name == name && elementValue.constructor.name == "Support"){
                         visualShapeSupport = elementValue.visualShape;
+                        artifactsSupport = elementValue.artifacts;
                         delete step.items.splice(step.items.indexOf(elementValue), 1);
                         break elements;
                     }
@@ -108,6 +110,7 @@ export class ActionsToolbarComponent {
                     var elementValue = step.items[elementKey];
                     if(elementValue.name == name && elementValue.constructor.name == "Evidence"){
                         elementValue.visualShape = visualShapeSupport;
+                        elementValue.artifacts = artifactsSupport;
                     }
                 }
         }
@@ -269,6 +272,7 @@ export class ActionsToolbarComponent {
             console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
 
             this.nbNewSteps++;
+            sessionStorage.setItem("nbNewSteps", this.nbNewSteps + "");
         }
     }
 

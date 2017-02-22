@@ -1,6 +1,6 @@
 [
   {
-    "stepId": "7c043d11-7108-4925-3dd4-ba4cf5a4362f",
+    "stepId": "909680eb-f766-43c4-1dcf-f7dd6f086eb4",
     "items": [
       {
         "name": "Establish Effect",
@@ -294,7 +294,7 @@
             "y": 10
           },
           "angle": 0,
-          "id": "5f623aa8-a67b-4afe-0419-ad462d90a1cf",
+          "id": "c5486a53-d7ec-45e3-e7e8-aff44a851793",
           "attrs": {
             "path": {
               "fill": "#CCCC00",
@@ -306,7 +306,7 @@
             }
           }
         },
-        "stepId": "7c043d11-7108-4925-3dd4-ba4cf5a4362f"
+        "stepId": "909680eb-f766-43c4-1dcf-f7dd6f086eb4"
       },
       {
         "name": "Establish Effect",
@@ -353,8 +353,8 @@
                 "height": 32
               },
               "angle": 0,
-              "id": "137be31f-19b5-4398-213c-ea5d234b9ef7",
-              "parent": "0ef269d0-970d-4e71-0f9a-fa4e1d77be01",
+              "id": "d6cde3fa-94eb-4fda-128e-92440cd714e6",
+              "parent": "c48543aa-f56f-4211-fb40-37a5e88a8d03",
               "attrs": {
                 "rect": {
                   "fill": "#FFFFFF"
@@ -386,9 +386,9 @@
                 "height": 32
               },
               "angle": 0,
-              "id": "0f731f5d-d00e-4344-4b84-7e7abb98e8d2",
+              "id": "786277b7-900f-406f-ea3f-1b2883d8ba00",
               "markup": "<svg version=\"1.0\" xmlns=\"http://www.w3.org/2000/svg\" tooltipPlacement=\"top\" tooltip=\"INTERMEDIATE_EXPERT\" width=\"40pt\" height=\"40pt\"  viewBox=\"0 0 300 300\"  preserveAspectRatio=\"xMidYMid meet\"><g transform=\"translate(0.000000,300.000000) scale(0.100000,-0.100000)\" fill=\"#030303\" stroke=\"none\">\n                        <path class=\"node\" id=\"node1\" d=\"M1526 2694 c-223 -54 -386 -263 -386 -494 0 -140 50 -262 149 -360\n                        102 -102 218 -150 357 -150 146 0 258 46 359 145 72 70 109 133 136 230 103\n                        374 -235 721 -615 629z\"></path>\n                        <path class=\"node\" id=\"node2\" d=\"M1249 1616 c-150 -45 -278 -138 -360 -263 -101 -152 -119 -249 -119\n                        -636 l0 -267 23 -9 c192 -77 639 -151 911 -151 276 0 610 62 776 143 l45 22\n                        -1 320 c-1 316 -1 321 -27 400 -73 223 -237 382 -458 444 -70 19 -98 21 -395\n                        20 -302 0 -323 -2 -395 -23z m549 -100 c5 -22 -75 -194 -98 -213 -9 -8 -10\n                        -12 -3 -13 13 0 13 -1 57 -620 4 -51 1 -60 -43 -127 -25 -40 -51 -75 -57 -77\n                        -6 -2 -31 30 -56 72 l-45 77 13 225 c17 289 32 443 45 451 6 3 3 11 -7 19 -9\n                        8 -36 56 -60 108 -59 125 -60 123 115 120 125 -3 136 -4 139 -22z\"></path>\n                        </g>\n                        <g transform=\"translate(0.000000,300.000000) scale(0.100000,-0.100000)\" fill=\"#9E9E9E\" stroke=\"none\">\n                        \n                        <path class=\"node\" id=\"node4\" d=\"M1511 1526 c-9 -11 -2 -33 33 -108 24 -52 51 -100 60 -108 10 -8 13\n                        -16 7 -19 -13 -8 -28 -162 -45 -451 l-13 -225 45 -77 c25 -42 50 -74 56 -72 6\n                        2 32 37 57 77 44 67 47 76 43 127 -44 619 -44 620 -57 620 -7 1 -6 5 3 13 23\n                        19 103 191 98 213 -3 18 -14 19 -139 22 -108 2 -139 0 -148 -12z\"></path>\n                        </g></svg> <text x=\"-10\" y=\"100\" font-size=\"14\"></text>",
-              "parent": "0ef269d0-970d-4e71-0f9a-fa4e1d77be01",
+              "parent": "c48543aa-f56f-4211-fb40-37a5e88a8d03",
               "attrs": {
                 "rect": {
                   "fill": "#FFFFFF"
@@ -411,10 +411,10 @@
             "y": 92
           },
           "angle": 0,
-          "id": "0ef269d0-970d-4e71-0f9a-fa4e1d77be01",
+          "id": "c48543aa-f56f-4211-fb40-37a5e88a8d03",
           "embeds": [
-            "137be31f-19b5-4398-213c-ea5d234b9ef7",
-            "0f731f5d-d00e-4344-4b84-7e7abb98e8d2"
+            "d6cde3fa-94eb-4fda-128e-92440cd714e6",
+            "786277b7-900f-406f-ea3f-1b2883d8ba00"
           ],
           "attrs": {
             "path": {
@@ -428,7 +428,7 @@
             }
           }
         },
-        "stepId": "7c043d11-7108-4925-3dd4-ba4cf5a4362f"
+        "stepId": "909680eb-f766-43c4-1dcf-f7dd6f086eb4"
       },
       {
         "name": "Experimentation",
@@ -866,7 +866,238 @@
         ],
         "type": "experimentation",
         "description": "",
-        "artifacts": [],
+        "artifacts": [
+          {
+            "name": "subject",
+            "jsonElement": [
+              [
+                {
+                  "code": "subject",
+                  "path": "fr.axonic",
+                  "persistent": true,
+                  "dynamicInformations": {
+                    "code": "dynamic",
+                    "path": "fr.axonic.subject",
+                    "persistent": true,
+                    "bmi": {
+                      "code": "bmi",
+                      "path": "fr.axonic.subject.dynamic",
+                      "persistent": true,
+                      "value": {
+                        "type": "double",
+                        "value": 40
+                      }
+                    },
+                    "weight": {
+                      "code": "weight",
+                      "path": "fr.axonic.subject.dynamic",
+                      "persistent": true,
+                      "value": {
+                        "type": "double",
+                        "value": 130
+                      }
+                    }
+                  },
+                  "id": {
+                    "code": "id",
+                    "path": "fr.axonic.subject",
+                    "persistent": true,
+                    "value": {
+                      "type": "string",
+                      "value": "12345"
+                    }
+                  },
+                  "pathologyInformations": {
+                    "code": "pathology",
+                    "path": "fr.axonic.subject",
+                    "persistent": true,
+                    "beginningOfObesity": {
+                      "code": "beginningObesity",
+                      "path": "fr.axonic.subject.pathology",
+                      "persistent": true,
+                      "value": {
+                        "type": "dateTime",
+                        "value": "2017-01-12T11:20:08.694+01:00"
+                      }
+                    },
+                    "obesityType": {
+                      "type": "aRangedEnum",
+                      "code": "obesityType",
+                      "path": "fr.axonic.subject.pathology",
+                      "persistent": true,
+                      "value": "GYNOID",
+                      "range": [
+                        {
+                          "persistent": true,
+                          "value": "ANDROID"
+                        },
+                        {
+                          "persistent": true,
+                          "value": "GYNOID"
+                        },
+                        {
+                          "persistent": true,
+                          "value": "MIXED"
+                        }
+                      ]
+                    }
+                  },
+                  "staticInformations": {
+                    "code": "static",
+                    "path": "fr.axonic.subject",
+                    "persistent": true,
+                    "birthday": {
+                      "code": "birthday",
+                      "path": "fr.axonic.subject.static",
+                      "persistent": true,
+                      "value": {
+                        "type": "dateTime",
+                        "value": "2017-01-12T11:20:08.691+01:00"
+                      }
+                    },
+                    "gender": {
+                      "type": "aRangedEnum",
+                      "code": "gender",
+                      "path": "fr.axonic.subject.static",
+                      "persistent": true,
+                      "value": "MALE",
+                      "range": [
+                        {
+                          "persistent": true,
+                          "value": "MALE"
+                        },
+                        {
+                          "persistent": true,
+                          "value": "FEMALE"
+                        },
+                        {
+                          "persistent": true,
+                          "value": "UNKNOWN"
+                        }
+                      ]
+                    },
+                    "height": {
+                      "code": "height",
+                      "path": "fr.axonic.subject.static",
+                      "persistent": true,
+                      "value": {
+                        "type": "double",
+                        "value": 70.5
+                      }
+                    },
+                    "name": {
+                      "code": "name",
+                      "path": "fr.axonic.subject.static",
+                      "persistent": true,
+                      "value": {
+                        "type": "string",
+                        "value": "Paul"
+                      }
+                    }
+                  }
+                }
+              ]
+            ],
+            "type": "",
+            "description": "",
+            "artifacts": [],
+            "behavior": 0
+          },
+          {
+            "name": "stimulation",
+            "jsonElement": [
+              [
+                {
+                  "code": "stimulation",
+                  "path": "fr.axonic",
+                  "persistent": true,
+                  "stimulationScheduler": {
+                    "code": "scheduler",
+                    "path": "fr.axonic.stimulation",
+                    "persistent": true,
+                    "from": {
+                      "code": "from",
+                      "path": "fr.axonic.stimulation.scheduler",
+                      "persistent": true,
+                      "value": {
+                        "type": "dateTime",
+                        "value": "2017-01-12T11:20:08.673+01:00"
+                      }
+                    },
+                    "to": {
+                      "code": "to",
+                      "path": "fr.axonic.stimulation.scheduler",
+                      "persistent": true,
+                      "value": {
+                        "type": "dateTime",
+                        "value": "2017-01-12T12:20:08.673+01:00"
+                      }
+                    }
+                  },
+                  "waveform": {
+                    "code": "waveform",
+                    "path": "fr.axonic.stimulation",
+                    "persistent": true,
+                    "value": "RECTANGULAR",
+                    "range": [
+                      {
+                        "persistent": true,
+                        "value": "RECTANGULAR"
+                      },
+                      {
+                        "persistent": true,
+                        "value": "SINUS"
+                      },
+                      {
+                        "persistent": true,
+                        "value": "RAMP"
+                      }
+                    ]
+                  },
+                  "waveformParameter": {
+                    "code": "waveformParameters",
+                    "path": "fr.axonic.stimulation",
+                    "persistent": true,
+                    "amplitude": {
+                      "type": "aContinuousNumber",
+                      "code": "amplitude",
+                      "path": "fr.axonic.stimulation",
+                      "persistent": true,
+                      "value": {
+                        "type": "double",
+                        "value": 1000.1
+                      }
+                    },
+                    "duration": {
+                      "type": "aContinuousNumber",
+                      "code": "duration",
+                      "path": "fr.axonic.stimulation",
+                      "persistent": true,
+                      "value": {
+                        "type": "int",
+                        "value": 300
+                      }
+                    },
+                    "frequency": {
+                      "type": "aContinuousNumber",
+                      "code": "frequency",
+                      "path": "fr.axonic.stimulation",
+                      "persistent": true,
+                      "value": {
+                        "type": "double",
+                        "value": 500
+                      }
+                    }
+                  }
+                }
+              ]
+            ],
+            "type": "",
+            "description": "",
+            "artifacts": [],
+            "behavior": 0
+          }
+        ],
         "visualShape": {
           "type": "basic.Path",
           "size": {
@@ -878,11 +1109,11 @@
             "y": 174
           },
           "angle": 0,
-          "id": "7324ca3b-92b4-4294-2fe1-b18890de8609",
+          "id": "de98d4fe-a5ac-4a22-f80d-a2f0a56da259",
           "ports": {
             "items": [
               {
-                "id": "e5c532b4-e6ae-4e3e-9d1b-4358ec223fe4",
+                "id": "d06471de-d7fc-4410-d2e0-273b8d6a9ce1",
                 "label": {
                   "position": {
                     "name": "manual",
@@ -911,7 +1142,7 @@
                 }
               },
               {
-                "id": "15baa98f-9b7a-4045-70b3-00dd890c3178",
+                "id": "9da66e33-7783-402d-f871-b9bf41eb79fc",
                 "label": {
                   "position": {
                     "name": "manual",
@@ -953,7 +1184,7 @@
             }
           }
         },
-        "stepId": "7c043d11-7108-4925-3dd4-ba4cf5a4362f"
+        "stepId": "909680eb-f766-43c4-1dcf-f7dd6f086eb4"
       }
     ]
   }
