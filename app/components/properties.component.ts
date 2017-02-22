@@ -90,8 +90,11 @@ export class PropertiesComponent implements OnChanges {
             this.selectedElement.visualShape.attributes.attrs.text.text=this.ElementName;
             var maxLine = _.max(this.ElementName.split('\n'), function(l) { return l.length; });
             var maxLineWidth = $('#ruler').html(maxLine).width();
+
             this.selectedElement.visualShape.attributes.size.width=maxLineWidth+60;
             this.selectedElement.name = this.ElementName;
+            if(this.selectedElement.visualShape.attributes.size.width<145){this.selectedElement.visualShape.attributes.size.width=145;}
+
 
             if(this.selectedElement.visualShape.portData.ports[1]){
                 for(var i=1;i<this.selectedElement.visualShape.portData.ports.length;i++) {
