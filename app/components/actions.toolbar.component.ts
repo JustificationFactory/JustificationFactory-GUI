@@ -293,6 +293,7 @@ export class ActionsToolbarComponent {
     public addEvidence(){
         if(!this.disableAddEvidence()) {
 
+            console.log("nbNewEvidences : " + sessionStorage.getItem("nbNewEvidences"));
             if(sessionStorage.getItem("nbNewEvidences"))
                 this.nbNewEvidences = Number(sessionStorage.getItem("nbNewEvidences"));
 
@@ -361,11 +362,12 @@ export class ActionsToolbarComponent {
                             //console.log("name : " + source.name);
                             translatePaperWidth = 100;
                             currentComponent.translateSubGraphToRight(source, 300);
+                            currentComponent.translateTree(currentComponent.selectedElement, 300);
                         }
                     }
                 }
             });
-/*
+
             //************* INCREASE PAPER DIMENSTION ***************
             //*******************************************************
 
@@ -374,13 +376,16 @@ export class ActionsToolbarComponent {
             //**************** ADD STEP TO BUSINESS *****************
             //*******************************************************
 
-            this.addStepToBusiness(conclusion, strategy, evidence, rationale, actor, support);
+            this.addEvidenceToBusiness(evidence);
             console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
 
             //************* EMIT EVENT TO DIAGRAM COMPONENT *********
             //*******************************************************
 
-            this.stepChange.emit(this.selectedElement);*/
+            this.stepChange.emit(this.selectedElement);
+
+            this.nbNewEvidences++;
+            sessionStorage.setItem("nbNewEvidences", this.nbNewEvidences + "");
         }
     }
     public translateSubGraphToRight(rootElement, distance){
@@ -397,6 +402,39 @@ export class ActionsToolbarComponent {
         });
     }
 
+    public translateTree(strategyElement, distance){
+        //this.translateSubGraphToRight(rootElement, distance);
+
+        // Selectionner le support parent de cette strategy
+        var strategyOutboundLinks = this._graph.getConnectedLinks(strategyElement.visualShape, { outbound: true });
+        var supportId = strategyOutboundLinks[0].get('target').id;
+        var support = (this._graph.getCell(supportId) as any).parent;
+        if(!(support instanceof Conclusion)){
+            // Selectionner la strategy parent de ce support
+            var supportOutboundLinks = this._graph.getConnectedLinks(support.visualShape, { outbound: true });
+            var strategyId = supportOutboundLinks[0].get('target').id;
+            var strategy = (this._graph.getCell(strategyId) as any).parent;
+
+            var inboundLinks = this._graph.getConnectedLinks(strategy.visualShape, {inbound: true});
+            var currentComponent = this;
+            inboundLinks.forEach(function (inboundLink) {
+                var sourceId = inboundLink.get('source').id;
+                if (sourceId) {
+                    var source = (currentComponent._graph.getCell(sourceId) as any).parent;
+                    if (source instanceof Evidence || source instanceof Support) {
+
+                        // identifier les évidences qui sont à droite de celle choisi (via position)
+                        if ((source.visualShape as any).attributes.position.x > (support.visualShape as any).attributes.position.x) {
+                            //console.log("name : " + source.name);
+                            currentComponent.translateSubGraphToRight(source, 300);
+                            currentComponent.translateTree(strategy,distance);
+
+                        }
+                    }
+                }
+            });
+        }
+    }
     public addStepToBusiness(conclusion : Conclusion, strategy : Strategy, evidence: Evidence, rationale : Rationale, actoor : Actor, support : Support){
         let businessStep = new Step(undefined);
 
@@ -430,4 +468,11 @@ export class ActionsToolbarComponent {
         this.selectedElement = support;
     }
 
+    public addEvidenceToBusiness(evidence : Evidence){
+        for(let b of this.businessSteps) {
+            console.log("ttest : " + this.selectedElement.stepId + " == " + b.getStepId());
+            if (this.selectedElement.stepId == b.getStepId())
+                b.items.push(evidence);
+        }
+    }
 }
