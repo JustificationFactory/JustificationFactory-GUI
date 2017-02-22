@@ -84,10 +84,24 @@ export class PropertiesComponent implements OnChanges {
     }
 
     private  updateVisualSettings() {
-
+        var lastwidth=this.selectedElement.visualShape.attributes.size.width;
         if(this.selectedElement.visualShape.attributes.attrs){
+
             this.selectedElement.visualShape.attributes.attrs.text.text=this.ElementName;
+            var maxLine = _.max(this.ElementName.split('\n'), function(l) { return l.length; });
+            var maxLineWidth = $('#ruler').html(maxLine).width();
+            this.selectedElement.visualShape.attributes.size.width=maxLineWidth+60;
             this.selectedElement.name = this.ElementName;
+
+            if(this.selectedElement.visualShape.portData.ports[1]){
+                for(var i=1;i<this.selectedElement.visualShape.portData.ports.length;i++) {
+                    this.selectedElement.visualShape.portData.ports[i].attrs.rect.x += (this.selectedElement.visualShape.attributes.size.width - lastwidth) / i;
+                    this.selectedElement.visualShape.portData.ports[i].label.position.args.x = this.selectedElement.visualShape.portData.ports[i].attrs.rect.x + 10;
+                } }
+                else{
+            if(this.selectedElement.artifacts[0]){
+                this.selectedElement.artifacts[0].visualShape.attributes.position.x+=(this.selectedElement.visualShape.attributes.size.width-lastwidth);
+            }}
         }
 
         //Set visual properties of element
