@@ -186,7 +186,7 @@ export class DiagramComponent implements AfterContentInit{
                 this.zoomOut();}}
     }
 
-    private saveGraphState() {
+    public saveGraphState() {
         let states : any;
 
         if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != ""))

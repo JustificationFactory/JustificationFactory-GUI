@@ -318,6 +318,41 @@ describe("diagram.component.", () => {
             expect(el.innerHTML.indexOf('class="joint-viewport" transform="scale(1,')).not.toEqual(-1);
         });
 
+        it('Undo and redo', () => {
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            fixture.detectChanges();
+
+            comp.showDiagram(elements, businessSteps);
+
+            fixture.detectChanges()
+
+            let g = comp.getGraph();
+            let new_element_name = "testadd";
+            let ev = new Evidence(new_element_name, {}, "type1");
+
+            g.addCell(ev.visualShape);
+
+            fixture.detectChanges();
+
+            comp.saveGraphState();
+
+            expect(g.getCells()[g.getCells().length - 1].attributes.attrs.text.text).toEqual(new_element_name);
+
+            comp.undoDiagram();
+
+            fixture.detectChanges();
+
+            expect(g.getCells()[g.getCells().length - 1].attributes.attrs.text.text).not.toEqual(new_element_name);
+
+            comp.redoDiagram();
+
+            fixture.detectChanges();
+
+            expect(g.getCells()[g.getCells().length - 1].attributes.attrs.text.text).toEqual(new_element_name);
+        });
+
     });
 
     //TODO: For one day...! Currently we don't arrive to access sub components!
