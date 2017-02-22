@@ -252,6 +252,7 @@ export class ActionsToolbarComponent {
                             //console.log("name : " + source.name);
                             translatePaperWidth = dist;
                             currentComponent.translateSubGraphToRight(source, dist + rationale.visualShape.prop('size/width'));
+                            currentComponent.translateTree(currentComponent.selectedElement, dist + rationale.visualShape.prop('size/width'));
                         }
                     }
                 }
@@ -351,6 +352,7 @@ export class ActionsToolbarComponent {
             var inboundLinks = this._graph.getConnectedLinks(this.selectedElement.visualShape, {inbound: true});
 
             var currentComponent = this;
+            var translateTree = false;
             inboundLinks.forEach(function (inboundLink) {
                 var sourceId = inboundLink.get('source').id;
                 if (sourceId) {
@@ -361,12 +363,16 @@ export class ActionsToolbarComponent {
                         if ((source.visualShape as any).attributes.position.x > (evidence.visualShape as any).attributes.position.x) {
                             //console.log("name : " + source.name);
                             translatePaperWidth = 100;
-                            currentComponent.translateSubGraphToRight(source, 300);
-                            currentComponent.translateTree(currentComponent.selectedElement, 300);
+                            translateTree = true;
+                            currentComponent.translateSubGraphToRight(source, 20 + evidence.visualShape.prop('size/width'));
+
                         }
                     }
                 }
             });
+
+            if(translateTree)
+                currentComponent.translateTree(this.selectedElement, 20 + evidence.visualShape.prop('size/width'));
 
             //************* INCREASE PAPER DIMENSTION ***************
             //*******************************************************
@@ -426,7 +432,7 @@ export class ActionsToolbarComponent {
                         // identifier les évidences qui sont à droite de celle choisi (via position)
                         if ((source.visualShape as any).attributes.position.x > (support.visualShape as any).attributes.position.x) {
                             //console.log("name : " + source.name);
-                            currentComponent.translateSubGraphToRight(source, 300);
+                            currentComponent.translateSubGraphToRight(source, distance);
                             currentComponent.translateTree(strategy,distance);
 
                         }
