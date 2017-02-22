@@ -50,7 +50,7 @@ export class ActionsToolbarComponent {
                 //console.log(this.selectedElement.stepId);
 
                 this.stepChange.emit();
-                console.log("business_steps after remove : " + JSON.stringify(this.businessSteps));
+                //console.log("business_steps after remove : " + JSON.stringify(this.businessSteps));
             }
         }
     }
