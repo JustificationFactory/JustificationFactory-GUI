@@ -260,16 +260,16 @@ export class ActionsToolbarComponent {
 
             this._paper.setDimensions(this._paper.options.width + translatePaperWidth, this._paper.options.height + 160);
 
-            //************* EMIT EVENT TO DIAGRAM COMPONENT *********
-            //*******************************************************
-
-            this.stepChange.emit(this.selectedElement);
-
             //**************** ADD STEP TO BUSINESS *****************
             //*******************************************************
 
             this.addStepToBusiness(conclusion, strategy, evidence, rationale, actor, support);
             console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
+
+            //************* EMIT EVENT TO DIAGRAM COMPONENT *********
+            //*******************************************************
+
+            this.stepChange.emit(this.selectedElement);
 
             this.nbNewSteps++;
             sessionStorage.setItem("nbNewSteps", this.nbNewSteps + "");
