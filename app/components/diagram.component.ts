@@ -41,9 +41,14 @@ export class DiagramComponent implements AfterContentInit{
 
     private diagram_keypress(event) {
         if (event.charCode !== undefined) {
-            if ((event.ctrlKey === true) && (event.shiftKey === false) && (event.charCode === 26))
+            let isCtrlZ = false;
+
+            if ((event.charCode === 26) || (event.charCode === 23)) // why "23" ? I don't know... The mystery of computer science!
+                isCtrlZ = true;
+
+            if ((event.ctrlKey === true) && (event.shiftKey === false) && isCtrlZ)
                 event.data.undoDiagram();
-            else if ((event.ctrlKey === true) && (event.shiftKey === true) && (event.charCode === 26))
+            else if ((event.ctrlKey === true) && (event.shiftKey === true) && isCtrlZ)
                 event.data.redoDiagram();
         }
     }
