@@ -9,7 +9,8 @@ import '../services/diagram';
 })
 export class ActionsToolbarComponent {
     private currentElement : DiagramElement;
-    private nbNewSteps : number = Number(sessionStorage.getItem("nbNewSteps"));
+    private nbNewSteps : number = 0;
+    private nbNewEvidences : number = 0;
     @Input() selectedElement : DiagramElement = null;
     @Input() _graph : joint.dia.Graph = null;
     @Input() _paper : joint.dia.Paper = null;
@@ -138,8 +139,21 @@ export class ActionsToolbarComponent {
         return disable;
     }
 
+    public disableAddEvidence() : boolean {
+        let disable = (this.selectedElement == null);
+
+        if (!disable) {
+            if (!(this.selectedElement instanceof Strategy))
+                disable = true;
+        }
+
+        return disable;
+    }
     public addSubStep() {
         if(!this.disableAddSubStep()) {
+
+            if(sessionStorage.getItem("nbNewSteps"))
+                this.nbNewSteps = Number(sessionStorage.getItem("nbNewSteps"));
 
             //***************** CREATE ELEMENTS *******************
             //*****************************************************
@@ -276,6 +290,99 @@ export class ActionsToolbarComponent {
         }
     }
 
+    public addEvidence(){
+        if(!this.disableAddEvidence()) {
+
+            if(sessionStorage.getItem("nbNewEvidences"))
+                this.nbNewEvidences = Number(sessionStorage.getItem("nbNewEvidences"));
+
+            //***************** CREATE EVIDENCE *******************
+            //*****************************************************
+
+            let evidenceJsonElement = {
+                name : "[Evidence " + this.nbNewSteps + "]",
+                element : {
+                    type : "Type",
+                }
+            };
+            let evidence = new Evidence("[New Evidence " + this.nbNewEvidences + "]", evidenceJsonElement, "Type");
+
+            //***************** POSITION ELEMENTS *******************
+            //*******************************************************
+
+            // récupérer tous les évidences associés à cette strategy
+            var inboundLinks = this._graph.getConnectedLinks(this.selectedElement.visualShape, {inbound: true});
+
+            var currentComponent = this;
+            var leftSupport = null;
+            inboundLinks.forEach(function (inboundLink) {
+                //alert(inboundLink.get('source'));
+                var sourceId = inboundLink.get('source').id;
+                if (sourceId) {
+                    var source = (currentComponent._graph.getCell(sourceId) as any).parent;
+                    if (source instanceof Evidence || source instanceof Support) {
+                        if(leftSupport == null)
+                            leftSupport = source;
+                        // identifier les évidences qui sont à droite de celle choisi (via position)
+                        if ((source.visualShape as any).attributes.position.x < (leftSupport.visualShape as any).attributes.position.x) {
+                            leftSupport = source;
+                        }
+                    }
+                }
+            });
+
+            (evidence.visualShape as any).position((leftSupport.visualShape as any).attributes.position.x - 1, (leftSupport.visualShape as any).attributes.position.y);
+            var link = evidence.makeLinkWithParent(this.selectedElement);
+            //***************** ADD ELEMENTS TO GRAPH ***************
+            //*******************************************************
+
+            this._graph.addCells([evidence.visualShape,
+                link.visualShape
+            ]);
+
+            //***************** POSITION SUBGRAPH *******************
+            //*******************************************************
+
+            // translatepaperwidth sera égale à dist si on translate un sous graphe à droite.
+            var translatePaperWidth = 0;
+
+            // récupérer tous les évidences associés à cette strategy
+            var inboundLinks = this._graph.getConnectedLinks(this.selectedElement.visualShape, {inbound: true});
+
+            var currentComponent = this;
+            inboundLinks.forEach(function (inboundLink) {
+                var sourceId = inboundLink.get('source').id;
+                if (sourceId) {
+                    var source = (currentComponent._graph.getCell(sourceId) as any).parent;
+                    if (source instanceof Evidence || source instanceof Support) {
+
+                        // identifier les évidences qui sont à droite de celle choisi (via position)
+                        if ((source.visualShape as any).attributes.position.x > (evidence.visualShape as any).attributes.position.x) {
+                            //console.log("name : " + source.name);
+                            translatePaperWidth = 100;
+                            currentComponent.translateSubGraphToRight(source, 300);
+                        }
+                    }
+                }
+            });
+/*
+            //************* INCREASE PAPER DIMENSTION ***************
+            //*******************************************************
+
+            this._paper.setDimensions(this._paper.options.width + translatePaperWidth, this._paper.options.height + 160);
+
+            //**************** ADD STEP TO BUSINESS *****************
+            //*******************************************************
+
+            this.addStepToBusiness(conclusion, strategy, evidence, rationale, actor, support);
+            console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
+
+            //************* EMIT EVENT TO DIAGRAM COMPONENT *********
+            //*******************************************************
+
+            this.stepChange.emit(this.selectedElement);*/
+        }
+    }
     public translateSubGraphToRight(rootElement, distance){
         (rootElement.visualShape as any).position((rootElement.visualShape as any).attributes.position.x + distance, (rootElement.visualShape as any).attributes.position.y);
         var inboundLinks = this._graph.getConnectedLinks(rootElement.visualShape, { inbound: true });
