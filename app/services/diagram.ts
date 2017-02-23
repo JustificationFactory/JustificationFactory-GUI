@@ -120,7 +120,8 @@ class Conclusion extends DiagramElement {
         if (this.artifacts.length > 0) {
             this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
             this.visualShape.attributes.attrs.text.y = 10;
-        }}
+        }
+    }
 }
 
 class Evidence extends DiagramElement {
