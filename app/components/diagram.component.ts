@@ -15,7 +15,7 @@ export class DiagramComponent implements AfterContentInit{
     private _initialPaperHeight : number = window.innerHeight; // 610
     private _graphScale : number = 1 ;
     private _dragStartPosition = null;
-    private stateSessionName = "state";
+    public stateSessionName = "state";
 
     selectedElement = null;
     diagramWidth = "col-sm-12 col-md-12 col-lg-12";

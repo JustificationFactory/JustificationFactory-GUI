@@ -64,8 +64,61 @@ export class MainComponent  implements OnInit, AfterContentInit {
 
     }
 
+    newDiagram(event) {
+        ($("#importFile")[0] as any).value = "";
+        this.diagramLoaded = true;
+
+        //mandatory! We wait for appearance of DiagramComponent...
+        setTimeout(this.showNewDiagram.bind(null, this), 100);
+    }
+
+    showNewDiagram(event) {
+
+        var parse: ParseJson2DiagramElements = new ParseJson2DiagramElements({
+            steps: {
+                step: [{
+                    "conclusion" : {
+                        "element" : {
+                            "type" : "experimentation"
+                        },
+                        "name" : "Conclusion 1"
+                    },
+                    "evidences" : {
+                        "evidenceRoles" : [ {
+                            "evidence" : {
+                                "element" : {
+                                    "type" : "stimulation",
+                                },
+                                "name" : "Evidence 1"
+                            },
+                            "role" : "stimulation"
+                        }]
+                    },
+                    "strategy" : {
+                        "type" : "humanStrategy",
+                        "name" : "Treat",
+                        "rationale" : {
+                            "axonicProject" : {
+                                "pathology" : "RATIONALE 1"
+                            }
+                        },
+                        "actor" : {
+                            "name" : "ACTOR 1",
+                            "role" : "INTERMEDIATE_EXPERT"
+                        },
+                    }
+                }]
+            }
+        });
+
+        var deResult: ParseDiagramElementsResult = parse.getDiagramElements();
+
+        event.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
+
+    }
 
     btnCloseClick(event) {
+        sessionStorage.setItem(this.diagramComponent.stateSessionName, "");
         this.diagramLoaded = false;
         this.diagramComponent.resetEvents();
 
@@ -147,4 +200,5 @@ export class MainComponent  implements OnInit, AfterContentInit {
     exportBusinessSteps(event) {
         this.exportJsonToTextFile(this.diagramComponent.currentBusinessStepsToJson());
     }
+
 }
