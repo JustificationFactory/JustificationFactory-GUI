@@ -86,7 +86,6 @@ export class PropertiesComponent implements OnChanges {
     private  updateVisualSettings() {
         var lastwidth=this.selectedElement.visualShape.attributes.size.width;
         if(this.selectedElement.visualShape.attributes.attrs){
-
             this.selectedElement.visualShape.attributes.attrs.text.text=this.ElementName;
 
 
