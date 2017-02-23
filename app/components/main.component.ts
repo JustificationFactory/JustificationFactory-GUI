@@ -145,6 +145,6 @@ export class MainComponent  implements OnInit, AfterContentInit {
     }
 
     exportBusinessSteps(event) {
-        this.exportJsonToTextFile({ name: "exportBusinessSteps" });
+        this.exportJsonToTextFile(this.diagramComponent.currentBusinessStepsToJson());
     }
 }

@@ -106,7 +106,7 @@ export class ActionsToolbarComponent {
                 }
         }
 
-        for (var i = 0; i < this.businessSteps.length; i++){
+/*        for (var i = 0; i < this.businessSteps.length; i++){
             var step = this.businessSteps[i];
                 for (var elementKey in step.items){
                     var elementValue = step.items[elementKey];
@@ -115,7 +115,7 @@ export class ActionsToolbarComponent {
                         elementValue.artifacts = artifactsSupport;
                     }
                 }
-        }
+        }*/
     }
 
     public disableRemoveNode() : boolean {
@@ -513,7 +513,7 @@ export class ActionsToolbarComponent {
             //*******************************************************
 
             this.addStepToBusiness(conclusion, strategy, evidence, rationale, actor, support);
-            console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
+            //console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
 
             //************* EMIT EVENT TO DIAGRAM COMPONENT *********
             //*******************************************************
