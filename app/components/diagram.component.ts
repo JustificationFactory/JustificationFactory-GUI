@@ -53,6 +53,23 @@ export class DiagramComponent implements AfterContentInit{
         }
     }
 
+    public loadDiagramStateFromJson(stateToLoad) {
+        let states : any = {};
+
+        states.currentIndex = 0;
+        states.previous = [];
+
+        states.previous.push({
+            changeDate: new Date(),
+            businessSteps: stateToLoad.businessSteps,
+            graph: stateToLoad.graph
+        });
+
+        sessionStorage.setItem(this.stateSessionName, JSON.stringify(states));
+
+        this.undo_redo_graphState(false, 0);
+    }
+
     public currentDiagramStateToJson() {
         let result : any;
 
@@ -69,7 +86,7 @@ export class DiagramComponent implements AfterContentInit{
 
             result = {
                 changeDate: tmpresult.changeDate,
-                jsonBusinessSteps: tmpresult.jsonBusinessSteps,
+                businessSteps: tmpresult.jsonBusinessSteps,
                 graph: tmpresult.graph
             };
         }

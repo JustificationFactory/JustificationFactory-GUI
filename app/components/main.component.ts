@@ -51,11 +51,16 @@ export class MainComponent  implements OnInit, AfterContentInit {
         console.log(this.importFileReader.result.substring(0, 200));
         var json : any = JSON.parse(this.importFileReader.result);
 
-        var parse : ParseJson2DiagramElements = new ParseJson2DiagramElements(json);
+        if (json.steps !== undefined) {
+            var parse: ParseJson2DiagramElements = new ParseJson2DiagramElements(json);
 
-        var deResult : ParseDiagramElementsResult = parse.getDiagramElements();
+            var deResult: ParseDiagramElementsResult = parse.getDiagramElements();
 
-        this.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
+            this.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
+        }
+        else if (json.graph !== undefined) {
+            this.diagramComponent.loadDiagramStateFromJson(json);
+        }
 
     }
 
