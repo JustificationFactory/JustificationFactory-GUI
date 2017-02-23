@@ -187,20 +187,20 @@ export class ActionsToolbarComponent {
             let evidence = new Evidence("[Evidence " + this.nbNewSteps + "]", evidenceJsonElement, "Type");
             var link2 = evidence.makeLinkWithParent(strategy);
 
-            let actorJsonElement = [{
+            let actorJsonElement = {
                 "name": "Actor",
                 "role": "Role",
-            }];
+            };
             let actor = new Actor("Actor", actorJsonElement, "Role");
             actor.behavior = Behavior.Near;
             var link3 = actor.makeLinkWithParent(strategy);
 
-            let rationaleJsonElement = [{
+            let rationaleJsonElement = {
                 "axonicProject": {
                     "pathology": "pathology",
                     "stimulator": "stimulator"
                 }
-            }];
+            };
             let rationale = new Rationale("", rationaleJsonElement, "");
             rationale.behavior = Behavior.Near;
             var link4 = rationale.makeLinkWithParent(strategy);
@@ -438,20 +438,20 @@ export class ActionsToolbarComponent {
             var link1 = strategy.makeLinkWithParent(conclusion);
             var link2 = this.selectedElement.makeLinkWithParent(strategy);
 
-            let actorJsonElement = [{
+            let actorJsonElement = {
                 "name": "Actor",
                 "role": "Role",
-            }];
+            };
             let actor = new Actor("Actor", actorJsonElement, "Role");
             actor.behavior = Behavior.Near;
             var link3 = actor.makeLinkWithParent(strategy);
 
-            let rationaleJsonElement = [{
+            let rationaleJsonElement = {
                 "axonicProject": {
                     "pathology": "pathology",
                     "stimulator": "stimulator"
                 }
-            }];
+            };
             let rationale = new Rationale("", rationaleJsonElement, "");
             rationale.behavior = Behavior.Near;
             var link4 = rationale.makeLinkWithParent(strategy);
