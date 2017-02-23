@@ -262,6 +262,7 @@ export class DiagramComponent implements AfterContentInit{
         this.saveGraphState();
         if(bSteps.length >3){
             for(var i=1;i<=(bSteps.length-3);i++){this.zoomOut();
+                this.zoomOut();
                 this.zoomOut();}}
     }
 
