@@ -53,6 +53,32 @@ export class DiagramComponent implements AfterContentInit{
         }
     }
 
+    public currentDiagramStateToJson() {
+        let result : any;
+
+        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != "")) {
+            let states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
+            let tmpresult = {
+                changeDate: new Date(),
+                jsonBusinessSteps: {},
+                businessSteps: {},
+                graph: {}
+            };
+
+            Util.stateFromJSON(states, tmpresult, states.currentIndex);
+
+            result = {
+                changeDate: tmpresult.changeDate,
+                jsonBusinessSteps: tmpresult.jsonBusinessSteps,
+                graph: tmpresult.graph
+            };
+        }
+        else
+            result = {};
+
+        return result;
+    }
+
     private undo_redo_graphState(undo: boolean, specificIndex: number) {
         if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != "")) {
             let states = JSON.parse(sessionStorage.getItem(this.stateSessionName));

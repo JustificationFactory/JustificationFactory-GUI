@@ -101,4 +101,45 @@ export class MainComponent  implements OnInit, AfterContentInit {
 
         doc.end();
     }
+
+    datetimeToString(date: Date) : string {
+        var mm = date.getMonth() + 1; // getMonth() is zero-based
+        var dd = date.getDate();
+        var hh = date.getHours();
+        var MM = date.getMinutes();
+        var ss = date.getSeconds();
+
+        return [date.getFullYear(),
+            (mm>9 ? '' : '0') + mm,
+            (dd>9 ? '' : '0') + dd,
+            (hh>9 ? '' : '0') + hh,
+            (MM>9 ? '' : '0') + MM,
+            (ss>9 ? '' : '0') + ss,
+        ].join('');
+    }
+
+    exportJsonToTextFile(data: any) {
+        let a : HTMLAnchorElement = document.getElementById("toExport") as HTMLAnchorElement;
+        let fileName : string;
+
+        fileName = "adm_" + this.datetimeToString(new Date()) + ".json";
+
+        let json = JSON.stringify(data),
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+    }
+
+    exportFullDiagram(event) {
+        this.exportJsonToTextFile(this.diagramComponent.currentDiagramStateToJson());
+    }
+
+    exportBusinessSteps(event) {
+        this.exportJsonToTextFile({ name: "exportBusinessSteps" });
+    }
 }
