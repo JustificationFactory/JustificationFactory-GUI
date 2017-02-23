@@ -42,6 +42,7 @@ export class ActionsToolbarComponent {
                 let evidence = new Evidence(this.selectedElement.name, this.selectedElement.jsonElement, this.selectedElement.type);
                 evidence.visualShape = this.selectedElement.visualShape;
                 (this._graph.getCell(evidence.visualShape.id) as any).parent = evidence;
+                evidence.artifacts = this.selectedElement.artifacts;
 
                 var outboundLinks = this._graph.getConnectedLinks(this.selectedElement.visualShape, { outbound: true });
                 var sourceId = outboundLinks[0].get('target').id;
@@ -420,7 +421,7 @@ export class ActionsToolbarComponent {
             //*****************************************************
 
             let conclusionJsonElement = {
-                name : "[Evidence " + this.nbNewSteps + "]",
+                name : "[Conclusion " + this.nbNewSteps + "]",
                 element : {
                     type : "Type",
                 }
@@ -494,13 +495,14 @@ export class ActionsToolbarComponent {
             //********* CREATE EVIDENCE FROM CONCLUSION *************
 
             let evidence = new Evidence(this.selectedElement.name, this.selectedElement.jsonElement, this.selectedElement.type);
-
+            evidence.artifacts = this.selectedElement.artifacts;
             //************* SWITCH CONCLUSION TO SUPPORT **************
             //*******************************************************
 
             let support = new Support(this.selectedElement, evidence);
             support.visualShape = this.selectedElement.visualShape;
             (this._graph.getCell(support.visualShape.id) as any).parent = support;
+            support.artifacts = this.selectedElement.artifacts;
 
             //************* INCREASE PAPER DIMENSTION ***************
             //*******************************************************
@@ -511,7 +513,7 @@ export class ActionsToolbarComponent {
             //*******************************************************
 
             this.addStepToBusiness(conclusion, strategy, evidence, rationale, actor, support);
-            //console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
+            console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
 
             //************* EMIT EVENT TO DIAGRAM COMPONENT *********
             //*******************************************************
