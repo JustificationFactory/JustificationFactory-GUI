@@ -42,6 +42,7 @@ export class ActionsToolbarComponent {
                 let evidence = new Evidence(this.selectedElement.name, this.selectedElement.jsonElement, this.selectedElement.type);
                 evidence.visualShape = this.selectedElement.visualShape;
                 (this._graph.getCell(evidence.visualShape.id) as any).parent = evidence;
+                evidence.artifacts = this.selectedElement.artifacts;
 
                 var outboundLinks = this._graph.getConnectedLinks(this.selectedElement.visualShape, { outbound: true });
                 var sourceId = outboundLinks[0].get('target').id;
@@ -149,6 +150,17 @@ export class ActionsToolbarComponent {
 
         return disable;
     }
+
+    public disableAddRootStep() : boolean {
+        let disable = (this.selectedElement == null);
+
+        if (!disable) {
+            if (!(this.selectedElement instanceof Conclusion))
+                disable = true;
+        }
+
+        return disable;
+    }
     public addSubStep() {
         if(!this.disableAddSubStep()) {
 
@@ -201,7 +213,6 @@ export class ActionsToolbarComponent {
 
             (strategy.visualShape as any).position((this.selectedElement.visualShape as any).attributes.position.x, (this.selectedElement.visualShape as any).attributes.position.y + 80);
             (evidence.visualShape as any).position((strategy.visualShape as any).attributes.position.x, (strategy.visualShape as any).attributes.position.y + 80);
-            (actor.visualShape as any).position((strategy.visualShape as any).attributes.position.x, (strategy.visualShape as any).attributes.position.y + 80);
 
             (actor.visualShape as any).position((strategy.visualShape as any).attributes.position.x - actor.visualShape.prop('size/width') - 50,
                 (strategy.visualShape as any).attributes.position.y - 20);
@@ -257,7 +268,7 @@ export class ActionsToolbarComponent {
                             //console.log("name : " + source.name);
                             translatePaperWidth = dist;
                             currentComponent.translateSubGraphToRight(source, dist + rationale.visualShape.prop('size/width'));
-                            currentComponent.translateTree(currentComponent.selectedElement, dist + rationale.visualShape.prop('size/width'));
+                            currentComponent.translateTree(currentStrategy, dist + rationale.visualShape.prop('size/width'));
                         }
                     }
                 }
@@ -330,7 +341,7 @@ export class ActionsToolbarComponent {
                     if (source instanceof Evidence || source instanceof Support) {
                         if(leftSupport == null)
                             leftSupport = source;
-                        // identifier les évidences qui sont à droite de celle choisi (via position)
+                        // identifier l'évidence à gauche
                         if ((source.visualShape as any).attributes.position.x < (leftSupport.visualShape as any).attributes.position.x) {
                             leftSupport = source;
                         }
@@ -369,7 +380,7 @@ export class ActionsToolbarComponent {
                             //console.log("name : " + source.name);
                             translatePaperWidth = 100;
                             translateTree = true;
-                            currentComponent.translateSubGraphToRight(source, 20 + evidence.visualShape.prop('size/width'));
+                            currentComponent.translateSubGraphToRight(source, 35 + evidence.visualShape.prop('size/width'));
 
                         }
                     }
@@ -377,7 +388,7 @@ export class ActionsToolbarComponent {
             });
 
             if(translateTree)
-                currentComponent.translateTree(this.selectedElement, 20 + evidence.visualShape.prop('size/width'));
+                this.translateTree(this.selectedElement, 35 + evidence.visualShape.prop('size/width'));
 
             //************* INCREASE PAPER DIMENSTION ***************
             //*******************************************************
@@ -399,6 +410,120 @@ export class ActionsToolbarComponent {
             sessionStorage.setItem("nbNewEvidences", this.nbNewEvidences + "");
         }
     }
+
+    public addRootStep(){
+        if(!this.disableAddRootStep()) {
+
+            if(sessionStorage.getItem("nbNewSteps"))
+                this.nbNewSteps = Number(sessionStorage.getItem("nbNewSteps"));
+
+            //***************** CREATE ELEMENTS *******************
+            //*****************************************************
+
+            let conclusionJsonElement = {
+                name : "[Conclusion " + this.nbNewSteps + "]",
+                element : {
+                    type : "Type",
+                }
+            };
+            let conclusion = new Conclusion("[Conclusion " + this.nbNewSteps + "]", conclusionJsonElement, "Type");
+
+            let strategyJsonElement = {
+                "name" : "[Strategy " + this.nbNewSteps + "]",
+                "element" : {
+                    "type" : "Type",
+                }
+            };
+            let strategy = new Strategy("[Strategy " + this.nbNewSteps + "]", strategyJsonElement, "Type");
+            var link1 = strategy.makeLinkWithParent(conclusion);
+            var link2 = this.selectedElement.makeLinkWithParent(strategy);
+
+            let actorJsonElement = {
+                "name": "Actor",
+                "role": "Role",
+            };
+            let actor = new Actor("Actor", actorJsonElement, "Role");
+            actor.behavior = Behavior.Near;
+            var link3 = actor.makeLinkWithParent(strategy);
+
+            let rationaleJsonElement = {
+                "axonicProject": {
+                    "pathology": "pathology",
+                    "stimulator": "stimulator"
+                }
+            };
+            let rationale = new Rationale("", rationaleJsonElement, "");
+            rationale.behavior = Behavior.Near;
+            var link4 = rationale.makeLinkWithParent(strategy);
+
+            strategy.visualShape.embed(actor.visualShape);
+            strategy.visualShape.embed(rationale.visualShape);
+
+            //******** TRANSLATE ALL THE GRAPH INTO BOTTOM **********
+            //*******************************************************
+
+            for (let g of this._graph.getCells()) {
+                if((g as any).parent)
+                    (g as any).position((g as any).attributes.position.x, (g as any).attributes.position.y + 160)
+            }
+
+            //***************** POSITION ELEMENTS *******************
+            //*******************************************************
+
+            (strategy.visualShape as any).position((this.selectedElement.visualShape as any).attributes.position.x, (this.selectedElement.visualShape as any).attributes.position.y - 80);
+            (conclusion.visualShape as any).position((strategy.visualShape as any).attributes.position.x, (strategy.visualShape as any).attributes.position.y - 80);
+
+            (actor.visualShape as any).position((strategy.visualShape as any).attributes.position.x - actor.visualShape.prop('size/width') - 50,
+                (strategy.visualShape as any).attributes.position.y - 20);
+
+            (rationale.visualShape as any).position((strategy.visualShape as any).attributes.position.x + rationale.visualShape.prop('size/width') + 50,
+                (strategy.visualShape as any).attributes.position.y);
+
+            //***************** ADD ELEMENTS TO GRAPH ***************
+            //*******************************************************
+
+            this._graph.addCells([strategy.visualShape,
+                conclusion.visualShape,
+                link1.visualShape,
+                link2.visualShape,
+                actor.visualShape,
+                link3.visualShape,
+                rationale.visualShape,
+                link4.visualShape
+            ]);
+
+            //********* CREATE EVIDENCE FROM CONCLUSION *************
+
+            let evidence = new Evidence(this.selectedElement.name, this.selectedElement.jsonElement, this.selectedElement.type);
+            evidence.artifacts = this.selectedElement.artifacts;
+            //************* SWITCH CONCLUSION TO SUPPORT **************
+            //*******************************************************
+
+            let support = new Support(this.selectedElement, evidence);
+            support.visualShape = this.selectedElement.visualShape;
+            (this._graph.getCell(support.visualShape.id) as any).parent = support;
+            support.artifacts = this.selectedElement.artifacts;
+
+            //************* INCREASE PAPER DIMENSTION ***************
+            //*******************************************************
+
+            this._paper.setDimensions(this._paper.options.width, this._paper.options.height + 160);
+
+            //**************** ADD STEP TO BUSINESS *****************
+            //*******************************************************
+
+            this.addStepToBusiness(conclusion, strategy, evidence, rationale, actor, support);
+            console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
+
+            //************* EMIT EVENT TO DIAGRAM COMPONENT *********
+            //*******************************************************
+            this.stepChange.emit(this.selectedElement);
+
+            this.nbNewSteps++;
+            sessionStorage.setItem("nbNewSteps", this.nbNewSteps + "");
+        }
+    }
+
     public translateSubGraphToRight(rootElement, distance){
         (rootElement.visualShape as any).position((rootElement.visualShape as any).attributes.position.x + distance, (rootElement.visualShape as any).attributes.position.y);
         var inboundLinks = this._graph.getConnectedLinks(rootElement.visualShape, { inbound: true });
@@ -438,12 +563,11 @@ export class ActionsToolbarComponent {
                         if ((source.visualShape as any).attributes.position.x > (support.visualShape as any).attributes.position.x) {
                             //console.log("name : " + source.name);
                             currentComponent.translateSubGraphToRight(source, distance);
-                            currentComponent.translateTree(strategy,distance);
-
                         }
                     }
                 }
             });
+            this.translateTree(strategy,distance);
         }
     }
     public addStepToBusiness(conclusion : Conclusion, strategy : Strategy, evidence: Evidence, rationale : Rationale, actoor : Actor, support : Support){
@@ -470,8 +594,9 @@ export class ActionsToolbarComponent {
 
         for(let b of this.businessSteps) {
             console.log("ttest : " + this.selectedElement.stepId + " == " + b.getStepId());
-            if (this.selectedElement.stepId == b.getStepId())
+            if (this.selectedElement.stepId == b.getStepId()){
                 b.items.push(support);
+            }
         }
 
         this.businessSteps.push(businessStep);

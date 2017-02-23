@@ -11,8 +11,8 @@ export class DiagramComponent implements AfterContentInit{
     private _graph: joint.dia.Graph;
     private _paper: joint.dia.Paper;
     private window : Window;
-    private _initialPaperWidth : number = window.innerWidth ; // 810
-    private _initialPaperHeight : number = window.innerHeight ; // 610
+    private _initialPaperWidth : number = window.innerWidth; // 810
+    private _initialPaperHeight : number = window.innerHeight; // 610
     private _graphScale : number = 1 ;
     private _dragStartPosition = null;
     private stateSessionName = "state";
@@ -353,6 +353,7 @@ export class DiagramComponent implements AfterContentInit{
         this._paper.scale(this._graphScale,this._graphScale);
         (this._paper.svg as any).width.baseVal.valueInSpecifiedUnits = this._initialPaperWidth * this._graphScale;
         (this._paper.svg as any).height.baseVal.valueInSpecifiedUnits = this._initialPaperHeight * this._graphScale;
+        this._paper.setDimensions(this._initialPaperWidth, this._initialPaperHeight);
     };
 
     public zoomOut() {
