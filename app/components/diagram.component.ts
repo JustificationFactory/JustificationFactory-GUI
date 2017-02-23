@@ -70,6 +70,42 @@ export class DiagramComponent implements AfterContentInit{
         this.undo_redo_graphState(false, 0);
     }
 
+    public currentBusinessStepsToJson() {
+        let result : any;
+
+        if ((this.businessSteps !== undefined) && (this.businessSteps.length > 0)) {
+
+            result = {
+                steps: {
+                    step: []
+                }
+            };
+
+            for (let bstep of this.businessSteps) {
+                let newJsonStep : any = {};
+
+                newJsonStep["conclusion"] = {};
+                newJsonStep["evidences"] = { evidenceRoles: [] };
+                newJsonStep["strategy"] = {};
+
+                for (let bitem of bstep.items) {
+                    if (bitem instanceof Conclusion)
+                        newJsonStep.conclusion = bitem.jsonElement[0];
+                    else if (bitem instanceof Evidence)
+                        newJsonStep.evidences.evidenceRoles.push({ evidence: bitem.jsonElement[0] });
+                    else if (bitem instanceof Strategy)
+                        newJsonStep.strategy = bitem.jsonElement[0];
+                }
+
+                result.steps.step.push(newJsonStep);
+            }
+        }
+        else
+            result = {};
+
+        return result;
+    }
+
     public currentDiagramStateToJson() {
         let result : any;
 
@@ -239,6 +275,17 @@ export class DiagramComponent implements AfterContentInit{
     }
 
     onSelectedElementChange(element: DiagramElement) {
+        
+        if (element.jsonElement.name !== undefined)
+            element.jsonElement.name = element.name;
+        else if (element.jsonElement[0] !== undefined)
+            element.jsonElement[0].name = element.name;
+
+        if (element instanceof Support) {
+            element.conclusion.jsonElement[0].name = element.name;
+            element.evidence.jsonElement[0].name = element.name;
+        }
+
         //We must redraw the graph because for PATH case, if we just set atrributes
         //the origin PATH SVG shape appear (bug !)
         this._graph.resetCells(this._graph.getCells());
