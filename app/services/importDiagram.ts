@@ -77,7 +77,7 @@ class ParseJson2DiagramElements {
                 actors.push(actor);
                 links.push(actor.makeLinkWithParent(strategyN));
             }
-            if(step.strategy.type.toLowerCase().indexOf('computed') >= 0){
+            if ((step.strategy.type !== undefined) && (step.strategy.type.toLowerCase().indexOf('computed') >= 0)) {
                 let actor = new Actor("", step.strategy.type, step.strategy.type);
                 strategyN.artifacts.push(actor);
                 actors.push(actor);
