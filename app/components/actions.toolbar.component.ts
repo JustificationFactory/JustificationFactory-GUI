@@ -180,6 +180,7 @@ export class ActionsToolbarComponent {
                 "role": "Role",
             };
             let actor = new Actor("Actor", actorJsonElement, "Role");
+            actor.behavior = Behavior.Near;
             var link3 = actor.makeLinkWithParent(strategy);
 
             let rationaleJsonElement = {
@@ -189,7 +190,11 @@ export class ActionsToolbarComponent {
                 }
             };
             let rationale = new Rationale("", rationaleJsonElement, "");
+            rationale.behavior = Behavior.Near;
             var link4 = rationale.makeLinkWithParent(strategy);
+
+            strategy.visualShape.embed(actor.visualShape);
+            strategy.visualShape.embed(rationale.visualShape);
 
             //***************** POSITION ELEMENTS *******************
             //*******************************************************
@@ -279,7 +284,7 @@ export class ActionsToolbarComponent {
             //*******************************************************
 
             this.addStepToBusiness(conclusion, strategy, evidence, rationale, actor, support);
-            console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
+            //console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
 
             //************* EMIT EVENT TO DIAGRAM COMPONENT *********
             //*******************************************************
@@ -383,7 +388,7 @@ export class ActionsToolbarComponent {
             //*******************************************************
 
             this.addEvidenceToBusiness(evidence);
-            console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
+            //console.log("Business steps after add new step : " + JSON.stringify(this.businessSteps));
 
             //************* EMIT EVENT TO DIAGRAM COMPONENT *********
             //*******************************************************
