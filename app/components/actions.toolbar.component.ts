@@ -169,38 +169,38 @@ export class ActionsToolbarComponent {
 
             //***************** CREATE ELEMENTS *******************
             //*****************************************************
-            let strategyJsonElement = {
+            let strategyJsonElement = [{
                 "name" : "[Strategy " + this.nbNewSteps + "]",
                 "element" : {
                     "type" : "Type",
                 }
-            };
+            }];
             let strategy = new Strategy("[Strategy " + this.nbNewSteps + "]", strategyJsonElement, "Type");
             var link1 = strategy.makeLinkWithParent(this.selectedElement);
 
-            let evidenceJsonElement = {
+            let evidenceJsonElement = [{
                 name : "[Evidence " + this.nbNewSteps + "]",
                 element : {
                     type : "Type",
                 }
-            };
+            }];
             let evidence = new Evidence("[Evidence " + this.nbNewSteps + "]", evidenceJsonElement, "Type");
             var link2 = evidence.makeLinkWithParent(strategy);
 
-            let actorJsonElement = {
+            let actorJsonElement = [{
                 "name": "Actor",
                 "role": "Role",
-            };
+            }];
             let actor = new Actor("Actor", actorJsonElement, "Role");
             actor.behavior = Behavior.Near;
             var link3 = actor.makeLinkWithParent(strategy);
 
-            let rationaleJsonElement = {
+            let rationaleJsonElement = [{
                 "axonicProject": {
                     "pathology": "pathology",
                     "stimulator": "stimulator"
                 }
-            };
+            }];
             let rationale = new Rationale("", rationaleJsonElement, "");
             rationale.behavior = Behavior.Near;
             var link4 = rationale.makeLinkWithParent(strategy);
@@ -317,12 +317,12 @@ export class ActionsToolbarComponent {
             //***************** CREATE EVIDENCE *******************
             //*****************************************************
 
-            let evidenceJsonElement = {
+            let evidenceJsonElement = [{
                 name : "[Evidence " + this.nbNewSteps + "]",
                 element : {
                     type : "Type",
                 }
-            };
+            }];
             let evidence = new Evidence("[New Evidence " + this.nbNewEvidences + "]", evidenceJsonElement, "Type");
 
             //***************** POSITION ELEMENTS *******************
@@ -420,38 +420,38 @@ export class ActionsToolbarComponent {
             //***************** CREATE ELEMENTS *******************
             //*****************************************************
 
-            let conclusionJsonElement = {
+            let conclusionJsonElement = [{
                 name : "[Conclusion " + this.nbNewSteps + "]",
                 element : {
                     type : "Type",
                 }
-            };
+            }];
             let conclusion = new Conclusion("[Conclusion " + this.nbNewSteps + "]", conclusionJsonElement, "Type");
 
-            let strategyJsonElement = {
+            let strategyJsonElement = [{
                 "name" : "[Strategy " + this.nbNewSteps + "]",
                 "element" : {
                     "type" : "Type",
                 }
-            };
+            }];
             let strategy = new Strategy("[Strategy " + this.nbNewSteps + "]", strategyJsonElement, "Type");
             var link1 = strategy.makeLinkWithParent(conclusion);
             var link2 = this.selectedElement.makeLinkWithParent(strategy);
 
-            let actorJsonElement = {
+            let actorJsonElement = [{
                 "name": "Actor",
                 "role": "Role",
-            };
+            }];
             let actor = new Actor("Actor", actorJsonElement, "Role");
             actor.behavior = Behavior.Near;
             var link3 = actor.makeLinkWithParent(strategy);
 
-            let rationaleJsonElement = {
+            let rationaleJsonElement = [{
                 "axonicProject": {
                     "pathology": "pathology",
                     "stimulator": "stimulator"
                 }
-            };
+            }];
             let rationale = new Rationale("", rationaleJsonElement, "");
             rationale.behavior = Behavior.Near;
             var link4 = rationale.makeLinkWithParent(strategy);
@@ -605,6 +605,7 @@ export class ActionsToolbarComponent {
     }
 
     public addEvidenceToBusiness(evidence : Evidence){
+        evidence.stepId = this.selectedElement.stepId;
         for(let b of this.businessSteps) {
             console.log("ttest : " + this.selectedElement.stepId + " == " + b.getStepId());
             if (this.selectedElement.stepId == b.getStepId())
