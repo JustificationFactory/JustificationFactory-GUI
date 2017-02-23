@@ -96,7 +96,7 @@ class Support extends DiagramElement {
 
         if (this.artifacts.length > 0) {
             this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
-            this.visualShape.attributes.attrs.text.y = 5;
+            this.visualShape.attributes.attrs.text.y = 10;
         }
     }
 }
@@ -119,9 +119,8 @@ class Conclusion extends DiagramElement {
 
         if (this.artifacts.length > 0) {
             this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
-            this.visualShape.attributes.attrs.text.y = 5;
-        }
-    }
+            this.visualShape.attributes.attrs.text.y = 10;
+        }}
 }
 
 class Evidence extends DiagramElement {
@@ -281,7 +280,8 @@ class Limitation extends Artifact{
             default :
             //no more limitations are accepted
         }
-
+        yRect += 5; // 37 - 12 = 25
+        yLabel += 5;
         var nameLength = $('#ruler').html(name).width();
         var xLabel = xRect + ((widthRect - nameLength) / 2);
 
@@ -325,14 +325,14 @@ class Limitation extends Artifact{
     static reorganizePorts(visual_shape : any) {
         //we must change "y" of previous ports after addPort, otherwise "y" re-switch to previous value
         if (visual_shape.portData.ports.length == 2) {
-            visual_shape.portData.ports[0].attrs.rect.y = 14; // 11 + 14 = 25
-            visual_shape.portData.ports[0].label.position.args.y = 31; // 11 + 31 = 42
+            visual_shape.portData.ports[0].attrs.rect.y = 19; // 11 + 14 = 25
+            visual_shape.portData.ports[0].label.position.args.y = 36; // 11 + 31 = 42
         }
         else if (visual_shape.portData.ports.length == 3) {
-            visual_shape.portData.ports[0].attrs.rect.y = 18; // 7 + 18 = 25
-            visual_shape.portData.ports[0].label.position.args.y = 35; // 7 + 35 = 42
-            visual_shape.portData.ports[1].attrs.rect.y = 3; // 22 + 3 = 25
-            visual_shape.portData.ports[1].label.position.args.y = 20; // 22 + 20 = 42
+            visual_shape.portData.ports[0].attrs.rect.y = 23; // 7 + 18 = 25
+            visual_shape.portData.ports[0].label.position.args.y = 40; // 7 + 35 = 42
+            visual_shape.portData.ports[1].attrs.rect.y = 8; // 22 + 3 = 25
+            visual_shape.portData.ports[1].label.position.args.y = 25; // 22 + 20 = 42
         }
     }
 }
