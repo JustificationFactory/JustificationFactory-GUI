@@ -11,8 +11,8 @@ export class DiagramComponent implements AfterContentInit{
     private _graph: joint.dia.Graph;
     private _paper: joint.dia.Paper;
     private window : Window;
-    private _initialPaperWidth : number = window.innerWidth ; // 810
-    private _initialPaperHeight : number = window.innerHeight ; // 610
+    private _initialPaperWidth : number = window.innerWidth; // 810
+    private _initialPaperHeight : number = window.innerHeight; // 610
     private _graphScale : number = 1 ;
     private _dragStartPosition = null;
     private stateSessionName = "state";
@@ -51,6 +51,49 @@ export class DiagramComponent implements AfterContentInit{
             else if ((event.ctrlKey === true) && (event.shiftKey === true) && isCtrlZ)
                 event.data.redoDiagram();
         }
+    }
+
+    public loadDiagramStateFromJson(stateToLoad) {
+        let states : any = {};
+
+        states.currentIndex = 0;
+        states.previous = [];
+
+        states.previous.push({
+            changeDate: new Date(),
+            businessSteps: stateToLoad.businessSteps,
+            graph: stateToLoad.graph
+        });
+
+        sessionStorage.setItem(this.stateSessionName, JSON.stringify(states));
+
+        this.undo_redo_graphState(false, 0);
+    }
+
+    public currentDiagramStateToJson() {
+        let result : any;
+
+        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != "")) {
+            let states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
+            let tmpresult = {
+                changeDate: new Date(),
+                jsonBusinessSteps: {},
+                businessSteps: {},
+                graph: {}
+            };
+
+            Util.stateFromJSON(states, tmpresult, states.currentIndex);
+
+            result = {
+                changeDate: tmpresult.changeDate,
+                businessSteps: tmpresult.jsonBusinessSteps,
+                graph: tmpresult.graph
+            };
+        }
+        else
+            result = {};
+
+        return result;
     }
 
     private undo_redo_graphState(undo: boolean, specificIndex: number) {
@@ -263,6 +306,7 @@ export class DiagramComponent implements AfterContentInit{
         this._paper.scale(this._graphScale,this._graphScale);
         (this._paper.svg as any).width.baseVal.valueInSpecifiedUnits = this._initialPaperWidth * this._graphScale;
         (this._paper.svg as any).height.baseVal.valueInSpecifiedUnits = this._initialPaperHeight * this._graphScale;
+        this._paper.setDimensions(this._initialPaperWidth, this._initialPaperHeight);
     };
 
     public zoomOut() {

@@ -14,6 +14,14 @@
                     <li *ngIf="diagramLoaded"><a id="btnCloseLink" href="#" (click)="btnCloseClick()">Close</a></li>
                 </ul>
             </li>
+            <li *ngIf="diagramLoaded"  class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Export
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" (click)="exportFullDiagram($event)">Export full diagram</a></li>
+                    <li><a href="#" (click)="exportBusinessSteps($event)">Export business steps</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>
@@ -24,5 +32,7 @@
 </div>
 
 <diagram-view *ngIf="diagramLoaded" ><img src="./images/spinner.gif" /></diagram-view>
+
+<a id="toExport" style="display: none;"></a>
 
 
