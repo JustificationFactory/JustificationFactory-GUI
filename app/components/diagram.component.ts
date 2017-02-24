@@ -322,9 +322,10 @@ export class DiagramComponent implements AfterContentInit{
     public cellClick(cellView : joint.dia.CellView, event, x, y) {
         $('#myholder').focus();
         this.unhighlightAllCells();
-        this.diagramWidth = "col-sm-10 col-md-10 col-lg-10";
+
         let belement = (cellView.model as any).parent;
         if ((belement !== undefined) && (!(belement instanceof Artifact))) {
+            this.diagramWidth = "col-sm-10 col-md-10 col-lg-10";
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
         }
@@ -358,9 +359,11 @@ export class DiagramComponent implements AfterContentInit{
     };
 
     public zoomOut() {
-        this._graphScale -= 0.1;
+        if (this._graphScale < 0.1)
+            this._graphScale = 0;
+        else
+            this._graphScale -= 0.1;
         this.refreshPaper();
-
     };
 
     public zoomIn() {
