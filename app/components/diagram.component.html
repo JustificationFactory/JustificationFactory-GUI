@@ -6,18 +6,18 @@
     <div class="{{diagramWidth}}">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="row">
-                <actionstoolbar-view [(businessSteps)]="businessSteps"  [(selectedElement)]="selectedElement" [(_graph)]="_graph" class="actionstoolbar-view"></actionstoolbar-view>
+                <actionstoolbar-view [(businessSteps)]="businessSteps"  (stepChange)="onStepChange($event)" [(selectedElement)]="selectedElement" [(_graph)]="_graph" [(_paper)]="_paper" class="actionstoolbar-view"></actionstoolbar-view>
             </div>
             <div class="row">
                 <div (click)="zoomIn()" class="btn btn-default btn-zoom btn-zoom-plus">+</div>
                 <div (click)="zoomOut()" class="btn btn-default btn-zoom btn-zoom-minus">-</div>
-                <div id="myholderScroll"><div id="myholder"></div></div>
+                <div id="myholderScroll"><div id="myholder" tabindex="1"></div></div>
 
             </div>
         </div>
 
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
-        <properties-view *ngIf="selectedElement" [(selectedElement)]="selectedElement" (selectedElementChange)="onSelectedElementChange($event)" ></properties-view>
+        <properties-view *ngIf="(selectedElement != null)" [(selectedElement)]="selectedElement" (selectedElementChange)="onSelectedElementChange($event)" ></properties-view>
     </div>
 </div>

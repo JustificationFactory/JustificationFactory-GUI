@@ -19,6 +19,13 @@
                     </select>
                 </td>
             </tr>
+            <tr class="tr-property-detail">
+                <td > <label >Border: </label>
+                    <select class="form-control testing-element-shape" value="{{BorderOfElement}}" (change)="onBorderOfElementValueChanged($event)">
+                        <option *ngFor="let border of BordersList" value="{{border}}">{{border}}</option>
+                    </select>
+                </td>
+            </tr>
 
             <tr>
                 <td><label>Background:</label><paletteColor [(selectedColorHex)]="BackgroundColorOfElement" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>

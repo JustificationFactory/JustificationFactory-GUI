@@ -15,10 +15,16 @@ class DiagramElement {
     description:string;
     type:string;
     artifacts: Array<Artifact>;
+    stepId : String;
 
     public static RectangleShape : string = "M 0 0 L 60 0 L 60 30 L 0 30 Z";
     public static RoundedRectangleShape : string = "M 0 6 Q 0 0 6 0 L 54 0 Q 60 0 60 6 L 60 24 Q 60 30 54 30 L 6 30 Q 0 30 0 24 Z";
     public static ParallelogramShape : string = "M 10 0 L 70 0 L 60 30 L 0 30 Z";
+
+    public static SolidBorder : string ="";
+    public static DashBorder : string ="5,5";
+    public static MixBorder : string ="10,2,10";
+
 
     constructor(name: string, jsonElement: any, type: string) {
         this.name = name;
@@ -95,7 +101,7 @@ class Support extends DiagramElement {
 
         if (this.artifacts.length > 0) {
             this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
-            this.visualShape.attributes.attrs.text.y = 5;
+            this.visualShape.attributes.attrs.text.y = 10;
         }
     }
 }
@@ -118,7 +124,7 @@ class Conclusion extends DiagramElement {
 
         if (this.artifacts.length > 0) {
             this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
-            this.visualShape.attributes.attrs.text.y = 5;
+            this.visualShape.attributes.attrs.text.y = 10;
         }
     }
 }
@@ -280,7 +286,8 @@ class Limitation extends Artifact{
             default :
             //no more limitations are accepted
         }
-
+        yRect += 5; // 37 - 12 = 25
+        yLabel += 5;
         var nameLength = $('#ruler').html(name).width();
         var xLabel = xRect + ((widthRect - nameLength) / 2);
 
@@ -317,17 +324,21 @@ class Limitation extends Artifact{
 
             (parentElement.visualShape as any).addPorts([port]);
 
-            //we must change "y" of previous ports after addPort, otherwise "y" re-switch to previous value
-            if ((parentElement.visualShape as any).portData.ports.length == 2) {
-                (parentElement.visualShape as any).portData.ports[0].attrs.rect.y = 14; // 11 + 14 = 25
-                (parentElement.visualShape as any).portData.ports[0].label.position.args.y = 31; // 11 + 31 = 42
-            }
-            else if ((parentElement.visualShape as any).portData.ports.length == 3) {
-                (parentElement.visualShape as any).portData.ports[0].attrs.rect.y = 18; // 7 + 18 = 25
-                (parentElement.visualShape as any).portData.ports[0].label.position.args.y = 35; // 7 + 35 = 42
-                (parentElement.visualShape as any).portData.ports[1].attrs.rect.y = 3; // 22 + 3 = 25
-                (parentElement.visualShape as any).portData.ports[1].label.position.args.y = 20; // 22 + 20 = 42
-            }
+            Limitation.reorganizePorts(parentElement.visualShape);
+        }
+    }
+
+    static reorganizePorts(visual_shape : any) {
+        //we must change "y" of previous ports after addPort, otherwise "y" re-switch to previous value
+        if (visual_shape.portData.ports.length == 2) {
+            visual_shape.portData.ports[0].attrs.rect.y = 19; // 11 + 14 = 25
+            visual_shape.portData.ports[0].label.position.args.y = 36; // 11 + 31 = 42
+        }
+        else if (visual_shape.portData.ports.length == 3) {
+            visual_shape.portData.ports[0].attrs.rect.y = 23; // 7 + 18 = 25
+            visual_shape.portData.ports[0].label.position.args.y = 40; // 7 + 35 = 42
+            visual_shape.portData.ports[1].attrs.rect.y = 8; // 22 + 3 = 25
+            visual_shape.portData.ports[1].label.position.args.y = 25; // 22 + 20 = 42
         }
     }
 }
@@ -337,22 +348,21 @@ class Rationale extends Artifact{
         super(name, jsonElement, type);
         this.behavior = Behavior.Near;
 
-        let labelRationale = "";
+        this.name = name;
 
         if (jsonElement.axonicProject) {
             for (var r of Object.values(jsonElement.axonicProject)) {
-                if (labelRationale != "")
-                    labelRationale += " & ";
-                labelRationale += r;
+                if (this.name != "")
+                    this.name += " & ";
+                this.name += r;
             }
-            ;
         }
 
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
-            size: { width: Util.getElementWidthFromTextLength(labelRationale),
-                height: Util.getElementHeightFromTextLength(labelRationale) },
-            attrs: { rect: { fill: '#FFFFFF' }, text: { text: labelRationale, fill: '#000000' } }
+            size: { width: Util.getElementWidthFromTextLength(this.name),
+                height: Util.getElementHeightFromTextLength(this.name) },
+            attrs: { rect: { fill: '#FFFFFF' }, text: { text: this.name, fill: '#000000' } }
         });
         (this.visualShape as any).parent = this;
     }
@@ -380,11 +390,29 @@ class ForEach extends Artifact{
     }
 }
 
-class Step extends Array<DiagramElement> {
+class Step  {
+    private stepId : String;
+    public items : Array<DiagramElement>;
 
+    constructor (id: String) {
+        if ((id === undefined) || (id == ""))
+            this.stepId = Util.getNewGuid();
+        else
+            this.stepId = id;
+
+        this.items = new Array<DiagramElement>();
+    }
+
+    public getStepId() : String {
+        return this.stepId;
+    }
 }
 
+
 class Util{
+    static HeightToAddIfArtifactEmbeded : number = 12;
+    static MaxUndo : number = 20;
+
     static getElementWidthFromTextLength(name: string){
         var maxLine = _.max(name.split('\n'), function(l) { return l.length; });
         var maxLineWidth = $('#ruler').html(maxLine).width();
@@ -400,8 +428,6 @@ class Util{
         var height = 2 * ((name.split('\n').length + 1) * letterSize);
         return height;
     }
-
-    static HeightToAddIfArtifactEmbeded : number = 12;
 
     static getNewGuid() : String {
         function S4() {
@@ -453,13 +479,18 @@ class Util{
 
 
           result += `<g transform="translate(0.000000,300.000000)  scale(0.400000,-0.400000)" fill="#030303" stroke="none">
-	<path   d="M128,80H32C14.313,80,0,94.344,0,112v352c0,17.688,14.313,32,32,32h96c17.688,0,32-14.313,32-32V112
-		C160,94.344,145.688,80,128,80z M48,400c-8.844,0-16-7.156-16-16s7.156-16,16-16s16,7.156,16,16S56.844,400,48,400z M128,208H32
-		v-32h96V208z M128,144H32v-32h96V144z"/>
 	
-	<path  d="M480,16H96c-17.688,0-32,14.344-32,32h32h96h288v256H192v64h288c17.688,0,32-14.313,32-32V48C512,30.344,497.688,16,480,16
-		z M288,352c-8.844,0-16-7.156-16-16s7.156-16,16-16s16,7.156,16,16S296.844,352,288,352z"/>
-		      
+<path d="M61.2,341.538c4.9,16.8,11.7,33,20.3,48.2l-24.5,30.9c-8,10.1-7.1,24.5,1.9,33.6l42.2,42.2c9.1,9.1,23.5,9.899,33.6,1.899
+		l30.7-24.3c15.8,9.101,32.6,16.2,50.1,21.2l4.6,39.5c1.5,12.8,12.3,22.4,25.1,22.4h59.7c12.8,0,23.6-9.601,25.1-22.4l4.4-38.1
+		c18.8-4.9,36.8-12.2,53.7-21.7l29.7,23.5c10.1,8,24.5,7.1,33.6-1.9l42.2-42.2c9.1-9.1,9.9-23.5,1.9-33.6l-23.1-29.3
+		c9.6-16.601,17.1-34.3,22.1-52.8l35.6-4.1c12.801-1.5,22.4-12.3,22.4-25.1v-59.7c0-12.8-9.6-23.6-22.4-25.1l-35.1-4.1
+		c-4.801-18.3-12-35.8-21.199-52.2l21.6-27.3c8-10.1,7.1-24.5-1.9-33.6l-42.1-42.1c-9.1-9.1-23.5-9.9-33.6-1.9l-26.5,21
+		c-17.2-10.1-35.601-17.8-54.9-23l-4-34.3c-1.5-12.8-12.3-22.4-25.1-22.4h-59.7c-12.8,0-23.6,9.6-25.1,22.4l-4,34.3
+		c-19.8,5.3-38.7,13.3-56.3,23.8l-27.5-21.8c-10.1-8-24.5-7.1-33.6,1.9l-42.2,42.2c-9.1,9.1-9.9,23.5-1.9,33.6l23,29.1
+		c-9.2,16.6-16.2,34.3-20.8,52.7l-36.8,4.2c-12.8,1.5-22.4,12.3-22.4,25.1v59.7c0,12.8,9.6,23.6,22.4,25.1L61.2,341.538z
+		 M277.5,180.038c54.4,0,98.7,44.3,98.7,98.7s-44.3,98.7-98.7,98.7c-54.399,0-98.7-44.3-98.7-98.7S223.1,180.038,277.5,180.038z"/>
+	
+
 
 </g>`;
         }else
@@ -491,5 +522,218 @@ class Util{
 
         return result.toString().replace(/,/g, " ");
     }
+
+    static stateToJSON(businessSteps : Array<Step>, jsonGraph : any, states: any)  {
+        let jsonBusinessSteps = [];
+
+        for (let businessStep of businessSteps) {
+            let businessElements = [];
+
+            for (let item of businessStep.items) {
+                let artifactElements = [];
+
+                for (let artifactElement of item.artifacts) {
+                    artifactElements.push({
+                        elementType: artifactElement.constructor.name,
+                        name: artifactElement.name,
+                        description: artifactElement.description,
+                        type: artifactElement.type,
+                        visualShapeId: (artifactElement.visualShape !== undefined) ? artifactElement.visualShape.id : undefined,
+                        jsonElement: item.jsonElement,
+                    });
+                }
+
+                let jsonSupport : any;
+
+                if (item instanceof Support) {
+                    jsonSupport = {
+                        stepId_conclusion: (item as Support).conclusion.stepId,
+                        stepId_evidence: (item as Support).evidence.stepId
+                    };
+                }
+
+                businessElements.push({
+                    elementType: item.constructor.name,
+                    name: item.name,
+                    description: item.description,
+                    type: item.type,
+                    visualShapeId: item.visualShape.id,
+                    jsonElement: item.jsonElement,
+                    artifacts: artifactElements,
+                    support: jsonSupport
+                });
+            }
+
+            jsonBusinessSteps.push({
+                id: businessStep.getStepId(),
+                elements: businessElements
+            });
+        }
+
+        if (states === undefined)
+            states = {};
+
+        if (states.previous === undefined)
+            states.previous = [];
+
+        if ((states.currentIndex !== undefined) && (states.currentIndex > 0) && (states.previous.length >= states.currentIndex))
+            states.previous.splice(states.previous.length - states.currentIndex);
+
+        states.currentIndex = 0;
+        if (states.previous.length > Util.MaxUndo)
+            states.previous.splice(0, 1);
+        
+        states.previous.push({
+            changeDate: new Date(),
+            businessSteps: jsonBusinessSteps,
+            graph: jsonGraph
+        });
+
+        return states;
+    }
+
+    static stateFromJSON(states: any, result : any, indexState: number)  {
+
+        if ((indexState === undefined) || (indexState < 0))
+            states.currentIndex = 0;
+        else if ((indexState === undefined) || (indexState > Util.MaxUndo))
+            states.currentIndex = Util.MaxUndo;
+        else if ((indexState !== undefined) && (states.previous !== undefined) && (indexState > states.previous.length))
+            states.currentIndex = states.previous.length;
+        else
+            states.currentIndex = indexState;
+
+        if ((states.previous !== undefined) && (states.previous.length >= states.currentIndex)) {
+            let state = states.previous[states.previous.length - 1 - states.currentIndex];
+
+            result.changeDate = state.changeDate;
+            result.jsonBusinessSteps = state.businessSteps;
+            result.graph = state.graph;
+        }
+
+        return states;
+
+    }
+
+    static businessStepsFromJSON(jsonBusinessSteps: any, cells: Array<Cell>, result : any)  {
+
+        result.businessSteps = new Array<Step>();
+
+        for (let step of jsonBusinessSteps) {
+            let businessStep = new Step(step.id);
+
+            for (let element of step.elements) {
+                let businessElement : DiagramElement;
+
+                switch (element.elementType) {
+                    case "Conclusion":
+                        businessElement = new Conclusion(element.name, element.jsonElement, element.type);
+                        break;
+                    case "Strategy":
+                        businessElement = new Strategy(element.name, element.jsonElement, element.type);
+                        break;
+                    case "Evidence":
+                        businessElement = new Evidence(element.name, element.jsonElement, element.type);
+                        break;
+                    case "Support":
+                        //Intermediate step (not correct Conclusion and Evidence! cf. stateRebuildVisualShapeAssociation function)
+                        businessElement = new Support(new Conclusion(element.name, element.jsonElement, element.type), new Evidence(element.name, element.jsonElement, element.type));
+                        break;
+                }
+
+                if (businessElement !== undefined) {
+                    businessElement.stepId = businessStep.getStepId();
+                    businessElement.description = element.description;
+
+                    //VisualShape association
+                    for (let cell of cells) {
+                        if (element.visualShapeId === cell.id) {
+                            businessElement.visualShape = cell;
+                            (cell as any).parent = businessElement;
+                            break;
+                        }
+                    }
+
+                    if (businessElement.artifacts === undefined)
+                        businessElement.artifacts = new Array<Artifact>();
+
+                    //Artifact association
+                    if (element.artifacts !== undefined) {
+                        for (let artifact of element.artifacts) {
+                            let businessArtifact: Artifact;
+
+                            switch (artifact.elementType) {
+                                case "Limitation":
+                                    //Not necessary: Creation into Conclusion constructor
+                                    break;
+                                case "Actor":
+                                    businessArtifact = new Actor(artifact.name, artifact.jsonElement, artifact.type);
+                                    break;
+                                case "Rationale":
+                                    businessArtifact = new Rationale(artifact.name, artifact.jsonElement, artifact.type);
+                                    break;
+                            }
+
+                            if (businessArtifact !== undefined) {
+                                //VisualShape association
+                                for (let cell of cells) {
+                                    if (artifact.visualShapeId === cell.id) {
+                                        artifact.visualShape = cell;
+                                        (cell as any).parent = artifact;
+                                        break;
+                                    }
+                                }
+
+                                businessElement.artifacts.push(businessArtifact);
+                            }
+                        }
+                    }
+
+                    businessStep.items.push(businessElement);
+                }
+            }
+
+            result.businessSteps.push(businessStep);
+        }
+
+        //Associate correct business element (Conclusion / Evidence) to Support element
+        let supportIds = new Array<String>();
+        for (let step of jsonBusinessSteps) {
+            for (let element of step.elements) {
+                if ((element.elementType == "Support") && (!supportIds.find((s) => { return s === element.visualShapeId})) ) {
+                    supportIds.push(element.visualShapeId);
+                    let support_conclusion: DiagramElement;
+                    let support_evidence: DiagramElement;
+
+                    for (let bStep of result.businessSteps) {
+                        for (let bElement of bStep.items) {
+                            //Find correct Conclusion
+                            if ((element.support.stepId_conclusion === bStep.stepId) && (bElement instanceof Conclusion)) {
+                                support_conclusion = bElement;
+                                break;
+                            }
+
+                            //Find correct Evidence
+                            if ((element.support.stepId_evidence === bStep.stepId) && (bElement instanceof Evidence) && (bElement.name == element.name)) {
+                                support_evidence = bElement;
+                                break;
+                            }
+                        }
+                    }
+
+                    //Find Supports and replace Conclusion and Evidence
+                    for (let bStep of result.businessSteps) {
+                        for (let bElement of bStep.items) {
+                            if (element.visualShapeId === bElement.visualShape.id) {
+                                bElement.conclusion = support_conclusion;
+                                bElement.evidence = support_evidence;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
