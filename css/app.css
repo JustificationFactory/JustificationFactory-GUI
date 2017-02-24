@@ -13,16 +13,20 @@ body {
 }
 
 #myholderScroll{
-
+    width: 100%;
+    height: 80vh;
+    overflow-y: scroll;
 }
 #myholder {
 
 }
+/*
 #v-2 {
-    border:solid;
+
     width: 100%;
     height: 100%;
-    overflow-y: scroll;}
+    }
+*/
 
 .row-without-margin {
     margin: 0px;
