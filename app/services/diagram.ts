@@ -21,6 +21,11 @@ class DiagramElement {
     public static RoundedRectangleShape : string = "M 0 6 Q 0 0 6 0 L 54 0 Q 60 0 60 6 L 60 24 Q 60 30 54 30 L 6 30 Q 0 30 0 24 Z";
     public static ParallelogramShape : string = "M 10 0 L 70 0 L 60 30 L 0 30 Z";
 
+    public static SolidBorder : string ="";
+    public static DashBorder : string ="5,5";
+    public static MixBorder : string ="10,2,10";
+
+
     constructor(name: string, jsonElement: any, type: string) {
         this.name = name;
         this.jsonElement = jsonElement;

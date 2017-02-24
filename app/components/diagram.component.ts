@@ -323,10 +323,10 @@ export class DiagramComponent implements AfterContentInit{
         $('#myholder').focus();
         this.unhighlightAllCells();
         this.diagramWidth = "col-sm-10 col-md-10 col-lg-10";
-        if ((cellView.model as any).parent) {
+        let belement = (cellView.model as any).parent;
+        if ((belement !== undefined) && (!(belement instanceof Artifact))) {
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
-            //console.log("selectedId : " + this.selectedElement.stepId);
         }
     }
 

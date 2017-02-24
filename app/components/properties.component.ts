@@ -27,6 +27,7 @@ export class PropertiesComponent implements OnChanges {
 
     @Input() ElementName="";
     @Input() ShapeOfElement = "";
+    @Input() BorderOfElement = "";
     @Input() BackgroundColorOfElement = "white";
     @Input() BorderColorOfElement = "white";
     @Input() TextColorOfElement = "white";
@@ -41,11 +42,17 @@ export class PropertiesComponent implements OnChanges {
     SHAPE_PARALLELOGRAM = "Parallelogram";
     @Input() ShapesList = [this.SHAPE_ROUNDEDRECTANGLE, this.SHAPE_RECTANGLE, this.SHAPE_PARALLELOGRAM];
 
+    BORDER_SOLID = "Solid";
+    BORDER_DASH = "Dash";
+    BORDER_MIX = "Mix";
+    @Input() BordersList = [this.BORDER_SOLID, this.BORDER_DASH, this.BORDER_MIX];
+
     private  loadVisualSettings() {
 
         //Initialization of properties
         this.ElementName = this.selectedElement.name;
         this.ShapeOfElement = "";
+        this.BorderOfElement = "";
         this.BackgroundColorOfElement = "white";
         this.BorderColorOfElement = "white";
         this.TextColorOfElement = "white";
@@ -65,6 +72,15 @@ export class PropertiesComponent implements OnChanges {
                 this.ShapeOfElement = this.SHAPE_PARALLELOGRAM;
             else
                 this.ShapeOfElement = "";
+
+            if(this.selectedElement.visualShape.attributes.attrs.path["stroke-dasharray"] == DiagramElement.SolidBorder)
+                this.BorderOfElement = this.BORDER_SOLID;
+            else if(this.selectedElement.visualShape.attributes.attrs.path["stroke-dasharray"] == DiagramElement.DashBorder)
+                this.BorderOfElement = this.BORDER_DASH;
+            else if(this.selectedElement.visualShape.attributes.attrs.path["stroke-dasharray"] == DiagramElement.MixBorder)
+                this.BorderOfElement = this.BORDER_MIX;
+            else
+                this.BorderOfElement = this.BORDER_SOLID;
 
             this.BackgroundColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.fill;
             this.BorderColorOfElement = this.selectedElement.visualShape.attributes.attrs.path.stroke;
@@ -113,6 +129,13 @@ export class PropertiesComponent implements OnChanges {
             else
                 this.selectedElement.visualShape.attributes.attrs.path.d = DiagramElement.RoundedRectangleShape;
 
+            if(this.BorderOfElement == this.BORDER_DASH)
+                this.selectedElement.visualShape.attributes.attrs.path["stroke-dasharray"] = DiagramElement.DashBorder;
+            else if(this.BorderOfElement == this.BORDER_MIX)
+                this.selectedElement.visualShape.attributes.attrs.path["stroke-dasharray"] = DiagramElement.MixBorder;
+            else
+                this.selectedElement.visualShape.attributes.attrs.path["stroke-dasharray"] = DiagramElement.SolidBorder;
+
             this.selectedElement.visualShape.attributes.attrs.path.fill = this.BackgroundColorOfElement;
             this.selectedElement.visualShape.attributes.attrs.path.stroke = this.BorderColorOfElement;
             this.selectedElement.visualShape.attributes.attrs.text.fill = this.TextColorOfElement;
@@ -133,6 +156,10 @@ export class PropertiesComponent implements OnChanges {
 
     onShapeOfElementValueChanged(event: any) {
         this.ShapeOfElement = event.target.value;
+        this.updateVisualSettings();
+    }
+    onBorderOfElementValueChanged(event: any) {
+        this.BorderOfElement = event.target.value;
         this.updateVisualSettings();
     }
     onNameChanged(event: any) {
