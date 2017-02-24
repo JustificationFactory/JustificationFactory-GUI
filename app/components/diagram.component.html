@@ -18,6 +18,6 @@
 
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
-        <properties-view *ngIf="selectedElement" [(selectedElement)]="selectedElement" (selectedElementChange)="onSelectedElementChange($event)" ></properties-view>
+        <properties-view *ngIf="(selectedElement != null)" [(selectedElement)]="selectedElement" (selectedElementChange)="onSelectedElementChange($event)" ></properties-view>
     </div>
 </div>
