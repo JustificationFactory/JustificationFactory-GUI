@@ -71,14 +71,14 @@ class ParseJson2DiagramElements {
                 links.push(evidenceN.makeLinkWithParent(strategyN));
             }
 
-            if (step.strategy.actor) {
-                let actor = new Actor(step.strategy.actor.name, step.strategy.actor, step.strategy.actor.role);
+            if ((step.strategy.type !== undefined) && (step.strategy.type.toLowerCase().indexOf('computed') >= 0)) {
+                let actor = new Actor((step.strategy.actor !== undefined) ? step.strategy.actor.name : "", step.strategy.type, step.strategy.type);
                 strategyN.artifacts.push(actor);
                 actors.push(actor);
                 links.push(actor.makeLinkWithParent(strategyN));
             }
-            if ((step.strategy.type !== undefined) && (step.strategy.type.toLowerCase().indexOf('computed') >= 0)) {
-                let actor = new Actor("", step.strategy.type, step.strategy.type);
+            else if (step.strategy.actor) {
+                let actor = new Actor(step.strategy.actor.name, step.strategy.actor, step.strategy.actor.role);
                 strategyN.artifacts.push(actor);
                 actors.push(actor);
                 links.push(actor.makeLinkWithParent(strategyN));

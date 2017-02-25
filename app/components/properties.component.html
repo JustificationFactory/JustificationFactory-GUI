@@ -58,6 +58,28 @@
                 </table>
             </div>
         </div>
+
+        <div class="panel panel-default panel-no-margin-bottom" *ngIf="actorExist">
+            <div class="panel-heading" >
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Actor</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table table-striped table-properties-details">
+                    <tr>
+                        <td><label>Name:</label><input  class="form-control testing-element-name" value="{{ActorName}}" type="text" (change)="onActorChanged($event)"/> </td>
+                    </tr>
+                    <tr class="tr-property-detail">
+                        <td > <label >Shape: </label>
+                            <select class="form-control testing-element-shape" value="{{TypeOfActor}}" (change)="onTypeOfActorValueChanged($event)">
+                                <option *ngFor="let type of ActorTypesList" value="{{type}}">{{type}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 
     <div id="businessPanel" class="tab-pane fade in active">

@@ -31,11 +31,23 @@ export class PropertiesComponent implements OnChanges {
     @Input() BackgroundColorOfElement = "white";
     @Input() BorderColorOfElement = "white";
     @Input() TextColorOfElement = "white";
+
     @Input() limitExist=false;
     @Input() ShapeOfLimits = "";
     @Input() BackgroundColorOfLimits = "white";
     @Input() BorderColorOfLimits = "white";
     @Input() TextColorOfLimits = "white";
+
+    @Input() actorExist = false;
+    @Input() ActorName = "";
+    @Input() TypeOfActor = "";
+
+    ACTOR_HUMAN = "Human";
+    ACTOR_EXPERT = "Expert";
+    ACTOR_COMPUTER = "Computer";
+    @Input() ActorTypesList = [this.ACTOR_HUMAN, this.ACTOR_EXPERT, this.ACTOR_COMPUTER];
+
+    @Input() rationaleExist = false;
 
     SHAPE_RECTANGLE = "Rectangle";
     SHAPE_ROUNDEDRECTANGLE = "Rounded rectangle";
@@ -57,6 +69,8 @@ export class PropertiesComponent implements OnChanges {
         this.BorderColorOfElement = "white";
         this.TextColorOfElement = "white";
         this.limitExist = false;
+        this.actorExist = false;
+        this.TypeOfActor = "";
         this.ShapeOfLimits = "";
         this.BackgroundColorOfLimits = "white";
         this.BorderColorOfLimits = "white";
@@ -87,14 +101,38 @@ export class PropertiesComponent implements OnChanges {
             this.TextColorOfElement = this.selectedElement.visualShape.attributes.attrs.text.fill;
         }
 
-        //Set visual properties of Limits
-        if((Object.keys((this.selectedElement.visualShape as any).portData.ports)).length>1){
-            this.limitExist = true;
-            if ((this.selectedElement.visualShape as any).portData.ports[0].attrs.rect) {
-                this.ShapeOfLimits = "Rectangle";
-                this.BackgroundColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.fill;
-                this.BorderColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.stroke;
-                this.TextColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.text.fill;
+        //Set visual properties of Actor
+        for (let artifact of this.selectedElement.artifacts) {
+            if (artifact instanceof Actor) {
+                this.actorExist = true;
+
+                this.ActorName = artifact.name;
+
+                if (artifact.type.toLowerCase().indexOf(Util.ActorExpert) >= 0)
+                    this.TypeOfActor = this.ACTOR_EXPERT;
+                else if (artifact.type.toLowerCase().indexOf(Util.ActorComputer) >= 0)
+                    this.TypeOfActor = this.ACTOR_COMPUTER;
+                else
+                    this.TypeOfActor = this.ACTOR_HUMAN;
+            }
+            else if (artifact instanceof Rationale) {
+                this.rationaleExist = true;
+            }
+            else if (artifact instanceof Limitation) {
+
+                //Set visual properties of Limits
+                //before : this.limitExist = true;
+                if ((!this.limitExist) && ((this.selectedElement.visualShape as any).portData.ports.length > 1)) {
+                    if ((this.selectedElement.visualShape as any).portData.ports[0].attrs.rect) {
+                        this.ShapeOfLimits = "Rectangle";
+                        this.BackgroundColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.fill;
+                        this.BorderColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.rect.stroke;
+                        this.TextColorOfLimits = (this.selectedElement.visualShape as any).portData.ports[0].attrs.text.fill;
+                    }
+                }
+
+                this.limitExist = true;
+
             }
         }
     }
@@ -142,12 +180,56 @@ export class PropertiesComponent implements OnChanges {
 
         }
 
-        //Set visual properties of Limits
-        for (var port of (this.selectedElement.visualShape as any).portData.ports){
-            if (port.attrs.rect) {
-                port.attrs.rect.fill = this.BackgroundColorOfLimits;
-                port.attrs.rect.stroke = this.BorderColorOfLimits;
-                port.attrs.text.fill = this.TextColorOfLimits;
+        if (this.limitExist) {
+            //Set visual properties of Limits
+            for (var port of (this.selectedElement.visualShape as any).portData.ports){
+                if (port.attrs.rect) {
+                    port.attrs.rect.fill = this.BackgroundColorOfLimits;
+                    port.attrs.rect.stroke = this.BorderColorOfLimits;
+                    port.attrs.text.fill = this.TextColorOfLimits;
+                }
+            }
+        }
+
+        for (let artifact of this.selectedElement.artifacts) {
+            if (artifact instanceof Actor) {
+                artifact.visualShape.attributes.attrs.text.text = this.ActorName;
+                artifact.name = this.ActorName;
+
+                if (this.selectedElement.jsonElement[0].actor === undefined)
+                    this.selectedElement.jsonElement[0].actor = {};
+                this.selectedElement.jsonElement[0].actor.name = this.ActorName;
+
+                let changeType = false;
+
+                if (this.TypeOfActor == this.ACTOR_EXPERT) {
+                    if (artifact.type.toLowerCase().indexOf(Util.ActorExpert) < 0) {
+                        artifact.type = Util.ActorExpert;
+                        changeType = true;
+                    }
+                }
+                else if (this.TypeOfActor == this.ACTOR_COMPUTER) {
+                    if (artifact.type.toLowerCase().indexOf(Util.ActorComputer) < 0) {
+                        artifact.type = Util.ActorComputer;
+                        changeType = true;
+                    }
+                }
+                else {
+                    if ((artifact.type.toLowerCase().indexOf(Util.ActorExpert) >= 0) || (artifact.type.toLowerCase().indexOf(Util.ActorComputer) >= 0)) {
+                        artifact.type = Util.ActorHuman;
+                        changeType = true;
+                    }
+                }
+                artifact.visualShape.attributes.markup = Util.getSVGActorImage(artifact.type, this.ActorName);
+                this.selectedElement.jsonElement[0].actor.role = artifact.type;
+                if (changeType)
+                    this.selectedElement.jsonElement[0].type = artifact.type;
+            }
+            else if (artifact instanceof Rationale) {
+
+            }
+            else if (artifact instanceof Limitation) {
+
             }
         }
 
@@ -164,6 +246,14 @@ export class PropertiesComponent implements OnChanges {
     }
     onNameChanged(event: any) {
         this.ElementName = event.target.value;
+        this.updateVisualSettings();
+    }
+    onActorChanged(event: any) {
+        this.ActorName = event.target.value;
+        this.updateVisualSettings();
+    }
+    onTypeOfActorValueChanged(event: any) {
+        this.TypeOfActor = event.target.value;
         this.updateVisualSettings();
     }
     onColorChanged(newColorHexa: string) {
