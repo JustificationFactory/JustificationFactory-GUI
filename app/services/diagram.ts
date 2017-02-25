@@ -538,7 +538,7 @@ class Util{
                         description: artifactElement.description,
                         type: artifactElement.type,
                         visualShapeId: (artifactElement.visualShape !== undefined) ? artifactElement.visualShape.id : undefined,
-                        jsonElement: item.jsonElement,
+                        jsonElement: artifactElement.jsonElement,
                     });
                 }
 

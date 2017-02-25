@@ -46,6 +46,12 @@
             </div>
             <div class="panel-body">
                 <table class="table table table-striped table-properties-details">
+                    <tr *ngFor="let limitItem of LimitsList">
+                        <td><label>Name:</label><input [attr.data-limit-id]="limitItem.id" class="form-control testing-element-name" value="{{limitItem.value}}" type="text" (change)="onLimitNameChanged($event)"/> </td>
+                    </tr>
+                </table>
+
+                <table class="table table table-striped table-properties-details">
                     <tr>
                         <td><label>Background:</label><paletteColor [(selectedColorHex)]="BackgroundColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
                     </tr>
@@ -68,7 +74,7 @@
             <div class="panel-body">
                 <table class="table table table-striped table-properties-details">
                     <tr>
-                        <td><label>Name:</label><input  class="form-control testing-element-name" value="{{ActorName}}" type="text" (change)="onActorChanged($event)"/> </td>
+                        <td><label>Name:</label><input  class="form-control testing-element-name" value="{{ActorName}}" type="text" (change)="onActorNameChanged($event)"/> </td>
                     </tr>
                     <tr class="tr-property-detail">
                         <td > <label >Shape: </label>
@@ -76,6 +82,21 @@
                                 <option *ngFor="let type of ActorTypesList" value="{{type}}">{{type}}</option>
                             </select>
                         </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default panel-no-margin-bottom" *ngIf="rationaleExist">
+            <div class="panel-heading" >
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Rationales</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table table-striped table-properties-details">
+                    <tr *ngFor="let rationaleItem of RationalesList">
+                        <td><label>Name:</label><input [attr.data-rationale-id]="rationaleItem.id" class="form-control testing-element-name" value="{{rationaleItem.value}}" type="text" (change)="onRationaleNameChanged($event)"/> </td>
                     </tr>
                 </table>
             </div>

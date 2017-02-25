@@ -37,6 +37,7 @@ export class PropertiesComponent implements OnChanges {
     @Input() BackgroundColorOfLimits = "white";
     @Input() BorderColorOfLimits = "white";
     @Input() TextColorOfLimits = "white";
+    @Input() LimitsList = [];
 
     @Input() actorExist = false;
     @Input() ActorName = "";
@@ -48,6 +49,7 @@ export class PropertiesComponent implements OnChanges {
     @Input() ActorTypesList = [this.ACTOR_HUMAN, this.ACTOR_EXPERT, this.ACTOR_COMPUTER];
 
     @Input() rationaleExist = false;
+    @Input() RationalesList = [];
 
     SHAPE_RECTANGLE = "Rectangle";
     SHAPE_ROUNDEDRECTANGLE = "Rounded rectangle";
@@ -70,11 +72,15 @@ export class PropertiesComponent implements OnChanges {
         this.TextColorOfElement = "white";
         this.limitExist = false;
         this.actorExist = false;
+        this.rationaleExist = false;
         this.TypeOfActor = "";
         this.ShapeOfLimits = "";
         this.BackgroundColorOfLimits = "white";
         this.BorderColorOfLimits = "white";
         this.TextColorOfLimits = "white";
+
+        this.RationalesList.splice(0);
+        this.LimitsList.splice(0);
 
         //Set visual properties of element
         if(this.selectedElement.visualShape.attributes.attrs.path){
@@ -102,7 +108,12 @@ export class PropertiesComponent implements OnChanges {
         }
 
         //Set visual properties of Actor
-        for (let artifact of this.selectedElement.artifacts) {
+        let rationalId = 0;
+        let limitId = 0;
+
+        for (let i = 0; i < this.selectedElement.artifacts.length; i++) {
+            let artifact = this.selectedElement.artifacts[i];
+
             if (artifact instanceof Actor) {
                 this.actorExist = true;
 
@@ -117,6 +128,17 @@ export class PropertiesComponent implements OnChanges {
             }
             else if (artifact instanceof Rationale) {
                 this.rationaleExist = true;
+
+                if (artifact.jsonElement.axonicProject) {
+                    for (var r of Object.values(artifact.jsonElement.axonicProject)) {
+                        this.RationalesList.push({
+                            id: rationalId,
+                            value: r
+                        });
+                        rationalId++;
+                    }
+
+                }
             }
             else if (artifact instanceof Limitation) {
 
@@ -132,7 +154,11 @@ export class PropertiesComponent implements OnChanges {
                 }
 
                 this.limitExist = true;
-
+                this.LimitsList.push({
+                    id: limitId,
+                    value: artifact.name
+                });
+                limitId++;
             }
         }
     }
@@ -191,7 +217,12 @@ export class PropertiesComponent implements OnChanges {
             }
         }
 
-        for (let artifact of this.selectedElement.artifacts) {
+        let rationalId = 0;
+        let limitId = 0;
+
+        for (let i = 0; i < this.selectedElement.artifacts.length; i++) {
+            let artifact = this.selectedElement.artifacts[i];
+
             if (artifact instanceof Actor) {
                 artifact.visualShape.attributes.attrs.text.text = this.ActorName;
                 artifact.name = this.ActorName;
@@ -227,9 +258,25 @@ export class PropertiesComponent implements OnChanges {
             }
             else if (artifact instanceof Rationale) {
 
+                artifact.name = "";
+
+                if (artifact.jsonElement.axonicProject) {
+                    for (let i = 0 ; i < this.RationalesList.length ; i++) {
+                        artifact.jsonElement.axonicProject[Object.entries(artifact.jsonElement.axonicProject)[i][0]] = this.RationalesList[i].value;
+                        this.selectedElement.jsonElement[0].rationale.axonicProject[Object.entries(artifact.jsonElement.axonicProject)[i][0]] = this.RationalesList[i].value;
+                        if (artifact.name != "")
+                            artifact.name += " & ";
+                        artifact.name += this.RationalesList[i].value;
+                    }
+                }
+
+                artifact.visualShape.attributes.attrs.text.text = artifact.name;
+
+                rationalId++;
             }
             else if (artifact instanceof Limitation) {
 
+                limitId++;
             }
         }
 
@@ -248,12 +295,20 @@ export class PropertiesComponent implements OnChanges {
         this.ElementName = event.target.value;
         this.updateVisualSettings();
     }
-    onActorChanged(event: any) {
+    onActorNameChanged(event: any) {
         this.ActorName = event.target.value;
         this.updateVisualSettings();
     }
     onTypeOfActorValueChanged(event: any) {
         this.TypeOfActor = event.target.value;
+        this.updateVisualSettings();
+    }
+    onRationaleNameChanged(event: any) {
+        this.RationalesList[parseInt(event.target.attributes["data-rationale-id"].value)].value = event.target.value;
+        this.updateVisualSettings();
+    }
+    onLimitNameChanged(event: any) {
+        this.LimitsList[parseInt(event.target.attributes["data-limit-id"].value)].value = event.target.value;
         this.updateVisualSettings();
     }
     onColorChanged(newColorHexa: string) {
