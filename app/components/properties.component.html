@@ -21,7 +21,7 @@
             </tr>
             <tr class="tr-property-detail">
                 <td > <label >Border: </label>
-                    <select class="form-control testing-element-shape" value="{{BorderOfElement}}" (change)="onBorderOfElementValueChanged($event)">
+                    <select class="form-control testing-element-borderType" value="{{BorderOfElement}}" (change)="onBorderOfElementValueChanged($event)">
                         <option *ngFor="let border of BordersList" value="{{border}}">{{border}}</option>
                     </select>
                 </td>

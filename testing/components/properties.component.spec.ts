@@ -249,11 +249,17 @@ describe("properties.component.", () => {
             (de.nativeElement as any).attributes["ng-reflect-selected-color-hex"].value = "#111111";
             (de as any).triggerEventHandler("selectedColorHexChange", "#111111");
 
+            de = fixture.debugElement.query(By.css('.testing-element-borderType'));
+            (de.nativeElement as any).value = comp.BORDER_DASH;
+            (de as any).triggerEventHandler("change",{"target": de.nativeElement});
+
             fixture.detectChanges();
 
             expect(comp.selectedElement.visualShape.attributes.attrs.path.d).toEqual(DiagramElement.ParallelogramShape);
             expect(comp.BorderColorOfElement).toEqual("#111111");
             expect(comp.selectedElement.visualShape.attributes.attrs.path.stroke).toEqual("#111111");
+            expect(comp.selectedElement.visualShape.attributes.attrs.path["stroke-dasharray"] ).toEqual(DiagramElement.DashBorder);
+
         });
     });
 
