@@ -12,7 +12,8 @@ describe("main.component", () => {
 
     let comp:    MainComponent;
     let fixture: ComponentFixture<MainComponent>;
-
+    let DigaramComp : DiagramComponent ;
+    let DiagramFixture : ComponentFixture<DiagramComponent>;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [ MainComponent, DiagramComponent, PropertiesComponent, ActionsToolbarComponent, EditToolbarComponent, PaletteComponent ], // declare the test component
@@ -81,5 +82,39 @@ describe("main.component", () => {
         });
 
     });
+    describe("add step entiere", () => {
 
-});
+        it('new diagram click', () => {
+            fixture = TestBed.createComponent(MainComponent);
+            fixture.detectChanges();
+            var compiled = fixture.debugElement.nativeElement;
+            comp = fixture.componentInstance;
+            comp.diagramLoaded = false;
+            fixture.detectChanges();
+            compiled.querySelector('#newDiagramLink').click();
+            fixture.detectChanges();
+            expect(comp.diagramLoaded).toEqual(true);
+
+        });
+
+        it('nbr element added', () => {
+            DiagramFixture = TestBed.createComponent(DiagramComponent);
+            DigaramComp = DiagramFixture.componentInstance;
+            fixture = TestBed.createComponent(MainComponent);
+            comp = fixture.componentInstance;
+            fixture.detectChanges();
+            comp.newDiagram(event);
+            fixture.detectChanges();
+            DiagramFixture.detectChanges();
+/*
+           expect(DigaramComp.getCellsGraph().length).toEqual(9);
+*/
+            expect(DigaramComp.businessSteps.length).toEqual(1);
+            expect(DigaramComp.getCellsGraph().length).toEqual(9);
+
+
+
+
+        });
+    });
+        });
