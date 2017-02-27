@@ -372,6 +372,7 @@ class Actor extends Artifact{
     constructor(name: string, jsonElement: any, role: string) {
         super(name, jsonElement, role);
         this.behavior = Behavior.Near;
+        name = ((name === undefined) || (name == "")) ? " " : name;
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name),
@@ -457,8 +458,8 @@ class Util{
     static getSVGActorImage(actorType: string, name: string) : string {
         let width = Util.getElementWidthFromTextLength(name) - 40;
         var result =  '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" tooltipPlacement="top" tooltip="'+ actorType +'"'
-                        +' width="40pt" height="40pt"  viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" '
-                        + ((width > 60) ? 'x="' + ((width / 2) - 10).toString() + '"' : '') +'>';
+                        +' width="40pt" height="40pt"  viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" >';
+                        //+ ((width > 60) ? 'x="' + ((width / 2) - 10).toString() + '"' : '') +'>';
 
         if (actorType.toLowerCase().indexOf(Util.ActorExpert) >= 0) {
             result += `<g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#030303" stroke="none">

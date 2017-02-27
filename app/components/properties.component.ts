@@ -166,11 +166,10 @@ export class PropertiesComponent implements OnChanges {
     private  updateVisualSettings() {
         var lastwidth=this.selectedElement.visualShape.attributes.size.width;
         if(this.selectedElement.visualShape.attributes.attrs){
+            //------------------- ELEMENT NAME -------------------------------------------
             this.selectedElement.visualShape.attributes.attrs.text.text=this.ElementName;
-            this.selectedElement.visualShape.attributes.size.width= Util.getElementWidthFromTextLength(this.ElementName)+30;
+            this.selectedElement.visualShape.attributes.size.width= Util.getElementWidthFromTextLength(this.ElementName);
             this.selectedElement.name = this.ElementName;
-            if(this.selectedElement.visualShape.attributes.size.width<145){this.selectedElement.visualShape.attributes.size.width=145;}
-
 
             if((this.selectedElement.visualShape as any).portData.ports[1]){
                 for(var i=1;i<(this.selectedElement.visualShape as any).portData.ports.length;i++) {
@@ -224,7 +223,8 @@ export class PropertiesComponent implements OnChanges {
             let artifact = this.selectedElement.artifacts[i];
 
             if (artifact instanceof Actor) {
-                artifact.visualShape.attributes.attrs.text.text = this.ActorName;
+                //------------------- ACTOR -------------------------------------------
+                artifact.visualShape.attributes.attrs.text.text = ((this.ActorName === undefined) || (this.ActorName == "")) ? " " : this.ActorName;
                 artifact.name = this.ActorName;
 
                 if (this.selectedElement.jsonElement[0].actor === undefined)
@@ -257,7 +257,7 @@ export class PropertiesComponent implements OnChanges {
                     this.selectedElement.jsonElement[0].type = artifact.type;
             }
             else if (artifact instanceof Rationale) {
-
+                //------------------- RATIONALE -------------------------------------------
                 artifact.name = "";
 
                 if (artifact.jsonElement.axonicProject) {
@@ -271,11 +271,12 @@ export class PropertiesComponent implements OnChanges {
                 }
 
                 artifact.visualShape.attributes.attrs.text.text = artifact.name;
+                artifact.visualShape.attributes.size.width = Util.getElementWidthFromTextLength(artifact.name);
 
                 rationalId++;
             }
             else if (artifact instanceof Limitation) {
-
+                //------------------- LIMITATION -------------------------------------------
                 limitId++;
             }
         }
