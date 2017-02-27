@@ -281,6 +281,7 @@ export class PropertiesComponent implements OnChanges {
         }
 
         this.selectedElementChange.emit(this.selectedElement);
+        this.businessTree = this.addBusinessGroupsWithElements();
     }
 
     onShapeOfElementValueChanged(event: any) {
