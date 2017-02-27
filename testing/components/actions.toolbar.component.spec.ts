@@ -27,6 +27,7 @@ describe("actions.toolbar.component.", () => {
     let selectedElementAddRootStep : DiagramElement;
     let selectedElementAddSubStep : DiagramElement;
     let selectedElementAddEvidence : DiagramElement;
+    let selectedElementRemoveEvidence : DiagramElement;
     let itemsLengthAddEvidence : number;
 
     beforeEach(async(() => {
@@ -120,6 +121,7 @@ describe("actions.toolbar.component.", () => {
 
         evidence = new Evidence("Stimulation 0", {}, "stimulation");
         elements.push(evidence);
+        selectedElementRemoveEvidence = evidence;
         nbElements++;
         nbElementsThatMustBeDeletedInThisTest++;
         elements.push(evidence.makeLinkWithParent(strategy));
@@ -307,6 +309,39 @@ describe("actions.toolbar.component.", () => {
             expect(comp.businessSteps.length).toEqual(2);
 
             expect(comp.businessSteps[0].items.length).toEqual(itemsLengthAddEvidence + 1);
+
+        });
+
+        it('remove evidence', () => {
+
+            fixture = TestBed.createComponent(DiagramComponent);
+            comp = fixture.componentInstance; // DiagramComponent test instance
+
+            fixture.detectChanges();
+
+            comp.showDiagram(elements, businessSteps);
+
+            fixture.detectChanges();
+
+            actionsToolbarFixture = TestBed.createComponent(ActionsToolbarComponent);
+            actionsToolbarComp = actionsToolbarFixture.componentInstance; // DiagramComponent test instance
+            actionsToolbarComp.businessSteps = businessSteps;
+            actionsToolbarComp.selectedElement = selectedElementRemoveEvidence;
+            actionsToolbarComp._paper = comp.getPaper();
+            actionsToolbarComp._graph = comp.getGraph();
+
+            expect(comp.getCellsGraph().length).toEqual(nbElements);
+
+            actionsToolbarComp.removeEvidence();
+
+            actionsToolbarFixture.detectChanges();
+            fixture.detectChanges();
+
+            // - 2 correspond to element + link
+            expect(comp.getCellsGraph().length).toEqual(nbElements - 2);
+            expect(comp.businessSteps.length).toEqual(2);
+
+            expect(comp.businessSteps[1].items.length).toEqual(itemsLengthAddEvidence - 1);
 
         });
 
