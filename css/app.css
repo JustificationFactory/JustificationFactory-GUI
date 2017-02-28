@@ -17,6 +17,11 @@ body {
     height: 80vh;
     overflow-y: scroll;
 }
+#myholderScroll2{
+
+    height: 80vh;
+    overflow-y: scroll;
+}
 #myholder {
 
 }
