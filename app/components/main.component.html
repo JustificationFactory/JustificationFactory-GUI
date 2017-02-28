@@ -9,10 +9,10 @@
                     <li><a id="importFileLink" href="#" (click)="importFileClicked($event)">Import File</a><input type="file" id="importFile" style="display: none;" value="{{importFileValue}}"></li>
                     <li><a href="#">Select Web Service Diagram</a></li>
                     <li *ngIf="diagramLoaded" role="separator" class="divider"></li>
-                    <li *ngIf="diagramLoaded"><a href="#" (click)="undoDiagram($event)">Undo</a></li>
-                    <li *ngIf="diagramLoaded"><a href="#" (click)="redoDiagram($event)">Redo</a></li>
-                    <li *ngIf="diagramLoaded"><a href="#" (click)="printToPdfClicked($event)">Print to PDF</a></li>
-                    <li *ngIf="diagramLoaded"><a id="btnCloseLink" href="#" (click)="btnCloseClick()">Close</a></li>
+                    <li *ngIf="diagramLoaded"><a href="#" (click)="undoDiagram($event)">Undo (Ctrl+Z)</a></li>
+                    <li *ngIf="diagramLoaded"><a href="#" (click)="redoDiagram($event)">Redo (Ctrl+Shift+Z)</a></li>
+                    <li *ngIf="diagramLoaded"><a href="#" (click)="printToPdfClicked($event)">Print to PDF (Ctrl+P)</a></li>
+                    <li *ngIf="diagramLoaded"><a id="btnCloseLink" href="#" (click)="btnCloseClick()">Close (Ctrl+Q)</a></li>
                 </ul>
             </li>
             <li *ngIf="diagramLoaded"  class="dropdown">
