@@ -97,24 +97,6 @@ describe("main.component", () => {
 
         });
 
-        it('nbr element added', () => {
-            DiagramFixture = TestBed.createComponent(DiagramComponent);
-            DigaramComp = DiagramFixture.componentInstance;
-            fixture = TestBed.createComponent(MainComponent);
-            comp = fixture.componentInstance;
-            fixture.detectChanges();
-            comp.newDiagram(event);
-            fixture.detectChanges();
-            DiagramFixture.detectChanges();
-/*
-           expect(DigaramComp.getCellsGraph().length).toEqual(9);
-*/
-            expect(DigaramComp.businessSteps.length).toEqual(1);
-            expect(DigaramComp.getCellsGraph().length).toEqual(9);
 
-
-
-
-        });
     });
-        });
+});

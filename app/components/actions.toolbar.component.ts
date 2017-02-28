@@ -215,6 +215,7 @@ export class ActionsToolbarComponent {
 
             let strategyJsonElement = [{
                 "name" : "[Strategy " + this.nbNewSteps + "]",
+                "type" : "humanStrategy",
                 "rationale" : rationaleJsonElement,
                 "actor" : actorJsonElement
 
@@ -478,6 +479,7 @@ export class ActionsToolbarComponent {
 
             let strategyJsonElement = [{
                 "name" : "[Strategy " + this.nbNewSteps + "]",
+                "type" : "humanStrategy",
                 "rationale" : rationaleJsonElement,
                 "actor" : actorJsonElement
 
