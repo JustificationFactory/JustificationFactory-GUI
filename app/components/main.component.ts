@@ -29,12 +29,25 @@ export class MainComponent  implements OnInit, AfterContentInit {
         this.importFileReader.onload = this.fileReaderLoaded;
         this.inputElement.addEventListener('change', this.inputChanged, false);
 
+        jQuery(document).bind(" keydown", this, this.documentOnKeyPress)
+    }
+
+    documentOnKeyPress (event) {
+        if (event.charCode !== undefined) {
+            if(event.ctrlKey && event.keyCode == 80){
+                event.data.printToPdfClicked({ data: event.data });
+                return false;
+            }
+            if(event.ctrlKey && event.keyCode == 81){
+                event.data.btnCloseClick({ data: event.data });
+                return false;
+            }
+        }
     }
 
     ngAfterContentInit() {
         // Component content has been initialized
         if ((sessionStorage.getItem("state") != null) && (sessionStorage.getItem("state") != "")) {
-            //this.diagramComponent.loadDiagramFromJSON(JSON.parse(sessionStorage.getItem("state")));
             this.diagramLoaded = true;
         }
     }
@@ -118,11 +131,17 @@ export class MainComponent  implements OnInit, AfterContentInit {
     }
 
     btnCloseClick(event) {
-        sessionStorage.setItem(this.diagramComponent.stateSessionName, "");
-        this.diagramLoaded = false;
-        this.diagramComponent.resetEvents();
+        let menu = this;
+        if ((menu === null) && (event !== undefined))
+            menu = event.data;
 
-        ($("#importFile")[0] as any).value = "";
+        if (menu.diagramLoaded) {
+            sessionStorage.setItem(menu.diagramComponent.stateSessionName, "");
+            menu.diagramLoaded = false;
+            menu.diagramComponent.resetEvents();
+
+            ($("#importFile")[0] as any).value = "";
+        }
     }
 
     importFileClicked(event) {
@@ -142,22 +161,30 @@ export class MainComponent  implements OnInit, AfterContentInit {
     }
 
     printToPdfClicked(event) {
-        event.preventDefault();
+        if ((event !== undefined) && (event.preventDefault !== undefined))
+            event.preventDefault();
 
-        //new PDFDocument({compress: false}); // It's easier to find bugs with uncompressed files
-        var doc = new PDFDocument({ size: 'A4', layout: 'portrait' });
-        var stream = doc.pipe(new blobStream());
+        let menu = this;
+        if ((menu === null) && (event !== undefined))
+            menu = event.data;
 
-        stream.on('finish', function () {
-            //TODO: , 'filename=diagram.pdf') ????
-            var fileURL = URL.createObjectURL(stream.toBlob('application/pdf'));
-            window.open(fileURL);
+        if (menu.diagramLoaded) {
+            //new PDFDocument({compress: false}); // It's easier to find bugs with uncompressed files
+            var doc = new PDFDocument({size: 'A4', layout: 'portrait'});
+            var stream = doc.pipe(new blobStream());
 
-        });
+            stream.on('finish', function () {
+                //TODO: , 'filename=diagram.pdf') ????
+                var fileURL = URL.createObjectURL(stream.toBlob('application/pdf'));
+                if (fileURL != undefined)
+                    window.open(fileURL);
 
-        SVGtoPDF(doc, this.diagramComponent.getSVGFromDiagram(), 0, 0);
+            });
 
-        doc.end();
+            SVGtoPDF(doc, menu.diagramComponent.getSVGFromDiagram(), 0, 0);
+
+            doc.end();
+        }
     }
 
     datetimeToString(date: Date) : string {

@@ -345,7 +345,7 @@ export class DiagramComponent implements AfterContentInit{
     }
 
     public getSVGFromDiagram() : any {
-        this.resetDiagram();
+        //this.resetDiagram();
 
         return $('#myholder').html();
     }

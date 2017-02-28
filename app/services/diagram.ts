@@ -372,12 +372,13 @@ class Actor extends Artifact{
     constructor(name: string, jsonElement: any, role: string) {
         super(name, jsonElement, role);
         this.behavior = Behavior.Near;
+        name = ((name === undefined) || (name == "")) ? " " : name;
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name),
                 height: Util.getElementHeightFromTextLength(name) },
             attrs: { rect: { fill: '#FFFFFF' }, text: { text: name, fill: '#000000' } },
-            markup: Util.getSVGActorImage(role)
+            markup: Util.getSVGActorImage(role, name)
         });
         (this.visualShape as any).parent = this;
     }
@@ -412,6 +413,9 @@ class Step  {
 class Util{
     static HeightToAddIfArtifactEmbeded : number = 12;
     static MaxUndo : number = 20;
+    static ActorHuman: string = "human";
+    static ActorExpert: string = "expert";
+    static ActorComputer: string = "computed";
 
     static getElementWidthFromTextLength(name: string){
         var maxLine = _.max(name.split('\n'), function(l) { return l.length; });
@@ -451,10 +455,13 @@ class Util{
         return artifacts;
     }
 
-    static getSVGActorImage(actorType: string) : string {
-        var result =  '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" tooltipPlacement="top" tooltip="'+ actorType +'" width="40pt" height="40pt"  viewBox="0 0 300 300"  preserveAspectRatio="xMidYMid meet">';
+    static getSVGActorImage(actorType: string, name: string) : string {
+        let width = Util.getElementWidthFromTextLength(name) - 40;
+        var result =  '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" tooltipPlacement="top" tooltip="'+ actorType +'"'
+                        +' width="40pt" height="40pt"  viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" >';
+                        //+ ((width > 60) ? 'x="' + ((width / 2) - 10).toString() + '"' : '') +'>';
 
-        if (actorType.toLowerCase().indexOf('expert') >= 0) {
+        if (actorType.toLowerCase().indexOf(Util.ActorExpert) >= 0) {
             result += `<g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#030303" stroke="none">
                         <path class="node" id="node1" d="M1526 2694 c-223 -54 -386 -263 -386 -494 0 -140 50 -262 149 -360
                         102 -102 218 -150 357 -150 146 0 258 46 359 145 72 70 109 133 136 230 103
@@ -475,27 +482,20 @@ class Util{
                         19 103 191 98 213 -3 18 -14 19 -139 22 -108 2 -139 0 -148 -12z"></path>
                         </g>`;
         }
-        else {if(actorType.toLowerCase().indexOf('computed')>=0 ){
-
-
-          result += `<g transform="translate(0.000000,300.000000)  scale(0.400000,-0.400000)" fill="#030303" stroke="none">
-	
-<path d="M61.2,341.538c4.9,16.8,11.7,33,20.3,48.2l-24.5,30.9c-8,10.1-7.1,24.5,1.9,33.6l42.2,42.2c9.1,9.1,23.5,9.899,33.6,1.899
-		l30.7-24.3c15.8,9.101,32.6,16.2,50.1,21.2l4.6,39.5c1.5,12.8,12.3,22.4,25.1,22.4h59.7c12.8,0,23.6-9.601,25.1-22.4l4.4-38.1
-		c18.8-4.9,36.8-12.2,53.7-21.7l29.7,23.5c10.1,8,24.5,7.1,33.6-1.9l42.2-42.2c9.1-9.1,9.9-23.5,1.9-33.6l-23.1-29.3
-		c9.6-16.601,17.1-34.3,22.1-52.8l35.6-4.1c12.801-1.5,22.4-12.3,22.4-25.1v-59.7c0-12.8-9.6-23.6-22.4-25.1l-35.1-4.1
-		c-4.801-18.3-12-35.8-21.199-52.2l21.6-27.3c8-10.1,7.1-24.5-1.9-33.6l-42.1-42.1c-9.1-9.1-23.5-9.9-33.6-1.9l-26.5,21
-		c-17.2-10.1-35.601-17.8-54.9-23l-4-34.3c-1.5-12.8-12.3-22.4-25.1-22.4h-59.7c-12.8,0-23.6,9.6-25.1,22.4l-4,34.3
-		c-19.8,5.3-38.7,13.3-56.3,23.8l-27.5-21.8c-10.1-8-24.5-7.1-33.6,1.9l-42.2,42.2c-9.1,9.1-9.9,23.5-1.9,33.6l23,29.1
-		c-9.2,16.6-16.2,34.3-20.8,52.7l-36.8,4.2c-12.8,1.5-22.4,12.3-22.4,25.1v59.7c0,12.8,9.6,23.6,22.4,25.1L61.2,341.538z
-		 M277.5,180.038c54.4,0,98.7,44.3,98.7,98.7s-44.3,98.7-98.7,98.7c-54.399,0-98.7-44.3-98.7-98.7S223.1,180.038,277.5,180.038z"/>
-	
-
-
-</g>`;
-        }else
-
-        {
+        else if(actorType.toLowerCase().indexOf(Util.ActorComputer)>=0 ){
+          result += `<g transform="translate(0.000000,270.000000)  scale(0.400000,-0.400000)" fill="#030303" stroke="none">	
+                        <path d="M61.2,341.538c4.9,16.8,11.7,33,20.3,48.2l-24.5,30.9c-8,10.1-7.1,24.5,1.9,33.6l42.2,42.2c9.1,9.1,23.5,9.899,33.6,1.899
+                        l30.7-24.3c15.8,9.101,32.6,16.2,50.1,21.2l4.6,39.5c1.5,12.8,12.3,22.4,25.1,22.4h59.7c12.8,0,23.6-9.601,25.1-22.4l4.4-38.1
+                        c18.8-4.9,36.8-12.2,53.7-21.7l29.7,23.5c10.1,8,24.5,7.1,33.6-1.9l42.2-42.2c9.1-9.1,9.9-23.5,1.9-33.6l-23.1-29.3
+                        c9.6-16.601,17.1-34.3,22.1-52.8l35.6-4.1c12.801-1.5,22.4-12.3,22.4-25.1v-59.7c0-12.8-9.6-23.6-22.4-25.1l-35.1-4.1
+                        c-4.801-18.3-12-35.8-21.199-52.2l21.6-27.3c8-10.1,7.1-24.5-1.9-33.6l-42.1-42.1c-9.1-9.1-23.5-9.9-33.6-1.9l-26.5,21
+                        c-17.2-10.1-35.601-17.8-54.9-23l-4-34.3c-1.5-12.8-12.3-22.4-25.1-22.4h-59.7c-12.8,0-23.6,9.6-25.1,22.4l-4,34.3
+                        c-19.8,5.3-38.7,13.3-56.3,23.8l-27.5-21.8c-10.1-8-24.5-7.1-33.6,1.9l-42.2,42.2c-9.1,9.1-9.9,23.5-1.9,33.6l23,29.1
+                        c-9.2,16.6-16.2,34.3-20.8,52.7l-36.8,4.2c-12.8,1.5-22.4,12.3-22.4,25.1v59.7c0,12.8,9.6,23.6,22.4,25.1L61.2,341.538z
+                         M277.5,180.038c54.4,0,98.7,44.3,98.7,98.7s-44.3,98.7-98.7,98.7c-54.399,0-98.7-44.3-98.7-98.7S223.1,180.038,277.5,180.038z"/>
+                        </g>`;
+        }
+        else {
             result += `<g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#030303" stroke="none">
                         <path class="node" id="node1" d="M1526 2694 c-223 -54 -386 -263 -386 -494 0 -140 50 -262 149 -360
                         102 -102 218 -150 357 -150 146 0 258 46 359 145 72 70 109 133 136 230 103
@@ -505,7 +505,7 @@ class Util{
                         -1 320 c-1 316 -1 321 -27 400 -73 223 -237 382 -458 444 -70 19 -98 21 -395
                         20 -302 0 -323 -2 -395 -23z"></path>
                         </g>`;
-        }}
+        }
 
         result += '</svg> <text x="-10" y="100" font-size="14"></text>'; //this works like a template for actor name !
 
@@ -539,7 +539,7 @@ class Util{
                         description: artifactElement.description,
                         type: artifactElement.type,
                         visualShapeId: (artifactElement.visualShape !== undefined) ? artifactElement.visualShape.id : undefined,
-                        jsonElement: item.jsonElement,
+                        jsonElement: artifactElement.jsonElement,
                     });
                 }
 
@@ -678,8 +678,8 @@ class Util{
                                 //VisualShape association
                                 for (let cell of cells) {
                                     if (artifact.visualShapeId === cell.id) {
-                                        artifact.visualShape = cell;
-                                        (cell as any).parent = artifact;
+                                        businessArtifact.visualShape = cell;
+                                        (cell as any).parent = businessArtifact;
                                         break;
                                     }
                                 }

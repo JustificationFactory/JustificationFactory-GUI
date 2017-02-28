@@ -161,6 +161,38 @@ export class ActionsToolbarComponent {
 
         return disable;
     }
+
+    public disableRemoveEvidence() : boolean {
+        let disable = (this.selectedElement == null);
+
+        if (!disable) {
+            if ((this.selectedElement instanceof Evidence)){
+                var evidenceOutboundLinks = this._graph.getConnectedLinks(this.selectedElement.visualShape, { outbound: true });
+                var strategyId = evidenceOutboundLinks[0].get('target').id;
+                var strategy = (this._graph.getCell(strategyId) as any).parent;
+
+                var inboundLinks = this._graph.getConnectedLinks(strategy.visualShape, {inbound: true});
+                var currentComponent = this;
+                var nbEvidences = 0;
+                inboundLinks.forEach(function (inboundLink) {
+                    var sourceId = inboundLink.get('source').id;
+                    if (sourceId) {
+                        var source = (currentComponent._graph.getCell(sourceId) as any).parent;
+                        if (source instanceof Evidence || source instanceof Support) {
+                            nbEvidences++;
+                        }
+                    }
+                });
+                if(nbEvidences < 2)
+                    disable = true;
+            }
+            else{
+                disable = true;
+            }
+        }
+        return disable;
+    }
+
     public addSubStep() {
         if(!this.disableAddSubStep()) {
 
@@ -183,6 +215,7 @@ export class ActionsToolbarComponent {
 
             let strategyJsonElement = [{
                 "name" : "[Strategy " + this.nbNewSteps + "]",
+                "type" : "humanStrategy",
                 "rationale" : rationaleJsonElement,
                 "actor" : actorJsonElement
 
@@ -322,7 +355,7 @@ export class ActionsToolbarComponent {
             //*****************************************************
 
             let evidenceJsonElement = [{
-                name : "[Evidence " + this.nbNewSteps + "]",
+                name : "[New Evidence " + this.nbNewEvidences + "]",
                 element : {
                     type : "Type",
                 }
@@ -446,6 +479,7 @@ export class ActionsToolbarComponent {
 
             let strategyJsonElement = [{
                 "name" : "[Strategy " + this.nbNewSteps + "]",
+                "type" : "humanStrategy",
                 "rationale" : rationaleJsonElement,
                 "actor" : actorJsonElement
 
@@ -529,6 +563,27 @@ export class ActionsToolbarComponent {
 
             this.nbNewSteps++;
             sessionStorage.setItem("nbNewSteps", this.nbNewSteps + "");
+        }
+    }
+
+    public removeEvidence(){
+        if(!this.disableRemoveEvidence()) {
+            steps:
+                for (var i = 0; i < this.businessSteps.length; i++) {
+                    var step = this.businessSteps[i];
+                    if (step.getStepId() == this.selectedElement.stepId) {
+                        for (var elementKey in step.items) {
+                            var elementValue = step.items[elementKey];
+                            if (elementValue.name == this.selectedElement.name && elementValue.constructor.name == "Evidence") {
+                                delete step.items.splice(step.items.indexOf(elementValue), 1);
+                                break steps;
+                            }
+                        }
+                    }
+
+                }
+            this.selectedElement.visualShape.remove();
+            this.selectedElement = null;
         }
     }
 

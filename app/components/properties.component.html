@@ -3,6 +3,7 @@
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#businessPanel">Business</a></li>
     <li><a data-toggle="tab" href="#viewPanel">View</a></li>
+    <li *ngIf="limitExist || actorExist ||rationaleExist"><a data-toggle="tab" href="#artifactPanel">Artifacts</a></li>
 </ul>
 
 <div class="tab-content">
@@ -21,7 +22,7 @@
             </tr>
             <tr class="tr-property-detail">
                 <td > <label >Border: </label>
-                    <select class="form-control testing-element-shape" value="{{BorderOfElement}}" (change)="onBorderOfElementValueChanged($event)">
+                    <select class="form-control testing-element-borderType" value="{{BorderOfElement}}" (change)="onBorderOfElementValueChanged($event)">
                         <option *ngFor="let border of BordersList" value="{{border}}">{{border}}</option>
                     </select>
                 </td>
@@ -38,26 +39,6 @@
             </tr>
         </table>
 
-        <div class="panel panel-default panel-no-margin-bottom" *ngIf="limitExist">
-            <div class="panel-heading" >
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Limits</a>
-                </h4>
-            </div>
-            <div class="panel-body">
-                <table class="table table table-striped table-properties-details">
-                    <tr>
-                        <td><label>Background:</label><paletteColor [(selectedColorHex)]="BackgroundColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
-                    </tr>
-                    <tr>
-                        <td><label>Border color:</label><paletteColor [(selectedColorHex)]="BorderColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
-                    </tr>
-                    <tr>
-                        <td><label>Text color:</label><paletteColor [(selectedColorHex)]="TextColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
     </div>
 
     <div id="businessPanel" class="tab-pane fade in active">
@@ -91,6 +72,66 @@
                         </tr>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div id="artifactPanel" class="tab-pane fade" >
+
+        <div class="panel panel-default panel-no-margin-bottom" *ngIf="limitExist">
+            <div class="panel-heading" >
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Limits</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table table-striped table-properties-details">
+                    <tr>
+                        <td><label>Background:</label><paletteColor [(selectedColorHex)]="BackgroundColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
+                    </tr>
+                    <tr>
+                        <td><label>Border color:</label><paletteColor [(selectedColorHex)]="BorderColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
+                    </tr>
+                    <tr>
+                        <td><label>Text color:</label><paletteColor [(selectedColorHex)]="TextColorOfLimits" (selectedColorHexChange)="onColorChanged($event)"></paletteColor></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default panel-no-margin-bottom" *ngIf="actorExist">
+            <div class="panel-heading" >
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Actor</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table table-striped table-properties-details">
+                    <tr>
+                        <td><label>Name:</label><input  class="form-control testing-element-name" value="{{ActorName}}" type="text" (change)="onActorNameChanged($event)"/> </td>
+                    </tr>
+                    <tr class="tr-property-detail">
+                        <td > <label >Shape: </label>
+                            <select class="form-control" value="{{TypeOfActor}}" (change)="onTypeOfActorValueChanged($event)">
+                                <option *ngFor="let type of ActorTypesList" value="{{type}}">{{type}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default panel-no-margin-bottom" *ngIf="rationaleExist">
+            <div class="panel-heading" >
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Rationales</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table table-striped table-properties-details">
+                    <tr *ngFor="let rationaleItem of RationalesList">
+                        <td><label>Name:</label><input [attr.data-rationale-id]="rationaleItem.id" class="form-control testing-element-name" value="{{rationaleItem.value}}" type="text" (change)="onRationaleNameChanged($event)"/> </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
