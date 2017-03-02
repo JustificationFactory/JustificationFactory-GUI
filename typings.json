@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
-    "pdfkit": "file:typings/custom/pdfkit.d.ts"
+    "pdfkit": "file:typings/custom/pdfkit.d.ts",
+    "testing": "file:typings/custom/testing.d.ts"
   }
 }
