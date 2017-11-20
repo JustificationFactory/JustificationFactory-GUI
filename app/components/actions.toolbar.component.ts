@@ -100,7 +100,7 @@ export class ActionsToolbarComponent {
                     if(elementValue.name == name && elementValue.constructor.name == "Support"){
                         visualShapeSupport = elementValue.visualShape;
                         artifactsSupport = elementValue.artifacts;
-                        delete step.items.splice(step.items.indexOf(elementValue), 1);
+                        step.items.splice(step.items.indexOf(elementValue), 1);
                         break elements;
                     }
                 }
@@ -575,7 +575,7 @@ export class ActionsToolbarComponent {
                         for (var elementKey in step.items) {
                             var elementValue = step.items[elementKey];
                             if (elementValue.name == this.selectedElement.name && elementValue.constructor.name == "Evidence") {
-                                delete step.items.splice(step.items.indexOf(elementValue), 1);
+                                step.items.splice(step.items.indexOf(elementValue), 1);
                                 break steps;
                             }
                         }

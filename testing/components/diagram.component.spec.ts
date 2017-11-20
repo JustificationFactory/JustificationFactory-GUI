@@ -243,9 +243,9 @@ describe("diagram.component.", () => {
             let name0 = ((cell0 as any).parent as DiagramElement).name;
             let cellView0 = comp.getCellViewFromCell(cell0);
 
-            var e = new jQuery.Event("click"); // clientX & clientY needed for Firefox browser
-            e.clientX = 10;
-            e.clientY = 10;
+            var e = new jQuery.Event("click", {clientX:10, clientY:10}); // clientX & clientY needed for Firefox browser
+            //e.clientX = 10;
+            //e.clientY = 10;
             cellView0.$el.trigger(e);
 
             fixture.detectChanges();
@@ -271,17 +271,17 @@ describe("diagram.component.", () => {
             let name0 = ((cell0 as any).parent as DiagramElement).name;
             let cellView0 = comp.getCellViewFromCell(cell0);
 
-            var e = new jQuery.Event("click"); // clientX & clientY needed for Firefox browser
-            e.clientX = 10;
-            e.clientY = 10;
+            var e = new jQuery.Event("click", {clientX:10, clientY:10}); // clientX & clientY needed for Firefox browser
+            //e.clientX = 10;
+            //e.clientY = 10;
             cellView0.$el.trigger(e);
 
             fixture.detectChanges();
             expect(fixture.nativeElement.querySelector('properties-view') === null).toBe(false);
 
-            var e = new jQuery.Event("click"); // clientX & clientY needed for Firefox browser
-            e.clientX = 10;
-            e.clientY = 10;
+            var e = new jQuery.Event("click", {clientX:10, clientY:10}); // clientX & clientY needed for Firefox browser
+            //e.clientX = 10;
+            //e.clientY = 10;
             comp.getPaper().$el.trigger(e);
 
             fixture.detectChanges();

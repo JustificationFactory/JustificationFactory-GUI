@@ -172,7 +172,7 @@ describe("properties.component.", () => {
 
             comp.selectedElement = businessSteps[0].items[2];
 
-            let cs = new SimpleChange("", "Stimulation 0");
+            let cs = new SimpleChange("", "Stimulation 0", true);
             comp.ngOnChanges({ "selectedElement": cs });
 
             expect(comp.getElementName()).toEqual("Stimulation 0");
@@ -191,7 +191,7 @@ describe("properties.component.", () => {
 
             comp.selectedElement = businessSteps[0].items[2];
 
-            let cs = new SimpleChange("", "Stimulation 0");
+            let cs = new SimpleChange("", "Stimulation 0", true);
             comp.ngOnChanges({ "selectedElement": cs });
 
             fixture.detectChanges();
@@ -215,7 +215,7 @@ describe("properties.component.", () => {
 
             comp.selectedElement = businessSteps[0].items[2];
 
-            let cs = new SimpleChange("", "Stimulation 0");
+            let cs = new SimpleChange("", "Stimulation 0", true);
             comp.ngOnChanges({ "selectedElement": cs });
 
             fixture.detectChanges();
@@ -236,7 +236,7 @@ describe("properties.component.", () => {
 
             comp.selectedElement = businessSteps[0].items[2];
 
-            let cs = new SimpleChange("", "Stimulation 0");
+            let cs = new SimpleChange("", "Stimulation 0", true);
             comp.ngOnChanges({ "selectedElement": cs });
 
             fixture.detectChanges();
