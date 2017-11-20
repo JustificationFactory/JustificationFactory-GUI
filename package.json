@@ -1,7 +1,11 @@
 {
   "name": "argumentation-webserver",
   "version": "0.0.1",
-  "repository": "https://github.com/AVEK-project/ADEV",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AVEK-project/ADEV.git"
+  },
+  "license": "UNLICENSED",
   "scripts": {
     "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
     "tsc": "tsc",
