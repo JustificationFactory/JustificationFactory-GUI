@@ -1,4 +1,4 @@
-#PFE - Architecture framework over a requirements justification engine: biomedial application
+# PFE - Architecture framework over a requirements justification engine: biomedial application
 
 ## Stakeholders:
   * Owner: Clément Duffau ([duffau@i3s.unice.fr](duffau@i3s.unice.fr))
@@ -10,25 +10,16 @@
 
   * Angular 2
   * JointJS - Diagram Design Library
+  * TypeScript
+  * Karma
+  * Jasmine
 
-##Test server (Jenkins)
-
-**Prerequisite :**  
-npm install -g typescript  
-npm install -g karma-cli  
-
-**Tools used**  
-For unit testing we use *Jasmine Framework* to write unit tests, and *Karma* tool then to launch unit tests.
-
-**Launch command :**  
-npm install  
-tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"
-
-##Production server
+## How to launch the project ?
 
 **Prerequisite :**  
-npm install -g typescript  
+* NodeJS
+* npm
 
-**Launch command :**  
-npm install --production  
-concurrent \"npm run tsc:w\" \"npm run lite\"  
+1. Clone this project somewhere on your computer.
+2. Run `npm install` at the root of the cloned directory
+3. Run `npm start` to start the development server
