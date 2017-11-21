@@ -14,12 +14,10 @@
   * Karma
   * Jasmine
 
-## How to launch the project ?
+## How to launch the project and deploy the solution
 
-**Prerequisite :**  
-* NodeJS
-* npm
+**Prerequisite :**  nodeJs & npm (which supposedly come withing nodeJs installation)
 
-1. Clone this project somewhere on your computer.
-2. Run `npm install` at the root of the cloned directory
-3. Run `npm start` to start the development server
+*  1. Clone this project somewhere on your computer.
+*  2. Run `npm install` at the root of the cloned directory.
+*  3. Run `npm start` to start the development server.
