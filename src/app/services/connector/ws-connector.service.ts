@@ -9,7 +9,6 @@ export class WsConnectorService {
   public host: string;
   public port: string;
   public prepath: string;
-  private results: string[];
 
 
   constructor(private http: HttpClient) {
@@ -22,7 +21,7 @@ export class WsConnectorService {
   get<T>(path): Observable<T> {
     const url = this.buildUrl(path);
     console.log('Sending get request to: ' + url);
-    return this.http.get<T>('http://localhost:9999/rest/argumentation/systems/');
+    return this.http.get<T>(url);
   }
 
   post(path, object): Object {

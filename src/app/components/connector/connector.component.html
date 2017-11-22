@@ -1,13 +1,30 @@
 <div id="connectorComponent">
   <h2>Connector Comp</h2>
-  <button>Button</button>
 
   <div>
     <p>Possibilities</p>
-    <ul>
-      <li *ngFor="let argSystem of argSystems">
-        <span>{{argSystem}}</span>
+    <select #t (change)="changeCurrentArgSystem(t.value)">
+      <option disabled selected value> -- select an option -- </option>
+      <option *ngFor="let argSystem of argSystemList" value="{{argSystem}}" >{{argSystem}}</option>
+    </select>
+  </div>
+
+  <div>
+    <p>Argumentation System</p>
+    <button *ngIf="currentArgSystem != null" (click)="retrieveArgumentationSystem(currentArgSystem)">Retrieve</button>
+    <div *ngIf="currentArgSystem != null">
+      <ul>
+      <li *ngFor="let step of currentArgSystem.steps">
+        <span>{{step}}</span>
       </li>
     </ul>
+      <ul>
+        <li *ngFor="let baseEvidence of currentArgSystem.baseEvidences">
+          <span>{{baseEvidence}}</span>
+        </li>
+      </ul>
+      <p>{{currentArgSystem.objective}}</p>
+      <p>{{currentArgSystem.patternsBase}}</p>
+    </div>
   </div>
 </div>
