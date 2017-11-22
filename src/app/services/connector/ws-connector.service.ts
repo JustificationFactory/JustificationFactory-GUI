@@ -19,10 +19,10 @@ export class WsConnectorService {
     this.prepath = '/rest/argumentation/';
   }
 
-  get(path): Observable<string[]> {
+  get<T>(path): Observable<T> {
     const url = this.buildUrl(path);
     console.log('Sending get request to: ' + url);
-    return this.http.get<string[]>('http://localhost:9999/rest/argumentation/systems/');
+    return this.http.get<T>('http://localhost:9999/rest/argumentation/systems/');
   }
 
   post(path, object): Object {

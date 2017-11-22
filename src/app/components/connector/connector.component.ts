@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {WsConnectorService} from '../../services/connector/ws-connector.service';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-connector',
@@ -13,7 +14,7 @@ export class ConnectorComponent implements OnInit {
   constructor(private connectorService: WsConnectorService) { }
 
   ngOnInit() {
-    this.connectorService.get('systems/').subscribe(data => this.argSystems = data);
+    this.connectorService.get<string[]>('systems/').subscribe(data => this.argSystems = data);
   }
 
 
