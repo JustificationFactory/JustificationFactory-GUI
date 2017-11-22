@@ -1,13 +1,20 @@
-import {Component, Input, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {
-  Actor, Behavior, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy,
+  Actor,
+  Behavior,
+  Conclusion,
+  DiagramElement,
+  Evidence,
+  Rationale,
+  Step,
+  Strategy,
   Support
-} from "../services/diagram";
+} from '../../../services/diagram/diagram';
 
 @Component({
     //moduleId: module.id,
     selector: 'actionstoolbar-view',
-    templateUrl: 'actions.toolbar.component.html',
+    templateUrl: './actions.toolbar.component.html',
     //styleUrls: ['./css/app.css']
 })
 export class ActionsToolbarComponent {

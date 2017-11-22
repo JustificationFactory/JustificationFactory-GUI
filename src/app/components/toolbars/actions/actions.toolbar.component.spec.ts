@@ -1,11 +1,20 @@
-import {ComponentFixture, TestBed, async} from '@angular/core/testing';
-import {DiagramComponent} from "../../app/components/diagram.component";
-import {PropertiesComponent} from "../../app/components/properties.component";
-import {ActionsToolbarComponent} from "../../app/components/actions.toolbar.component";
-import {EditToolbarComponent} from "../../app/components/edit.toolbar.component";
-import {PaletteComponent} from "../../app/components/palette.component";
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {DiagramComponent} from "../../diagram/diagram.component";
+import {PropertiesComponent} from "../../properties/properties.component";
+import {ActionsToolbarComponent} from "./actions.toolbar.component";
+import {EditToolbarComponent} from "../edit/edit.toolbar.component";
+import {PaletteComponent} from "../../palette/palette.component";
 import {DebugElement} from "@angular/core";
-import {Actor, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy, Support} from "../services/diagram";
+import {
+  Actor,
+  Conclusion,
+  DiagramElement,
+  Evidence,
+  Rationale,
+  Step,
+  Strategy,
+  Support
+} from "../../../services/diagram/diagram";
 
 
 describe("actions.toolbar.component.", () => {
@@ -39,7 +48,7 @@ describe("actions.toolbar.component.", () => {
         // Overrides here, if you need them
         TestBed.overrideComponent(DiagramComponent, {
             set: {
-                templateUrl: 'diagram.component.html',
+                templateUrl: 'diagram/diagram.component.html',
                 providers: [
                     ActionsToolbarComponent,
                     PropertiesComponent
@@ -48,22 +57,22 @@ describe("actions.toolbar.component.", () => {
         })
         TestBed.overrideComponent(PropertiesComponent, {
             set: {
-                templateUrl: 'properties.component.html'
+                templateUrl: 'properties/properties.component.html'
             }
         });
         TestBed.overrideComponent(ActionsToolbarComponent, {
             set: {
-                templateUrl: 'actions.toolbar.component.html'
+                templateUrl: 'actions/actions.toolbar.component.html'
             }
         });
         TestBed.overrideComponent(EditToolbarComponent, {
             set: {
-                templateUrl: 'edit.toolbar.component.html'
+                templateUrl: 'toolbars/edit/edit.toolbar.component.html'
             }
         });
         TestBed.overrideComponent(PaletteComponent, {
             set: {
-                templateUrl: 'palette.component.html'
+                templateUrl: 'palette/palette.component.html'
             }
         });
 

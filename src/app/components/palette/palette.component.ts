@@ -1,14 +1,12 @@
-/**
- * Created by Haifa GHIDHAOUI on 11/12/2016.
- */
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
 
     selector: 'paletteColor',
 
-    templateUrl: 'palette.component.html',
+    templateUrl: './palette.component.html',
 
+  // TODO: OH MON DIEU MAYDAYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
     styles: [`
         .dialog {
             width: 400px;

@@ -1,13 +1,10 @@
-import {Component, Input, SimpleChanges, OnChanges, EventEmitter, Output} from '@angular/core';
-import {
-  Actor, Conclusion, DiagramElement, Evidence, Limitation, Rationale, Step, Strategy, Support,
-  Util
-} from "../services/diagram";
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Actor, DiagramElement, Limitation, Rationale, Util} from '../../services/diagram/diagram';
 
 
 @Component({
     selector: 'properties-view',
-    templateUrl: 'properties.component.html',
+    templateUrl: './properties.component.html',
 })
 export class PropertiesComponent implements OnChanges {
 

@@ -1,8 +1,8 @@
-    import {Actor, Conclusion, Evidence, LinkElement, Rationale, Step, Strategy, Support, Util} from "./diagram";
+import {Actor, Conclusion, Evidence, LinkElement, Rationale, Step, Strategy, Support, Util} from "./diagram";
 
 import * as joint from "jointjs";
 
-    describe("diagram.", function () {
+describe("diagram.", function () {
 
         beforeEach(() => {
 

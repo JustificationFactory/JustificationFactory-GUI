@@ -1,10 +1,19 @@
-import {Component, AfterContentInit} from '@angular/core';
+import {AfterContentInit, Component} from '@angular/core';
 import {
-  Actor, Artifact, Behavior, Conclusion, DiagramElement, Evidence, Limitation, Rationale, Step, Strategy, Support,
+  Actor,
+  Artifact,
+  Behavior,
+  Conclusion,
+  DiagramElement,
+  Evidence,
+  Limitation,
+  Step,
+  Strategy,
+  Support,
   Util
-} from "../services/diagram";
-import {PropertiesComponent} from "./properties.component";
-import {ActionsToolbarComponent} from "./actions.toolbar.component";
+} from "../../services/diagram/diagram";
+import {PropertiesComponent} from "../properties/properties.component";
+import {ActionsToolbarComponent} from "../toolbars/actions/actions.toolbar.component";
 
 import * as joint from "jointjs"
 import Graph = joint.dia.Graph;
@@ -12,7 +21,7 @@ import Cell = joint.dia.Cell;
 
 @Component({
     selector: 'diagram-view',
-    templateUrl: 'diagram.component.html',
+    templateUrl: './diagram.component.html',
 })
 export class DiagramComponent implements AfterContentInit{
     private _graph: joint.dia.Graph;

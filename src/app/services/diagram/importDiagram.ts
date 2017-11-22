@@ -1,7 +1,4 @@
-import {
-  Actor, Conclusion, DiagramElement, Evidence, LinkElement, Rationale, Step, Strategy,
-  Support
-} from "../services/diagram";
+import {Actor, Conclusion, DiagramElement, Evidence, LinkElement, Rationale, Step, Strategy, Support} from './diagram';
 
 export class KeyValueEvidence {
     constructor(public conclusionId: string, public evidence: Evidence) {

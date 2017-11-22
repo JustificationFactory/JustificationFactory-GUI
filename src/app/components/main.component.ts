@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild, AfterContentInit} from '@angular/core';
-import {DiagramComponent} from "./diagram.component";
-import {ParseDiagramElementsResult, ParseJson2DiagramElements} from "../services/importDiagram";
+import {AfterContentInit, Component, OnInit, ViewChild} from '@angular/core';
+import {DiagramComponent} from "./diagram/diagram.component";
+import {ParseDiagramElementsResult, ParseJson2DiagramElements} from "../services/diagram/importDiagram";
 
 @Component({
     //moduleId: module.id,

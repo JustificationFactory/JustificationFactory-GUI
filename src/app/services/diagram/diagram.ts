@@ -1,45 +1,42 @@
-import * as _ from "lodash"
+import * as _ from 'lodash';
 
-import * as joint from "jointjs";
-
-import Path = joint.shapes.basic.Path;
+import * as joint from 'jointjs';
 import Cell = joint.dia.Cell;
-import Graph = joint.dia.Graph;
 
 export class DiagramElement {
     visualShape: Cell;
     jsonElement: any;
     name: string;
-    description:string;
-    type:string;
+    description: string;
+    type: string;
     artifacts: Array<Artifact>;
-    stepId : String;
+    stepId: String;
 
-    public static RectangleShape : string = "M 0 0 L 60 0 L 60 30 L 0 30 Z";
-    public static RoundedRectangleShape : string = "M 0 6 Q 0 0 6 0 L 54 0 Q 60 0 60 6 L 60 24 Q 60 30 54 30 L 6 30 Q 0 30 0 24 Z";
-    public static ParallelogramShape : string = "M 10 0 L 70 0 L 60 30 L 0 30 Z";
+    public static RectangleShape = 'M 0 0 L 60 0 L 60 30 L 0 30 Z';
+    public static RoundedRectangleShape = 'M 0 6 Q 0 0 6 0 L 54 0 Q 60 0 60 6 L 60 24 Q 60 30 54 30 L 6 30 Q 0 30 0 24 Z';
+    public static ParallelogramShape = 'M 10 0 L 70 0 L 60 30 L 0 30 Z';
 
-    public static SolidBorder : string ="";
-    public static DashBorder : string ="5,5";
-    public static MixBorder : string ="10,2,10";
+    public static SolidBorder = '';
+    public static DashBorder = '5,5';
+    public static MixBorder = '10,2,10';
 
 
     constructor(name: string, jsonElement: any, type: string) {
         this.name = name;
         this.jsonElement = jsonElement;
         this.type = type;
-        this.description = "";
+        this.description = '';
         this.artifacts = [];
     }
 
-    makeLinkWithParent(parentElement:DiagramElement) : LinkElement {
+    makeLinkWithParent(parentElement: DiagramElement): LinkElement {
         return new LinkElement(this, parentElement);
     }
-    makeLinkWithChild(childElement) : LinkElement {
+    makeLinkWithChild(childElement): LinkElement {
         return new LinkElement(childElement, this);
     }
 
-    public getId() : string {
+    public getId(): string {
         if (typeof this.visualShape != 'undefined') {
             return this.visualShape.id;
         }
@@ -53,17 +50,17 @@ export enum Behavior {
 
 export class LinkElement extends DiagramElement {
     constructor(public sourceElement: DiagramElement, public targetElement: DiagramElement) {
-        super("", JSON.parse("{}"), "");
+        super('', JSON.parse('{}'), '');
         this.visualShape = new joint.dia.Link({
             source: { id: sourceElement.visualShape.id },
             target: { id: targetElement.visualShape.id },
             attrs: {
                 '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z'},
-                '.link-tools': { visibility: "collapse" },
-                '.marker-arrowheads': { visibility: "collapse" },
-                '.marker-vertices': { visibility: "collapse" },
-                '.labels': { visibility: "collapse" },
-                '.connection-wrap': { visibility: "collapse" }
+                '.link-tools': { visibility: 'collapse' },
+                '.marker-arrowheads': { visibility: 'collapse' },
+                '.marker-vertices': { visibility: 'collapse' },
+                '.labels': { visibility: 'collapse' },
+                '.connection-wrap': { visibility: 'collapse' }
             }
         });
     }
@@ -115,7 +112,7 @@ export class Conclusion extends DiagramElement {
                 path: { d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
                 text: { text: name, 'ref-y': .3, fill: '#000000' }
             }
-        })
+        });
 
         this.artifacts = Util.getLimitationsFromJson(jsonElement, this);
         (this.visualShape as any).parent = this;
@@ -173,7 +170,7 @@ export class Artifact extends DiagramElement {
         super(name, jsonElement, type);
     }
     makeLinkWithParent(parentElement) {
-        var link = new LinkElement(this,parentElement);
+        const link = new LinkElement(this, parentElement);
         link.visualShape = new joint.dia.Link({
             source: { id: this.visualShape.id },
             target: { id: parentElement.visualShape.id },
@@ -186,11 +183,11 @@ export class Artifact extends DiagramElement {
                     'stroke-dasharray': '1.5'
                 },
                 '.marker-target': { fill : 'none' },
-                '.link-tools': { visibility: "collapse" },
-                '.marker-arrowheads': { visibility: "collapse" },
-                '.marker-vertices': { visibility: "collapse" },
-                '.labels': { visibility: "collapse" },
-                '.connection-wrap': { visibility: "collapse" }
+                '.link-tools': { visibility: 'collapse' },
+                '.marker-arrowheads': { visibility: 'collapse' },
+                '.marker-vertices': { visibility: 'collapse' },
+                '.labels': { visibility: 'collapse' },
+                '.connection-wrap': { visibility: 'collapse' }
             }
         });
         return link;
@@ -204,11 +201,11 @@ export class Limitation extends Artifact{
 
         // A port haven't got a "visual shape"
 
-        var widthRect = Util.getElementWidthFromTextLength(name);
-        var xRect = 0;
-        var yRect = 0;
-        var xEcartFromMiddle = 18;
-        var yLabel = 0;
+        let widthRect = Util.getElementWidthFromTextLength(name);
+        let xRect = 0;
+        let yRect = 0;
+        const xEcartFromMiddle = 18;
+        let yLabel = 0;
 
         //TODO: Find how to remove port transformation (matrix...)
         // "y" of rectangle must be 25 after transformation
@@ -264,7 +261,7 @@ export class Limitation extends Artifact{
                 //just show '...' instead of the real name, to indicate there are more than 2 limitations
                 name = '...';
                 widthRect = 30;
-                var xMargeOtherLimitations = 3;
+                const xMargeOtherLimitations = 3;
 
                 //We put the third limitation's rectangle at the middle middle of the conclusion
                 if ((parentElement.visualShape as any).portData.ports[0].attrs.rect.width > ((parentElement.visualShape.attributes.size.width / 2) - xEcartFromMiddle)) {
@@ -286,11 +283,11 @@ export class Limitation extends Artifact{
         }
         yRect += 5; // 37 - 12 = 25
         yLabel += 5;
-        var nameLength = $('#ruler').html(name).width();
-        var xLabel = xRect + ((widthRect - nameLength) / 2);
+        const nameLength = $('#ruler').html(name).width();
+        const xLabel = xRect + ((widthRect - nameLength) / 2);
 
         if (index < 3) {
-            var port = {
+            const port = {
                 id: Util.getNewGuid(),
                 label: {
                     position: {
@@ -326,7 +323,7 @@ export class Limitation extends Artifact{
         }
     }
 
-    static reorganizePorts(visual_shape : any) {
+    static reorganizePorts(visual_shape: any) {
         //we must change "y" of previous ports after addPort, otherwise "y" re-switch to previous value
         if (visual_shape.portData.ports.length == 2) {
             visual_shape.portData.ports[0].attrs.rect.y = 19; // 11 + 14 = 25
@@ -349,9 +346,9 @@ export class Rationale extends Artifact{
         this.name = name;
 
         if (jsonElement.axonicProject) {
-            for (var r of Object.values(jsonElement.axonicProject)) {
-                if (this.name != "")
-                    this.name += " & ";
+            for (const r of Object.values(jsonElement.axonicProject)) {
+                if (this.name != '')
+                    this.name += ' & ';
                 this.name += r;
             }
         }
@@ -370,7 +367,7 @@ export class Actor extends Artifact{
     constructor(name: string, jsonElement: any, role: string) {
         super(name, jsonElement, role);
         this.behavior = Behavior.Near;
-        name = ((name === undefined) || (name == "")) ? " " : name;
+        name = ((name === undefined) || (name == '')) ? ' ' : name;
         this.visualShape = new joint.shapes.basic.Rect({
             id: Util.getNewGuid(),
             size: { width: Util.getElementWidthFromTextLength(name),
@@ -390,11 +387,11 @@ export class ForEach extends Artifact{
 }
 
 export class Step  {
-    private stepId : String;
-    public items : Array<DiagramElement>;
+    private stepId: String;
+    public items: Array<DiagramElement>;
 
     constructor (id: String) {
-        if ((id === undefined) || (id == ""))
+        if ((id === undefined) || (id == ''))
             this.stepId = Util.getNewGuid();
         else
             this.stepId = id;
@@ -402,61 +399,61 @@ export class Step  {
         this.items = new Array<DiagramElement>();
     }
 
-    public getStepId() : String {
+    public getStepId(): String {
         return this.stepId;
     }
 }
 
 
 export class Util{
-    static HeightToAddIfArtifactEmbeded : number = 12;
-    static MaxUndo : number = 20;
-    static ActorHuman: string = "human";
-    static ActorExpert: string = "expert";
-    static ActorComputer: string = "computed";
+    static HeightToAddIfArtifactEmbeded = 12;
+    static MaxUndo = 20;
+    static ActorHuman = 'human';
+    static ActorExpert = 'expert';
+    static ActorComputer = 'computed';
 
     static getElementWidthFromTextLength(name: string){
-        var maxLine = _.max(name.split('\n'), function(l) { return l.length; });
-        var maxLineWidth = $('#ruler').html(maxLine).width();
+        const maxLine = _.max(name.split('\n'), function(l) { return l.length; });
+        const maxLineWidth = $('#ruler').html(maxLine).width();
         return maxLineWidth + 40;
     }
 
     static getElementHeightFromTextLength(name: string){
-        var maxLineLength = _.max(name.split('\n'), function(l) { return l.length; }).length;
+        const maxLineLength = _.max(name.split('\n'), function(l) { return l.length; }).length;
         // Compute width/height of the rectangle based on the number
         // of lines in the label and the letter size. 0.6 * letterSize is
         // an approximation of the monospace font letter width.
-        var letterSize = 8;
-        var height = 2 * ((name.split('\n').length + 1) * letterSize);
+        const letterSize = 8;
+        const height = 2 * ((name.split('\n').length + 1) * letterSize);
         return height;
     }
 
-    static getNewGuid() : String {
+    static getNewGuid(): String {
         function S4() {
-            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
         }
 
         // then to call it, plus stitch in '4' in the third group
-        return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+        return (S4() + S4() + '-' + S4() + '-4' + S4().substr(0, 3) + '-' + S4() + '-' + S4() + S4() + S4()).toLowerCase();
     }
 
-    static getLimitationsFromJson(jsonElement: any, parentElement: DiagramElement) : Array<Artifact> {
-        var artifacts = new Array<Artifact>();
-        var index = 0;
+    static getLimitationsFromJson(jsonElement: any, parentElement: DiagramElement): Array<Artifact> {
+        const artifacts = new Array<Artifact>();
+        let index = 0;
 
-        if(jsonElement[0] && jsonElement[0].hasOwnProperty("limits")){
-            for(var limit of Object.keys(jsonElement[0].limits)) {
-                artifacts.push(new Limitation(limit, [jsonElement[0].limits[limit]], "", parentElement, index++))
-            };
+        if (jsonElement[0] && jsonElement[0].hasOwnProperty('limits')){
+            for (const limit of Object.keys(jsonElement[0].limits)) {
+                artifacts.push(new Limitation(limit, [jsonElement[0].limits[limit]], '', parentElement, index++));
+            }
         }
 
         return artifacts;
     }
 
-    static getSVGActorImage(actorType: string, name: string) : string {
-        let width = Util.getElementWidthFromTextLength(name) - 40;
-        var result =  '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" tooltipPlacement="top" tooltip="'+ actorType +'"'
-                        +' width="40pt" height="40pt"  viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" >';
+    static getSVGActorImage(actorType: string, name: string): string {
+        const width = Util.getElementWidthFromTextLength(name) - 40;
+        let result =  '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" tooltipPlacement="top" tooltip="' + actorType + '"'
+                        + ' width="40pt" height="40pt"  viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" >';
                         //+ ((width > 60) ? 'x="' + ((width / 2) - 10).toString() + '"' : '') +'>';
 
         if (actorType.toLowerCase().indexOf(Util.ActorExpert) >= 0) {
@@ -473,15 +470,15 @@ export class Util{
                         8 -36 56 -60 108 -59 125 -60 123 115 120 125 -3 136 -4 139 -22z"></path>
                         </g>
                         <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#9E9E9E" stroke="none">
-                        
+
                         <path class="node" id="node4" d="M1511 1526 c-9 -11 -2 -33 33 -108 24 -52 51 -100 60 -108 10 -8 13
                         -16 7 -19 -13 -8 -28 -162 -45 -451 l-13 -225 45 -77 c25 -42 50 -74 56 -72 6
                         2 32 37 57 77 44 67 47 76 43 127 -44 619 -44 620 -57 620 -7 1 -6 5 3 13 23
                         19 103 191 98 213 -3 18 -14 19 -139 22 -108 2 -139 0 -148 -12z"></path>
                         </g>`;
         }
-        else if(actorType.toLowerCase().indexOf(Util.ActorComputer)>=0 ){
-          result += `<g transform="translate(0.000000,270.000000)  scale(0.400000,-0.400000)" fill="#030303" stroke="none">	
+        else if (actorType.toLowerCase().indexOf(Util.ActorComputer) >= 0 ){
+          result += `<g transform="translate(0.000000,270.000000)  scale(0.400000,-0.400000)" fill="#030303" stroke="none">
                         <path d="M61.2,341.538c4.9,16.8,11.7,33,20.3,48.2l-24.5,30.9c-8,10.1-7.1,24.5,1.9,33.6l42.2,42.2c9.1,9.1,23.5,9.899,33.6,1.899
                         l30.7-24.3c15.8,9.101,32.6,16.2,50.1,21.2l4.6,39.5c1.5,12.8,12.3,22.4,25.1,22.4h59.7c12.8,0,23.6-9.601,25.1-22.4l4.4-38.1
                         c18.8-4.9,36.8-12.2,53.7-21.7l29.7,23.5c10.1,8,24.5,7.1,33.6-1.9l42.2-42.2c9.1-9.1,9.9-23.5,1.9-33.6l-23.1-29.3
@@ -510,27 +507,27 @@ export class Util{
         return result;
     }
 
-    static roundedRectangleSvg(x, y, w, h, r1, r2, r3, r4) : string {
+    static roundedRectangleSvg(x, y, w, h, r1, r2, r3, r4): string {
         let result = [];
 
-        result = result.concat(["M",x,r1+y, "Q",x,y, x+r1,y]); //A
-        result = result.concat(["L",x+w-r2,y, "Q",x+w,y, x+w,y+r2]); //B
-        result = result.concat(["L",x+w,y+h-r3, "Q",x+w,y+h, x+w-r3,y+h]); //C
-        result = result.concat(["L",x+r4,y+h, "Q",x,y+h, x,y+h-r4, "Z"]); //D
+        result = result.concat(['M', x, r1 + y, 'Q', x, y, x + r1, y]); //A
+        result = result.concat(['L', x + w - r2, y, 'Q', x + w, y, x + w, y + r2]); //B
+        result = result.concat(['L', x + w, y + h - r3, 'Q', x + w, y + h, x + w - r3, y + h]); //C
+        result = result.concat(['L', x + r4, y + h, 'Q', x, y + h, x, y + h - r4, 'Z']); //D
 
-        return result.toString().replace(/,/g, " ");
+        return result.toString().replace(/,/g, ' ');
     }
 
-    static stateToJSON(businessSteps : Array<Step>, jsonGraph : any, states: any)  {
-        let jsonBusinessSteps = [];
+    static stateToJSON(businessSteps: Array<Step>, jsonGraph: any, states: any)  {
+        const jsonBusinessSteps = [];
 
-        for (let businessStep of businessSteps) {
-            let businessElements = [];
+        for (const businessStep of businessSteps) {
+            const businessElements = [];
 
-            for (let item of businessStep.items) {
-                let artifactElements = [];
+            for (const item of businessStep.items) {
+                const artifactElements = [];
 
-                for (let artifactElement of item.artifacts) {
+                for (const artifactElement of item.artifacts) {
                     artifactElements.push({
                         elementType: artifactElement.constructor.name,
                         name: artifactElement.name,
@@ -541,7 +538,7 @@ export class Util{
                     });
                 }
 
-                let jsonSupport : any;
+                let jsonSupport: any;
 
                 if (item instanceof Support) {
                     jsonSupport = {
@@ -590,7 +587,7 @@ export class Util{
         return states;
     }
 
-    static stateFromJSON(states: any, result : any, indexState: number)  {
+    static stateFromJSON(states: any, result: any, indexState: number)  {
 
         if ((indexState === undefined) || (indexState < 0))
             states.currentIndex = 0;
@@ -602,7 +599,7 @@ export class Util{
             states.currentIndex = indexState;
 
         if ((states.previous !== undefined) && (states.previous.length >= states.currentIndex)) {
-            let state = states.previous[states.previous.length - 1 - states.currentIndex];
+            const state = states.previous[states.previous.length - 1 - states.currentIndex];
 
             result.changeDate = state.changeDate;
             result.jsonBusinessSteps = state.businessSteps;
@@ -613,27 +610,27 @@ export class Util{
 
     }
 
-    static businessStepsFromJSON(jsonBusinessSteps: any, cells: Array<Cell>, result : any)  {
+    static businessStepsFromJSON(jsonBusinessSteps: any, cells: Array<Cell>, result: any)  {
 
         result.businessSteps = new Array<Step>();
 
-        for (let step of jsonBusinessSteps) {
-            let businessStep = new Step(step.id);
+        for (const step of jsonBusinessSteps) {
+            const businessStep = new Step(step.id);
 
-            for (let element of step.elements) {
-                let businessElement : DiagramElement;
+            for (const element of step.elements) {
+                let businessElement: DiagramElement;
 
                 switch (element.elementType) {
-                    case "Conclusion":
+                    case 'Conclusion':
                         businessElement = new Conclusion(element.name, element.jsonElement, element.type);
                         break;
-                    case "Strategy":
+                    case 'Strategy':
                         businessElement = new Strategy(element.name, element.jsonElement, element.type);
                         break;
-                    case "Evidence":
+                    case 'Evidence':
                         businessElement = new Evidence(element.name, element.jsonElement, element.type);
                         break;
-                    case "Support":
+                    case 'Support':
                         //Intermediate step (not correct Conclusion and Evidence! cf. stateRebuildVisualShapeAssociation function)
                         businessElement = new Support(new Conclusion(element.name, element.jsonElement, element.type), new Evidence(element.name, element.jsonElement, element.type));
                         break;
@@ -644,7 +641,7 @@ export class Util{
                     businessElement.description = element.description;
 
                     //VisualShape association
-                    for (let cell of cells) {
+                    for (const cell of cells) {
                         if (element.visualShapeId === cell.id) {
                             businessElement.visualShape = cell;
                             (cell as any).parent = businessElement;
@@ -657,24 +654,24 @@ export class Util{
 
                     //Artifact association
                     if (element.artifacts !== undefined) {
-                        for (let artifact of element.artifacts) {
+                        for (const artifact of element.artifacts) {
                             let businessArtifact: Artifact;
 
                             switch (artifact.elementType) {
-                                case "Limitation":
+                                case 'Limitation':
                                     //Not necessary: Creation into Conclusion constructor
                                     break;
-                                case "Actor":
+                                case 'Actor':
                                     businessArtifact = new Actor(artifact.name, artifact.jsonElement, artifact.type);
                                     break;
-                                case "Rationale":
+                                case 'Rationale':
                                     businessArtifact = new Rationale(artifact.name, artifact.jsonElement, artifact.type);
                                     break;
                             }
 
                             if (businessArtifact !== undefined) {
                                 //VisualShape association
-                                for (let cell of cells) {
+                                for (const cell of cells) {
                                     if (artifact.visualShapeId === cell.id) {
                                         businessArtifact.visualShape = cell;
                                         (cell as any).parent = businessArtifact;
@@ -695,16 +692,16 @@ export class Util{
         }
 
         //Associate correct business element (Conclusion / Evidence) to Support element
-        let supportIds = new Array<String>();
-        for (let step of jsonBusinessSteps) {
-            for (let element of step.elements) {
-                if ((element.elementType == "Support") && (!supportIds.find((s) => { return s === element.visualShapeId})) ) {
+        const supportIds = new Array<String>();
+        for (const step of jsonBusinessSteps) {
+            for (const element of step.elements) {
+                if ((element.elementType == 'Support') && (!supportIds.find((s) => s === element.visualShapeId)) ) {
                     supportIds.push(element.visualShapeId);
                     let support_conclusion: DiagramElement;
                     let support_evidence: DiagramElement;
 
-                    for (let bStep of result.businessSteps) {
-                        for (let bElement of bStep.items) {
+                    for (const bStep of result.businessSteps) {
+                        for (const bElement of bStep.items) {
                             //Find correct Conclusion
                             if ((element.support.stepId_conclusion === bStep.stepId) && (bElement instanceof Conclusion)) {
                                 support_conclusion = bElement;
@@ -720,8 +717,8 @@ export class Util{
                     }
 
                     //Find Supports and replace Conclusion and Evidence
-                    for (let bStep of result.businessSteps) {
-                        for (let bElement of bStep.items) {
+                    for (const bStep of result.businessSteps) {
+                        for (const bElement of bStep.items) {
                             if (element.visualShapeId === bElement.visualShape.id) {
                                 bElement.conclusion = support_conclusion;
                                 bElement.evidence = support_evidence;

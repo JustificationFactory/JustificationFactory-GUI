@@ -1,9 +1,9 @@
-    import {Artifact, Conclusion, DiagramElement, Evidence, LinkElement, Strategy, Support} from "./diagram";
-    import {dia} from "jointjs";
-    import Cell = dia.Cell;
-    import {ParseDiagramElementsResult, ParseJson2DiagramElements} from "./importDiagram";
+import {Artifact, Conclusion, DiagramElement, Evidence, LinkElement, Strategy, Support} from "./";
+import {dia} from "jointjs";
+import {ParseDiagramElementsResult, ParseJson2DiagramElements} from "./importDiagram";
+import Cell = dia.Cell;
 
-    describe("importDiagram.", function () {
+describe("importDiagram.", function () {
 
         describe("ParseJson2DiagramElements.", function () {
             var jsonTest2Step = {
