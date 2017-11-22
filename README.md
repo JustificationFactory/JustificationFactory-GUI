@@ -8,7 +8,7 @@
     
 ## Technologies
 
-  * Angular 2
+  * Angular 5
   * JointJS - Diagram Design Library
   * TypeScript
   * Karma
@@ -16,8 +16,8 @@
 
 ## How to launch the project and deploy the solution
 
-**Prerequisite :**  nodeJs & npm (which supposedly come withing nodeJs installation)
+**Prerequisite :**  nodeJs & npm (which supposedly come within nodeJs installation)
 
-*  1. Clone this project somewhere on your computer.
-*  2. Run `npm install` at the root of the cloned directory.
-*  3. Run `npm start` to start the development server.
+1. Clone this project somewhere on your computer.
+2. Run `npm install` at the root of the cloned directory.
+3. Run `ng serve` to start the development server.
