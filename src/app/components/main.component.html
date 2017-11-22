@@ -27,12 +27,16 @@
     </div>
 </nav>
 
+<app-connector></app-connector>
+
 <div *ngIf="!diagramLoaded" style="width: 100%; text-align: center">
     <p><img src="assets/images/home-diagram.png" /></p>
     <p>Thank you for selecting a diagram</p>
 </div>
 
 <diagram-view *ngIf="diagramLoaded" ><img src="assets/images/spinner.gif" /></diagram-view>
+
+
 
 <a id="toExport" style="display: none;"></a>
 

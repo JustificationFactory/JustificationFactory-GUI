@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 
 
 import { ActionsToolbarComponent } from './components/actions.toolbar.component';
@@ -10,6 +9,9 @@ import { PropertiesComponent } from './components/properties.component';
 import { DiagramComponent } from './components/diagram.component';
 import { MainComponent } from './components/main.component';
 import { PaletteComponent } from './components/palette.component';
+import {HttpClientModule} from '@angular/common/http';
+import { ConnectorComponent } from './components/connector/connector.component';
+import {WsConnectorService} from './services/connector/ws-connector.service';
 
 
 @NgModule({
@@ -19,12 +21,13 @@ import { PaletteComponent } from './components/palette.component';
     PropertiesComponent,
     DiagramComponent,
     MainComponent,
-    PaletteComponent
+    PaletteComponent,
+    ConnectorComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpClientModule
   ],
   providers: [
     ActionsToolbarComponent,
@@ -32,7 +35,9 @@ import { PaletteComponent } from './components/palette.component';
     PropertiesComponent,
     DiagramComponent,
     MainComponent,
-    PaletteComponent
+    PaletteComponent,
+    ConnectorComponent,
+    WsConnectorService
   ],
   bootstrap: [MainComponent]
 })
