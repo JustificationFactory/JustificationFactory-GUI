@@ -11,11 +11,11 @@ import {
   Strategy,
   Support,
   Util
-} from "../../services/diagram/diagram";
-import {PropertiesComponent} from "../properties/properties.component";
-import {ActionsToolbarComponent} from "../toolbars/actions/actions.toolbar.component";
+} from '../../services/diagram/diagram';
+import {PropertiesComponent} from '../properties/properties.component';
+import {ActionsToolbarComponent} from '../toolbars/actions/actions.toolbar.component';
 
-import * as joint from "jointjs"
+import * as joint from 'jointjs';
 import Graph = joint.dia.Graph;
 import Cell = joint.dia.Cell;
 
@@ -26,15 +26,15 @@ import Cell = joint.dia.Cell;
 export class DiagramComponent implements AfterContentInit{
     private _graph: joint.dia.Graph;
     private _paper: joint.dia.Paper;
-    private window : Window;
-    private _initialPaperWidth : number = window.innerWidth; // 810
-    private _initialPaperHeight : number = window.innerHeight; // 610
-    private _graphScale : number = 1 ;
+    private window: Window;
+    private _initialPaperWidth: number = window.innerWidth; // 810
+    private _initialPaperHeight: number = window.innerHeight; // 610
+    private _graphScale = 1 ;
     private _dragStartPosition = null;
-    public stateSessionName = "state";
+    public stateSessionName = 'state';
 
     selectedElement = null;
-    diagramWidth = "col-sm-12 col-md-12 col-lg-12";
+    diagramWidth = 'col-sm-12 col-md-12 col-lg-12';
     businessSteps: Array<Step>;
 
 
@@ -70,7 +70,7 @@ export class DiagramComponent implements AfterContentInit{
     }
 
     public loadDiagramStateFromJson(stateToLoad) {
-        let states : any = {};
+        const states: any = {};
 
         states.currentIndex = 0;
         states.previous = [];
@@ -87,7 +87,7 @@ export class DiagramComponent implements AfterContentInit{
     }
 
     public currentBusinessStepsToJson() {
-        let result : any;
+        let result: any;
 
         if ((this.businessSteps !== undefined) && (this.businessSteps.length > 0)) {
 
@@ -97,14 +97,14 @@ export class DiagramComponent implements AfterContentInit{
                 }
             };
 
-            for (let bstep of this.businessSteps) {
-                let newJsonStep : any = {};
+            for (const bstep of this.businessSteps) {
+                const newJsonStep: any = {};
 
-                newJsonStep["conclusion"] = {};
-                newJsonStep["evidences"] = { evidenceRoles: [] };
-                newJsonStep["strategy"] = {};
+                newJsonStep['conclusion'] = {};
+                newJsonStep['evidences'] = { evidenceRoles: [] };
+                newJsonStep['strategy'] = {};
 
-                for (let bitem of bstep.items) {
+                for (const bitem of bstep.items) {
                     if (bitem instanceof Conclusion)
                         newJsonStep.conclusion = bitem.jsonElement[0];
                     else if (bitem instanceof Evidence)
@@ -123,11 +123,11 @@ export class DiagramComponent implements AfterContentInit{
     }
 
     public currentDiagramStateToJson() {
-        let result : any;
+        let result: any;
 
-        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != "")) {
-            let states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
-            let tmpresult = {
+        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != '')) {
+            const states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
+            const tmpresult = {
                 changeDate: new Date(),
                 jsonBusinessSteps: {},
                 businessSteps: {},
@@ -149,9 +149,9 @@ export class DiagramComponent implements AfterContentInit{
     }
 
     private undo_redo_graphState(undo: boolean, specificIndex: number) {
-        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != "")) {
-            let states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
-            let result = {
+        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != '')) {
+            const states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
+            const result = {
                 changeDate: new Date(),
                 jsonBusinessSteps: {},
                 businessSteps: {},
@@ -177,7 +177,7 @@ export class DiagramComponent implements AfterContentInit{
             this.initializeGraph();
 
             this._graph.fromJSON(result.graph);
-            for (let g of this._graph.getCells()) {
+            for (const g of this._graph.getCells()) {
                 if (((g as any).portData !== undefined) && ((g as any).portData.ports !== undefined) && ((g as any).portData.ports.length > 0))
                     Limitation.reorganizePorts(g);
             }
@@ -190,7 +190,7 @@ export class DiagramComponent implements AfterContentInit{
     }
 
     private initializeGraph() {
-        if(!this._graph) {
+        if (!this._graph) {
             this._graph = new Graph;
         }
 
@@ -206,8 +206,8 @@ export class DiagramComponent implements AfterContentInit{
             });
         }
         this.selectedElement = null;
-        this.diagramWidth = "col-sm-12 col-md-12 col-lg-12";
-        this._paper.setOrigin(0,0);
+        this.diagramWidth = 'col-sm-12 col-md-12 col-lg-12';
+        this._paper.setOrigin(0, 0);
 
         this.resetEvents();
         this._paper.on('cell:pointerclick', this.cellClick, this);
@@ -216,8 +216,8 @@ export class DiagramComponent implements AfterContentInit{
         this._paper.on('cell:pointerup blank:pointerup', this.pointerUp, this);
         this._graph.on('change', this.graphChanged, this);
         $('#myholder').on('mousemove', this, this.myholderMouseMove);
-        $('#myholder').on("wheel", this,  this.MouseWheelHandler);
-        $('#myholder').on("keypress", this,  this.diagram_keypress);
+        $('#myholder').on('wheel', this,  this.MouseWheelHandler);
+        $('#myholder').on('keypress', this,  this.diagram_keypress);
 
 
         $('#myholder').replaceWith(this._paper.el);
@@ -231,9 +231,9 @@ export class DiagramComponent implements AfterContentInit{
 
         this.initializeGraph();
 
-        let cells : joint.dia.Cell[] = [];
+        const cells: joint.dia.Cell[] = [];
 
-        for (let el of elements) {
+        for (const el of elements) {
             cells.push(el.visualShape);
         }
 
@@ -249,12 +249,12 @@ export class DiagramComponent implements AfterContentInit{
         });
 
         //Replace Actors and Rationales  near strategies
-        for (let el of elements) {
-            for(let artifact of el.artifacts){
-                if(artifact.behavior == Behavior.Near){
+        for (const el of elements) {
+            for (const artifact of el.artifacts){
+                if (artifact.behavior == Behavior.Near){
                     el.visualShape.embed(artifact.visualShape);
 
-                    if(artifact instanceof Actor) {
+                    if (artifact instanceof Actor) {
                         if ((el.visualShape as any).attributes.position.x >= (artifact.visualShape.prop('size/width') + 50))
                             (artifact.visualShape as any).position(-artifact.visualShape.prop('size/width') - 50, -20, {parentRelative: true});
                         else if ((el.visualShape as any).attributes.position.x >= (artifact.visualShape.prop('size/width') + 10))
@@ -274,18 +274,18 @@ export class DiagramComponent implements AfterContentInit{
         }
         this._startGraphChanged = false;
 
-        sessionStorage.setItem(this.stateSessionName, "");
+        sessionStorage.setItem(this.stateSessionName, '');
         this.saveGraphState();
-        if(bSteps.length >3){
-            for(var i=1;i<=(bSteps.length-3);i++){this.zoomOut();
+        if (bSteps.length > 3){
+            for (let i = 1; i <= (bSteps.length - 3); i++){this.zoomOut();
                 this.zoomOut();
-                this.zoomOut();}}
+                this.zoomOut(); }}
     }
 
     public saveGraphState() {
-        let states : any;
+        let states: any;
 
-        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != ""))
+        if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != ''))
             states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
 
         sessionStorage.setItem(this.stateSessionName, JSON.stringify(Util.stateToJSON(this.businessSteps, this._graph.toJSON(), states)));
@@ -323,25 +323,25 @@ export class DiagramComponent implements AfterContentInit{
         this._paper.off('blank:pointerdown', this.pointerDown, this);
         this._paper.off('cell:pointerup blank:pointerup', this.pointerUp, this);
         this._graph.off('change', this.graphChanged, this);
-        $('#myholder').off('mousemove', "", this.myholderMouseMove);
-        $('#myholder').off("wheel", "",  this.MouseWheelHandler);
-        $('#myholder').off("keypress", "",  this.diagram_keypress);
+        $('#myholder').off('mousemove', '', this.myholderMouseMove);
+        $('#myholder').off('wheel', '',  this.MouseWheelHandler);
+        $('#myholder').off('keypress', '',  this.diagram_keypress);
     }
 
     public blankClick(event, x, y) {
         $('#myholder').focus();
         this.unhighlightAllCells();
         this.selectedElement = null;
-        this.diagramWidth = "col-sm-12 col-md-12 col-lg-12";
+        this.diagramWidth = 'col-sm-12 col-md-12 col-lg-12';
     }
 
-    public cellClick(cellView : joint.dia.CellView, event, x, y) {
+    public cellClick(cellView: joint.dia.CellView, event, x, y) {
         $('#myholder').focus();
         this.unhighlightAllCells();
 
-        let belement = (cellView.model as any).parent;
+        const belement = (cellView.model as any).parent;
         if ((belement !== undefined) && (!(belement instanceof Artifact))) {
-            this.diagramWidth = "col-sm-10 col-md-10 col-lg-10";
+            this.diagramWidth = 'col-sm-10 col-md-10 col-lg-10';
             cellView.highlight();
             this.selectedElement = (cellView.model as any).parent;
         }
@@ -360,7 +360,7 @@ export class DiagramComponent implements AfterContentInit{
         this.resetZoom();
     }
 
-    public getSVGFromDiagram() : any {
+    public getSVGFromDiagram(): any {
         //this.resetDiagram();
 
         return $('#myholder').html();
@@ -368,11 +368,11 @@ export class DiagramComponent implements AfterContentInit{
 
 
     public refreshPaper() {
-        this._paper.scale(this._graphScale,this._graphScale);
+        this._paper.scale(this._graphScale, this._graphScale);
         (this._paper.svg as any).width.baseVal.valueInSpecifiedUnits = this._initialPaperWidth * this._graphScale;
         (this._paper.svg as any).height.baseVal.valueInSpecifiedUnits = this._initialPaperHeight * this._graphScale;
         this._paper.setDimensions(this._initialPaperWidth, this._initialPaperHeight);
-    };
+    }
 
     public zoomOut() {
         if (this._graphScale < 0.1)
@@ -380,27 +380,27 @@ export class DiagramComponent implements AfterContentInit{
         else
             this._graphScale -= 0.1;
         this.refreshPaper();
-    };
+    }
 
     public zoomIn() {
         this._graphScale += 0.1;
         this.refreshPaper();
-    };
+    }
 
     public resetZoom() {
         this._graphScale = 1;
         this.refreshPaper();
     }
 
-    public getGraphScale() : number {
+    public getGraphScale(): number {
         return this._graphScale;
     }
 
-    public getCellsGraph() : Cell[] {
+    public getCellsGraph(): Cell[] {
         return this._graph.getCells();
     }
 
-    public getCellViewFromCell(cell : Cell) : joint.dia.CellView
+    public getCellViewFromCell(cell: Cell): joint.dia.CellView
     {
         return this._paper.findViewByModel(cell);
     }
@@ -418,7 +418,7 @@ export class DiagramComponent implements AfterContentInit{
         }
     }
 
-    private _startGraphChanged : Boolean = false;
+    private _startGraphChanged: Boolean = false;
 
     private graphChanged(cell) {
         this._startGraphChanged = true;
@@ -438,7 +438,7 @@ export class DiagramComponent implements AfterContentInit{
 
     private MouseWheelHandler(event) {
         if (event.originalEvent && event.originalEvent.ctrlKey) {
-            let delta = event.originalEvent.wheelDelta || -event.originalEvent.deltaY;
+            const delta = event.originalEvent.wheelDelta || -event.originalEvent.deltaY;
 
             if (delta > 0)
                 event.data.zoomIn();
