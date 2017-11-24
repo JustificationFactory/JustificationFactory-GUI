@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {Actor, DiagramElement, Limitation, Rationale, Util} from '../../services/diagram/diagram';
+import {Actor, DiagramElement, Limitation, Rationale, Util} from '../../business/diagram/diagram';
 
 
 @Component({

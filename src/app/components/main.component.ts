@@ -1,6 +1,6 @@
 import {AfterContentInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DiagramComponent} from './diagram/diagram.component';
-import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../services/diagram/importDiagram';
+import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../business/diagram/importDiagram';
 
 @Component({
     //moduleId: module.id,
@@ -175,7 +175,8 @@ export class MainComponent  implements OnInit, AfterContentInit {
             const stream = doc.pipe(new blobStream());
 
             stream.on('finish', function () {
-                //TODO: , 'filename=diagram.pdf') ????
+              // TODO du TODO: wtf sans déconner?
+                // TODO: , 'filename=diagram.pdf') ????
                 const fileURL = URL.createObjectURL(stream.toBlob('application/pdf'));
                 if (fileURL != undefined)
                     window.open(fileURL);

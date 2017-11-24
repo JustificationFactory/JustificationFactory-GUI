@@ -6,7 +6,7 @@ import {EditToolbarComponent} from "../toolbars/edit/edit.toolbar.component";
 import {PaletteComponent} from "../palette/palette.component";
 import {DebugElement} from "@angular/core";
 import {By} from "@angular/platform-browser";
-import {Actor, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy} from "../../services/diagram/diagram";
+import {Actor, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy} from "../../business/diagram/diagram";
 
 describe("diagram.component.", () => {
 

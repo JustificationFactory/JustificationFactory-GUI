@@ -1,6 +1,6 @@
-import { TestBed, inject } from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import { WsConnectorService } from './ws-connector.service';
+import {WsConnectorService} from './ws-connector.service';
 
 describe('WsConnectorService', () => {
   beforeEach(() => {

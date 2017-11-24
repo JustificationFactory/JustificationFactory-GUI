@@ -14,7 +14,7 @@ import {
   Step,
   Strategy,
   Support
-} from "../../../services/diagram/diagram";
+} from "../../../business/diagram/diagram";
 
 
 describe("actions.toolbar.component.", () => {

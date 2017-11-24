@@ -392,6 +392,7 @@ export class Actor extends Artifact {
   }
 }
 
+// TODO: unused
 export class ForEach extends Artifact {
   constructor(name: string, jsonElement: any, type: string) {
     super(name, jsonElement, type);
@@ -404,7 +405,7 @@ export class Step {
   public items: Array<DiagramElement>;
 
   constructor(id: String) {
-    if ((id === undefined) || (id == ''))
+    if ((id === undefined) || (id === ''))
       this.stepId = Util.getNewGuid();
     else
       this.stepId = id;
@@ -426,6 +427,7 @@ export class Util {
   static ActorComputer = 'computed';
 
   static getElementWidthFromTextLength(name: string) {
+    console.log(name);
     const maxLine = _.max(name.split('\n'), function (l) {
       return l.length;
     });

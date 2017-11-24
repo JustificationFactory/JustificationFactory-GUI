@@ -11,7 +11,7 @@ import {
   Strategy,
   Support,
   Util
-} from '../../services/diagram/diagram';
+} from '../../business/diagram/diagram';
 import {PropertiesComponent} from '../properties/properties.component';
 import {ActionsToolbarComponent} from '../toolbars/actions/actions.toolbar.component';
 
@@ -27,8 +27,8 @@ export class DiagramComponent implements AfterContentInit{
     private _graph: joint.dia.Graph;
     private _paper: joint.dia.Paper;
     private window: Window;
-    private _initialPaperWidth: number = window.innerWidth; // 810
-    private _initialPaperHeight: number = window.innerHeight; // 610
+    private _initialPaperWidth: number = window.innerWidth;
+    private _initialPaperHeight: number = window.innerHeight;
     private _graphScale = 1 ;
     private _dragStartPosition = null;
     public stateSessionName = 'state';

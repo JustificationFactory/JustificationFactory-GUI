@@ -10,13 +10,14 @@ export class WsConnectorService {
   public port: string;
   public prepath: string;
 
-
+  // TODO: handle errors on ws requests
   constructor(private http: HttpClient) {
     this.protocol = 'http://';
     this.host = 'localhost';
     this.port = '9999';
     this.prepath = '/rest/argumentation/';
   }
+
 
   get<T>(path): Observable<T> {
     const url = this.buildUrl(path);

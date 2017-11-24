@@ -31,7 +31,7 @@ export class ParseJson2DiagramElements {
 
     this.businessSteps = new Array<Step>();
 
-    for (const step  of this.globalJson.steps.step) {
+    for (const step  of this.globalJson.steps) {
       const businessStep = new Step(undefined);
 
       const nameOfConclusion = step.conclusion.name;
@@ -44,44 +44,51 @@ export class ParseJson2DiagramElements {
 
       const nameOfstrategy = step.strategy.name;
       const typeOfstrategy = step.strategy.type;
+      try {
+        const strategyN = new Strategy(nameOfstrategy, [step.strategy], typeOfstrategy);
+        // TODO: pourquoi push avant de batîr?
+        strategies.push(strategyN);
+        strategyN.stepId = businessStep.getStepId();
+        // TODO: push à deux endroits différents? mhhh..
+        businessStep.items.push(strategyN);
+        links.push(strategyN.makeLinkWithParent(conclusionN));
 
-      const strategyN = new Strategy(nameOfstrategy, [step.strategy], typeOfstrategy);
-      strategies.push(strategyN);
-      strategyN.stepId = businessStep.getStepId();
-      businessStep.items.push(strategyN);
-      links.push(strategyN.makeLinkWithParent(conclusionN));
+        strategyN.artifacts = [];
 
-      strategyN.artifacts = [];
+        if (step.strategy.rationale) {
+          const rationale = new Rationale('', [step.strategy.rationale][0], '');
+          strategyN.artifacts.push(rationale);
+          rationales.push(rationale);
+          links.push(rationale.makeLinkWithParent(strategyN));
+        }
 
-      if (step.strategy.rationale) {
-        const rationale = new Rationale('', [step.strategy.rationale][0], '');
-        strategyN.artifacts.push(rationale);
-        rationales.push(rationale);
-        links.push(rationale.makeLinkWithParent(strategyN));
-      }
 
-      for (const evidenceRole of step.evidences.evidenceRoles) {
-        const nameOfEvidence = evidenceRole.evidence.name;
-        const typeOfEvidence = evidenceRole.evidence.element.type;
+        for (const evidenceRole of step.evidences.evidenceRoles) {
+          const nameOfEvidence = evidenceRole.evidence.name;
+          const typeOfEvidence = evidenceRole.evidence.element.type;
 
-        const evidenceN = new Evidence(nameOfEvidence, [evidenceRole.evidence], typeOfEvidence);
-        kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
-        evidenceN.stepId = businessStep.getStepId();
-        businessStep.items.push(evidenceN);
-        links.push(evidenceN.makeLinkWithParent(strategyN));
-      }
+          const evidenceN = new Evidence(nameOfEvidence, [evidenceRole.evidence], typeOfEvidence);
+          kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
+          evidenceN.stepId = businessStep.getStepId();
+          businessStep.items.push(evidenceN);
+          links.push(evidenceN.makeLinkWithParent(strategyN));
+        }
 
-      if ((step.strategy.type !== undefined) && (step.strategy.type.toLowerCase().indexOf('computed') >= 0)) {
-        const actor = new Actor((step.strategy.actor !== undefined) ? step.strategy.actor.name : '', step.strategy.type, step.strategy.type);
-        strategyN.artifacts.push(actor);
-        actors.push(actor);
-        links.push(actor.makeLinkWithParent(strategyN));
-      }
-      else if (step.strategy.actor) {
-        const actor = new Actor(step.strategy.actor.name, step.strategy.actor, step.strategy.actor.role);
-        strategyN.artifacts.push(actor);
-        actors.push(actor);
-        links.push(actor.makeLinkWithParent(strategyN));
+        if ((step.strategy.type !== undefined) && (step.strategy.type.toLowerCase().indexOf('computed') >= 0)) {
+          const actor = new Actor((step.strategy.actor !== undefined) ? step.strategy.actor.name : '', step.strategy.type, step.strategy.type);
+          strategyN.artifacts.push(actor);
+          actors.push(actor);
+          links.push(actor.makeLinkWithParent(strategyN));
+        }
+        else if (step.strategy.actor) {
+          const actor = new Actor(step.strategy.actor.name, step.strategy.actor, step.strategy.actor.role);
+          strategyN.artifacts.push(actor);
+          actors.push(actor);
+          links.push(actor.makeLinkWithParent(strategyN));
+        }
+      } catch (e) {
+        console.log('Error occured while creating Strategy, aborted.');
+        console.log(e);
       }
 
       this.businessSteps.push(businessStep);
@@ -95,7 +102,7 @@ export class ParseJson2DiagramElements {
         const kvevidencej = kvevidences[j];
 
         if ((kvevidencej.conclusionId !== conclusioni.getId())
-          && (kvevidencej.evidence.name == conclusioni.name)) {
+          && (kvevidencej.evidence.name === conclusioni.name)) {
 
           //Create Support object
           const supportl = new Support(conclusioni, kvevidencej.evidence);
@@ -107,9 +114,9 @@ export class ParseJson2DiagramElements {
           supportl2.visualShape = supportl.visualShape;
           supportl2.stepId = kvevidencej.evidence.stepId;
           for (const businessStep of this.businessSteps) {
-            if (supportl.stepId == businessStep.getStepId())
+            if (supportl.stepId === businessStep.getStepId())
               businessStep.items.push(supportl);
-            if (supportl2.stepId == businessStep.getStepId())
+            if (supportl2.stepId === businessStep.getStepId())
               businessStep.items.push(supportl2);
           }
 
@@ -154,6 +161,7 @@ export class ParseJson2DiagramElements {
     return new ParseDiagramElementsResult(elementsDiagram, this.businessSteps);
   }
 
+  // TODO: unused
   private getTypeFromStringAttributs(strAttributs: string): string {
 
     let type = '';
@@ -172,6 +180,7 @@ export class ParseJson2DiagramElements {
   }
 }
 
+// TODO: unused
 export class ImportDiagramWebService {
 
 }

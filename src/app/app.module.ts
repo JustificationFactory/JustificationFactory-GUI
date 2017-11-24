@@ -11,7 +11,7 @@ import {MainComponent} from './components/main.component';
 import {PaletteComponent} from './components/palette/palette.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ConnectorComponent} from './components/connector/connector.component';
-import {WsConnectorService} from './services/connector/ws-connector.service';
+import {WsConnectorService} from './services/webServices/ws-connector.service';
 
 
 @NgModule({
