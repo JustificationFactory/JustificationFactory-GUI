@@ -418,7 +418,6 @@ export class Step {
   }
 }
 
-
 export class Util {
   static HeightToAddIfArtifactEmbeded = 12;
   static MaxUndo = 20;
@@ -714,7 +713,7 @@ export class Util {
     const supportIds = new Array<String>();
     for (const step of jsonBusinessSteps) {
       for (const element of step.elements) {
-        if ((element.elementType == 'Support') && (!supportIds.find((s) => s === element.visualShapeId))) {
+        if ((element.elementType === 'Support') && (!supportIds.find((s) => s === element.visualShapeId))) {
           supportIds.push(element.visualShapeId);
           let support_conclusion: DiagramElement;
           let support_evidence: DiagramElement;
@@ -750,4 +749,3 @@ export class Util {
   }
 
 }
-
