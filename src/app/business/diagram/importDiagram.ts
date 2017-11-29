@@ -35,7 +35,7 @@ export class ParseJson2DiagramElements {
       const businessStep = new Step(undefined);
 
       const nameOfConclusion = step.conclusion.name;
-      const typeOfConclusion = step.conclusion.element.type;
+      const typeOfConclusion = step.conclusion.element["@type"];
 
       const conclusionN = new Conclusion(nameOfConclusion, [step.conclusion], typeOfConclusion);
       conclusions.push(conclusionN);
@@ -63,9 +63,9 @@ export class ParseJson2DiagramElements {
         }
 
 
-        for (const evidenceRole of step.evidences.evidenceRoles) {
-          const nameOfEvidence = evidenceRole.evidence.name;
-          const typeOfEvidence = evidenceRole.evidence.element.type;
+        for (const evidenceRole of step.evidenceRoles) {
+          const nameOfEvidence = evidenceRole.support.name ? evidenceRole.support.name : "" ;
+          const typeOfEvidence = evidenceRole.support.element ? evidenceRole.support.element.type : "";
 
           const evidenceN = new Evidence(nameOfEvidence, [evidenceRole.evidence], typeOfEvidence);
           kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
