@@ -5,7 +5,7 @@
     <p>Possibilities</p>
     <select #t (change)="changeCurrentArgSystem(t.value)">
       <option disabled selected value> -- select an option -- </option>
-      <option *ngFor="let argSystem of argSystemIdList" value="{{argSystem}}" >{{argSystem}}</option>
+      <option *ngFor="let argSystem of argSystemIdList" value="{{argSystem}}">{{argSystem}}</option>
     </select>
   </div>
 
@@ -23,6 +23,7 @@
           <span>{{baseEvidence.role}}</span>
         </li>
       </ul>
+      <p>{{currentArgSystem}}</p>
       <p>{{currentArgSystem.objective}}</p>
       <p>{{currentArgSystem.patternsBase}}</p>
     </div>
