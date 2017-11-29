@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MainComponent} from "../../app/components/main.component";
-import {DiagramComponent} from "./diagram/diagram.component";
-import {PropertiesComponent} from "./properties/properties.component";
-import {ActionsToolbarComponent} from "./toolbars/actions/actions.toolbar.component";
-import {EditToolbarComponent} from "./toolbars/edit/edit.toolbar.component";
-import {PaletteComponent} from "./palette/palette.component";
+import {OfflineWorkspaceComponent} from "./offline-workspace.component";
+import {DiagramComponent} from "../../diagram/diagram.component";
+import {PropertiesComponent} from "../../properties/properties.component";
+import {ActionsToolbarComponent} from "../../toolbars/actions/actions.toolbar.component";
+import {EditToolbarComponent} from "../../toolbars/edit/edit.toolbar.component";
+import {PaletteComponent} from "../../palette/palette.component";
 
-describe("main.component", () => {
+describe("offline.component", () => {
 
-    let comp:    MainComponent;
-    let fixture: ComponentFixture<MainComponent>;
+    let comp:    OfflineWorkspaceComponent;
+    let fixture: ComponentFixture<OfflineWorkspaceComponent>;
     let DigaramComp : DiagramComponent ;
     let DiagramFixture : ComponentFixture<DiagramComponent>;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ MainComponent, DiagramComponent, PropertiesComponent, ActionsToolbarComponent, EditToolbarComponent, PaletteComponent ], // declare the test component
+            declarations: [ OfflineWorkspaceComponent, DiagramComponent, PropertiesComponent, ActionsToolbarComponent, EditToolbarComponent, PaletteComponent ], // declare the test component
             providers: [
                 DiagramComponent,
                 ActionsToolbarComponent,
@@ -23,9 +23,9 @@ describe("main.component", () => {
         });
 
         // Overrides here, if you need them
-        TestBed.overrideComponent(MainComponent, {
+        TestBed.overrideComponent(OfflineWorkspaceComponent, {
             set: {
-                templateUrl: 'main.component.html'
+                templateUrl: 'workspace/offline/offline-workspace.component.html'
             }
         });
         TestBed.overrideComponent(DiagramComponent, {
@@ -67,7 +67,7 @@ describe("main.component", () => {
     describe("close diagram", () => {
 
         it('close clicked', () => {
-            fixture = TestBed.createComponent(MainComponent);
+            fixture = TestBed.createComponent(OfflineWorkspaceComponent);
             fixture.detectChanges();
             var compiled = fixture.debugElement.nativeElement;
             comp = fixture.componentInstance;
@@ -83,7 +83,7 @@ describe("main.component", () => {
     describe("add step entiere", () => {
 
         it('new diagram click', () => {
-            fixture = TestBed.createComponent(MainComponent);
+            fixture = TestBed.createComponent(OfflineWorkspaceComponent);
             fixture.detectChanges();
             var compiled = fixture.debugElement.nativeElement;
             comp = fixture.componentInstance;

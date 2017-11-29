@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {WsConnectorService} from '../../services/webServices/ws-connector.service';
 import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../business/diagram/importDiagram';
 import {DiagramComponent} from "../diagram/diagram.component";
@@ -9,6 +9,8 @@ import {DiagramComponent} from "../diagram/diagram.component";
   styleUrls: ['./connector.component.css']
 })
 export class ConnectorComponent implements OnInit {
+
+  @Output() onArgSystemChange = new EventEmitter<IArgSystem>();
 
   public argSystemIdList: string[];
   public currentArgSystem: ArgSystem;
@@ -24,7 +26,10 @@ export class ConnectorComponent implements OnInit {
 
   retrieveArgumentationSystem(id: string): void {
     console.log('id: ' + id);
-    this.connectorService.get<IArgSystem>(id).subscribe(result => this.currentArgSystem = result);
+    this.connectorService.get<IArgSystem>(id).subscribe(result => {
+      this.onArgSystemChange.emit(result);
+      this.currentArgSystem = result;
+    });
   }
 
   changeCurrentArgSystem(id: string): void {

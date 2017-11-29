@@ -90,8 +90,8 @@ export class Support extends DiagramElement {
         height: Util.getElementHeightFromTextLength(name)
       },
       attrs: {
-        path: {d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
-        text: {text: conclusion.name, 'ref-y': .3, fill: '#000000'}
+        path: {d: DiagramElement.RoundedRectangleShape, fill: '#007fcc'},
+        text: {text: conclusion.name, 'ref-y': .3, fill: '#ffffff'}
       }
     });
 
@@ -114,7 +114,7 @@ export class Conclusion extends DiagramElement {
       id: Util.getNewGuid(),
       size: {width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name)},
       attrs: {
-        path: {d: DiagramElement.RoundedRectangleShape, fill: '#CCCC00'},
+        path: {d: DiagramElement.RoundedRectangleShape, fill: '#7fcc00'},
         text: {text: name, 'ref-y': .3, fill: '#000000'}
       }
     });

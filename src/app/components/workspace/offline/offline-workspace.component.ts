@@ -1,14 +1,14 @@
 import {AfterContentInit, Component, OnInit, ViewChild} from '@angular/core';
-import {DiagramComponent} from './diagram/diagram.component';
-import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../business/diagram/importDiagram';
+import {DiagramComponent} from '../../diagram/diagram.component';
+import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../business/diagram/importDiagram';
 
 @Component({
     //moduleId: module.id,
-    selector: 'main-view',
-    templateUrl: 'main.component.html'
+    selector: 'offline-view',
+    templateUrl: 'offline-workspace.component.html'
     //styleUrls: ['./css/app.css']
 })
-export class MainComponent  implements OnInit, AfterContentInit {
+export class OfflineWorkspaceComponent  implements OnInit, AfterContentInit {
 
     public diagramLoaded = false;
     private importFileReader: FileReader;

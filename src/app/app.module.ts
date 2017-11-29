@@ -7,11 +7,14 @@ import {ActionsToolbarComponent} from './components/toolbars/actions/actions.too
 import {EditToolbarComponent} from './components/toolbars/edit/edit.toolbar.component';
 import {PropertiesComponent} from './components/properties/properties.component';
 import {DiagramComponent} from './components/diagram/diagram.component';
-import {MainComponent} from './components/main.component';
+import {OfflineWorkspaceComponent} from './components/workspace/offline/offline-workspace.component';
 import {PaletteComponent} from './components/palette/palette.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ConnectorComponent} from './components/connector/connector.component';
 import {WsConnectorService} from './services/webServices/ws-connector.service';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { OnlineWorkspaceComponent } from './components/workspace/online/online-workspace.component';
 
 
 @NgModule({
@@ -20,25 +23,28 @@ import {WsConnectorService} from './services/webServices/ws-connector.service';
     EditToolbarComponent,
     PropertiesComponent,
     DiagramComponent,
-    MainComponent,
+    OfflineWorkspaceComponent,
     PaletteComponent,
-    ConnectorComponent
+    ConnectorComponent,
+    AppComponent,
+    OnlineWorkspaceComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [
     ActionsToolbarComponent,
     EditToolbarComponent,
     PropertiesComponent,
     DiagramComponent,
-    MainComponent,
+    OfflineWorkspaceComponent,
     PaletteComponent,
     ConnectorComponent,
     WsConnectorService
   ],
-  bootstrap: [MainComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
