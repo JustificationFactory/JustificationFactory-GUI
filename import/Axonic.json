@@ -1,0 +1,739 @@
+{
+  "steps": [
+    {
+      "id": "6652dbe918e845b196af52cb47f9ad98",
+      "patternId": "1",
+      "evidenceRoles": [
+        {
+          "role": "actor",
+          "support": {
+            "@type": "fr.axonic.avek.engine.strategy.Actor",
+            "id": "b67c41e4ffb94670b44c7bbc07b56fe4",
+            "name": null,
+            "element": null,
+            "actorName": null,
+            "role": "SENIOR_EXPERT"
+          }
+        },
+        {
+          "role": "subject",
+          "support": {
+            "@type": "fr.axonic.avek.instance.avek.evidence.SubjectEvidence",
+            "id": "d4589ee12b744d3b8eaf010ae14c908a",
+            "name": "Subject 0",
+            "element": {
+              "@type": ".Subject",
+              "path": "fr.axonic",
+              "code": "subject",
+              "version": null,
+              "id": {
+                "path": "fr.axonic.subject",
+                "code": "id",
+                "value": null
+              },
+              "staticInformations": null,
+              "dynamicInformations": null,
+              "pathologyInformations": null
+            }
+          }
+        },
+        {
+          "role": "stimulation",
+          "support": {
+            "@type": "fr.axonic.avek.instance.avek.evidence.StimulationEvidence",
+            "id": "803c1a2e56a2444eba9f6d31212ef279",
+            "name": "Stimulation 0",
+            "element": {
+              "@type": ".Stimulation",
+              "path": "fr.axonic",
+              "code": "stimulation",
+              "version": null,
+              "waveform": {
+                "range": [
+                  {
+                    "path": null,
+                    "code": null,
+                    "value": "RECTANGULAR"
+                  },
+                  {
+                    "path": null,
+                    "code": null,
+                    "value": "SINUS"
+                  },
+                  {
+                    "path": null,
+                    "code": null,
+                    "value": "RAMP"
+                  }
+                ],
+                "path": "fr.axonic.stimulation",
+                "code": "waveform",
+                "value": null
+              },
+              "waveformParameter": {
+                "path": "fr.axonic.stimulation",
+                "code": "waveformParameters",
+                "amplitude": {
+                  "path": "fr.axonic.stimulation",
+                  "code": "amplitude",
+                  "value": null
+                },
+                "frequency": {
+                  "path": "fr.axonic.stimulation",
+                  "code": "frequency",
+                  "value": null
+                },
+                "duration": {
+                  "path": "fr.axonic.stimulation",
+                  "code": "duration",
+                  "value": null
+                }
+              },
+              "stimulationScheduler": {
+                "path": "fr.axonic.stimulation",
+                "code": "scheduler",
+                "from": {
+                  "min": null,
+                  "max": null,
+                  "path": "fr.axonic.stimulation.scheduler",
+                  "code": "from",
+                  "value": null
+                },
+                "to": {
+                  "min": null,
+                  "max": null,
+                  "path": "fr.axonic.stimulation.scheduler",
+                  "code": "to",
+                  "value": null
+                }
+              }
+            }
+          }
+        }
+      ],
+      "strategy": {
+        "@type": "fr.axonic.avek.instance.avek.strategy.TreatStrategy",
+        "name": "Treat",
+        "rationale": {
+          "project": {
+            "stimulator": "AXIS",
+            "pathology": "OBESITY"
+          }
+        },
+        "usageDomain": null,
+        "comment": null
+      },
+      "conclusion": {
+        "@type": "fr.axonic.avek.instance.avek.conclusion.ExperimentationConclusion",
+        "restrictions": [
+          {
+            "@type": "fr.axonic.avek.instance.avek.evidence.Subject",
+            "path": "fr.axonic",
+            "code": "subject",
+            "version": null,
+            "id": {
+              "path": "fr.axonic.subject",
+              "code": "id",
+              "value": null
+            },
+            "staticInformations": null,
+            "dynamicInformations": null,
+            "pathologyInformations": null
+          },
+          {
+            "@type": "fr.axonic.avek.instance.avek.evidence.Stimulation",
+            "path": "fr.axonic",
+            "code": "stimulation",
+            "version": null,
+            "waveform": {
+              "range": [
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "RECTANGULAR"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "SINUS"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "RAMP"
+                }
+              ],
+              "path": "fr.axonic.stimulation",
+              "code": "waveform",
+              "value": null
+            },
+            "waveformParameter": {
+              "path": "fr.axonic.stimulation",
+              "code": "waveformParameters",
+              "amplitude": {
+                "path": "fr.axonic.stimulation",
+                "code": "amplitude",
+                "value": null
+              },
+              "frequency": {
+                "path": "fr.axonic.stimulation",
+                "code": "frequency",
+                "value": null
+              },
+              "duration": {
+                "path": "fr.axonic.stimulation",
+                "code": "duration",
+                "value": null
+              }
+            },
+            "stimulationScheduler": {
+              "path": "fr.axonic.stimulation",
+              "code": "scheduler",
+              "from": {
+                "min": null,
+                "max": null,
+                "path": "fr.axonic.stimulation.scheduler",
+                "code": "from",
+                "value": null
+              },
+              "to": {
+                "min": null,
+                "max": null,
+                "path": "fr.axonic.stimulation.scheduler",
+                "code": "to",
+                "value": null
+              }
+            }
+          },
+          {
+            "@type": "fr.axonic.avek.instance.avek.evidence.Subject",
+            "path": "fr.axonic",
+            "code": "subject",
+            "version": null,
+            "id": {
+              "path": "fr.axonic.subject",
+              "code": "id",
+              "value": null
+            },
+            "staticInformations": null,
+            "dynamicInformations": null,
+            "pathologyInformations": null
+          },
+          {
+            "@type": "fr.axonic.avek.instance.avek.evidence.Stimulation",
+            "path": "fr.axonic",
+            "code": "stimulation",
+            "version": null,
+            "waveform": {
+              "range": [
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "RECTANGULAR"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "SINUS"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "RAMP"
+                }
+              ],
+              "path": "fr.axonic.stimulation",
+              "code": "waveform",
+              "value": null
+            },
+            "waveformParameter": {
+              "path": "fr.axonic.stimulation",
+              "code": "waveformParameters",
+              "amplitude": {
+                "path": "fr.axonic.stimulation",
+                "code": "amplitude",
+                "value": null
+              },
+              "frequency": {
+                "path": "fr.axonic.stimulation",
+                "code": "frequency",
+                "value": null
+              },
+              "duration": {
+                "path": "fr.axonic.stimulation",
+                "code": "duration",
+                "value": null
+              }
+            },
+            "stimulationScheduler": {
+              "path": "fr.axonic.stimulation",
+              "code": "scheduler",
+              "from": {
+                "min": null,
+                "max": null,
+                "path": "fr.axonic.stimulation.scheduler",
+                "code": "from",
+                "value": null
+              },
+              "to": {
+                "min": null,
+                "max": null,
+                "path": "fr.axonic.stimulation.scheduler",
+                "code": "to",
+                "value": null
+              }
+            }
+          }
+        ],
+        "subject": {
+          "@type": ".Subject",
+          "path": "fr.axonic",
+          "code": "subject",
+          "version": null,
+          "id": {
+            "path": "fr.axonic.subject",
+            "code": "id",
+            "value": null
+          },
+          "staticInformations": null,
+          "dynamicInformations": null,
+          "pathologyInformations": null
+        },
+        "stimulation": {
+          "@type": ".Stimulation",
+          "path": "fr.axonic",
+          "code": "stimulation",
+          "version": null,
+          "waveform": {
+            "range": [
+              {
+                "path": null,
+                "code": null,
+                "value": "RECTANGULAR"
+              },
+              {
+                "path": null,
+                "code": null,
+                "value": "SINUS"
+              },
+              {
+                "path": null,
+                "code": null,
+                "value": "RAMP"
+              }
+            ],
+            "path": "fr.axonic.stimulation",
+            "code": "waveform",
+            "value": null
+          },
+          "waveformParameter": {
+            "path": "fr.axonic.stimulation",
+            "code": "waveformParameters",
+            "amplitude": {
+              "path": "fr.axonic.stimulation",
+              "code": "amplitude",
+              "value": null
+            },
+            "frequency": {
+              "path": "fr.axonic.stimulation",
+              "code": "frequency",
+              "value": null
+            },
+            "duration": {
+              "path": "fr.axonic.stimulation",
+              "code": "duration",
+              "value": null
+            }
+          },
+          "stimulationScheduler": {
+            "path": "fr.axonic.stimulation",
+            "code": "scheduler",
+            "from": {
+              "min": null,
+              "max": null,
+              "path": "fr.axonic.stimulation.scheduler",
+              "code": "from",
+              "value": null
+            },
+            "to": {
+              "min": null,
+              "max": null,
+              "path": "fr.axonic.stimulation.scheduler",
+              "code": "to",
+              "value": null
+            }
+          }
+        },
+        "id": "b4cfade8bd8e4307b71aeece57e3a52e",
+        "name": "Experimentation 0",
+        "element": {
+          "@type": ".Experimentation",
+          "stimulation": {
+            "@type": ".Stimulation",
+            "path": "fr.axonic",
+            "code": "stimulation",
+            "version": null,
+            "waveform": {
+              "range": [
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "RECTANGULAR"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "SINUS"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "RAMP"
+                }
+              ],
+              "path": "fr.axonic.stimulation",
+              "code": "waveform",
+              "value": null
+            },
+            "waveformParameter": {
+              "path": "fr.axonic.stimulation",
+              "code": "waveformParameters",
+              "amplitude": {
+                "path": "fr.axonic.stimulation",
+                "code": "amplitude",
+                "value": null
+              },
+              "frequency": {
+                "path": "fr.axonic.stimulation",
+                "code": "frequency",
+                "value": null
+              },
+              "duration": {
+                "path": "fr.axonic.stimulation",
+                "code": "duration",
+                "value": null
+              }
+            },
+            "stimulationScheduler": {
+              "path": "fr.axonic.stimulation",
+              "code": "scheduler",
+              "from": {
+                "min": null,
+                "max": null,
+                "path": "fr.axonic.stimulation.scheduler",
+                "code": "from",
+                "value": null
+              },
+              "to": {
+                "min": null,
+                "max": null,
+                "path": "fr.axonic.stimulation.scheduler",
+                "code": "to",
+                "value": null
+              }
+            }
+          },
+          "subject": {
+            "@type": ".Subject",
+            "path": "fr.axonic",
+            "code": "subject",
+            "version": null,
+            "id": {
+              "path": "fr.axonic.subject",
+              "code": "id",
+              "value": null
+            },
+            "staticInformations": null,
+            "dynamicInformations": null,
+            "pathologyInformations": null
+          },
+          "path": null,
+          "code": null,
+          "version": null
+        }
+      }
+    }
+  ],
+  "patternsBase": {
+    "patternsBaseType": "LIST_OF_PATTERNS",
+    "patterns": [
+      {
+        "id": "2",
+        "name": "Establish Effect",
+        "strategy": {
+          "@type": "fr.axonic.avek.instance.avek.strategy.EstablishEffectStrategy",
+          "name": "Establish Effect",
+          "rationale": {
+            "project": {
+              "stimulator": "AXIS",
+              "pathology": "OBESITY"
+            }
+          },
+          "usageDomain": null
+        },
+        "inputTypes": [
+          {
+            "type": "fr.axonic.avek.instance.avek.conclusion.ExperimentationConclusion",
+            "name": "experimentation"
+          },
+          {
+            "type": "fr.axonic.avek.instance.avek.evidence.ResultsEvidence",
+            "name": "experimentation"
+          }
+        ],
+        "outputType": {
+          "type": "fr.axonic.avek.instance.avek.conclusion.EstablishEffectConclusion"
+        }
+      },
+      {
+        "id": "3",
+        "name": "Generalize",
+        "strategy": {
+          "@type": "fr.axonic.avek.instance.avek.strategy.GeneralizeStrategy",
+          "name": "Generalize",
+          "rationale": {
+            "project": {
+              "stimulator": "AXIS",
+              "pathology": "OBESITY"
+            }
+          },
+          "usageDomain": null
+        },
+        "inputTypes": [
+          {
+            "type": "fr.axonic.avek.instance.avek.conclusion.EstablishEffectConclusion",
+            "name": "effects"
+          }
+        ],
+        "outputType": {
+          "type": "fr.axonic.avek.instance.avek.conclusion.GeneralizationConclusion"
+        }
+      },
+      {
+        "id": "1",
+        "name": "Treat",
+        "strategy": {
+          "@type": "fr.axonic.avek.instance.avek.strategy.TreatStrategy",
+          "name": "Treat",
+          "rationale": {
+            "project": {
+              "stimulator": "AXIS",
+              "pathology": "OBESITY"
+            }
+          },
+          "usageDomain": null,
+          "comment": null
+        },
+        "inputTypes": [
+          {
+            "type": "fr.axonic.avek.instance.avek.evidence.StimulationEvidence",
+            "name": "stimulation"
+          },
+          {
+            "type": "fr.axonic.avek.instance.avek.evidence.SubjectEvidence",
+            "name": "subject"
+          },
+          {
+            "type": "fr.axonic.avek.engine.strategy.Actor",
+            "name": "actor"
+          }
+        ],
+        "outputType": {
+          "type": "fr.axonic.avek.instance.avek.conclusion.ExperimentationConclusion"
+        }
+      }
+    ]
+  },
+  "objective": null,
+  "baseEvidences": [
+    {
+      "role": "stimulation",
+      "support": {
+        "@type": "fr.axonic.avek.instance.avek.evidence.StimulationEvidence",
+        "id": "e0be15c1d9da4ec4b6ca3941dc37331f",
+        "name": "Stimulation 0",
+        "element": {
+          "@type": ".Stimulation",
+          "path": "fr.axonic",
+          "code": "stimulation",
+          "version": null,
+          "waveform": {
+            "range": [
+              {
+                "path": null,
+                "code": null,
+                "value": "RECTANGULAR"
+              },
+              {
+                "path": null,
+                "code": null,
+                "value": "SINUS"
+              },
+              {
+                "path": null,
+                "code": null,
+                "value": "RAMP"
+              }
+            ],
+            "path": "fr.axonic.stimulation",
+            "code": "waveform",
+            "value": "RECTANGULAR"
+          },
+          "waveformParameter": {
+            "path": "fr.axonic.stimulation",
+            "code": "waveformParameters",
+            "amplitude": {
+              "path": "fr.axonic.stimulation",
+              "code": "amplitude",
+              "value": 1000.1
+            },
+            "frequency": {
+              "path": "fr.axonic.stimulation",
+              "code": "frequency",
+              "value": 500.0
+            },
+            "duration": {
+              "path": "fr.axonic.stimulation",
+              "code": "duration",
+              "value": 300
+            }
+          },
+          "stimulationScheduler": {
+            "path": "fr.axonic.stimulation",
+            "code": "scheduler",
+            "from": {
+              "min": null,
+              "max": null,
+              "path": "fr.axonic.stimulation.scheduler",
+              "code": "from",
+              "value": 1511955823512
+            },
+            "to": {
+              "min": null,
+              "max": null,
+              "path": "fr.axonic.stimulation.scheduler",
+              "code": "to",
+              "value": 1511959423512
+            }
+          }
+        }
+      }
+    },
+    {
+      "role": "subject",
+      "support": {
+        "@type": "fr.axonic.avek.instance.avek.evidence.SubjectEvidence",
+        "id": "98d94ead5fd047cf8a89da7d2fa1f891",
+        "name": "Subject 0",
+        "element": {
+          "@type": ".Subject",
+          "path": "fr.axonic",
+          "code": "subject",
+          "version": null,
+          "id": {
+            "path": "fr.axonic.subject",
+            "code": "id",
+            "value": "12345"
+          },
+          "staticInformations": {
+            "path": "fr.axonic.subject",
+            "code": "static",
+            "gender": {
+              "range": [
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "MALE"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "FEMALE"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "UNKNOWN"
+                }
+              ],
+              "path": "fr.axonic.subject.static",
+              "code": "gender",
+              "value": "MALE"
+            },
+            "birthday": {
+              "path": "fr.axonic.subject.static",
+              "code": "birthday",
+              "value": 1511955823521
+            },
+            "name": {
+              "path": "fr.axonic.subject.static",
+              "code": "name",
+              "value": "Paul"
+            },
+            "height": {
+              "path": "fr.axonic.subject.static",
+              "code": "height",
+              "value": 70.5
+            }
+          },
+          "dynamicInformations": {
+            "path": "fr.axonic.subject",
+            "code": "dynamic",
+            "weight": {
+              "path": "fr.axonic.subject.dynamic",
+              "code": "weight",
+              "value": 130.0
+            },
+            "bmi": {
+              "path": "fr.axonic.subject.dynamic",
+              "code": "bmi",
+              "value": 40.0
+            }
+          },
+          "pathologyInformations": {
+            "path": "fr.axonic.subject",
+            "code": "pathology",
+            "obesityType": {
+              "range": [
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "ANDROID"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "GYNOID"
+                },
+                {
+                  "path": null,
+                  "code": null,
+                  "value": "MIXED"
+                }
+              ],
+              "path": "fr.axonic.subject.pathology",
+              "code": "obesityType",
+              "value": "GYNOID"
+            },
+            "beginningOfObesity": {
+              "path": "fr.axonic.subject.pathology",
+              "code": "beginningObesity",
+              "value": 1511955823523
+            }
+          }
+        }
+      }
+    },
+    {
+      "role": "actor",
+      "support": {
+        "@type": "fr.axonic.avek.engine.strategy.Actor",
+        "id": "3c0c77b729c54ed3a4fea1bd821354ac",
+        "name": null,
+        "element": null,
+        "actorName": null,
+        "role": "SENIOR_EXPERT"
+      }
+    }
+  ]
+}
