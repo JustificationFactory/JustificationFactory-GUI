@@ -10,27 +10,17 @@ export class WsSenderService extends WsConnectorService {
     super();
   }
 
-  public post<T>(path, payload): Observable<T> {
+  public post<T>(path, payload): Observable<Object> {
     const url = this.buildUrl(path);
     console.log('Sending post request to: ' + url + ' with payload:');
     console.log(payload);
     return this.http.post<T>(url, payload);
   }
 
-  public deletion(path): boolean {
+  public deletion(path): Observable<Object> {
     const url = this.buildUrl(path);
     console.log('Sending delete request to: ' + url);
-    this.http.delete(path).subscribe(
-      resp => {
-        console.log('Deletion successful.');
-        return true;
-      },
-        err => {
-        console.log('Deletion failed.');
-        return false;
-        }
-      );
-    return;
+    return this.http.delete(path);
   }
 
 }

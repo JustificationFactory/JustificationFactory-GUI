@@ -28,7 +28,6 @@ export class ConnectorComponent implements OnInit {
 
   ngOnInit() {
     this.retrieveAllArgumentationSystemsName();
-
   }
 
   /* Business handlers */
@@ -36,43 +35,55 @@ export class ConnectorComponent implements OnInit {
   /* Retrievers */
   retrieveAllArgumentationSystemsName(): void {
     console.log('Retrieving ArgSystems Names.');
-    this.retrieverService.get<string[]>('systems')
-      .subscribe(data => {
-        this.argSystemIdList = data;
-        console.log(this.argSystemIdList);
-      });
+    this.retrieverService.getAllArgumentationSystemsName()
+      .subscribe(result => {
+          this.argSystemIdList = result;
+        },
+        error => {
+          console.log(error);
+        });
+    console.log(this.argSystemIdList);
   }
 
   retrieveArgumentationSystemByCurrentId(id: string): void {
     console.log('Retrieving ArgSystem by id: ' + id);
-    this.retrieverService.get<IArgSystem>(id)
+    this.retrieverService.getArgumentationSystemByCurrentId(id)
       .subscribe(result => {
-        try {
-          this.onArgSystemChange.emit(result);
-        } catch (e) {
-          console.log(e);
-        }
-        this.currentArgSystem = result;
-        console.log(this.currentArgSystem);
-      });
+          try {
+            this.onArgSystemChange.emit(result);
+          } catch (e) {
+            console.log(e);
+          }
+          this.currentArgSystem = result;
+          console.log(this.currentArgSystem);
+        },
+        error => {
+          console.log(error);
+        });
   }
 
   retrievePatternsByArgSystemId(argSystemId: string): void {
     console.log('Retrieving ArgSystem Patterns by system id: ' + argSystemId);
-    this.retrieverService.get<string[]>(argSystemId + '/patterns')
+    this.retrieverService.getPatternsByArgSystemId(argSystemId)
       .subscribe(result => {
-        this.patternsIdList = result;
-        console.log(this.patternsIdList);
-      });
+          this.patternsIdList = result;
+          console.log(this.patternsIdList);
+        },
+        error => {
+          console.log(error);
+        });
   }
 
   retrievePatternByPatternId(argSystemId: string, patternId: string): void {
     console.log('Retrieving ArgSystem(' + argSystemId + ') pattern with id: ' + patternId);
-    this.retrieverService.get<IPattern>(argSystemId + '/patterns/' + patternId)
+    this.retrieverService.getPatternByPatternId(argSystemId, patternId)
       .subscribe(result => {
-        this.currentPattern = result;
-        console.log(this.currentPattern);
-      });
+          this.currentPattern = result;
+          console.log(this.currentPattern);
+        },
+        error => {
+          console.log(error);
+        });
   }
 
   /* Posters */
