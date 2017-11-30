@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {DiagramComponent} from "../../diagram/diagram.component";
-import {ConnectorComponent} from "../../connector/connector.component";
-import {ParseDiagramElementsResult, ParseJson2DiagramElements} from "../../../business/diagram/importDiagram";
+import {DiagramComponent} from '../../diagram/diagram.component';
+import {ConnectorComponent} from '../../connector/connector.component';
+import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../business/diagram/importDiagram';
 
 @Component({
   selector: 'app-online-workspace',
@@ -15,16 +15,20 @@ export class OnlineWorkspaceComponent implements OnInit {
   @ViewChild(DiagramComponent) private diagramComponent: DiagramComponent;
   @ViewChild(ConnectorComponent) private connectorComponent: ConnectorComponent;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
   onArgSystemChange(argSystem: IArgSystem) {
-    this.diagramLoaded=true;
-    let parse: ParseJson2DiagramElements = new ParseJson2DiagramElements(argSystem);
-    let deResult: ParseDiagramElementsResult = parse.getDiagramElements();
-    this.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
+    this.diagramLoaded = true;
+    // Allows the DOM to render the Child component in time
+    setTimeout(() => {
+      const parse: ParseJson2DiagramElements = new ParseJson2DiagramElements(argSystem);
+      const deResult: ParseDiagramElementsResult = parse.getDiagramElements();
+      this.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
+    }, 50);
   }
 
 }
