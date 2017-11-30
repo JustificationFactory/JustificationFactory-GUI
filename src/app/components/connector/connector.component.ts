@@ -1,5 +1,4 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../business/diagram/importDiagram';
 import {DiagramComponent} from '../diagram/diagram.component';
 import {WsRetrieverService} from '../../services/webServices/ws-retriever.service';
 
@@ -12,45 +11,83 @@ export class ConnectorComponent implements OnInit {
 
   @Output() onArgSystemChange = new EventEmitter<IArgSystem>();
 
+  // TODO: déplacer cette logique
+  /* System Logic */
   public argSystemIdList: string[];
-  public currentArgSystem: ArgSystem;
+  public currentArgSystemId: string;
+  public currentArgSystem: IArgSystem;
+
+  /* Patterns logic */
+  public patternsIdList: string[];
+  public currentPatternId: string;
+  public currentPattern: IPattern;
 
   constructor(private retrieverService: WsRetrieverService, public diagramComponent: DiagramComponent) {
     this.currentArgSystem = null;
   }
 
   ngOnInit() {
-    this.retrieverService.get<string[]>('systems').subscribe(data => this.argSystemIdList = data);
-    console.log(this.currentArgSystem);
+    this.retrieveAllArgumentationSystemsName();
+
   }
 
-  retrieveArgumentationSystem(id: string): void {
-    console.log('id: ' + id);
-    this.retrieverService.get<IArgSystem>(id).subscribe(result => {
-      this.onArgSystemChange.emit(result);
-      this.currentArgSystem = result;
-    });
+  /* Business handlers */
+
+  /* Retrievers */
+  retrieveAllArgumentationSystemsName(): void {
+    console.log('Retrieving ArgSystems Names.');
+    this.retrieverService.get<string[]>('systems')
+      .subscribe(data => {
+        this.argSystemIdList = data;
+        console.log(this.argSystemIdList);
+      });
   }
 
+  retrieveArgumentationSystemByCurrentId(id: string): void {
+    console.log('Retrieving ArgSystem by id: ' + id);
+    this.retrieverService.get<IArgSystem>(id)
+      .subscribe(result => {
+        try {
+          this.onArgSystemChange.emit(result);
+        } catch (e) {
+          console.log(e);
+        }
+        this.currentArgSystem = result;
+        console.log(this.currentArgSystem);
+      });
+  }
+
+  retrievePatternsByArgSystemId(argSystemId: string): void {
+    console.log('Retrieving ArgSystem Patterns by system id: ' + argSystemId);
+    this.retrieverService.get<string[]>(argSystemId + '/patterns')
+      .subscribe(result => {
+        this.patternsIdList = result;
+        console.log(this.patternsIdList);
+      });
+  }
+
+  retrievePatternByPatternId(argSystemId: string, patternId: string): void {
+    console.log('Retrieving ArgSystem(' + argSystemId + ') pattern with id: ' + patternId);
+    this.retrieverService.get<IPattern>(argSystemId + '/patterns/' + patternId)
+      .subscribe(result => {
+        this.currentPattern = result;
+        console.log(this.currentPattern);
+      });
+  }
+
+  /* Posters */
+
+
+  /* Manipulation handlers */
   changeCurrentArgSystem(id: string): void {
-    this.retrieveArgumentationSystem(id);
+    this.currentArgSystemId = id;
+    this.retrieveArgumentationSystemByCurrentId(id);
+    this.retrievePatternsByArgSystemId(id);
   }
 
-  // TODO: move that code to a service away
-  construct() {
-    console.log('CONSTRUCTION MAYDAY');
-    const temp: ParseJson2DiagramElements = new ParseJson2DiagramElements(this.currentArgSystem);
-    console.log('Constructed...');
-    temp.getDiagramElements();
-    console.log('Suspens...');
-    console.log('Steps:');
-    console.log(temp.businessSteps);
-
-    const deResult: ParseDiagramElementsResult = temp.getDiagramElements();
-
-    console.log('DERESULT');
-    console.log(deResult);
-    this.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
+  changeCurrentPattern(id: string): void {
+    this.currentPatternId = id;
+    this.retrievePatternByPatternId(this.currentArgSystemId, id);
   }
 
 }

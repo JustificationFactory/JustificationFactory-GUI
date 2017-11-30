@@ -3,34 +3,41 @@
 
   <div>
     <p>Possibilities</p>
-    <select #t (change)="changeCurrentArgSystem(t.value)">
-      <option disabled selected value> -- select an option -- </option>
-      <option *ngFor="let argSystem of argSystemIdList" value="{{argSystem}}">{{argSystem}}</option>
+    <select #argSystId (change)="changeCurrentArgSystem(argSystId.value)">
+      <option disabled selected value> -- select an option --</option>
+      <option *ngFor="let argSystemId of argSystemIdList" value="{{argSystemId}}">{{argSystemId}}</option>
     </select>
   </div>
 
-  <div>
+  <div *ngIf="currentArgSystem != null">
     <p>Argumentation System</p>
-    <button *ngIf="currentArgSystem != null" (click)="retrieveArgumentationSystem(currentArgSystem)">Retrieve</button>
-    <div *ngIf="currentArgSystem != null">
-      <ul>
+    <p>Irrelevant infos just to check the validity of the answer.</p>
+    <ul>
       <li *ngFor="let step of currentArgSystem.steps">
         <span>{{step.id}}</span>
       </li>
     </ul>
-      <ul>
-        <li *ngFor="let baseEvidence of currentArgSystem.baseEvidences">
-          <span>{{baseEvidence.role}}</span>
-        </li>
-      </ul>
-      <p>{{currentArgSystem}}</p>
-      <p>{{currentArgSystem.objective}}</p>
-      <p>{{currentArgSystem.patternsBase}}</p>
-    </div>
+    <ul>
+      <li *ngFor="let baseEvidence of currentArgSystem.baseEvidences">
+        <span>{{baseEvidence.role}}</span>
+      </li>
+    </ul>
+
+    <p>{{currentArgSystem}}</p>
+    <p>{{currentArgSystem.objective}}</p>
+    <p>{{currentArgSystem.patternsBase}}</p>
   </div>
 
-  <div>
-    <p>Constructed element</p>
-    <button *ngIf="currentArgSystem != null" (click)="construct()">CONSTRUCT</button>
+  <div ><!-- TODO: fix display *ngIf="currentArgSystem != null">-->
+    <select #patternId (change)="changeCurrentPattern(patternId.value)">
+      <option disabled selected value> -- select an option --</option>
+      <option *ngFor="let pattern of patternsIdList" value="{{pattern}}">{{pattern}}</option>
+    </select>
   </div>
+  <!-- TODO: ranger l'html un de ces 12 ou 4 ou 24 -->
+  <div>  <!--*ngIf="currentPattern != null">-->
+    <p>Pattern logic</p>
+    <p>{{currentPattern}}</p>
+  </div>
+
 </div>
