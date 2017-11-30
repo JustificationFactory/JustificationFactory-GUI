@@ -4,13 +4,6 @@ import * as joint from 'jointjs';
 import Cell = joint.dia.Cell;
 
 export class DiagramElement {
-  visualShape: Cell;
-  jsonElement: any;
-  name: string;
-  description: string;
-  type: string;
-  artifacts: Array<Artifact>;
-  stepId: String;
 
   public static RectangleShape = 'M 0 0 L 60 0 L 60 30 L 0 30 Z';
   public static RoundedRectangleShape = 'M 0 6 Q 0 0 6 0 L 54 0 Q 60 0 60 6 L 60 24 Q 60 30 54 30 L 6 30 Q 0 30 0 24 Z';
@@ -19,6 +12,16 @@ export class DiagramElement {
   public static SolidBorder = '';
   public static DashBorder = '5,5';
   public static MixBorder = '10,2,10';
+
+  visualShape: Cell;
+  jsonElement: any;
+  name: string;
+  description: string;
+  type: string;
+  artifacts: Array<Artifact>;
+  stepId: String;
+
+
 
 
   constructor(name: string, jsonElement: any, type: string) {
@@ -33,12 +36,13 @@ export class DiagramElement {
     return new LinkElement(this, parentElement);
   }
 
+  //  TODO: unused
   makeLinkWithChild(childElement): LinkElement {
     return new LinkElement(childElement, this);
   }
 
   public getId(): string {
-    if (typeof this.visualShape != 'undefined') {
+    if (typeof this.visualShape !== 'undefined') {
       return this.visualShape.id;
     }
   }
@@ -216,39 +220,39 @@ export class Limitation extends Artifact {
     const xEcartFromMiddle = 18;
     let yLabel = 0;
 
-    //TODO: Find how to remove port transformation (matrix...)
+    // TODO: Find how to remove port transformation (matrix...)
     // "y" of rectangle must be 25 after transformation
     // "y" of rectangle's label must be 42 after transformation
 
     switch (index) {
       case 0:
-        //For the first limitation
-        //transformation applies to the port:
+        // For the first limitation
+        // transformation applies to the port:
         //      Limitation #1 : transform="matrix(1 0 0 1 0 22)" => y : + 22
 
-        //We end the first limitation's rectangle just before the middle of the conclusion
+        // We end the first limitation's rectangle just before the middle of the conclusion
         if (widthRect > ((parentElement.visualShape.attributes.size.width / 2) - xEcartFromMiddle)) {
-          //if rectangle of the first port is greater than the half of the conclusion
-          //x position shift to the left
+          // if rectangle of the first port is greater than the half of the conclusion
+          // x position shift to the left
           xRect = -(widthRect - (parentElement.visualShape.attributes.size.width / 2) + xEcartFromMiddle);
         }
         else
           xRect = (parentElement.visualShape.attributes.size.width / 2) - xEcartFromMiddle - widthRect;
 
-        yRect = 3; // 22 + 3 = 25
-        yLabel = 20; // 22 + 20 = 42
+        yRect = 3; //  22 + 3 = 25
+        yLabel = 20; //  22 + 20 = 42
         break;
 
       case 1 :
-        //For the second limitation
-        //transformation applies to the port:
+        // For the second limitation
+        // transformation applies to the port:
         //      Limitation #1 : transform="matrix(1 0 0 1 0 11)" => y : + 11
         //      Limitation #2 : transform="matrix(1 0 0 1 0 33)" => y : + 33
 
-        //We begin the second limitation's rectangle just after the middle of the conclusion
+        // We begin the second limitation's rectangle just after the middle of the conclusion
         if ((parentElement.visualShape as any).portData.ports[0].attrs.rect.width > ((parentElement.visualShape.attributes.size.width / 2) - xEcartFromMiddle)) {
-          //if rectangle of the first port is greater than the half of the conclusion
-          //x position shift to the left
+          // if rectangle of the first port is greater than the half of the conclusion
+          // x position shift to the left
           xRect = (parentElement.visualShape as any).portData.ports[0].attrs.rect.x
             + (parentElement.visualShape as any).portData.ports[0].attrs.rect.width
             + (xEcartFromMiddle * 2);
@@ -261,21 +265,21 @@ export class Limitation extends Artifact {
         break;
 
       case 2 :
-        //For the third limitation (and so on...)
-        //transformation applies to the port:
+        // For the third limitation (and so on...)
+        // transformation applies to the port:
         //      Limitation #1 : transform="matrix(1 0 0 1 0 7)"  => y : + 7
         //      Limitation #2 : transform="matrix(1 0 0 1 0 22)" => y : + 22
         //      Limitation #3 : transform="matrix(1 0 0 1 0 37)" => y : + 37
 
-        //just show '...' instead of the real name, to indicate there are more than 2 limitations
+        // just show '...' instead of the real name, to indicate there are more than 2 limitations
         name = '...';
         widthRect = 30;
         const xMargeOtherLimitations = 3;
 
-        //We put the third limitation's rectangle at the middle middle of the conclusion
+        // We put the third limitation's rectangle at the middle middle of the conclusion
         if ((parentElement.visualShape as any).portData.ports[0].attrs.rect.width > ((parentElement.visualShape.attributes.size.width / 2) - xEcartFromMiddle)) {
-          //if rectangle of the first port is greater than the half of the conclusion
-          //x position shift to the left
+          // if rectangle of the first port is greater than the half of the conclusion
+          // x position shift to the left
           xRect = (parentElement.visualShape as any).portData.ports[0].attrs.rect.x
             + (parentElement.visualShape as any).portData.ports[0].attrs.rect.width
             + xMargeOtherLimitations;
@@ -288,7 +292,7 @@ export class Limitation extends Artifact {
         break;
 
       default :
-      //no more limitations are accepted
+      // no more limitations are accepted
     }
     yRect += 5; // 37 - 12 = 25
     yLabel += 5;
@@ -333,12 +337,12 @@ export class Limitation extends Artifact {
   }
 
   static reorganizePorts(visual_shape: any) {
-    //we must change "y" of previous ports after addPort, otherwise "y" re-switch to previous value
-    if (visual_shape.portData.ports.length == 2) {
+    // we must change "y" of previous ports after addPort, otherwise "y" re-switch to previous value
+    if (visual_shape.portData.ports.length === 2) {
       visual_shape.portData.ports[0].attrs.rect.y = 19; // 11 + 14 = 25
       visual_shape.portData.ports[0].label.position.args.y = 36; // 11 + 31 = 42
     }
-    else if (visual_shape.portData.ports.length == 3) {
+    else if (visual_shape.portData.ports.length === 3) {
       visual_shape.portData.ports[0].attrs.rect.y = 23; // 7 + 18 = 25
       visual_shape.portData.ports[0].label.position.args.y = 40; // 7 + 35 = 42
       visual_shape.portData.ports[1].attrs.rect.y = 8; // 22 + 3 = 25
@@ -356,7 +360,7 @@ export class Rationale extends Artifact {
 
     if (jsonElement.axonicProject) {
       for (const r of Object.values(jsonElement.axonicProject)) {
-        if (this.name != '')
+        if (this.name !== '')
           this.name += ' & ';
         this.name += r;
       }
@@ -378,7 +382,7 @@ export class Actor extends Artifact {
   constructor(name: string, jsonElement: any, role: string) {
     super(name, jsonElement, role);
     this.behavior = Behavior.Near;
-    name = ((name === undefined) || (name == '')) ? ' ' : name;
+    name = ((name === undefined) || (name === '')) ? ' ' : name;
     this.visualShape = new joint.shapes.basic.Rect({
       id: Util.getNewGuid(),
       size: {
@@ -392,7 +396,6 @@ export class Actor extends Artifact {
   }
 }
 
-// TODO: unused
 export class ForEach extends Artifact {
   constructor(name: string, jsonElement: any, type: string) {
     super(name, jsonElement, type);
@@ -410,7 +413,7 @@ export class Step {
     else
       this.stepId = id;
 
-    this.items = new Array<DiagramElement>();
+    this.items = [];
   }
 
   public getStepId(): String {
@@ -456,7 +459,7 @@ export class Util {
   }
 
   static getLimitationsFromJson(jsonElement: any, parentElement: DiagramElement): Array<Artifact> {
-    const artifacts = new Array<Artifact>();
+    const artifacts = [];
     let index = 0;
 
     if (jsonElement[0] && jsonElement[0].hasOwnProperty('limits')) {
@@ -472,7 +475,7 @@ export class Util {
     const width = Util.getElementWidthFromTextLength(name) - 40;
     let result = '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" tooltipPlacement="top" tooltip="' + actorType + '"'
       + ' width="40pt" height="40pt"  viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" >';
-    //+ ((width > 60) ? 'x="' + ((width / 2) - 10).toString() + '"' : '') +'>';
+    // + ((width > 60) ? 'x="' + ((width / 2) - 10).toString() + '"' : '') +'>';
 
     if (actorType.toLowerCase().indexOf(Util.ActorExpert) >= 0) {
       result += `<g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#030303" stroke="none">
@@ -520,7 +523,7 @@ export class Util {
                         </g>`;
     }
 
-    result += '</svg> <text x="-10" y="100" font-size="14"></text>'; //this works like a template for actor name !
+    result += '</svg> <text x="-10" y="100" font-size="14"></text>'; // this works like a template for actor name !
 
     return result;
   }
@@ -528,10 +531,10 @@ export class Util {
   static roundedRectangleSvg(x, y, w, h, r1, r2, r3, r4): string {
     let result = [];
 
-    result = result.concat(['M', x, r1 + y, 'Q', x, y, x + r1, y]); //A
-    result = result.concat(['L', x + w - r2, y, 'Q', x + w, y, x + w, y + r2]); //B
-    result = result.concat(['L', x + w, y + h - r3, 'Q', x + w, y + h, x + w - r3, y + h]); //C
-    result = result.concat(['L', x + r4, y + h, 'Q', x, y + h, x, y + h - r4, 'Z']); //D
+    result = result.concat(['M', x, r1 + y, 'Q', x, y, x + r1, y]); // A
+    result = result.concat(['L', x + w - r2, y, 'Q', x + w, y, x + w, y + r2]); // B
+    result = result.concat(['L', x + w, y + h - r3, 'Q', x + w, y + h, x + w - r3, y + h]); // C
+    result = result.concat(['L', x + r4, y + h, 'Q', x, y + h, x, y + h - r4, 'Z']); // D
 
     return result.toString().replace(/,/g, ' ');
   }
@@ -658,7 +661,7 @@ export class Util {
           businessElement.stepId = businessStep.getStepId();
           businessElement.description = element.description;
 
-          //VisualShape association
+          // VisualShape association
           for (const cell of cells) {
             if (element.visualShapeId === cell.id) {
               businessElement.visualShape = cell;
@@ -670,14 +673,14 @@ export class Util {
           if (businessElement.artifacts === undefined)
             businessElement.artifacts = new Array<Artifact>();
 
-          //Artifact association
+          // Artifact association
           if (element.artifacts !== undefined) {
             for (const artifact of element.artifacts) {
               let businessArtifact: Artifact;
 
               switch (artifact.elementType) {
                 case 'Limitation':
-                  //Not necessary: Creation into Conclusion constructor
+                  // Not necessary: Creation into Conclusion constructor
                   break;
                 case 'Actor':
                   businessArtifact = new Actor(artifact.name, artifact.jsonElement, artifact.type);
@@ -688,7 +691,7 @@ export class Util {
               }
 
               if (businessArtifact !== undefined) {
-                //VisualShape association
+                // VisualShape association
                 for (const cell of cells) {
                   if (artifact.visualShapeId === cell.id) {
                     businessArtifact.visualShape = cell;
@@ -709,7 +712,7 @@ export class Util {
       result.businessSteps.push(businessStep);
     }
 
-    //Associate correct business element (Conclusion / Evidence) to Support element
+    // Associate correct business element (Conclusion / Evidence) to Support element
     const supportIds = new Array<String>();
     for (const step of jsonBusinessSteps) {
       for (const element of step.elements) {
@@ -720,21 +723,21 @@ export class Util {
 
           for (const bStep of result.businessSteps) {
             for (const bElement of bStep.items) {
-              //Find correct Conclusion
+              // Find correct Conclusion
               if ((element.support.stepId_conclusion === bStep.stepId) && (bElement instanceof Conclusion)) {
                 support_conclusion = bElement;
                 break;
               }
 
-              //Find correct Evidence
-              if ((element.support.stepId_evidence === bStep.stepId) && (bElement instanceof Evidence) && (bElement.name == element.name)) {
+              // Find correct Evidence
+              if ((element.support.stepId_evidence === bStep.stepId) && (bElement instanceof Evidence) && (bElement.name === element.name)) {
                 support_evidence = bElement;
                 break;
               }
             }
           }
 
-          //Find Supports and replace Conclusion and Evidence
+          // Find Supports and replace Conclusion and Evidence
           for (const bStep of result.businessSteps) {
             for (const bElement of bStep.items) {
               if (element.visualShapeId === bElement.visualShape.id) {

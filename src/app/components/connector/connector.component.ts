@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {WsConnectorService} from '../../services/webServices/ws-connector.service';
 import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../business/diagram/importDiagram';
-import {DiagramComponent} from "../diagram/diagram.component";
+import {DiagramComponent} from '../diagram/diagram.component';
+import {WsRetrieverService} from '../../services/webServices/ws-retriever.service';
 
 @Component({
   selector: 'app-connector',
@@ -15,18 +15,18 @@ export class ConnectorComponent implements OnInit {
   public argSystemIdList: string[];
   public currentArgSystem: ArgSystem;
 
-  constructor(private connectorService: WsConnectorService, public diagramComponent: DiagramComponent) {
+  constructor(private retrieverService: WsRetrieverService, public diagramComponent: DiagramComponent) {
     this.currentArgSystem = null;
   }
 
   ngOnInit() {
-    this.connectorService.get<string[]>('systems').subscribe(data => this.argSystemIdList = data);
+    this.retrieverService.get<string[]>('systems').subscribe(data => this.argSystemIdList = data);
     console.log(this.currentArgSystem);
   }
 
   retrieveArgumentationSystem(id: string): void {
     console.log('id: ' + id);
-    this.connectorService.get<IArgSystem>(id).subscribe(result => {
+    this.retrieverService.get<IArgSystem>(id).subscribe(result => {
       this.onArgSystemChange.emit(result);
       this.currentArgSystem = result;
     });
@@ -48,7 +48,7 @@ export class ConnectorComponent implements OnInit {
 
     const deResult: ParseDiagramElementsResult = temp.getDiagramElements();
 
-    console.log("DERESULT");
+    console.log('DERESULT');
     console.log(deResult);
     this.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
   }

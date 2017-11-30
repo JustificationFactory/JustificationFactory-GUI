@@ -11,10 +11,11 @@ import {OfflineWorkspaceComponent} from './components/workspace/offline/offline-
 import {PaletteComponent} from './components/palette/palette.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ConnectorComponent} from './components/connector/connector.component';
-import {WsConnectorService} from './services/webServices/ws-connector.service';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { OnlineWorkspaceComponent } from './components/workspace/online/online-workspace.component';
+import {WsRetrieverService} from './services/webServices/ws-retriever.service';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {OnlineWorkspaceComponent} from './components/workspace/online/online-workspace.component';
+import {WsSenderService} from './services/webServices/ws-sender.service';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { OnlineWorkspaceComponent } from './components/workspace/online/online-w
     OfflineWorkspaceComponent,
     PaletteComponent,
     ConnectorComponent,
-    WsConnectorService
+    WsRetrieverService,
+    WsSenderService
   ],
   bootstrap: [AppComponent]
 })

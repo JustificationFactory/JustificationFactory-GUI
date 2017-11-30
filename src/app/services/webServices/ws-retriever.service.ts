@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
-export class WsConnectorService {
+export class WsRetrieverService {
 
   public protocol: string;
   public host: string;
