@@ -11,6 +11,7 @@ export class WsRetrieverService extends WsConnectorService {
     super();
   }
 
+  /* Features */
   private get<T>(path): Observable<T> {
     const url = this.buildUrl(path);
     console.log('Sending get request to: ' + url);
