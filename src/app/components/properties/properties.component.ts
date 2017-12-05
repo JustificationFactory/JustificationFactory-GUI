@@ -9,7 +9,7 @@ import {Actor, DiagramElement, Limitation, Rationale, Util} from '../../business
 export class PropertiesComponent implements OnChanges {
 
     @Input() selectedElement: DiagramElement = null;
-    @Output() selectedElementChange: EventEmitter<DiagramElement> = new EventEmitter(); //For two-way binding (ex: prop1Change)
+    @Output() selectedElementChange: EventEmitter<DiagramElement> = new EventEmitter(); // For two-way binding (ex: prop1Change)
     @Input() businessTree = [];
 
     constructor(){
@@ -63,7 +63,7 @@ export class PropertiesComponent implements OnChanges {
 
     private  loadVisualSettings() {
 
-        //Initialization of properties
+        // Initialization of properties
         this.ElementName = this.selectedElement.name;
         this.ShapeOfElement = '';
         this.BorderOfElement = '';
@@ -82,22 +82,23 @@ export class PropertiesComponent implements OnChanges {
         this.RationalesList.splice(0);
         this.LimitsList.splice(0);
 
-        //Set visual properties of element
+        // TODO: sans déconner les comparaisons sont faites comme ça???? on compare des éléments graphiques maintenant...
+        // Set visual properties of element
         if (this.selectedElement.visualShape.attributes.attrs.path){
-            if (this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.RectangleShape)
+            if (this.selectedElement.visualShape.attributes.attrs.path.d === DiagramElement.RectangleShape)
                 this.ShapeOfElement = this.SHAPE_RECTANGLE;
-            else if (this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.RoundedRectangleShape)
+            else if (this.selectedElement.visualShape.attributes.attrs.path.d === DiagramElement.RoundedRectangleShape)
                 this.ShapeOfElement = this.SHAPE_ROUNDEDRECTANGLE;
-            else if (this.selectedElement.visualShape.attributes.attrs.path.d == DiagramElement.ParallelogramShape)
+            else if (this.selectedElement.visualShape.attributes.attrs.path.d === DiagramElement.ParallelogramShape)
                 this.ShapeOfElement = this.SHAPE_PARALLELOGRAM;
             else
                 this.ShapeOfElement = '';
 
-            if (this.selectedElement.visualShape.attributes.attrs.path['stroke-dasharray'] == DiagramElement.SolidBorder)
+            if (this.selectedElement.visualShape.attributes.attrs.path['stroke-dasharray'] === DiagramElement.SolidBorder)
                 this.BorderOfElement = this.BORDER_SOLID;
-            else if (this.selectedElement.visualShape.attributes.attrs.path['stroke-dasharray'] == DiagramElement.DashBorder)
+            else if (this.selectedElement.visualShape.attributes.attrs.path['stroke-dasharray'] === DiagramElement.DashBorder)
                 this.BorderOfElement = this.BORDER_DASH;
-            else if (this.selectedElement.visualShape.attributes.attrs.path['stroke-dasharray'] == DiagramElement.MixBorder)
+            else if (this.selectedElement.visualShape.attributes.attrs.path['stroke-dasharray'] === DiagramElement.MixBorder)
                 this.BorderOfElement = this.BORDER_MIX;
             else
                 this.BorderOfElement = this.BORDER_SOLID;
@@ -107,7 +108,7 @@ export class PropertiesComponent implements OnChanges {
             this.TextColorOfElement = this.selectedElement.visualShape.attributes.attrs.text.fill;
         }
 
-        //Set visual properties of Actor
+        // Set visual properties of Actor
         let rationalId = 0;
         let limitId = 0;
 

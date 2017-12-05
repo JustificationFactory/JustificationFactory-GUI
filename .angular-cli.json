@@ -26,7 +26,7 @@
         "../node_modules/jointjs/css/themes/default.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/lodash/index.js",
         "../node_modules/backbone/backbone.js",
         "../node_modules/jointjs/dist/joint.js",
@@ -68,4 +68,5 @@
     "styleExt": "css",
     "component": {}
   }
+
 }

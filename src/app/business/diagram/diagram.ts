@@ -36,11 +36,6 @@ export class DiagramElement {
     return new LinkElement(this, parentElement);
   }
 
-  //  TODO: unused
-  makeLinkWithChild(childElement): LinkElement {
-    return new LinkElement(childElement, this);
-  }
-
   public getId(): string {
     if (typeof this.visualShape !== 'undefined') {
       return this.visualShape.id;
@@ -429,7 +424,6 @@ export class Util {
   static ActorComputer = 'computed';
 
   static getElementWidthFromTextLength(name: string) {
-    console.log(name);
     const maxLine = _.max(name.split('\n'), function (l) {
       return l.length;
     });

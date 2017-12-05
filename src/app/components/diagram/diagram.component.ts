@@ -12,8 +12,6 @@ import {
   Support,
   Util
 } from '../../business/diagram/diagram';
-import {PropertiesComponent} from '../properties/properties.component';
-import {ActionsToolbarComponent} from '../toolbars/actions/actions.toolbar.component';
 
 import * as joint from 'jointjs';
 import Graph = joint.dia.Graph;
@@ -23,10 +21,10 @@ import Cell = joint.dia.Cell;
     selector: 'diagram-view',
     templateUrl: './diagram.component.html',
 })
-export class DiagramComponent implements AfterContentInit{
+export class DiagramComponent implements AfterContentInit {
+
     private _graph: joint.dia.Graph;
     private _paper: joint.dia.Paper;
-    private window: Window;
     private _initialPaperWidth: number = window.innerWidth;
     private _initialPaperHeight: number = window.innerHeight;
     private _graphScale = 1 ;
@@ -38,9 +36,7 @@ export class DiagramComponent implements AfterContentInit{
     businessSteps: Array<Step>;
 
 
-    constructor(public propertiesComponent: PropertiesComponent, public actionsToolbarComponent: ActionsToolbarComponent) {
-
-    }
+    constructor() {}
 
     ngAfterContentInit() {
         // Component content has been initialized
@@ -223,10 +219,9 @@ export class DiagramComponent implements AfterContentInit{
         $('#myholder').replaceWith(this._paper.el);
 
         this.resetZoom();
-
     }
 
-    public showDiagram(elements: DiagramElement[], bSteps: Array<Step>){
+    public showDiagram(elements: DiagramElement[], bSteps: Array<Step>) {
         this.businessSteps = bSteps;
 
         this.initializeGraph();
@@ -248,7 +243,7 @@ export class DiagramComponent implements AfterContentInit{
             marginY: 10
         });
 
-        //Replace Actors and Rationales  near strategies
+        // Replace Actors and Rationales  near strategies
         for (const el of elements) {
             for (const artifact of el.artifacts){
                 if (artifact.behavior == Behavior.Near){

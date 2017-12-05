@@ -9,8 +9,13 @@ interface IStep {
   id: string;
   patternId: string;
   evidenceRoles: Object[];
-  strategy: Object;
+  strategy: IStrategy;
   conclusion: Object;
+}
+
+// TODO: to verify
+interface IConclusion {
+  toz: any;
 }
 
 interface IStrategy {

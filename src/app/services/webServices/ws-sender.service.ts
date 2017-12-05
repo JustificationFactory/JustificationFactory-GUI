@@ -23,7 +23,10 @@ export class WsSenderService extends WsConnectorService {
   private httpDelete(path): Observable<Object> {
     const url = this.buildUrl(path);
     console.log('Sending delete request to: ' + url);
-    return this.http.delete(path);
+    return this.http.delete(url,
+      {
+        headers: new HttpHeaders().set('Access-Control-Allow-Origin', '*')
+      });
   }
 
   /* Business */
