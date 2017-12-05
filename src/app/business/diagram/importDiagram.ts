@@ -31,20 +31,24 @@ export class ParseJson2DiagramElements {
   importStep(step: any): Step {
     const businessStep = new Step(undefined);
 
-    this.conclusions.push(new Conclusion(step.conclusion));
+    // TODO: yoloooooooooooooooo
+    const conclusionN = new Conclusion(step.conclusion);
+    this.conclusions.push(conclusionN);
     conclusionN.stepId = businessStep.getStepId();
     businessStep.items.push(conclusionN);
 
     try {
       // TODO: pourquoi push avant de batîr?
+      const strategyN = new Strategy(step.strategy);
       this.strategies.push(new Strategy(step.strategy));
       strategyN.stepId = businessStep.getStepId();
       // TODO: push à deux endroits différents? mhhh..
       businessStep.items.push(strategyN);
       this.links.push(strategyN.makeLinkWithParent(conclusionN));
-
+      this.strategies.push(strategyN);
       strategyN.artifacts = [];
 
+      // TODO: vraiment n'importe quoi de taffer sur un objet qu'on a déjà passé dans un environnement dfférent
       if (step.strategy.rationale) {
         const rationale = new Rationale('', [step.strategy.rationale][0], '');
         strategyN.artifacts.push(rationale);

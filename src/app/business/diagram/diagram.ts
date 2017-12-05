@@ -118,7 +118,7 @@ export class Conclusion extends DiagramElement {
       }
     });
 
-    this.artifacts = Util.getLimitationsFromJson(jsonElement, this);
+    this.artifacts = Util.getLimitationsFromJson(json, this);
     (this.visualShape as any).parent = this;
 
     if (this.artifacts.length > 0) {
@@ -637,17 +637,17 @@ export class Util {
 
         switch (element.elementType) {
           case 'Conclusion':
-            businessElement = new Conclusion(element.name, element.jsonElement, element.type);
+            businessElement = new Conclusion(element);
             break;
           case 'Strategy':
-            businessElement = new Strategy(element.name, element.jsonElement, element.type);
+            businessElement = new Strategy(element);
             break;
           case 'Evidence':
             businessElement = new Evidence(element.name, element.jsonElement, element.type);
             break;
           case 'Support':
             // Intermediate step (not correct Conclusion and Evidence! cf. stateRebuildVisualShapeAssociation function)
-            businessElement = new Support(new Conclusion(element.name, element.jsonElement, element.type), new Evidence(element.name, element.jsonElement, element.type));
+            businessElement = new Support(new Conclusion(element), new Evidence(element.name, element.jsonElement, element.type));
             break;
         }
 

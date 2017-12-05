@@ -230,7 +230,7 @@ export class ActionsToolbarComponent {
         'actor': actorJsonElement
 
       }];
-      const strategy = new Strategy('[Strategy ' + this.nbNewSteps + ']', strategyJsonElement, 'Type');
+      const strategy = new Strategy(strategyJsonElement);
       const link1 = strategy.makeLinkWithParent(this.selectedElement);
 
       const evidenceJsonElement = [{
@@ -323,7 +323,7 @@ export class ActionsToolbarComponent {
 
       //********* CREATE CONCLUSION FROM EVIDENCE *************
 
-      const conclusion = new Conclusion(this.selectedElement.name, this.selectedElement.jsonElement, this.selectedElement.type);
+      const conclusion = new Conclusion(this.selectedElement);
 
 
       //************* SWITCH EVIDENCE TO SUPPORT **************
@@ -473,7 +473,8 @@ export class ActionsToolbarComponent {
           type: 'Type',
         }
       }];
-      const conclusion = new Conclusion('[Conclusion ' + this.nbNewSteps + ']', conclusionJsonElement, 'Type');
+      // TODO: probablement fait n'importe quoi cf screen
+      const conclusion = new Conclusion(conclusionJsonElement);
 
       const actorJsonElement = {
         'name': 'Actor',
@@ -494,7 +495,7 @@ export class ActionsToolbarComponent {
         'actor': actorJsonElement
 
       }];
-      const strategy = new Strategy('[Strategy ' + this.nbNewSteps + ']', strategyJsonElement, 'Type');
+      const strategy = new Strategy(strategyJsonElement);
       const link1 = strategy.makeLinkWithParent(conclusion);
       const link2 = this.selectedElement.makeLinkWithParent(strategy);
 
