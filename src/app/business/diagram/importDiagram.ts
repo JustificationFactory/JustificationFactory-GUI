@@ -49,11 +49,11 @@ export class ParseJson2DiagramElements {
       strategyN.artifacts = [];
 
         if (step.strategy.rationale) {
-          let name:string = step.strategy.rationale.name ? step.strategy.rationale.name :"";
+          const name: string = step.strategy.rationale.name ? step.strategy.rationale.name : '';
           const rationale = new Rationale(name, [step.strategy.rationale][0], 'TYPE');
           strategyN.artifacts.push(rationale);
-          rationales.push(rationale);
-          links.push(rationale.makeLinkWithParent(strategyN));
+          this.rationales.push(rationale);
+          this.links.push(rationale.makeLinkWithParent(strategyN));
         }
 
 
