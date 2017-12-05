@@ -31,20 +31,13 @@ export class ParseJson2DiagramElements {
   importStep(step: any): Step {
     const businessStep = new Step(undefined);
 
-    const nameOfConclusion = step.conclusion.name;
-    const typeOfConclusion = step.conclusion.element['@type'];
-
-    const conclusionN = new Conclusion(nameOfConclusion, [step.conclusion], typeOfConclusion);
-    this.conclusions.push(conclusionN);
+    this.conclusions.push(new Conclusion(step.conclusion));
     conclusionN.stepId = businessStep.getStepId();
     businessStep.items.push(conclusionN);
 
-    const nameOfstrategy = step.strategy.name;
-    const typeOfstrategy = step.strategy.type;
     try {
-      const strategyN = new Strategy(nameOfstrategy, [step.strategy], typeOfstrategy);
       // TODO: pourquoi push avant de batîr?
-      this.strategies.push(strategyN);
+      this.strategies.push(new Strategy(step.strategy));
       strategyN.stepId = businessStep.getStepId();
       // TODO: push à deux endroits différents? mhhh..
       businessStep.items.push(strategyN);
