@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DiagramComponent} from '../diagram/diagram.component';
 import {WsRetrieverService} from '../../services/webServices/ws-retriever.service';
+import {WsSenderService} from '../../services/webServices/ws-sender.service';
 
 @Component({
   selector: 'app-connector',
@@ -22,7 +23,9 @@ export class ConnectorComponent implements OnInit {
   public currentPatternId: string;
   public currentPattern: IPattern;
 
-  constructor(private retrieverService: WsRetrieverService, public diagramComponent: DiagramComponent) {
+  constructor(private retrieverService: WsRetrieverService,
+              private senderService: WsSenderService,
+              public diagramComponent: DiagramComponent) {
     this.currentArgSystem = null;
   }
 
@@ -42,23 +45,24 @@ export class ConnectorComponent implements OnInit {
         error => {
           console.log(error);
         });
-    console.log(this.argSystemIdList);
   }
 
   retrieveArgumentationSystemByCurrentId(id: string): void {
     console.log('Retrieving ArgSystem by id: ' + id);
     this.retrieverService.getArgumentationSystemByCurrentId(id)
       .subscribe(result => {
-          try {
+          /*try {
             this.onArgSystemChange.emit(result);
           } catch (e) {
             console.log(e);
-          }
+          }*/
           this.currentArgSystem = result;
           console.log(this.currentArgSystem);
+          this.onArgSystemChange.emit(result);
         },
         error => {
           console.log(error);
+          alert(error.error);
         });
   }
 
@@ -79,6 +83,8 @@ export class ConnectorComponent implements OnInit {
     this.retrieverService.getPatternByPatternId(argSystemId, patternId)
       .subscribe(result => {
           this.currentPattern = result;
+          console.log(result.name);
+          console.log(this.currentPattern.name);
           console.log(this.currentPattern);
         },
         error => {
@@ -87,7 +93,11 @@ export class ConnectorComponent implements OnInit {
   }
 
   /* Posters */
-
+  deleteCurrentArgSystem() {
+    console.log('Deleting ' + this.currentArgSystemId);
+    this.senderService.removeArgumentationSystem(this.currentArgSystemId).subscribe(result => console.log(result));
+    this.retrieveAllArgumentationSystemsName();
+  }
 
   /* Manipulation handlers */
   changeCurrentArgSystem(id: string): void {

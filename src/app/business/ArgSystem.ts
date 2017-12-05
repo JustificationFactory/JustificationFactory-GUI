@@ -9,7 +9,7 @@ class Step implements IStep {
   id;
   patternId;
   evidenceRoles: Object[];
-  strategy: Object;
+  strategy: Strategy;
   conclusion: Object;
 }
 

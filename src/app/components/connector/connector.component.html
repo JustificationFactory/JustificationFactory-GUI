@@ -1,43 +1,33 @@
-<div id="connectorComponent">
-  <h2>Connector Comp</h2>
+<div class="container" id="connectorComponent">
+  <h4> AVEK Reacher </h4>
 
-  <div>
-    <p>Possibilities</p>
-    <select #argSystId (change)="changeCurrentArgSystem(argSystId.value)">
-      <option disabled selected value> -- select an option --</option>
-      <option *ngFor="let argSystemId of argSystemIdList" value="{{argSystemId}}">{{argSystemId}}</option>
-    </select>
+  <div class="row">
+    <div class="col col-xs-6">
+
+      <p>Possibilities</p>
+      <button type="button" class="btn btn-default" (click)="retrieveAllArgumentationSystemsName()">Reload Systems</button>
+        <select class="selectpicker" #argSystId (change)="changeCurrentArgSystem(argSystId.value)">
+          <option disabled selected value> Select an Arg System</option>
+          <option *ngFor="let argSystemId of argSystemIdList" value="{{argSystemId}}">{{argSystemId}}</option>
+        </select>
+      <div *ngIf="currentArgSystem != null ">
+        <p>Argumentation System: {{currentArgSystemId}}</p>
+        <button type="button" class="btn btn-danger" (click)="deleteCurrentArgSystem()"> Delete that system</button>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="currentArgSystem != null">
-    <p>Argumentation System</p>
-    <p>Irrelevant infos just to check the validity of the answer.</p>
-    <ul>
-      <li *ngFor="let step of currentArgSystem.steps">
-        <span>{{step.id}}</span>
-      </li>
-    </ul>
-    <ul>
-      <li *ngFor="let baseEvidence of currentArgSystem.baseEvidences">
-        <span>{{baseEvidence.role}}</span>
-      </li>
-    </ul>
-
-    <p>{{currentArgSystem}}</p>
-    <p>{{currentArgSystem.objective}}</p>
-    <p>{{currentArgSystem.patternsBase}}</p>
-  </div>
-
-  <div ><!-- TODO: fix display *ngIf="currentArgSystem != null">-->
-    <select #patternId (change)="changeCurrentPattern(patternId.value)">
-      <option disabled selected value> -- select an option --</option>
-      <option *ngFor="let pattern of patternsIdList" value="{{pattern}}">{{pattern}}</option>
-    </select>
-  </div>
-  <!-- TODO: ranger l'html un de ces 12 ou 4 ou 24 -->
-  <div>  <!--*ngIf="currentPattern != null">-->
-    <p>Pattern logic</p>
-    <p>{{currentPattern}}</p>
+  <div class="col col-xs-6" *ngIf="currentArgSystem != null">
+    <label>
+      <select class="selectpicker" #patternId (change)="changeCurrentPattern(patternId.value)">
+        <option disabled selected value> Select a Pattern</option>
+        <option *ngFor="let pattern of patternsIdList" value="{{pattern}}">{{pattern}}</option>
+      </select>
+    </label>
+    <div *ngIf="currentPattern != null ">
+      <p>Pattern Id: {{currentPatternId}}</p>
+      <p>Name: {{currentPattern.name}}</p>
+    </div>
   </div>
 
 </div>

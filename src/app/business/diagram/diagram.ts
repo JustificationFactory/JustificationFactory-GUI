@@ -36,11 +36,6 @@ export class DiagramElement {
     return new LinkElement(this, parentElement);
   }
 
-  //  TODO: unused
-  makeLinkWithChild(childElement): LinkElement {
-    return new LinkElement(childElement, this);
-  }
-
   public getId(): string {
     if (typeof this.visualShape !== 'undefined') {
       return this.visualShape.id;
@@ -112,8 +107,8 @@ export class Support extends DiagramElement {
 export class Conclusion extends DiagramElement {
   artifacts: Array<Artifact>;
 
-  constructor(name: string, jsonElement: any, type: string) {
-    super(name, jsonElement, type);
+  constructor(json: any) {
+    super(json.name, json, json.element['@type']);
     this.visualShape = new joint.shapes.basic.Path({
       id: Util.getNewGuid(),
       size: {width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name)},
@@ -123,7 +118,7 @@ export class Conclusion extends DiagramElement {
       }
     });
 
-    this.artifacts = Util.getLimitationsFromJson(jsonElement, this);
+    this.artifacts = Util.getLimitationsFromJson(json, this);
     (this.visualShape as any).parent = this;
 
     if (this.artifacts.length > 0) {
@@ -155,8 +150,8 @@ export class Evidence extends DiagramElement {
 export class Strategy extends DiagramElement {
   artifacts: Array<Artifact>;
 
-  constructor(name: string, jsonElement: any, type: string) {
-    super(name, jsonElement, type);
+  constructor(json: any) {
+    super(json.name, json, json.type);
 
     this.visualShape = new joint.shapes.basic.Path({
       id: Util.getNewGuid(),
@@ -429,7 +424,6 @@ export class Util {
   static ActorComputer = 'computed';
 
   static getElementWidthFromTextLength(name: string) {
-    console.log(name);
     const maxLine = _.max(name.split('\n'), function (l) {
       return l.length;
     });
@@ -643,17 +637,17 @@ export class Util {
 
         switch (element.elementType) {
           case 'Conclusion':
-            businessElement = new Conclusion(element.name, element.jsonElement, element.type);
+            businessElement = new Conclusion(element);
             break;
           case 'Strategy':
-            businessElement = new Strategy(element.name, element.jsonElement, element.type);
+            businessElement = new Strategy(element);
             break;
           case 'Evidence':
             businessElement = new Evidence(element.name, element.jsonElement, element.type);
             break;
           case 'Support':
             // Intermediate step (not correct Conclusion and Evidence! cf. stateRebuildVisualShapeAssociation function)
-            businessElement = new Support(new Conclusion(element.name, element.jsonElement, element.type), new Evidence(element.name, element.jsonElement, element.type));
+            businessElement = new Support(new Conclusion(element), new Evidence(element.name, element.jsonElement, element.type));
             break;
         }
 
