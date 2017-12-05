@@ -56,7 +56,8 @@ export class ParseJson2DiagramElements {
         strategyN.artifacts = [];
 
         if (step.strategy.rationale) {
-          const rationale = new Rationale('', [step.strategy.rationale][0], '');
+          let name:string = step.strategy.rationale.project.stimulator + " " + step.strategy.rationale.project.pathology;
+          const rationale = new Rationale(name, [step.strategy.rationale][0], 'TYPE');
           strategyN.artifacts.push(rationale);
           rationales.push(rationale);
           links.push(rationale.makeLinkWithParent(strategyN));
