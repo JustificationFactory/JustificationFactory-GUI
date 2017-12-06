@@ -113,10 +113,10 @@ export class Conclusion extends DiagramElement {
     super(json.name, json, json.element['@type']);
     this.visualShape = new joint.shapes.basic.Path({
       id: Util.getNewGuid(),
-      size: {width: Util.getElementWidthFromTextLength(name), height: Util.getElementHeightFromTextLength(name)},
+      size: {width: Util.getElementWidthFromTextLength(this.name), height: Util.getElementHeightFromTextLength(this.name)},
       attrs: {
         path: {d: DiagramElement.RoundedRectangleShape, fill: '#7fcc00'},
-        text: {text: name, 'ref-y': .3, fill: '#000000'}
+        text: {text: this.name, 'ref-y': .3, fill: '#000000'}
       }
     });
 
@@ -161,12 +161,12 @@ export class Strategy extends DiagramElement {
     this.visualShape = new joint.shapes.basic.Path({
       id: Util.getNewGuid(),
       size: {
-        width: Util.getElementWidthFromTextLength(name),
-        height: Util.getElementHeightFromTextLength(name)
+        width: Util.getElementWidthFromTextLength(this.name),
+        height: Util.getElementHeightFromTextLength(this.name)
       },
       attrs: {
         path: {d: DiagramElement.ParallelogramShape, fill: '#008000'},
-        text: {text: name, 'ref-y': .3, fill: '#FFFFFF'}
+        text: {text: this.name, 'ref-y': .3, fill: '#FFFFFF'}
       }
 
     });

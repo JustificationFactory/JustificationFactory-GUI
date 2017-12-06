@@ -98,6 +98,13 @@ export class ConnectorComponent implements OnInit {
     this.retrieveAllArgumentationSystemsName();
   }
 
+  registerArgSystem(argSystem: IArgSystem) {
+    console.log('Registering new arg system : ' + argSystem);
+    this.senderService.registerArgumentationSystem(argSystem).subscribe(result => {
+      console.log('RegisterArgSystem returned : ' + result);
+    });
+  }
+
   /* Manipulation handlers */
   changeCurrentArgSystem(id: string): void {
     this.currentArgSystemId = id;
