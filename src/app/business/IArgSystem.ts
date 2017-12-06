@@ -1,24 +1,26 @@
-interface IArgSystem {
+export interface IArgSystem {
   steps: IStep[];
-  patternsBase: IPatternsBase;
-  objective: Object;
-  baseEvidences: Object[];
+  // TODO: je sais pas où tot ça s'est barré mais ca s'est barré des data
+  // patternsBase: IPatternsBase;
+  // objective: Object;
+  // baseEvidences: Object[];
 }
 
-interface IStep {
+export interface IStep {
   id: string;
   patternId: string;
-  evidenceRoles: Object[];
+  evidences: IEvidence[];
   strategy: IStrategy;
   conclusion: Object;
 }
 
 // TODO: to verify
-interface IConclusion {
-  toz: any;
+export interface IConclusion {
+  name: string;
+  type: string;
 }
 
-interface IStrategy {
+export interface IStrategy {
   // TODO: type instead of @type, keep in mind
   type: string;
   name: string;
@@ -26,24 +28,35 @@ interface IStrategy {
   usageDomain: Object;
 }
 
-interface IPatternsBase {
+export interface IPatternsBase {
   patterns: IPattern[];
 }
 
-interface IPattern {
+export interface IPattern {
   id: string;
-  name;
-  string;
+  name: string;
   strategy: IStrategy;
   inputTypes: IInputType[];
   outputType: IOutputType;
 }
 
-interface IInputType {
+export interface IInputType {
   type: string;
   name: string;
 }
 
-interface IOutputType {
+export interface IOutputType {
   type: string;
+}
+
+export interface ISupport {
+  type: string;
+  id: string;
+  name: string;
+  element: Object;
+}
+
+export interface IEvidence {
+  role: string;
+  support: ISupport;
 }

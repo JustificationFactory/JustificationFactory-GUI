@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {WsConnectorService} from './ws-connector.service';
 import {HttpClient} from '@angular/common/http';
+import {IArgSystem, IPattern} from '../../business/IArgSystem';
 
 
 @Injectable()
@@ -23,8 +24,8 @@ export class WsRetrieverService extends WsConnectorService {
     return this.get<string[]>('systems');
   }
 
-  getArgumentationSystemByCurrentId(id: string): Observable<IArgSystem> {
-    return this.get<IArgSystem>(id);
+  getArgumentationSystemByCurrentId(id: string): Observable<any> {
+    return this.get<any>(id);
   }
 
   getPatternsByArgSystemId(argSystemId: string): Observable<string[]> {

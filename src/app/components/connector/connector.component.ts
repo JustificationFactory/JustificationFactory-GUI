@@ -2,6 +2,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DiagramComponent} from '../diagram/diagram.component';
 import {WsRetrieverService} from '../../services/webServices/ws-retriever.service';
 import {WsSenderService} from '../../services/webServices/ws-sender.service';
+import {IArgSystem, IPattern} from '../../business/IArgSystem';
+import {MyArgSystem} from '../../business/ArgSystem';
+
 
 @Component({
   selector: 'app-connector',
@@ -48,15 +51,11 @@ export class ConnectorComponent implements OnInit {
   }
 
   retrieveArgumentationSystemByCurrentId(id: string): void {
-    console.log('Retrieving ArgSystem by id: ' + id);
+    console.log('Retrieving MyArgSystem by id: ' + id);
     this.retrieverService.getArgumentationSystemByCurrentId(id)
       .subscribe(result => {
-          /*try {
-            this.onArgSystemChange.emit(result);
-          } catch (e) {
-            console.log(e);
-          }*/
-          this.currentArgSystem = result;
+          this.currentArgSystem = new MyArgSystem(result);
+          console.log('ArgSystem:');
           console.log(this.currentArgSystem);
           this.onArgSystemChange.emit(result);
         },
@@ -67,7 +66,7 @@ export class ConnectorComponent implements OnInit {
   }
 
   retrievePatternsByArgSystemId(argSystemId: string): void {
-    console.log('Retrieving ArgSystem Patterns by system id: ' + argSystemId);
+    console.log('Retrieving MyArgSystem Patterns by system id: ' + argSystemId);
     this.retrieverService.getPatternsByArgSystemId(argSystemId)
       .subscribe(result => {
           this.patternsIdList = result;
@@ -79,7 +78,7 @@ export class ConnectorComponent implements OnInit {
   }
 
   retrievePatternByPatternId(argSystemId: string, patternId: string): void {
-    console.log('Retrieving ArgSystem(' + argSystemId + ') pattern with id: ' + patternId);
+    console.log('Retrieving MyArgSystem(' + argSystemId + ') pattern with id: ' + patternId);
     this.retrieverService.getPatternByPatternId(argSystemId, patternId)
       .subscribe(result => {
           this.currentPattern = result;

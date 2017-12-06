@@ -83,9 +83,10 @@ export class OfflineWorkspaceComponent  implements OnInit, AfterContentInit {
         this.diagramLoaded = true;
 
         //mandatory! We wait for appearance of DiagramComponent...
-        setTimeout(this.showNewDiagram.bind(null, this), 100);
+        // TODO: removed behaviro cause nul à chier setTimeout(this.showNewDiagram.bind(null, this), 100);
     }
 
+    /*
     showNewDiagram(event) {
 
         const parse: ParseJson2DiagramElements = new ParseJson2DiagramElements({
@@ -129,7 +130,7 @@ export class OfflineWorkspaceComponent  implements OnInit, AfterContentInit {
 
         event.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
 
-    }
+    }*/
 
     btnCloseClick(event) {
         let menu = this;

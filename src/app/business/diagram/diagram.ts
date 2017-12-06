@@ -76,6 +76,7 @@ export class LinkElement extends DiagramElement {
   }
 }
 
+// DONE (quand je dis done c'est juste ls shape)
 export class Support extends DiagramElement {
   artifacts: Array<Artifact>;
 
@@ -104,6 +105,7 @@ export class Support extends DiagramElement {
   }
 }
 
+// DONE
 export class Conclusion extends DiagramElement {
   artifacts: Array<Artifact>;
 
@@ -122,12 +124,14 @@ export class Conclusion extends DiagramElement {
     (this.visualShape as any).parent = this;
 
     if (this.artifacts.length > 0) {
+      // TODO: ????
       this.visualShape.attributes.size.height += Util.HeightToAddIfArtifactEmbeded;
       this.visualShape.attributes.attrs.text.y = 10;
     }
   }
 }
 
+// DONE
 export class Evidence extends DiagramElement {
   artifacts: Array<Artifact>;
 
@@ -147,6 +151,7 @@ export class Evidence extends DiagramElement {
 
 }
 
+// DONE
 export class Strategy extends DiagramElement {
   artifacts: Array<Artifact>;
 
@@ -391,18 +396,12 @@ export class Actor extends Artifact {
   }
 }
 
-export class ForEach extends Artifact {
-  constructor(name: string, jsonElement: any, type: string) {
-    super(name, jsonElement, type);
-    this.behavior = Behavior.Embeded;
-  }
-}
-
 export class Step {
   private stepId: String;
   public items: Array<DiagramElement>;
 
   constructor(id: String) {
+    // TODO: mouais, à vocation à disparaitre je pense
     if ((id === undefined) || (id === ''))
       this.stepId = Util.getNewGuid();
     else
@@ -445,6 +444,7 @@ export class Util {
 
   static getNewGuid(): String {
     function S4() {
+      // TODO: waow tout ca pour un id
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
 
@@ -452,6 +452,7 @@ export class Util {
     return (S4() + S4() + '-' + S4() + '-4' + S4().substr(0, 3) + '-' + S4() + '-' + S4() + S4() + S4()).toLowerCase();
   }
 
+  // TODO: don't know how this is useful
   static getLimitationsFromJson(jsonElement: any, parentElement: DiagramElement): Array<Artifact> {
     const artifacts = [];
     let index = 0;
@@ -520,17 +521,6 @@ export class Util {
     result += '</svg> <text x="-10" y="100" font-size="14"></text>'; // this works like a template for actor name !
 
     return result;
-  }
-
-  static roundedRectangleSvg(x, y, w, h, r1, r2, r3, r4): string {
-    let result = [];
-
-    result = result.concat(['M', x, r1 + y, 'Q', x, y, x + r1, y]); // A
-    result = result.concat(['L', x + w - r2, y, 'Q', x + w, y, x + w, y + r2]); // B
-    result = result.concat(['L', x + w, y + h - r3, 'Q', x + w, y + h, x + w - r3, y + h]); // C
-    result = result.concat(['L', x + r4, y + h, 'Q', x, y + h, x, y + h - r4, 'Z']); // D
-
-    return result.toString().replace(/,/g, ' ');
   }
 
   static stateToJSON(businessSteps: Array<Step>, jsonGraph: any, states: any) {

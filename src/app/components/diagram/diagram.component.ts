@@ -174,7 +174,8 @@ export class DiagramComponent implements AfterContentInit {
 
             this._graph.fromJSON(result.graph);
             for (const g of this._graph.getCells()) {
-                if (((g as any).portData !== undefined) && ((g as any).portData.ports !== undefined) && ((g as any).portData.ports.length > 0))
+                if (((g as any).portData !== undefined) && ((g as any).portData.ports !== undefined)
+                  && ((g as any).portData.ports.length > 0))
                     Limitation.reorganizePorts(g);
             }
             this._graph.resetCells(this._graph.getCells());
@@ -246,7 +247,7 @@ export class DiagramComponent implements AfterContentInit {
         // Replace Actors and Rationales  near strategies
         for (const el of elements) {
             for (const artifact of el.artifacts){
-                if (artifact.behavior == Behavior.Near){
+                if (artifact.behavior === Behavior.Near) {
                     el.visualShape.embed(artifact.visualShape);
 
                     if (artifact instanceof Actor) {

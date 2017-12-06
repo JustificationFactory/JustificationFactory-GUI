@@ -1,16 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {
-  Actor,
-  Behavior,
-  Conclusion,
-  DiagramElement,
-  Evidence,
-  Rationale,
-  Step,
-  Strategy,
-  Support
-} from '../../../business/diagram/diagram';
-import {dia} from "jointjs";
+import {Actor, Behavior, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy, Support} from '../../../business/diagram/diagram';
+import {dia} from 'jointjs';
+import Graph = dia.Graph;
+import Paper = dia.Paper;
 
 @Component({
   selector: 'actionstoolbar-view',
@@ -21,8 +13,8 @@ export class ActionsToolbarComponent {
   private nbNewSteps = 0;
   private nbNewEvidences = 0;
   @Input() selectedElement: DiagramElement = null;
-  @Input() _graph: joint.dia.Graph = null;
-  @Input() _paper: joint.dia.Paper = null;
+  @Input() _graph: Graph = null;
+  @Input() _paper: Paper = null;
 
   @Input() businessSteps: Array<Step> = null;
   @Output() stepChange: EventEmitter<DiagramElement> = new EventEmitter(); // For two-way binding (ex: prop1Change)
@@ -224,7 +216,7 @@ export class ActionsToolbarComponent {
       };
 
       const strategyJsonElement = [{
-        'name': '[Strategy ' + this.nbNewSteps + ']',
+        'name': '[MyStrategy ' + this.nbNewSteps + ']',
         'type': 'humanStrategy',
         'rationale': rationaleJsonElement,
         'actor': actorJsonElement
@@ -489,7 +481,7 @@ export class ActionsToolbarComponent {
       };
 
       const strategyJsonElement = [{
-        'name': '[Strategy ' + this.nbNewSteps + ']',
+        'name': '[MyStrategy ' + this.nbNewSteps + ']',
         'type': 'humanStrategy',
         'rationale': rationaleJsonElement,
         'actor': actorJsonElement
@@ -552,7 +544,7 @@ export class ActionsToolbarComponent {
       //************* SWITCH CONCLUSION TO SUPPORT **************
       //*******************************************************
 
-      const support = new Support(this.selectedElement, evidence);
+      const support = new Support(<Conclusion>this.selectedElement, evidence);
       support.visualShape = this.selectedElement.visualShape;
       (this._graph.getCell(support.visualShape.id) as any).parent = support;
       support.artifacts = this.selectedElement.artifacts;

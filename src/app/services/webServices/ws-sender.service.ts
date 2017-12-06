@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {WsConnectorService} from './ws-connector.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {IArgSystem, IPattern, IStep} from '../../business/IArgSystem';
 
 @Injectable()
 export class WsSenderService extends WsConnectorService {

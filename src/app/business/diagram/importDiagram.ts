@@ -1,4 +1,5 @@
 import {Actor, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy, Support} from './diagram';
+import {IArgSystem} from '../IArgSystem';
 
 export class KeyValueEvidence {
   constructor(public conclusionId: string, public evidence: Evidence) {
@@ -22,8 +23,9 @@ export class ParseJson2DiagramElements {
   kvevidences = [];
   supports = [];
   links = [];
+  myLinks = [];
 
-  constructor(globalJson: any) {
+  constructor(globalJson: IArgSystem) {
     this.businessSteps = [];
     this.globalJson = globalJson;
   }
@@ -31,29 +33,27 @@ export class ParseJson2DiagramElements {
   importStep(step: any): Step {
     const businessStep = new Step(undefined);
 
-    // TODO: yoloooooooooooooooo
     const conclusionN = new Conclusion(step.conclusion);
     this.conclusions.push(conclusionN);
     conclusionN.stepId = businessStep.getStepId();
     businessStep.items.push(conclusionN);
 
     try {
-      // TODO: pourquoi push avant de batîr?
       const strategyN = new Strategy(step.strategy);
       this.strategies.push(new Strategy(step.strategy));
       strategyN.stepId = businessStep.getStepId();
-      // TODO: push à deux endroits différents? mhhh..
       businessStep.items.push(strategyN);
       this.links.push(strategyN.makeLinkWithParent(conclusionN));
+      this.myLinks.push([strategyN.name, conclusionN.name]);
       this.strategies.push(strategyN);
       strategyN.artifacts = [];
 
-      // TODO: vraiment n'importe quoi de taffer sur un objet qu'on a déjà passé dans un environnement dfférent
       if (step.strategy.rationale) {
         const rationale = new Rationale('', [step.strategy.rationale][0], '');
         strategyN.artifacts.push(rationale);
         this.rationales.push(rationale);
         this.links.push(rationale.makeLinkWithParent(strategyN));
+        this.myLinks.push([rationale.name, strategyN.name]);
       }
 
 
@@ -81,7 +81,7 @@ export class ParseJson2DiagramElements {
         this.links.push(actor.makeLinkWithParent(strategyN));
       }
     } catch (e) {
-      console.log('Error occured while creating Strategy, aborted.');
+      console.log('Error occured while creating MyStrategy, aborted.');
       console.log(e);
     }
 
