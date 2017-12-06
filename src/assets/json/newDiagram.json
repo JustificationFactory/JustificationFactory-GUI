@@ -1,0 +1,227 @@
+{
+  "steps": [
+    {
+      "id": "84054f5926544187b66af39a8b6cc6bc",
+      "patternId": "unit-test",
+      "evidenceRoles": [
+        {
+          "role": "jenkins-artifact",
+          "support": {
+            "@type": ".evidence.DocumentEvidence",
+            "id": "dcb3baad23f34e4992930cea849ba6fe",
+            "name": "technical.log",
+            "element": {
+              "@type": ".Document",
+              "url": {
+                "path": null,
+                "code": null,
+                "value": "technical.log"
+              },
+              "path": null,
+              "code": null,
+              "version": null
+            }
+          }
+        }
+      ],
+      "strategy": {
+        "@type": "fr.axonic.avek.instance.jenkins.JenkinsStrategy",
+        "name": "Unit Test Pattern",
+        "rationale": null,
+        "usageDomain": null
+      },
+      "conclusion": {
+        "@type": "fr.axonic.avek.instance.jenkins.conclusion.UnitTestJenkinsConclusion",
+        "restrictions": null,
+        "id": "dbac388827464e9baac92a7143c2a8ef",
+        "name": "unit-test-jenkins",
+        "element": {
+          "@type": ".JenkinsStatus",
+          "path": null,
+          "code": null,
+          "version": "c0f0d591839382461119fc5bd7a73db109d795b0",
+          "status": "OK"
+        }
+      }
+    },
+    {
+      "id": "a9d1eca7fb114461a5c738d444aa8a9a",
+      "patternId": "integration-test",
+      "evidenceRoles": [
+        {
+          "role": "jenkins-artifact",
+          "support": {
+            "@type": ".evidence.DocumentEvidence",
+            "id": "86e9243d5cc74ba29b2400582de20969",
+            "name": "communication.log",
+            "element": {
+              "@type": ".Document",
+              "url": {
+                "path": null,
+                "code": null,
+                "value": "communication.log"
+              },
+              "path": null,
+              "code": null,
+              "version": null
+            }
+          }
+        },
+        {
+          "role": "",
+          "support": {
+            "@type": "fr.axonic.avek.instance.jenkins.conclusion.UnitTestJenkinsConclusion",
+            "restrictions": null,
+            "id": "dbac388827464e9baac92a7143c2a8ef",
+            "name": "unit-test-jenkins",
+            "element": {
+              "@type": ".JenkinsStatus",
+              "path": null,
+              "code": null,
+              "version": "c0f0d591839382461119fc5bd7a73db109d795b0",
+              "status": "OK"
+            }
+          }
+        }
+      ],
+      "strategy": {
+        "@type": "fr.axonic.avek.instance.jenkins.JenkinsStrategy",
+        "name": "Integration pattern",
+        "rationale": null,
+        "usageDomain": null
+      },
+      "conclusion": {
+        "@type": "fr.axonic.avek.instance.jenkins.conclusion.IntegrationTestJenkinsConclusion",
+        "restrictions": null,
+        "id": "0fb6d01fda3745a392a7345b5f0ec4e7",
+        "name": "integration-test-jenkins",
+        "element": {
+          "@type": ".JenkinsStatus",
+          "path": null,
+          "code": null,
+          "version": "c0f0d591839382461119fc5bd7a73db109d795b0",
+          "status": "OK"
+        }
+      }
+    }
+  ],
+  "patternsBase": {
+    "patterns": [
+      {
+        "id": "unit-test",
+        "name": "Unit Test Pattern",
+        "strategy": {
+          "@type": "fr.axonic.avek.instance.jenkins.JenkinsStrategy",
+          "name": null,
+          "rationale": null,
+          "usageDomain": null
+        },
+        "inputTypes": [
+          {
+            "type": "fr.axonic.avek.engine.support.evidence.DocumentEvidence",
+            "name": "document"
+          }
+        ],
+        "outputType": {
+          "type": "fr.axonic.avek.instance.jenkins.conclusion.UnitTestJenkinsConclusion"
+        }
+      },
+      {
+        "id": "integration-test",
+        "name": "Integration pattern",
+        "strategy": {
+          "@type": "fr.axonic.avek.instance.jenkins.JenkinsStrategy",
+          "name": null,
+          "rationale": null,
+          "usageDomain": null
+        },
+        "inputTypes": [
+          {
+            "type": "fr.axonic.avek.engine.support.evidence.DocumentEvidence",
+            "name": "document"
+          },
+          {
+            "type": "fr.axonic.avek.instance.jenkins.conclusion.UnitTestJenkinsConclusion",
+            "name": "fr.axonic.avek.instance.jenkins.conclusion.UnitTestJenkinsConclusion"
+          }
+        ],
+        "outputType": {
+          "type": "fr.axonic.avek.instance.jenkins.conclusion.IntegrationTestJenkinsConclusion"
+        }
+      }
+    ]
+  },
+  "objective": null,
+  "baseEvidences": [
+    {
+      "role": "",
+      "support": {
+        "@type": "fr.axonic.avek.instance.jenkins.conclusion.UnitTestJenkinsConclusion",
+        "restrictions": null,
+        "id": "dbac388827464e9baac92a7143c2a8ef",
+        "name": "unit-test-jenkins",
+        "element": {
+          "@type": ".JenkinsStatus",
+          "path": null,
+          "code": null,
+          "version": "c0f0d591839382461119fc5bd7a73db109d795b0",
+          "status": "OK"
+        }
+      }
+    },
+    {
+      "role": "jenkins-artifact",
+      "support": {
+        "@type": ".evidence.DocumentEvidence",
+        "id": "dcb3baad23f34e4992930cea849ba6fe",
+        "name": "technical.log",
+        "element": {
+          "@type": ".Document",
+          "url": {
+            "path": null,
+            "code": null,
+            "value": "technical.log"
+          },
+          "path": null,
+          "code": null,
+          "version": null
+        }
+      }
+    },
+    {
+      "role": "",
+      "support": {
+        "@type": "fr.axonic.avek.instance.jenkins.conclusion.IntegrationTestJenkinsConclusion",
+        "restrictions": null,
+        "id": "0fb6d01fda3745a392a7345b5f0ec4e7",
+        "name": "integration-test-jenkins",
+        "element": {
+          "@type": ".JenkinsStatus",
+          "path": null,
+          "code": null,
+          "version": "c0f0d591839382461119fc5bd7a73db109d795b0",
+          "status": "OK"
+        }
+      }
+    },
+    {
+      "role": "jenkins-artifact",
+      "support": {
+        "@type": ".evidence.DocumentEvidence",
+        "id": "86e9243d5cc74ba29b2400582de20969",
+        "name": "communication.log",
+        "element": {
+          "@type": ".Document",
+          "url": {
+            "path": null,
+            "code": null,
+            "value": "communication.log"
+          },
+          "path": null,
+          "code": null,
+          "version": null
+        }
+      }
+    }
+  ]
+}
