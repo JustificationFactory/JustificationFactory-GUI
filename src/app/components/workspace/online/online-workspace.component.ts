@@ -2,8 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {DiagramComponent} from '../../diagram/diagram.component';
 import {ConnectorComponent} from '../../connector/connector.component';
-import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../business/diagram/importDiagram';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {DiagramParser} from '../../../business/myDiagram/myImportDiagram';
+import {MyArgSystem} from '../../../business/ArgSystem';
 
 @Component({
   selector: 'app-online-workspace',
@@ -23,14 +23,22 @@ export class OnlineWorkspaceComponent implements OnInit {
   ngOnInit() {
   }
 
-  onArgSystemChange(argSystem: IArgSystem) {
+  onArgSystemChange(argSystem: MyArgSystem) {
     this.diagramLoaded = true;
     // Allows the DOM to render the Child component in time
     setTimeout(() => {
+
+      console.log('Let the magic happen!');
+      const diagramParser = new DiagramParser(argSystem);
+      diagramParser.process();
+      console.log(diagramParser);
+      this.diagramComponent.myShowDiagram(diagramParser.steps);
+      /*
       const parse: ParseJson2DiagramElements = new ParseJson2DiagramElements(argSystem);
       const deResult: ParseDiagramElementsResult = parse.getDiagramElements();
       this.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
       this.diagramComponent.argSystem = argSystem;
+      */
     }, 50);
   }
 
@@ -40,19 +48,28 @@ export class OnlineWorkspaceComponent implements OnInit {
       // TODO Modal
     }
     this.diagramLoaded = true;
-    this.httpClient.get<IArgSystem>('assets/json/newDiagram.json').subscribe(result => {
-      const argSystem: IArgSystem = result;
+    this.httpClient.get<any>('assets/json/newDiagram.json').subscribe(result => {
+      console.log('Let the magic happen!');
+      const argSystem = new MyArgSystem(result);
+      const diagramParser = new DiagramParser(argSystem);
+      diagramParser.process();
+      console.log(diagramParser);
+      this.diagramComponent.myShowDiagram(diagramParser.steps);
+     // const argSystem: IArgSystem = result;
         setTimeout(() => {
+
+          /*TODO: uncomment
           const parse: ParseJson2DiagramElements = new ParseJson2DiagramElements(argSystem);
           const deResult: ParseDiagramElementsResult = parse.getDiagramElements();
           this.diagramComponent.showDiagram(deResult.listElements, deResult.businessSteps);
           this.diagramComponent.argSystem = argSystem;
+          */
         }, 50);
     });
   }
 
   uploadArgSystem() {
-    console.log("Uploading arg system");
+    console.log('Uploading arg system...');
     this.connectorComponent.registerArgSystem(this.diagramComponent.argSystem);
   }
 

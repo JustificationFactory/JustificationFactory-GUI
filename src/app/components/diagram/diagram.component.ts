@@ -14,8 +14,12 @@ import {
 } from '../../business/diagram/diagram';
 
 import * as joint from 'jointjs';
+import {dia} from 'jointjs';
+import {IArgSystem} from '../../business/IArgSystem';
+import {ViewStep} from '../../business/myDiagram/myDiagram';
 import Graph = joint.dia.Graph;
-import Cell = joint.dia.Cell;
+import Cell = dia.Cell;
+import Link = dia.Link;
 
 @Component({
   selector: 'diagram-view',
@@ -36,8 +40,11 @@ export class DiagramComponent implements AfterContentInit {
   diagramWidth = 'col-sm-12 col-md-12 col-lg-12';
   businessSteps: Array<Step>;
 
+  viewSteps: ViewStep[];
+
 
   constructor() {
+    this.viewSteps = [];
   }
 
   ngAfterContentInit() {
@@ -221,6 +228,51 @@ export class DiagramComponent implements AfterContentInit {
     $('#myholder').replaceWith(this._paper.el);
 
     this.resetZoom();
+  }
+
+  // TODO: c'est la
+  public myShowDiagram(viewSteps: ViewStep[]) {
+    console.log('My Show Diagram: Let the Show begin.');
+
+    this.initializeGraph();
+
+    const cells: Cell[] = [];
+    const links: Link[] = [];
+
+    for(const step of viewSteps) {
+      for (const cell of step.getCells()) {
+        cells.push(cell);
+      }
+      for(const link of step.getLinks()) {
+        links.push(link);
+      }
+    }
+
+    for (const cell of cells) {
+      console.log(cell);
+      this._graph.addCell(cell);
+    }
+
+    for (const link of links) {
+      try {
+        console.log(link);
+        this._graph.addCell(link);
+      }catch (e) {
+        console.log('TypeError');
+      }
+    }
+
+    joint.layout.DirectedGraph.layout(this._graph, {
+      rankDir: 'BT',
+      rankSep: 50,
+      edgeSep: 50,
+      nodeSep: 50,
+      marginX: 10,
+      marginY: 10
+    });
+
+    this._startGraphChanged = false;
+
   }
 
   public showDiagram(elements: DiagramElement[], bSteps: Array<Step>) {

@@ -31,7 +31,7 @@
     "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.4.1",
     "dagre": "~0.7.0",
-    "jointjs": "^1.0.2",
+    "jointjs": "^2.0.1",
     "jquery": "3.1.1",
     "lodash": "3.10.1",
     "reflect-metadata": "^0.1.8",

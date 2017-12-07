@@ -65,9 +65,7 @@ export class MyStrategy implements IStrategy {
   }
 }
 
-export class PatternsBase implements IPatternsBase {
-  patterns = [];
-}
+
 
 export class Pattern implements IPattern {
   id;
@@ -78,23 +76,18 @@ export class Pattern implements IPattern {
   outputType;
 }
 
-export class InputType implements IInputType {
-  type;
-  name;
-}
 
 export class MyConclusion implements IConclusion {
   name;
   type;
+  // TODO: implement les restrictions etc...
 
   constructor(json: any) {
     this.type = json['@type'];
+    this.name = json.name;
   }
 }
 
-export class OutputType implements IOutputType {
-  type;
-}
 
 export class MySupport implements ISupport {
   type;
@@ -119,4 +112,18 @@ export class MyEvidence implements IEvidence {
     this.role = json.role;
     this.support = new MySupport(json.support);
   }
+}
+
+
+export class OutputType implements IOutputType {
+  type;
+}
+
+
+export class InputType implements IInputType {
+  type;
+  name;
+}
+export class PatternsBase implements IPatternsBase {
+  patterns = [];
 }

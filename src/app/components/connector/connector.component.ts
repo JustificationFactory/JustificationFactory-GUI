@@ -13,13 +13,13 @@ import {MyArgSystem} from '../../business/ArgSystem';
 })
 export class ConnectorComponent implements OnInit {
 
-  @Output() onArgSystemChange = new EventEmitter<IArgSystem>();
+  @Output() onArgSystemChange = new EventEmitter<MyArgSystem>();
 
   // TODO: déplacer cette logique
   /* System Logic */
   public argSystemIdList: string[];
   public currentArgSystemId: string;
-  public currentArgSystem: IArgSystem;
+  public currentArgSystem: MyArgSystem;
 
   /* Patterns logic */
   public patternsIdList: string[];
@@ -57,7 +57,8 @@ export class ConnectorComponent implements OnInit {
           this.currentArgSystem = new MyArgSystem(result);
           console.log('ArgSystem:');
           console.log(this.currentArgSystem);
-          this.onArgSystemChange.emit(result);
+          // TODO: danger méli-mélo interface ou pas pendant débug
+          this.onArgSystemChange.emit(this.currentArgSystem);
         },
         error => {
           console.log(error);

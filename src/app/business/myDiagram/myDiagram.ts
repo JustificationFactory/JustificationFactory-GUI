@@ -1,47 +1,180 @@
 import * as joint from 'jointjs';
 import {dia, shapes} from 'jointjs';
 import {Util} from '../diagram/diagram';
+import {MyStep} from '../ArgSystem';
+import {Colors, Shapes} from './viewAssets';
 import Cell = dia.Cell;
 import Path = shapes.basic.Path;
-
-export enum Shapes {
-  RectangleShape = 'M 0 0 L 60 0 L 60 30 L 0 30 Z',
-  RoundedRectangleShape = 'M 0 6 Q 0 0 6 0 L 54 0 Q 60 0 60 6 L 60 24 Q 60 30 54 30 L 6 30 Q 0 30 0 24 Z',
-  ParallelogramShape = 'M 10 0 L 70 0 L 60 30 L 0 30 Z'
-}
-
-export enum Borders {
-  SolidBorder = '',
-  DashBorder = '5,5',
-  MixBorder = '10,2,10'
-}
-
-export enum Colors {
-  Green = '#7fcc00',
-  DarkGreen = '#008000',
-  Blue = '#007fcc',
-  Yellow = '#CCCC00',
-  // TODO: same pour le field fill:
-}
+import Link = dia.Link;
 
 export abstract class ViewElement {
-  cell: Cell;
-  item: Object;
-  name: string;
+  private _cell: Cell;
+  private _item: Object;
+  private _name: string;
+  private _id: string;
 
   constructor(item: any) {
-    this.item = item;
-    this.name = item.name;
+    this._item = item;
+    if (item.name === null) {
+      this._name = 'GENERATED_NAME_CAUSE_NULL';
+    } else {
+      this._name = item.name;
+    }
+    if (item.id === undefined) {
+      this._id = Util.getNewGuid() as string;
+    } else {
+      this._id = item.id;
+    }
   }
 
-  abstract build(): void;
+  public abstract build(): void;
+
+  get cell(): dia.Cell {
+    return this._cell;
+  }
+
+  get item(): Object {
+    return this._item;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  set cell(value: dia.Cell) {
+    this._cell = value;
+  }
+
+}
+
+export class ViewLink {
+  private _sourceId;
+  private _targetid;
+  private _link: Link;
+
+  constructor(parent: ViewElement, child: ViewElement) {
+    const link = new Link();
+    link.attributes = {
+      source: {
+        id: parent.id
+      },
+      target: {
+        id: child.id
+      },
+      attrs: {
+        '.marker-target': {d: 'M 4 0 L 0 2 L 4 4 z'},
+        '.link-tools': {visibility: 'collapse'},
+        '.marker-arrowheads': {visibility: 'collapse'},
+        '.marker-vertices': {visibility: 'collapse'},
+        '.labels': {visibility: 'collapse'},
+        '.connection-wrap': {visibility: 'collapse'}
+      }
+    };
+    this._link = link;
+
+    this._sourceId = parent.id;
+    this._targetid = child.id;
+  }
+
+  get sourceId() {
+    return this._sourceId;
+  }
+
+  get targetid() {
+    return this._targetid;
+  }
+
+  get link(): dia.Link {
+    return this._link;
+  }
+
+// TODO: implement modifiers
+}
+
+export class ViewStep {
+// TODO: privatiser et tout dans les classes, faire ça bien
+  private viewStrategy: ViewStrategy;
+  private viewConclusion: ViewConclusion;
+  private viewEvidences: ViewEvidence[];
+  private viewSupports: ViewSupport[];
+  private viewLinks: ViewLink[];
+
+  constructor(step: MyStep) {
+    this.viewEvidences = [];
+    this.viewSupports = [];
+    this.viewLinks = [];
+    this.build(step);
+  }
+
+  private build(step: MyStep) {
+    console.log('Building ViewStep from MyStep');
+    console.log(step);
+    // TODO: insert test to make sure the field is actually here
+    this.viewConclusion = new ViewConclusion(step.conclusion);
+    this.viewConclusion.build();
+    this.viewStrategy = new ViewStrategy(step.strategy);
+    this.viewStrategy.build();
+    this.viewLinks.push(new ViewLink(this.viewConclusion, this.viewStrategy));
+
+    for (const evidence of step.evidences) {
+      const viewEvidence = new ViewEvidence(evidence);
+      const viewSupport = new ViewSupport(evidence.support);
+      viewEvidence.build();
+      viewSupport.build();
+      this.viewEvidences.push(viewEvidence);
+      this.viewSupports.push(viewSupport);
+
+      this.viewLinks.push(new ViewLink(viewEvidence, viewSupport));
+      this.viewLinks.push(new ViewLink(this.viewStrategy, viewEvidence));
+    }
+  }
+
+  public getViewElements() {
+    const result: ViewElement[] = [];
+    result.push(this.viewStrategy, this.viewConclusion);
+    result.concat(this.viewEvidences, this.viewSupports);
+
+    return result;
+  }
+
+  public getViewLinks() {
+    return this.viewLinks;
+  }
+
+  public getCells() {
+    const result: Cell[] = [];
+
+    for (const ve of this.getViewElements()) {
+      result.push(ve.cell);
+    }
+/*
+    for (const vl of this.getViewLinks()) {
+      result.push(vl.cell);
+    }*/
+
+    return result;
+  }
+
+  public getLinks() {
+    const result: Link[] = [];
+    for (const vl of this.getViewLinks()) {
+      result.push(vl.link);
+    }
+
+    return result;
+  }
+
 }
 
 export class ViewConclusion extends ViewElement {
 
   build() {
     this.cell = new Path({
-      id: Util.getNewGuid(),
+      id: this.id,
       size: {width: Util.getElementWidthFromTextLength(this.name), height: Util.getElementHeightFromTextLength(this.name)},
       attrs: {
         path: {d: Shapes.RoundedRectangleShape, fill: Colors.Green},
@@ -57,8 +190,9 @@ export class ViewStrategy extends ViewElement {
 
   build() {
     this.cell = new Path({
-      id: Util.getNewGuid(),
+      id: this.id,
       size: {
+        // TODO: généralisable potentiellement à voir comment réagi joint
         width: Util.getElementWidthFromTextLength(this.name),
         height: Util.getElementHeightFromTextLength(this.name)
       },
@@ -75,7 +209,7 @@ export class ViewSupport extends ViewElement {
 
   build() {
     this.cell = new Path({
-      id: Util.getNewGuid(),
+      id: this.id,
       size: {
         width: Util.getElementWidthFromTextLength(this.name),
         height: Util.getElementHeightFromTextLength(this.name)
@@ -91,11 +225,20 @@ export class ViewSupport extends ViewElement {
 }
 
 export class ViewEvidence extends ViewElement {
+  role: string;
+
+  constructor(item: any) {
+    super(item);
+    this.role = item.role;
+  }
 
   build() {
     this.cell = new joint.shapes.basic.Path({
-      id: Util.getNewGuid(),
-      size: {width: Util.getElementWidthFromTextLength(this.name), height: Util.getElementHeightFromTextLength(this.name)},
+      id: this.id,
+      size: {
+        width: Util.getElementWidthFromTextLength(this.role),
+        height: Util.getElementHeightFromTextLength(this.role)
+      },
       attrs: {
         path: {d: Shapes.RoundedRectangleShape, fill: Colors.Yellow},
         text: {text: this.name, 'ref-y': .3, fill: '#000000'}
