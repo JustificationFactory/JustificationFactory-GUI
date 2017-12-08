@@ -58,7 +58,7 @@ export class WsSenderService extends WsConnectorService {
   }
 
   public registerPattern(argSystemId: string, pattern: IPattern): Observable<Object> {
-    return this.post<IPattern>(argSystemId + '/pattern', pattern);
+    return this.postForString(argSystemId + '/pattern', pattern);
   }
 
   public constructStep(argSystemId: string, patternId: string, stepToCreate: StepToCreate): Observable<Object> {
