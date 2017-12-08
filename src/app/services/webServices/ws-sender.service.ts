@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {WsConnectorService} from './ws-connector.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {StepToCreate} from '../../business/ArgSystem';
 
 @Injectable()
 export class WsSenderService extends WsConnectorService {
@@ -60,8 +61,8 @@ export class WsSenderService extends WsConnectorService {
     return this.post<IPattern>(argSystemId + '/pattern', pattern);
   }
 
-  public constructStep(argSystemId: string, patternId: string, step: IStep): Observable<Object> {
-    return this.post<IStep>(argSystemId + '/' + patternId + '/step', step);
+  public constructStep(argSystemId: string, patternId: string, stepToCreate: StepToCreate): Observable<Object> {
+    return this.post<string>(argSystemId + '/' + patternId + '/step', stepToCreate);
   }
 
 }

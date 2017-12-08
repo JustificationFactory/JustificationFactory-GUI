@@ -6,7 +6,10 @@ import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../bu
 import 'rxjs/add/operator/map';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
-import {InputType, OutputType, Pattern, Strategy} from '../../../business/ArgSystem';
+import {
+  DocumentEvidence, FormConclusion, InputType, OutputType, Pattern, StepToCreate, Strategy,
+  SupportObject
+} from '../../../business/ArgSystem';
 
 @Component({
   selector: 'app-online-workspace',
@@ -92,6 +95,30 @@ export class OnlineWorkspaceComponent implements OnInit {
 
   openModal(modal) {
     this.modalService.open(modal, {size: 'lg'});
+  }
+
+  updateNewStepForm() {
+    let currentPattern:IPattern = this.connectorComponent.currentPattern;
+  }
+
+  onNewStepFormSubmit(form: NgForm) {
+    console.log('New step form submitted');
+    console.log('supportName: ' + form.value.supportName);
+    console.log('conclusionName: ' + form.value.conclusionName);
+
+    let documentEvidence: DocumentEvidence = new DocumentEvidence(form.value.supportName);
+
+    let supportObject: SupportObject = new SupportObject(form.value.supportName, documentEvidence);
+
+    let supports: SupportObject[] = [];
+    supports.push(supportObject);
+
+    let formConclusion: FormConclusion = new FormConclusion(form.value.conclusionName);
+
+    let stepToCreate: StepToCreate = new StepToCreate(supports, formConclusion);
+    console.log('new StepToCreate : ');
+    console.log(stepToCreate);
+    this.connectorComponent.constructStep(this.connectorComponent.currentArgSystemId, this.connectorComponent.currentPatternId, stepToCreate);
   }
 
 }

@@ -65,3 +65,51 @@ export class OutputType implements IOutputType {
     this.type = type;
   }
 }
+
+export class StepToCreate {
+  supports: SupportObject[];
+  conclusion: FormConclusion;
+
+
+  constructor(supports: SupportObject[], conclusion: FormConclusion) {
+    this.supports = supports;
+    this.conclusion = conclusion;
+  }
+}
+
+export class SupportObject {
+  role: string;
+  support: DocumentEvidence;
+
+
+  constructor(role: string, support: DocumentEvidence) {
+    this.role = role;
+    this.support = support;
+  }
+}
+
+export class DocumentEvidence {
+  name: string;
+  element: Object;
+  '@type' = 'fr.axonic.avek.engine.support.evidence.DocumentEvidence';
+
+
+  constructor(name: string) {
+    this.name = name;
+    this.element = null;
+  }
+}
+
+export class FormConclusion {
+  '@type' = 'fr.axonic.avek.engine.support.conclusion.FormConclusion';
+  name: string;
+  element: Object;
+
+
+  constructor(name: string) {
+    this.name = name;
+    this.element = {
+      '@type': '.Form'
+    };
+  }
+}

@@ -1,7 +1,7 @@
 <p>
   online-workspace works!
 </p>
-<app-workspace-toolbar (onNewDiagram)="onNewDiagram()" (onUploadAs)="openModal(uploadAsModal)" (onNewPattern)="openModal(newPatternModal)" (onNewStep)="openModal(newStepModal)" [diagramLoaded]="diagramLoaded"></app-workspace-toolbar>
+<app-workspace-toolbar (onNewDiagram)="onNewDiagram()" (onUploadAs)="openModal(uploadAsModal)" (onNewPattern)="openModal(newPatternModal)" (onNewStep)="updateNewStepForm();openModal(newStepModal)" [diagramLoaded]="diagramLoaded"></app-workspace-toolbar>
 <app-connector (onArgSystemChange)="onArgSystemChange($event)"></app-connector>
 <diagram-view *ngIf="diagramLoaded" ><img src="assets/images/spinner.gif" /></diagram-view>
 
@@ -90,21 +90,21 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" id="newStepModalBody">
     <form #newStepForm="ngForm">
       <div class="form-group row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-4">
-          <select class="form-control" ngModel name="patternId" (change)="updateNewStepForm($event.target.value)">
-            <option disabled selected value>Select a Pattern</option>
-            <option *ngFor="let patternId of this.connectorComponent.patternsIdList" [value]="patternId">{{patternId}}</option>
-          </select>
-        </div>
+        <label class="col-sm-2 form-control-label text-nowrap" for="supportName">Support name:</label>
+        <input class="col-sm-10" type="text" class="form-control" ngModel id="supportName" name="supportName"/>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap" for="conclusionName">Conclusion name:</label>
+        <input class="col-sm-10" type="text" class="form-control" ngModel id="conclusionName" name="conclusionName"/>
       </div>
     </form>
   </div>
+
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
-    <button type="button" class="btn btn-success" (click)="c('Submitted')">Validate</button>
+    <button type="button" class="btn btn-success" (click)="onNewStepFormSubmit(newStepForm); c('Submitted')">Validate</button>
   </div>
 </ng-template>

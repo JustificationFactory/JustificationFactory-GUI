@@ -4,6 +4,7 @@ import {WsRetrieverService} from '../../services/webServices/ws-retriever.servic
 import {WsSenderService} from '../../services/webServices/ws-sender.service';
 import {graphlib} from 'dagre';
 import json = graphlib.json;
+import {StepToCreate} from '../../business/ArgSystem';
 
 @Component({
   selector: 'app-connector',
@@ -110,6 +111,13 @@ export class ConnectorComponent implements OnInit {
     console.log('Registering new Pattern : \n' + JSON.stringify(pattern));
     this.senderService.registerPattern(argSystemId, pattern).subscribe(result => {
       console.log('RegisterNewPattern returned : ' + result);
+    });
+  }
+
+  constructStep(argSystemId: string, patternId: string, stepToCreate: StepToCreate) {
+    console.log('Constructing new step : \n' + JSON.stringify(stepToCreate));
+    this.senderService.constructStep(argSystemId, patternId, stepToCreate).subscribe(result=> {
+      console.log('ConstructNewStep returned : ' + result);
     });
   }
 
