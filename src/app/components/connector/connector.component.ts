@@ -2,6 +2,8 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DiagramComponent} from '../diagram/diagram.component';
 import {WsRetrieverService} from '../../services/webServices/ws-retriever.service';
 import {WsSenderService} from '../../services/webServices/ws-sender.service';
+import {graphlib} from 'dagre';
+import json = graphlib.json;
 
 @Component({
   selector: 'app-connector',
@@ -101,8 +103,13 @@ export class ConnectorComponent implements OnInit {
 
   registerArgSystem(argSystem: IArgSystem) {
     console.log('Registering new arg system : ' + argSystem);
-    this.senderService.registerArgumentationSystem(argSystem).subscribe(result => {
-      console.log('RegisterArgSystem returned : ' + result);
+    return this.senderService.registerArgumentationSystem(argSystem);
+  }
+
+  registerPattern(argSystemId: string, pattern: IPattern) {
+    console.log('Registering new Pattern : \n' + JSON.stringify(pattern));
+    this.senderService.registerPattern(argSystemId, pattern).subscribe(result => {
+      console.log('RegisterNewPattern returned : ' + result);
     });
   }
 

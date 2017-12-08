@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {DiagramComponent} from '../../diagram/diagram.component';
 import {ConnectorComponent} from '../../connector/connector.component';
 import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../business/diagram/importDiagram';
+import 'rxjs/add/operator/map';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -12,7 +13,13 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class OnlineWorkspaceComponent implements OnInit {
 
+  // Is a diagram currently loaded ?
   public diagramLoaded = false;
+
+  // Is the currently loaded diagram saved on the remote factory
+  public diagramUploaded = false;
+
+  public argSystemId: string;
 
   @ViewChild(DiagramComponent) private diagramComponent: DiagramComponent;
   @ViewChild(ConnectorComponent) private connectorComponent: ConnectorComponent;
@@ -52,8 +59,18 @@ export class OnlineWorkspaceComponent implements OnInit {
   }
 
   uploadArgSystem() {
-    console.log("Uploading arg system");
-    this.connectorComponent.registerArgSystem(this.diagramComponent.argSystem);
+    console.log('Uploading arg system');
+    this.connectorComponent.registerArgSystem(this.diagramComponent.argSystem).subscribe((result)=>{
+      this.diagramUploaded=true;
+      this.argSystemId = result;
+      console.log('Diagram uploaded with id: ' + result);
+    });
+  }
+
+  newPattern(pattern: IPattern) {
+    console.log('new Pattern :');
+    console.log(pattern);
+    this.connectorComponent.registerPattern(this.argSystemId, pattern);
   }
 
 }

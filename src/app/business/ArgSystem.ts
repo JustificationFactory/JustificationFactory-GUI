@@ -13,31 +13,55 @@ class Step implements IStep {
   conclusion: Object;
 }
 
-class Strategy implements IStrategy {
-  type: string;
+export class Strategy implements IStrategy {
+  '@type': string;
   name: string;
   rationale: Object;
   usageDomain: Object;
+
+  constructor(type: string, name: string, rationale: Object, usageDomain: Object) {
+    this['@type'] = type;
+    this.name = name;
+    this.rationale = rationale;
+    this.usageDomain = usageDomain;
+  }
 }
 
 class PatternsBase implements IPatternsBase {
   patterns: IPattern[];
 }
 
-class Pattern implements IPattern {
-  id;
-  name;
-  string;
+export class Pattern implements IPattern {
+  id: string;
+  name: string;
   strategy: IStrategy;
   inputTypes: IInputType[];
   outputType: IOutputType;
+
+
+  constructor(id: string, name: string, strategy: IStrategy, inputTypes: IInputType[], outputType: IOutputType) {
+    this.id = id;
+    this.name = name;
+    this.strategy = strategy;
+    this.inputTypes = inputTypes;
+    this.outputType = outputType;
+  }
 }
 
-class InputType implements IInputType {
+export class InputType implements IInputType {
   type: string;
   name: string;
+
+  constructor(type: string, name: string) {
+    this.type = type;
+    this.name = name;
+  }
 }
 
-class OutputType implements IOutputType {
+export class OutputType implements IOutputType {
   type;
+
+  constructor(type) {
+    this.type = type;
+  }
 }

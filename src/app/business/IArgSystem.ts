@@ -20,7 +20,7 @@ interface IConclusion {
 
 interface IStrategy {
   // TODO: type instead of @type, keep in mind
-  type: string;
+  '@type': string;
   name: string;
   rationale: Object;
   usageDomain: Object;
@@ -32,8 +32,7 @@ interface IPatternsBase {
 
 interface IPattern {
   id: string;
-  name;
-  string;
+  name: string;
   strategy: IStrategy;
   inputTypes: IInputType[];
   outputType: IOutputType;
