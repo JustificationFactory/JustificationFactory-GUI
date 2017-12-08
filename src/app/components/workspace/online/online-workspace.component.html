@@ -1,6 +1,110 @@
 <p>
   online-workspace works!
 </p>
-<app-workspace-toolbar (onNewDiagram)="onNewDiagram()" (onUploadAs)="uploadArgSystem()" (onNewPattern)="newPattern($event)" [diagramLoaded]="diagramLoaded"></app-workspace-toolbar>
+<app-workspace-toolbar (onNewDiagram)="onNewDiagram()" (onUploadAs)="openModal(uploadAsModal)" (onNewPattern)="openModal(newPatternModal)" (onNewStep)="openModal(newStepModal)" [diagramLoaded]="diagramLoaded"></app-workspace-toolbar>
 <app-connector (onArgSystemChange)="onArgSystemChange($event)"></app-connector>
 <diagram-view *ngIf="diagramLoaded" ><img src="assets/images/spinner.gif" /></diagram-view>
+
+
+<ng-template #uploadAsModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Upload to remote server</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="uploadArgSystem(); c('Submitted')">Upload</button>
+  </div>
+</ng-template>
+
+<ng-template #newPatternModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">New Pattern</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #newPatternForm="ngForm">
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap" for="patternId">id:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ngModel id="patternId" name="patternId"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap" for="patternName">name:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ngModel id="patternName" name="patternName"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap" for="strategyName">strategy name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ngModel id="strategyName" name="strategyName"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap">Input Types</label>
+        <hr/>
+        <div class="col-sm-5">
+          <select class="form-control" ngModel id="inputType" name="inputType">
+            <option selected value="fr.axonic.avek.engine.support.evidence.DocumentEvidence">DocumentEvidence</option>
+          </select>
+        </div>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" ngModel id="inputTypeName" name="inputTypeName"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap">Output Type</label>
+        <hr/>
+        <div class="col-sm-5">
+          <select class="form-control" ngModel id="outputType" name="outputType">
+            <option selected value="DocumentConclusion">DocumentConclusion</option>
+            <option value="fr.axonic.avek.engine.support.conclusion.FormConclusion">FormConclusion</option>
+          </select>
+        </div>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" ngModel id="outputTypeName" name="outputTypeName"/>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="onNewPatternFormSubmit(newPatternForm); c('Submitted')">Validate</button>
+  </div>
+</ng-template>
+
+<ng-template #newStepModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">New Step from Pattern</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #newStepForm="ngForm">
+      <div class="form-group row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4">
+          <select class="form-control" ngModel name="patternId" (change)="updateNewStepForm($event.target.value)">
+            <option disabled selected value>Select a Pattern</option>
+            <option *ngFor="let patternId of this.connectorComponent.patternsIdList" [value]="patternId">{{patternId}}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="c('Submitted')">Validate</button>
+  </div>
+</ng-template>

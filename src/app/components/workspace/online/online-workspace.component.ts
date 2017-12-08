@@ -5,6 +5,8 @@ import {ConnectorComponent} from '../../connector/connector.component';
 import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../business/diagram/importDiagram';
 import 'rxjs/add/operator/map';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgForm} from '@angular/forms';
+import {InputType, OutputType, Pattern, Strategy} from '../../../business/ArgSystem';
 
 @Component({
   selector: 'app-online-workspace',
@@ -21,10 +23,11 @@ export class OnlineWorkspaceComponent implements OnInit {
 
   public argSystemId: string;
 
+
   @ViewChild(DiagramComponent) private diagramComponent: DiagramComponent;
   @ViewChild(ConnectorComponent) private connectorComponent: ConnectorComponent;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -67,10 +70,28 @@ export class OnlineWorkspaceComponent implements OnInit {
     });
   }
 
-  newPattern(pattern: IPattern) {
+  onNewPatternFormSubmit(form: NgForm) {
+    console.log('New pattern form submitted');
+    console.log('patternId: ' + form.value.patternId);
+    console.log('patternName: ' + form.value.patternName);
+    console.log('strategyName: ' + form.value.strategyName);
+    console.log('InputType: ' + form.value.inputType + ' name: ' + form.value.inputTypeName);
+    console.log('outputType: ' + form.value.outputType + ' name: ' + form.value.outputTypeName);
+    const strategy: IStrategy = new Strategy('fr.axonic.avek.instance.jenkins.JenkinsStrategy', form.value.strategyName, null, null);
+
+    const inputTypes: IInputType[] = [];
+    inputTypes.push(new InputType(form.value.inputType, form.value.inputTypeName));
+
+    const outputType: IOutputType = new OutputType(form.value.outputType);
+    const pattern: IPattern = new Pattern(form.value.patternId, form.value.patternName, strategy, inputTypes, outputType);
+
     console.log('new Pattern :');
     console.log(pattern);
     this.connectorComponent.registerPattern(this.argSystemId, pattern);
+  }
+
+  openModal(modal) {
+    this.modalService.open(modal, {size: 'lg'});
   }
 
 }
