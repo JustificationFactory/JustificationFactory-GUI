@@ -53,6 +53,8 @@ export class OnlineWorkspaceComponent implements OnInit {
       // TODO Modal
     }
     this.diagramLoaded = true;
+    this.diagramUploaded=false;
+    this.connectorComponent.resetArgSystem();
     this.httpClient.get<IArgSystem>('assets/json/newDiagram.json').subscribe(result => {
       const argSystem: IArgSystem = result;
         setTimeout(() => {
@@ -66,10 +68,14 @@ export class OnlineWorkspaceComponent implements OnInit {
 
   uploadArgSystem() {
     console.log('Uploading arg system');
-    this.connectorComponent.registerArgSystem(this.diagramComponent.argSystem).subscribe((result)=>{
-      this.diagramUploaded=true;
+    this.connectorComponent.registerArgSystem(this.diagramComponent.argSystem).subscribe((result) => {
+      this.diagramUploaded = true;
       this.argSystemId = result;
       console.log('Diagram uploaded with id: ' + result);
+      this.connectorComponent.retrieveAllArgumentationSystemsName().subscribe(empty => {
+        this.connectorComponent.currentArgSystemId = result;
+        this.connectorComponent.changeCurrentArgSystem(result);
+      });
     });
   }
 
@@ -90,7 +96,9 @@ export class OnlineWorkspaceComponent implements OnInit {
 
     console.log('new Pattern :');
     console.log(pattern);
-    this.connectorComponent.registerPattern(this.argSystemId, pattern);
+    this.connectorComponent.registerPattern(this.argSystemId, pattern).subscribe(empty => {
+      this.connectorComponent.retrievePatternsByArgSystemId(this.argSystemId);
+    });
   }
 
   openModal(modal) {
@@ -118,7 +126,9 @@ export class OnlineWorkspaceComponent implements OnInit {
     let stepToCreate: StepToCreate = new StepToCreate(supports, formConclusion);
     console.log('new StepToCreate : ');
     console.log(stepToCreate);
-    this.connectorComponent.constructStep(this.connectorComponent.currentArgSystemId, this.connectorComponent.currentPatternId, stepToCreate);
+    this.connectorComponent.constructStep(this.connectorComponent.currentArgSystemId, this.connectorComponent.currentPatternId, stepToCreate).subscribe(empty => {
+      this.connectorComponent.refreshDiagram();
+    });
   }
 
 }

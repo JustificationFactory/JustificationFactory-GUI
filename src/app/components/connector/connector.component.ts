@@ -1,10 +1,14 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {DiagramComponent} from '../diagram/diagram.component';
 import {WsRetrieverService} from '../../services/webServices/ws-retriever.service';
 import {WsSenderService} from '../../services/webServices/ws-sender.service';
 import {graphlib} from 'dagre';
 import json = graphlib.json;
 import {StepToCreate} from '../../business/ArgSystem';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/catch';
+import {Observable} from 'rxjs/Observable';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-connector',
@@ -26,6 +30,8 @@ export class ConnectorComponent implements OnInit {
   public currentPatternId: string;
   public currentPattern: IPattern;
 
+  public patternSelectioned = false;
+
   constructor(private retrieverService: WsRetrieverService,
               private senderService: WsSenderService,
               public diagramComponent: DiagramComponent) {
@@ -33,21 +39,21 @@ export class ConnectorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.retrieveAllArgumentationSystemsName();
+    this.retrieveAllArgumentationSystemsName().subscribe();
   }
 
   /* Business handlers */
 
   /* Retrievers */
-  retrieveAllArgumentationSystemsName(): void {
+  retrieveAllArgumentationSystemsName(): Observable<void> {
     console.log('Retrieving ArgSystems Names.');
-    this.retrieverService.getAllArgumentationSystemsName()
-      .subscribe(result => {
-          this.argSystemIdList = result;
-        },
-        error => {
-          console.log(error);
-        });
+    return this.retrieverService.getAllArgumentationSystemsName().map(result => {
+      console.log('test');
+      this.argSystemIdList = result;
+    }).catch(error => {
+      console.log(error);
+      return Observable.throw(error);
+    });
   }
 
   retrieveArgumentationSystemByCurrentId(id: string): void {
@@ -107,16 +113,16 @@ export class ConnectorComponent implements OnInit {
     return this.senderService.registerArgumentationSystem(argSystem);
   }
 
-  registerPattern(argSystemId: string, pattern: IPattern) {
+  registerPattern(argSystemId: string, pattern: IPattern): Observable<void> {
     console.log('Registering new Pattern : \n' + JSON.stringify(pattern));
-    this.senderService.registerPattern(argSystemId, pattern).subscribe(result => {
+    return this.senderService.registerPattern(argSystemId, pattern).map(result => {
       console.log('RegisterNewPattern returned : ' + result);
     });
   }
 
-  constructStep(argSystemId: string, patternId: string, stepToCreate: StepToCreate) {
+  constructStep(argSystemId: string, patternId: string, stepToCreate: StepToCreate): Observable<void> {
     console.log('Constructing new step : \n' + JSON.stringify(stepToCreate));
-    this.senderService.constructStep(argSystemId, patternId, stepToCreate).subscribe(result=> {
+    return this.senderService.constructStep(argSystemId, patternId, stepToCreate).map(result => {
       console.log('ConstructNewStep returned : ' + result);
     });
   }
@@ -130,7 +136,17 @@ export class ConnectorComponent implements OnInit {
 
   changeCurrentPattern(id: string): void {
     this.currentPatternId = id;
+    this.patternSelectioned=true;
     this.retrievePatternByPatternId(this.currentArgSystemId, id);
+  }
+
+  resetArgSystem() {
+    this.currentArgSystem = null;
+    this.currentArgSystemId = '';
+  }
+
+  refreshDiagram() {
+    this.retrieveArgumentationSystemByCurrentId(this.currentArgSystemId);
   }
 
 }

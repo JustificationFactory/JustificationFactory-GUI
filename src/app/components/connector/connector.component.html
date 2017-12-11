@@ -6,7 +6,7 @@
 
       <p>Possibilities</p>
       <button type="button" class="btn btn-default" (click)="retrieveAllArgumentationSystemsName()">Reload Systems</button>
-        <select class="selectpicker" #argSystId (change)="changeCurrentArgSystem(argSystId.value)">
+        <select class="selectpicker" #argSystId [(ngModel)]="currentArgSystemId" (change)="changeCurrentArgSystem(argSystId.value)">
           <option disabled selected value> Select an Arg System</option>
           <option *ngFor="let argSystemId of argSystemIdList" value="{{argSystemId}}">{{argSystemId}}</option>
         </select>
