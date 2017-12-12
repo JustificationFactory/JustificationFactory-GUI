@@ -48,20 +48,21 @@ export class MyStep implements IStep {
 
     this.conclusion = new MyConclusion(json.conclusion);
   }
+
 }
 
 export class MyStrategy implements IStrategy {
-  type;
-  name;
-  // TODO: artifacts instead of rationale ??
-  rationale;
-  usageDomain;
+  '@type': string;
+  name: string;
+  // TODO: artifacts instead of rationale??
+  rationale: Object;
+  usageDomain: Object;
 
-  constructor(json: any) {
-    this.type = json['@type'];
-    this.name = json.name;
-    this.rationale = json.rationale;
-    this.usageDomain = json.usageDomain;
+  constructor(type: string, name: string, rationale: Object, usageDomain: Object) {
+    this['@type'] = type;
+    this.name = name;
+    this.rationale = rationale;
+    this.usageDomain = usageDomain;
   }
 }
 
@@ -112,18 +113,85 @@ export class MyEvidence implements IEvidence {
     this.role = json.role;
     this.support = new MySupport(json.support);
   }
+export class Pattern implements IPattern {
+  id: string;
+  name: string;
+  strategy: IStrategy;
+  inputTypes: IInputType[];
+  outputType: IOutputType;
+
+
+  constructor(id: string, name: string, strategy: IStrategy, inputTypes: IInputType[], outputType: IOutputType) {
+    this.id = id;
+    this.name = name;
+    this.strategy = strategy;
+    this.inputTypes = inputTypes;
+    this.outputType = outputType;
+  }
 }
 
+export class InputType implements IInputType {
+  type: string;
+  name: string;
+
+  constructor(type: string, name: string) {
+    this.type = type;
+    this.name = name;
+  }
+}
 
 export class OutputType implements IOutputType {
   type;
+
+  constructor(type) {
+    this.type = type;
+  }
 }
 
+export class StepToCreate {
+  supports: SupportObject[];
+  conclusion: FormConclusion;
 
-export class InputType implements IInputType {
-  type;
-  name;
+
+  constructor(supports: SupportObject[], conclusion: FormConclusion) {
+    this.supports = supports;
+    this.conclusion = conclusion;
+  }
 }
-export class PatternsBase implements IPatternsBase {
-  patterns = [];
+
+export class SupportObject {
+  role: string;
+  support: DocumentEvidence;
+
+
+  constructor(role: string, support: DocumentEvidence) {
+    this.role = role;
+    this.support = support;
+  }
+}
+
+export class DocumentEvidence {
+  name: string;
+  element: Object;
+  '@type' = 'fr.axonic.avek.engine.support.evidence.DocumentEvidence';
+
+
+  constructor(name: string) {
+    this.name = name;
+    this.element = null;
+  }
+}
+
+export class FormConclusion {
+  '@type' = 'fr.axonic.avek.engine.support.conclusion.FormConclusion';
+  name: string;
+  element: Object;
+
+
+  constructor(name: string) {
+    this.name = name;
+    this.element = {
+      '@type': '.Form'
+    };
+  }
 }

@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {WsConnectorService} from './ws-connector.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {IArgSystem, IPattern, IStep} from '../../business/IArgSystem';
 
 @Injectable()
 export class WsSenderService extends WsConnectorService {
@@ -12,12 +11,23 @@ export class WsSenderService extends WsConnectorService {
   }
 
   /* Features */
-  private post<T>(path, payload): Observable<Object> {
+  private post<T>(path, payload): Observable<T> {
     const url = this.buildUrl(path);
     console.log('Sending post request to: ' + url + ' with payload:');
     console.log(payload);
     return this.http.post<T>(url, payload, {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
+    });
+  }
+
+  // Need to make an alternate querry where we can add the response type
+  private postForString(path, payload): Observable<string> {
+    const url = this.buildUrl(path);
+    console.log('Sending post request to: ' + url + ' with payload:');
+    console.log(payload);
+    return this.http.post(url, payload, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      responseType: 'text'
     });
   }
 
@@ -42,16 +52,16 @@ export class WsSenderService extends WsConnectorService {
   }
 
   /* POST */
-  public registerArgumentationSystem(argSystem: IArgSystem): Observable<Object> {
-    return this.post<IArgSystem>('system', argSystem);
+  public registerArgumentationSystem(argSystem: IArgSystem): Observable<string> {
+    return this.postForString('system', argSystem);
   }
 
   public registerPattern(argSystemId: string, pattern: IPattern): Observable<Object> {
     return this.post<IPattern>(argSystemId + '/pattern', pattern);
   }
 
-  public constructStep(argSystemId: string, patternId: string, step: IStep): Observable<Object> {
-    return this.post<IStep>(argSystemId + '/' + patternId + '/step', step);
+  public constructStep(argSystemId: string, patternId: string, stepToCreate: StepToCreate): Observable<Object> {
+    return this.post<string>(argSystemId + '/' + patternId + '/step', stepToCreate);
   }
 
 }

@@ -1,25 +1,24 @@
-<nav class="navbar navbar-inverse bg-inverse">
-    <ul class="nav navbar-nav">
-      <li class="nav-item">
-        <a class="dropdown-toggle nav-link" data-toggle="dropdown">Diagram<span class="caret"></span></a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" id="newDiagram" (click)='newDiagram()'>New Diagram</a>
-          <a class="dropdown-item" *ngIf="diagramLoaded" role="separator" class="divider"></a>
-          <a class="dropdown-item" *ngIf="diagramLoaded" (click)="open(uploadAsModal)">Upload As...</a>
-        </div>
-      </li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
+  <ul class="navbar-nav">
+    <li class="nav-item dropdown">
+      <a class="dropdown-toggle nav-link" data-toggle="dropdown">Argumentation System<span class="caret"></span></a>
+      <div class="dropdown-menu">
+        <button class="dropdown-item" type="button" (click)='newDiagram()'>New Argumentation System</button>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="uploadAs()">Upload as...</button>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="dropdown-toggle nav-link" data-toggle="dropdown">Patterns<span class="caret"></span></a>
+      <div class="dropdown-menu" >
+        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="newPattern()">New Pattern</button>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="dropdown-toggle nav-link" data-toggle="dropdown">Step<span class="caret"></span></a>
+      <div class="dropdown-menu" >
+        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="newStep()">New Step from Pattern</button>
+      </div>
+    </li>
+  </ul>
 </nav>
-
-<ng-template #uploadAsModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Upload to remote server</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
-    <button type="button" class="btn btn-success" (click)="onUploadAsFormSubmit(uploadAsForm); c('Submitted')">Upload</button>
-  </div>
-</ng-template>

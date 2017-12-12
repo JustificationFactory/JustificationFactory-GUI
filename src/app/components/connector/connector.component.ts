@@ -2,6 +2,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DiagramComponent} from '../diagram/diagram.component';
 import {WsRetrieverService} from '../../services/webServices/ws-retriever.service';
 import {WsSenderService} from '../../services/webServices/ws-sender.service';
+import {graphlib} from 'dagre';
+import json = graphlib.json;
+import {StepToCreate} from '../../business/ArgSystem';
 import {IArgSystem, IPattern} from '../../business/IArgSystem';
 import {MyArgSystem} from '../../business/ArgSystem';
 
@@ -13,13 +16,13 @@ import {MyArgSystem} from '../../business/ArgSystem';
 })
 export class ConnectorComponent implements OnInit {
 
-  @Output() onArgSystemChange = new EventEmitter<MyArgSystem>();
+  @Output() onArgSystemChange = new EventEmitter<IArgSystem>();
 
   // TODO: déplacer cette logique
   /* System Logic */
   public argSystemIdList: string[];
   public currentArgSystemId: string;
-  public currentArgSystem: MyArgSystem;
+  public currentArgSystem: IArgSystem;
 
   /* Patterns logic */
   public patternsIdList: string[];
@@ -51,7 +54,7 @@ export class ConnectorComponent implements OnInit {
   }
 
   retrieveArgumentationSystemByCurrentId(id: string): void {
-    console.log('Retrieving MyArgSystem by id: ' + id);
+    console.log('Retrieving ArgSystem by id: ' + id);
     this.retrieverService.getArgumentationSystemByCurrentId(id)
       .subscribe(result => {
           this.currentArgSystem = new MyArgSystem(result);
@@ -67,7 +70,7 @@ export class ConnectorComponent implements OnInit {
   }
 
   retrievePatternsByArgSystemId(argSystemId: string): void {
-    console.log('Retrieving MyArgSystem Patterns by system id: ' + argSystemId);
+    console.log('Retrieving ArgSystem Patterns by system id: ' + argSystemId);
     this.retrieverService.getPatternsByArgSystemId(argSystemId)
       .subscribe(result => {
           this.patternsIdList = result;
@@ -79,7 +82,7 @@ export class ConnectorComponent implements OnInit {
   }
 
   retrievePatternByPatternId(argSystemId: string, patternId: string): void {
-    console.log('Retrieving MyArgSystem(' + argSystemId + ') pattern with id: ' + patternId);
+    console.log('Retrieving ArgSystem(' + argSystemId + ') pattern with id: ' + patternId);
     this.retrieverService.getPatternByPatternId(argSystemId, patternId)
       .subscribe(result => {
           this.currentPattern = result;
@@ -101,8 +104,20 @@ export class ConnectorComponent implements OnInit {
 
   registerArgSystem(argSystem: IArgSystem) {
     console.log('Registering new arg system : ' + argSystem);
-    this.senderService.registerArgumentationSystem(argSystem).subscribe(result => {
-      console.log('RegisterArgSystem returned : ' + result);
+    return this.senderService.registerArgumentationSystem(argSystem);
+  }
+
+  registerPattern(argSystemId: string, pattern: IPattern) {
+    console.log('Registering new Pattern : \n' + JSON.stringify(pattern));
+    this.senderService.registerPattern(argSystemId, pattern).subscribe(result => {
+      console.log('RegisterNewPattern returned : ' + result);
+    });
+  }
+
+  constructStep(argSystemId: string, patternId: string, stepToCreate: StepToCreate) {
+    console.log('Constructing new step : \n' + JSON.stringify(stepToCreate));
+    this.senderService.constructStep(argSystemId, patternId, stepToCreate).subscribe(result=> {
+      console.log('ConstructNewStep returned : ' + result);
     });
   }
 

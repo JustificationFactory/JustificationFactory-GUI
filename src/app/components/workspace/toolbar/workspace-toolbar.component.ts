@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
+import {InputType, OutputType, Pattern, Strategy} from '../../../business/ArgSystem';
+import {ConnectorComponent} from '../../connector/connector.component';
 
 @Component({
   selector: 'app-workspace-toolbar',
@@ -11,10 +13,12 @@ export class WorkspaceToolbarComponent implements OnInit {
 
   @Output() onNewDiagram = new EventEmitter<void>();
   @Output() onUploadAs = new EventEmitter<void>();
+  @Output() onNewPattern = new EventEmitter<void>();
+  @Output() onNewStep = new EventEmitter<void>();
 
   @Input() diagramLoaded: boolean;
 
-  constructor( private modalService: NgbModal) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -23,11 +27,16 @@ export class WorkspaceToolbarComponent implements OnInit {
     this.onNewDiagram.emit();
   }
 
-  open(content) {
-    this.modalService.open(content);
-  }
-
-  onUploadAsFormSubmit(form: NgForm) {
+  uploadAs() {
     this.onUploadAs.emit();
   }
+
+  newPattern() {
+    this.onNewPattern.emit();
+  }
+
+  newStep() {
+    this.onNewStep.emit();
+  }
+
 }

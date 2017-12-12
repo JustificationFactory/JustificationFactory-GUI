@@ -22,7 +22,7 @@ export interface IConclusion {
 
 export interface IStrategy {
   // TODO: type instead of @type, keep in mind
-  type: string;
+  '@type': string;
   name: string;
   rationale: Object;
   usageDomain: Object;

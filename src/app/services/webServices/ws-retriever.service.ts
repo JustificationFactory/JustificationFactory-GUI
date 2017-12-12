@@ -36,4 +36,10 @@ export class WsRetrieverService extends WsConnectorService {
     return this.get<IPattern>(argSystemId + '/patterns/' + patternId);
   }
 
+  // TODO: verifywhen nexus axonic will be back alive
+  // [support, conclusion, evidence, strategy, rationale, actor, ...]
+  getArtifactTypes(type: string): Observable<any> {
+    return this.get<any>(type + '/types');
+  }
+
 }
