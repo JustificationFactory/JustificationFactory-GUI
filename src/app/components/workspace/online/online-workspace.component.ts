@@ -4,6 +4,11 @@ import {DiagramComponent} from '../../diagram/diagram.component';
 import {ConnectorComponent} from '../../connector/connector.component';
 import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../business/diagram/importDiagram';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgForm} from '@angular/forms';
+import {
+  DocumentEvidence, FormConclusion, InputType, OutputType, Pattern, StepToCreate, Strategy,
+  SupportObject
+} from '../../../business/ArgSystem';
 
 @Component({
   selector: 'app-online-workspace',
@@ -12,12 +17,19 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class OnlineWorkspaceComponent implements OnInit {
 
+  // Is a diagram currently loaded ?
   public diagramLoaded = false;
+
+  // Is the currently loaded diagram saved on the remote factory
+  public diagramUploaded = false;
+
+  public argSystemId: string;
+
 
   @ViewChild(DiagramComponent) private diagramComponent: DiagramComponent;
   @ViewChild(ConnectorComponent) private connectorComponent: ConnectorComponent;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -26,14 +38,6 @@ export class OnlineWorkspaceComponent implements OnInit {
   onArgSystemChange(argSystem: IArgSystem) {
     this.diagramLoaded = true;
     // Allows the DOM to render the Child component in time
-    /*
-    console.log('Let the magic happen!');
-      const diagramParser = new DiagramParser(argSystem);
-      diagramParser.process();
-      console.log(diagramParser);
-      this.diagramComponent.myShowDiagram(diagramParser.steps);
-
-     */
     setTimeout(() => {
       const parse: ParseJson2DiagramElements = new ParseJson2DiagramElements(argSystem);
       const deResult: ParseDiagramElementsResult = parse.getDiagramElements();
@@ -48,6 +52,8 @@ export class OnlineWorkspaceComponent implements OnInit {
       // TODO Modal
     }
     this.diagramLoaded = true;
+    this.diagramUploaded=false;
+    this.connectorComponent.resetArgSystem();
     /* this.httpClient.get<any>('assets/json/newDiagram.json').subscribe(result => {
       console.log('Let the magic happen!');
       const argSystem = new MyArgSystem(result);
@@ -68,10 +74,14 @@ export class OnlineWorkspaceComponent implements OnInit {
 
   uploadArgSystem() {
     console.log('Uploading arg system');
-    this.connectorComponent.registerArgSystem(this.diagramComponent.argSystem).subscribe((result)=>{
-      this.diagramUploaded=true;
+    this.connectorComponent.registerArgSystem(this.diagramComponent.argSystem).subscribe((result) => {
+      this.diagramUploaded = true;
       this.argSystemId = result;
       console.log('Diagram uploaded with id: ' + result);
+      this.connectorComponent.retrieveAllArgumentationSystemsName().subscribe(empty => {
+        this.connectorComponent.currentArgSystemId = result;
+        this.connectorComponent.changeCurrentArgSystem(result);
+      });
     });
   }
 
@@ -92,7 +102,9 @@ export class OnlineWorkspaceComponent implements OnInit {
 
     console.log('new Pattern :');
     console.log(pattern);
-    this.connectorComponent.registerPattern(this.argSystemId, pattern);
+    this.connectorComponent.registerPattern(this.argSystemId, pattern).subscribe(empty => {
+      this.connectorComponent.retrievePatternsByArgSystemId(this.argSystemId);
+    });
   }
 
   openModal(modal) {
@@ -120,7 +132,9 @@ export class OnlineWorkspaceComponent implements OnInit {
     let stepToCreate: StepToCreate = new StepToCreate(supports, formConclusion);
     console.log('new StepToCreate : ');
     console.log(stepToCreate);
-    this.connectorComponent.constructStep(this.connectorComponent.currentArgSystemId, this.connectorComponent.currentPatternId, stepToCreate);
+    this.connectorComponent.constructStep(this.connectorComponent.currentArgSystemId, this.connectorComponent.currentPatternId, stepToCreate).subscribe(empty => {
+      this.connectorComponent.refreshDiagram();
+    });
   }
 
 }

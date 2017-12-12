@@ -17,6 +17,7 @@ export class WorkspaceToolbarComponent implements OnInit {
   @Output() onNewStep = new EventEmitter<void>();
 
   @Input() diagramLoaded: boolean;
+  @Input() patternSelectioned: boolean;
 
   constructor() { }
 
