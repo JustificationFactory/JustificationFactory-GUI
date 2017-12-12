@@ -1,15 +1,4 @@
-import {
-  IArgSystem,
-  IConclusion,
-  IEvidence,
-  IInputType,
-  IOutputType,
-  IPattern,
-  IPatternsBase,
-  IStep,
-  IStrategy,
-  ISupport
-} from './IArgSystem';
+import {IArgSystem, IConclusion, IEvidence, IInputType, IOutputType, IPattern, IStep, IStrategy, ISupport} from './IArgSystem';
 
 
 export class MyArgSystem implements IArgSystem {
@@ -22,14 +11,14 @@ export class MyArgSystem implements IArgSystem {
   // TODO: serialize and deserialize via implementing an interface? maybe cf stack overflow
   constructor(json: any) {
     for (const step of json.steps) {
-      this.steps.push(new MyStep(step));
+      this.steps.push(new Step(step));
     }
 
     // TODO: la suite les objectifs et tout j'sais meme pas c'est quoi
   }
 }
 
-export class MyStep implements IStep {
+export class Step implements IStep {
   id;
   patternId;
   evidences = [];
@@ -41,17 +30,17 @@ export class MyStep implements IStep {
     this.patternId = json.patternId;
 
     for (const evidence of json.evidenceRoles) {
-      this.evidences.push(new MyEvidence(evidence));
+      this.evidences.push(new Evidence(evidence));
     }
 
-    this.strategy = new MyStrategy(json.strategy);
+    this.strategy = new Strategy(json.strategy);
 
-    this.conclusion = new MyConclusion(json.conclusion);
+    this.conclusion = new Conclusion(json.conclusion);
   }
 
 }
 
-export class MyStrategy implements IStrategy {
+export class Strategy implements IStrategy {
   '@type': string;
   name: string;
   // TODO: artifacts instead of rationale??
@@ -66,21 +55,10 @@ export class MyStrategy implements IStrategy {
   }
 }
 
-
-
-export class Pattern implements IPattern {
-  id;
-  name;
-  string;
-  strategy;
-  inputTypes = [];
-  outputType;
-}
-
-
-export class MyConclusion implements IConclusion {
+export class Conclusion implements IConclusion {
   name;
   type;
+
   // TODO: implement les restrictions etc...
 
   constructor(json: any) {
@@ -90,7 +68,7 @@ export class MyConclusion implements IConclusion {
 }
 
 
-export class MySupport implements ISupport {
+export class Support implements ISupport {
   type;
   id;
   // restrictions TODO: dunno what that is
@@ -105,14 +83,16 @@ export class MySupport implements ISupport {
   }
 }
 
-export class MyEvidence implements IEvidence {
+export class Evidence implements IEvidence {
   role;
   support;
 
   constructor(json: any) {
     this.role = json.role;
-    this.support = new MySupport(json.support);
+    this.support = new Support(json.support);
   }
+}
+
 export class Pattern implements IPattern {
   id: string;
   name: string;

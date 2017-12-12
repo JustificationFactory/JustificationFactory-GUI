@@ -6,7 +6,13 @@ import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../bu
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {
-  DocumentEvidence, FormConclusion, InputType, OutputType, Pattern, StepToCreate, Strategy,
+  DocumentEvidence,
+  FormConclusion,
+  InputType,
+  OutputType,
+  Pattern,
+  StepToCreate,
+  Strategy,
   SupportObject
 } from '../../../business/ArgSystem';
 
@@ -38,6 +44,14 @@ export class OnlineWorkspaceComponent implements OnInit {
   onArgSystemChange(argSystem: IArgSystem) {
     this.diagramLoaded = true;
     // Allows the DOM to render the Child component in time
+    /*
+    console.log('Let the magic happen!');
+      const diagramParser = new DiagramParser(argSystem);
+      diagramParser.process();
+      console.log(diagramParser);
+      this.diagramComponent.myShowDiagram(diagramParser.steps);
+
+     */
     setTimeout(() => {
       const parse: ParseJson2DiagramElements = new ParseJson2DiagramElements(argSystem);
       const deResult: ParseDiagramElementsResult = parse.getDiagramElements();
@@ -52,7 +66,7 @@ export class OnlineWorkspaceComponent implements OnInit {
       // TODO Modal
     }
     this.diagramLoaded = true;
-    this.diagramUploaded=false;
+    this.diagramUploaded = false;
     this.connectorComponent.resetArgSystem();
     /* this.httpClient.get<any>('assets/json/newDiagram.json').subscribe(result => {
       console.log('Let the magic happen!');
@@ -112,7 +126,7 @@ export class OnlineWorkspaceComponent implements OnInit {
   }
 
   updateNewStepForm() {
-    let currentPattern:IPattern = this.connectorComponent.currentPattern;
+    const currentPattern: IPattern = this.connectorComponent.currentPattern;
   }
 
   onNewStepFormSubmit(form: NgForm) {
@@ -120,16 +134,16 @@ export class OnlineWorkspaceComponent implements OnInit {
     console.log('supportName: ' + form.value.supportName);
     console.log('conclusionName: ' + form.value.conclusionName);
 
-    let documentEvidence: DocumentEvidence = new DocumentEvidence(form.value.supportName);
+    const documentEvidence: DocumentEvidence = new DocumentEvidence(form.value.supportName);
 
-    let supportObject: SupportObject = new SupportObject(form.value.supportName, documentEvidence);
+    const supportObject: SupportObject = new SupportObject(form.value.supportName, documentEvidence);
 
-    let supports: SupportObject[] = [];
+    const supports: SupportObject[] = [];
     supports.push(supportObject);
 
-    let formConclusion: FormConclusion = new FormConclusion(form.value.conclusionName);
+    const formConclusion: FormConclusion = new FormConclusion(form.value.conclusionName);
 
-    let stepToCreate: StepToCreate = new StepToCreate(supports, formConclusion);
+    const stepToCreate: StepToCreate = new StepToCreate(supports, formConclusion);
     console.log('new StepToCreate : ');
     console.log(stepToCreate);
     this.connectorComponent.constructStep(this.connectorComponent.currentArgSystemId, this.connectorComponent.currentPatternId, stepToCreate).subscribe(empty => {
