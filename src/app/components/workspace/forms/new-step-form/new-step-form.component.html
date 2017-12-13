@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <h4 class="modal-title">New Step from Pattern</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" id="newStepModalBody">
+  <form [formGroup]="newStepForm" novalidate>
+    <div class="form-group row">
+      <label class="col-sm-3 form-control-label text-nowrap" for="patternId">Pattern:</label>
+      <select class="form-control col-sm-6" id="patternId" formControlName="patternId">
+        <option *ngFor="let patternId of availablePatternsId"
+                [value]="patternId">{{patternId}}
+        </option>
+      </select>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 form-control-label text-nowrap" for="supportName">Support name:</label>
+      <input class="col-sm-6 form-control" type="text" id="supportName" formControlName="supportName"/>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 form-control-label text-nowrap" for="conclusionName">Conclusion name:</label>
+      <input class="col-sm-6 form-control" type="text" id="conclusionName" formControlName="conclusionName"/>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">Cancel</button>
+  <button type="button" class="btn btn-success" (click)="submit();activeModal.close('Submitted')">Validate</button>
+</div>

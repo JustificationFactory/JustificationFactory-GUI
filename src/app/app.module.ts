@@ -19,6 +19,7 @@ import {WsSenderService} from './services/webServices/ws-sender.service';
 import { WorkspaceToolbarComponent } from './components/workspace/toolbar/workspace-toolbar.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NewPatternFormComponent } from './components/workspace/forms/new-pattern-form/new-pattern-form.component';
+import { NewStepFormComponent } from './components/workspace/forms/new-step-form/new-step-form.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { NewPatternFormComponent } from './components/workspace/forms/new-patter
     AppComponent,
     OnlineWorkspaceComponent,
     WorkspaceToolbarComponent,
-    NewPatternFormComponent
+    NewPatternFormComponent,
+    NewStepFormComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ import { NewPatternFormComponent } from './components/workspace/forms/new-patter
     WsSenderService
   ],
   entryComponents: [
-    NewPatternFormComponent
+    NewPatternFormComponent,
+    NewStepFormComponent
   ],
   bootstrap: [AppComponent]
 })

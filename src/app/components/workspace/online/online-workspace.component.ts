@@ -11,6 +11,7 @@ import {
   SupportObject
 } from '../../../business/ArgSystem';
 import {NewPatternFormComponent} from '../forms/new-pattern-form/new-pattern-form.component';
+import {NewStepFormComponent} from '../forms/new-step-form/new-step-form.component';
 
 @Component({
   selector: 'app-online-workspace',
@@ -85,37 +86,18 @@ export class OnlineWorkspaceComponent implements OnInit {
 
   openPatternModal() {
     const newPatternModal = this.modalService.open(NewPatternFormComponent, {size: 'lg'});
-    console.log('argSystemId was : ' + this.connectorComponent.currentArgSystemId);
     newPatternModal.componentInstance.argSystemId = this.connectorComponent.currentArgSystemId;
     newPatternModal.componentInstance.connectorComponentOfParent = this.connectorComponent;
   }
 
-  updateNewStepForm() {
-    const currentPattern: IPattern = this.connectorComponent.currentPattern;
+  openNewStepModal() {
+    const newStepModal = this.modalService.open(NewStepFormComponent, {size: 'lg'});
+    newStepModal.componentInstance.argSystemId = this.connectorComponent.currentArgSystemId;
+    newStepModal.componentInstance.connectorComponentOfParent = this.connectorComponent;
   }
 
-  onNewStepFormSubmit(form: NgForm) {
-    console.log('New step form submitted');
-    console.log('supportName: ' + form.value.supportName);
-    console.log('conclusionName: ' + form.value.conclusionName);
-
-    const documentEvidence: DocumentEvidence = new DocumentEvidence(form.value.supportName);
-
-    const supportObject: SupportObject = new SupportObject(form.value.supportName, documentEvidence);
-
-    const supports: SupportObject[] = [];
-    supports.push(supportObject);
-
-    const formConclusion: FormConclusion = new FormConclusion(form.value.conclusionName);
-
-    const stepToCreate: StepToCreate = new StepToCreate(supports, formConclusion);
-    console.log('new StepToCreate : ');
-    console.log(stepToCreate);
-    this.connectorComponent
-      .constructStep(this.connectorComponent.currentArgSystemId, this.connectorComponent.currentPatternId, stepToCreate)
-      .subscribe(empty => {
-        this.connectorComponent.refreshDiagram();
-      });
+  updateNewStepForm() {
+    const currentPattern: IPattern = this.connectorComponent.currentPattern;
   }
 
 }
