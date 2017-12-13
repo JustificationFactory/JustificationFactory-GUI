@@ -7,6 +7,7 @@ import json = graphlib.json;
 import {StepToCreate} from '../../business/ArgSystem';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 import {Observable} from 'rxjs/Observable';
 import {NgModel} from '@angular/forms';
 
@@ -30,7 +31,6 @@ export class ConnectorComponent implements OnInit {
   public currentPatternId: string;
   public currentPattern: IPattern;
 
-  public patternSelectioned = false;
 
   constructor(private retrieverService: WsRetrieverService,
               private senderService: WsSenderService,
@@ -132,7 +132,6 @@ export class ConnectorComponent implements OnInit {
 
   changeCurrentPattern(id: string): void {
     this.currentPatternId = id;
-    this.patternSelectioned=true;
     this.retrievePatternByPatternId(this.currentArgSystemId, id);
   }
 
