@@ -31,16 +31,30 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group">
         <label class="col-sm-2 form-control-label text-nowrap">Input Types</label>
         <hr/>
-        <div class="col-sm-5">
-          <select class="form-control" id="inputType" formControlName="inputType">
-            <option selected value="fr.axonic.avek.engine.support.instance.DocumentEvidence">DocumentEvidence</option>
-          </select>
+        <div formArrayName="inputTypes">
+          <div *ngFor="let control of newStepForm.controls['inputTypes'].controls; let i = index">
+            <div [formGroupName]="i" class="row">
+              <label class="col-sm-1 form-control-label text-nowrap" [for]="'inputType'+i">type</label>
+              <div class="col-sm-4">
+                <select class="form-control" [id]="'inputType'+i" formControlName="inputType">
+                  <option *ngFor="let evidenceType of availableEvidenceTypes"
+                    [value]="evidenceType">{{evidenceType}}
+                  </option>
+                </select>
+              </div>
+              <label class="col-sm-1 form-control-label text-nowrap" [for]="'inputTypeName'+i">name</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" [id]="'inputTypeName'+i" formControlName="inputTypeName"/>
+              </div>
+              <button (click)='removeInputType(i)'>-</button>
+            </div>
+          </div>
         </div>
-        <div class="col-sm-5">
-          <input type="text" class="form-control" id="inputTypeName" formControlName="inputTypeName"/>
+        <div>
+          <button (click)="addInputType()">Add Input Type</button>
         </div>
       </div>
 

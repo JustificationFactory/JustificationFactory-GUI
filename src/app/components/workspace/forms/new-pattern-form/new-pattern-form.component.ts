@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {InputType, OutputType, Pattern, Strategy} from '../../../../business/ArgSystem';
 import {WsSenderService} from '../../../../services/webServices/ws-sender.service';
 import {ConnectorComponent} from '../../../connector/connector.component';
+import {WsRetrieverService} from '../../../../services/webServices/ws-retriever.service';
 
 @Component({
   selector: 'app-new-pattern-form',
@@ -14,23 +15,49 @@ export class NewPatternFormComponent implements OnInit {
 
   public newStepForm: FormGroup;
 
+  private availableEvidenceTypes: string[];
+
   @Input() argSystemId: string;
   @Input() connectorComponentOfParent: ConnectorComponent;
 
-  constructor(public activeModal: NgbActiveModal, private senderService: WsSenderService) { }
+  constructor(public activeModal: NgbActiveModal, private senderService: WsSenderService, private retrieverService: WsRetrieverService) { }
 
   ngOnInit() {
+
+    this.retrieverService.getArtifactTypes('Evidence').subscribe(result => {
+      this.availableEvidenceTypes = result;
+    });
+
     this.newStepForm = new FormGroup({
       patternId: new FormControl(),
       patternName: new FormControl(),
       strategyName: new FormControl(),
-      inputType: new FormControl(),
-      inputTypeName: new FormControl(),
+      inputTypes: new FormArray([]),
       outputType: new FormControl(),
       outputTypeName: new FormControl()
     });
+
+    const arrayControl = <FormArray>this.newStepForm.controls['inputTypes'];
+    const newGroup = new FormGroup({
+      inputType: new FormControl(),
+      inputTypeName: new FormControl()
+    });
+    arrayControl.push(newGroup);
   }
 
+  addInputType() {
+    const arrayControl = <FormArray>this.newStepForm.controls['inputTypes'];
+    const newGroup = new FormGroup({
+      inputType: new FormControl(),
+      inputTypeName: new FormControl()
+    });
+    arrayControl.push(newGroup);
+  }
+
+  removeInputType(i: number) {
+    const arrayControl = <FormArray>this.newStepForm.controls['inputTypes'];
+    arrayControl.removeAt(i);
+  }
 
   submit() {
     console.log('New pattern form submitted');
@@ -38,14 +65,23 @@ export class NewPatternFormComponent implements OnInit {
     console.log('patternId: ' + this.newStepForm.value.patternId);
     console.log('patternName: ' + this.newStepForm.value.patternName);
     console.log('strategyName: ' + this.newStepForm.value.strategyName);
-    console.log('InputType: ' + this.newStepForm.value.inputType + ' name: ' + this.newStepForm.value.inputTypeName);
+    console.log('InputTypes: ');
+    const arrayControl = <FormArray>this.newStepForm.controls['inputTypes'];
+    for(let i = 0; i < arrayControl.controls.length; i++) {
+      const control = arrayControl.controls[i]['controls'];
+      console.log('inputType n°' + i + ' ' + control.inputType.value + ' ' + control.inputTypeName.value);
+    }
+
     console.log('outputType: ' + this.newStepForm.value.outputType + ' name: ' + this.newStepForm.value.outputTypeName);
 
     const strategy: IStrategy = new Strategy('fr.axonic.avek.instance.jenkins.JenkinsStrategy',
       this.newStepForm.value.strategyName, null, null);
 
     const inputTypes: IInputType[] = [];
-    inputTypes.push(new InputType(this.newStepForm.value.inputType, this.newStepForm.value.inputTypeName));
+    for(let i = 0; i < arrayControl.controls.length; i++) {
+      const control = arrayControl.controls[i]['controls'];
+      inputTypes.push(new InputType(control.inputType.value, control.inputTypeName.value));
+    }
 
     const outputType: IOutputType = new OutputType(this.newStepForm.value.outputType);
     const pattern: IPattern = new Pattern(this.newStepForm.value.patternId,

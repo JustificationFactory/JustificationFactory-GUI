@@ -91,7 +91,7 @@ export class SupportObject {
 export class DocumentEvidence {
   name: string;
   element: Object;
-  '@type' = 'fr.axonic.avek.engine.support.evidence.DocumentEvidence';
+  '@type' = 'fr.axonic.avek.engine.support.instance.DocumentEvidence';
 
 
   constructor(name: string) {
@@ -101,7 +101,7 @@ export class DocumentEvidence {
 }
 
 export class FormConclusion {
-  '@type' = 'fr.axonic.avek.engine.support.conclusion.FormConclusion';
+  '@type' = 'fr.axonic.avek.engine.support.instance.FormConclusion';
   name: string;
   element: Object;
 
