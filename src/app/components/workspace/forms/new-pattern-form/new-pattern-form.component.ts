@@ -5,6 +5,7 @@ import {InputType, OutputType, Pattern, Strategy} from '../../../../business/Arg
 import {WsSenderService} from '../../../../services/webServices/ws-sender.service';
 import {ConnectorComponent} from '../../../connector/connector.component';
 import {WsRetrieverService} from '../../../../services/webServices/ws-retriever.service';
+import {IInputType, IOutputType, IPattern, IStrategy} from '../../../../business/IArgSystem';
 
 @Component({
   selector: 'app-new-pattern-form',
@@ -74,8 +75,11 @@ export class NewPatternFormComponent implements OnInit {
 
     console.log('outputType: ' + this.newStepForm.value.outputType + ' name: ' + this.newStepForm.value.outputTypeName);
 
-    const strategy: IStrategy = new Strategy('fr.axonic.avek.instance.jenkins.JenkinsStrategy',
-      this.newStepForm.value.strategyName, null, null);
+    const strategy: IStrategy = new Strategy(
+      {
+        '@type': 'fr.axonic.avek.instance.jenkins.JenkinsStrategy',
+        name: this.newStepForm.value.strategyName
+      });
 
     const inputTypes: IInputType[] = [];
     for(let i = 0; i < arrayControl.controls.length; i++) {

@@ -1,8 +1,8 @@
 import * as joint from 'jointjs';
 import {dia, shapes} from 'jointjs';
 import {Util} from '../diagram/diagram';
-import {MyStep} from '../ArgSystem';
 import {Colors, Shapes} from './viewAssets';
+import {Step} from '../ArgSystem';
 import Cell = dia.Cell;
 import Path = shapes.basic.Path;
 import Link = dia.Link;
@@ -103,15 +103,15 @@ export class ViewStep {
   private viewSupports: ViewSupport[];
   private viewLinks: ViewLink[];
 
-  constructor(step: MyStep) {
+  constructor(step: Step) {
     this.viewEvidences = [];
     this.viewSupports = [];
     this.viewLinks = [];
     this.build(step);
   }
 
-  private build(step: MyStep) {
-    console.log('Building ViewStep from MyStep');
+  private build(step: Step) {
+    console.log('Building ViewStep from Step');
     console.log(step);
     // TODO: insert test to make sure the field is actually here
     this.viewConclusion = new ViewConclusion(step.conclusion);

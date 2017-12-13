@@ -1,13 +1,12 @@
 import {ViewStep} from './myDiagram';
-import {MyArgSystem} from '../ArgSystem';
+import {ArgSystem} from '../ArgSystem';
 
 export class DiagramParser {
-  global: MyArgSystem;
+  global: ArgSystem;
   private _steps: ViewStep[];
 
-  constructor(global: MyArgSystem) {
+  constructor(global: ArgSystem) {
     this.global = global;
-    // TODO: link view et elements elements à base d'id
     this._steps = [];
   }
 

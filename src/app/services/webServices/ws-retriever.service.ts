@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {WsConnectorService} from './ws-connector.service';
 import {HttpClient} from '@angular/common/http';
-import {IArgSystem, IPattern} from '../../business/IArgSystem';
+import {IPattern} from '../../business/IArgSystem';
 
 
 @Injectable()

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ConnectorComponent } from './connector.component';
+import {ConnectorComponent} from './connector.component';
 
 describe('ConnectorComponent', () => {
   let component: ConnectorComponent;

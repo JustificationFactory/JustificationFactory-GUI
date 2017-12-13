@@ -1,12 +1,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {DiagramComponent} from "./diagram.component";
-import {PropertiesComponent} from "../properties/properties.component";
-import {ActionsToolbarComponent} from "../toolbars/actions/actions.toolbar.component";
-import {EditToolbarComponent} from "../toolbars/edit/edit.toolbar.component";
-import {PaletteComponent} from "../palette/palette.component";
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
-import {Actor, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy} from "../../business/diagram/diagram";
+import {DiagramComponent} from './diagram.component';
+import {PropertiesComponent} from '../properties/properties.component';
+import {ActionsToolbarComponent} from '../toolbars/actions/actions.toolbar.component';
+import {EditToolbarComponent} from '../toolbars/edit/edit.toolbar.component';
+import {PaletteComponent} from '../palette/palette.component';
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
+import {Actor, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy} from '../../business/diagram/diagram';
 
 describe("diagram.component.", () => {
 

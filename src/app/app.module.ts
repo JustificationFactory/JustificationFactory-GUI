@@ -16,9 +16,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {OnlineWorkspaceComponent} from './components/workspace/online/online-workspace.component';
 import {WsSenderService} from './services/webServices/ws-sender.service';
-import { WorkspaceToolbarComponent } from './components/workspace/toolbar/workspace-toolbar.component';
+import {WorkspaceToolbarComponent} from './components/workspace/toolbar/workspace-toolbar.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { NewPatternFormComponent } from './components/workspace/forms/new-pattern-form/new-pattern-form.component';
+import {NewPatternFormComponent} from './components/workspace/forms/new-pattern-form/new-pattern-form.component';
 
 
 @NgModule({

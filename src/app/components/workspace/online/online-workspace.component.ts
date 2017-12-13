@@ -1,10 +1,10 @@
-import {Component, ContentChild, ContentChildren, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {DiagramComponent} from '../../diagram/diagram.component';
 import {ConnectorComponent} from '../../connector/connector.component';
 import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../business/diagram/importDiagram';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormGroup, NgForm} from '@angular/forms';
+import {NgForm} from '@angular/forms';
 import {
   DocumentEvidence,
   FormConclusion,
@@ -15,6 +15,7 @@ import {
   Strategy,
   SupportObject
 } from '../../../business/ArgSystem';
+import {IArgSystem, IInputType, IOutputType, IPattern, IStrategy} from '../../../business/IArgSystem';
 import {NewPatternFormComponent} from '../forms/new-pattern-form/new-pattern-form.component';
 
 @Component({
@@ -70,7 +71,7 @@ export class OnlineWorkspaceComponent implements OnInit {
     this.connectorComponent.resetArgSystem();
     /* this.httpClient.get<any>('assets/json/newDiagram.json').subscribe(result => {
       console.log('Let the magic happen!');
-      const argSystem = new MyArgSystem(result);
+      const argSystem = new ArgSystem(result);
       const diagramParser = new DiagramParser(argSystem);
       diagramParser.process();
       console.log(diagramParser);
@@ -96,6 +97,32 @@ export class OnlineWorkspaceComponent implements OnInit {
         this.connectorComponent.currentArgSystemId = result;
         this.connectorComponent.changeCurrentArgSystem(result);
       });
+    });
+  }
+
+  onNewPatternFormSubmit(form: NgForm) {
+    console.log('New pattern form submitted');
+    console.log('patternId: ' + form.value.patternId);
+    console.log('patternName: ' + form.value.patternName);
+    console.log('strategyName: ' + form.value.strategyName);
+    console.log('InputType: ' + form.value.inputType + ' name: ' + form.value.inputTypeName);
+    console.log('outputType: ' + form.value.outputType + ' name: ' + form.value.outputTypeName);
+    const strategy: IStrategy = new Strategy(
+      {
+        '@type': 'fr.axonic.avek.instance.jenkins.JenkinsStrategy',
+        name: form.value.strategyName
+      });
+
+    const inputTypes: IInputType[] = [];
+    inputTypes.push(new InputType(form.value.inputType, form.value.inputTypeName));
+
+    const outputType: IOutputType = new OutputType(form.value.outputType);
+    const pattern: IPattern = new Pattern(form.value.patternId, form.value.patternName, strategy, inputTypes, outputType);
+
+    console.log('new Pattern :');
+    console.log(pattern);
+    this.connectorComponent.registerPattern(this.argSystemId, pattern).subscribe(empty => {
+      this.connectorComponent.retrievePatternsByArgSystemId(this.argSystemId);
     });
   }
 

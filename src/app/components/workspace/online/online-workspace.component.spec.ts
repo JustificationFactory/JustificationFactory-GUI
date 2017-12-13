@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { OnlineWorkspaceComponent } from './online-workspace.component';
+import {OnlineWorkspaceComponent} from './online-workspace.component';
 
 describe('OnlineWorkspaceComponent', () => {
   let component: OnlineWorkspaceComponent;

@@ -2,14 +2,12 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DiagramComponent} from '../diagram/diagram.component';
 import {WsRetrieverService} from '../../services/webServices/ws-retriever.service';
 import {WsSenderService} from '../../services/webServices/ws-sender.service';
-import {graphlib} from 'dagre';
-import json = graphlib.json;
-import {StepToCreate} from '../../business/ArgSystem';
+import {ArgSystem, StepToCreate} from '../../business/ArgSystem';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
-import {NgModel} from '@angular/forms';
+import {IArgSystem, IPattern} from '../../business/IArgSystem';
 
 @Component({
   selector: 'app-connector',
@@ -20,7 +18,6 @@ export class ConnectorComponent implements OnInit {
 
   @Output() onArgSystemChange = new EventEmitter<IArgSystem>();
 
-  // TODO: déplacer cette logique
   /* System Logic */
   public argSystemIdList: string[];
   public currentArgSystemId: string;
@@ -60,7 +57,7 @@ export class ConnectorComponent implements OnInit {
     console.log('Retrieving ArgSystem by id: ' + id);
     this.retrieverService.getArgumentationSystemByCurrentId(id)
       .subscribe(result => {
-          this.currentArgSystem = new MyArgSystem(result);
+          this.currentArgSystem = new ArgSystem(result);
           console.log('ArgSystem:');
           console.log(this.currentArgSystem);
           this.onArgSystemChange.emit(result);

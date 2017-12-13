@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { WorkspaceToolbarComponent } from './workspace-toolbar.component';
+import {WorkspaceToolbarComponent} from './workspace-toolbar.component';
 
 describe('WorkspaceToolbarComponent', () => {
   let component: WorkspaceToolbarComponent;

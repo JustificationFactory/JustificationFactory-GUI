@@ -1,7 +1,7 @@
 import {IArgSystem, IConclusion, IEvidence, IInputType, IOutputType, IPattern, IStep, IStrategy, ISupport} from './IArgSystem';
 
 
-export class MyArgSystem implements IArgSystem {
+export class ArgSystem implements IArgSystem {
   // TODO: uniformiser ce que je reprends de l'interface partout etc (genre typage et tout)
   steps = [];
   // patternsBase;
@@ -47,12 +47,20 @@ export class Strategy implements IStrategy {
   rationale: Object;
   usageDomain: Object;
 
+  constructor(json: any) {
+    this['@type'] = json['@type'];
+    this.name = json.name;
+    this.rationale = json.rationale;
+    this.usageDomain = json.usageDomain;
+  }
+
+  /*
   constructor(type: string, name: string, rationale: Object, usageDomain: Object) {
     this['@type'] = type;
     this.name = name;
     this.rationale = rationale;
     this.usageDomain = usageDomain;
-  }
+  }*/
 }
 
 export class Conclusion implements IConclusion {
