@@ -1,15 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ContentChild, ContentChildren, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {DiagramComponent} from '../../diagram/diagram.component';
 import {ConnectorComponent} from '../../connector/connector.component';
 import {ParseDiagramElementsResult, ParseJson2DiagramElements} from '../../../business/diagram/importDiagram';
 import 'rxjs/add/operator/map';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NgForm} from '@angular/forms';
+import {FormGroup, NgForm} from '@angular/forms';
 import {
   DocumentEvidence, FormConclusion, InputType, OutputType, Pattern, StepToCreate, Strategy,
   SupportObject
 } from '../../../business/ArgSystem';
+import {NewPatternFormComponent} from '../forms/new-pattern-form/new-pattern-form.component';
 
 @Component({
   selector: 'app-online-workspace',
@@ -25,7 +26,6 @@ export class OnlineWorkspaceComponent implements OnInit {
   public diagramUploaded = false;
 
   public argSystemId: string;
-
 
   @ViewChild(DiagramComponent) private diagramComponent: DiagramComponent;
   @ViewChild(ConnectorComponent) private connectorComponent: ConnectorComponent;
@@ -53,7 +53,7 @@ export class OnlineWorkspaceComponent implements OnInit {
       // TODO Modal
     }
     this.diagramLoaded = true;
-    this.diagramUploaded=false;
+    this.diagramUploaded = false;
     this.connectorComponent.resetArgSystem();
     this.httpClient.get<IArgSystem>('assets/json/newDiagram.json').subscribe(result => {
       const argSystem: IArgSystem = result;
@@ -79,34 +79,19 @@ export class OnlineWorkspaceComponent implements OnInit {
     });
   }
 
-  onNewPatternFormSubmit(form: NgForm) {
-    console.log('New pattern form submitted');
-    console.log('patternId: ' + form.value.patternId);
-    console.log('patternName: ' + form.value.patternName);
-    console.log('strategyName: ' + form.value.strategyName);
-    console.log('InputType: ' + form.value.inputType + ' name: ' + form.value.inputTypeName);
-    console.log('outputType: ' + form.value.outputType + ' name: ' + form.value.outputTypeName);
-    const strategy: IStrategy = new Strategy('fr.axonic.avek.instance.jenkins.JenkinsStrategy', form.value.strategyName, null, null);
-
-    const inputTypes: IInputType[] = [];
-    inputTypes.push(new InputType(form.value.inputType, form.value.inputTypeName));
-
-    const outputType: IOutputType = new OutputType(form.value.outputType);
-    const pattern: IPattern = new Pattern(form.value.patternId, form.value.patternName, strategy, inputTypes, outputType);
-
-    console.log('new Pattern :');
-    console.log(pattern);
-    this.connectorComponent.registerPattern(this.argSystemId, pattern).subscribe(empty => {
-      this.connectorComponent.retrievePatternsByArgSystemId(this.argSystemId);
-    });
-  }
-
   openModal(modal) {
     this.modalService.open(modal, {size: 'lg'});
   }
 
+  openPatternModal() {
+    const newPatternModal = this.modalService.open(NewPatternFormComponent, {size: 'lg'});
+    console.log('argSystemId was : ' + this.connectorComponent.currentArgSystemId);
+    newPatternModal.componentInstance.argSystemId = this.connectorComponent.currentArgSystemId;
+    newPatternModal.componentInstance.connectorComponentOfParent = this.connectorComponent;
+  }
+
   updateNewStepForm() {
-    let currentPattern:IPattern = this.connectorComponent.currentPattern;
+    const currentPattern: IPattern = this.connectorComponent.currentPattern;
   }
 
   onNewStepFormSubmit(form: NgForm) {
@@ -114,21 +99,23 @@ export class OnlineWorkspaceComponent implements OnInit {
     console.log('supportName: ' + form.value.supportName);
     console.log('conclusionName: ' + form.value.conclusionName);
 
-    let documentEvidence: DocumentEvidence = new DocumentEvidence(form.value.supportName);
+    const documentEvidence: DocumentEvidence = new DocumentEvidence(form.value.supportName);
 
-    let supportObject: SupportObject = new SupportObject(form.value.supportName, documentEvidence);
+    const supportObject: SupportObject = new SupportObject(form.value.supportName, documentEvidence);
 
-    let supports: SupportObject[] = [];
+    const supports: SupportObject[] = [];
     supports.push(supportObject);
 
-    let formConclusion: FormConclusion = new FormConclusion(form.value.conclusionName);
+    const formConclusion: FormConclusion = new FormConclusion(form.value.conclusionName);
 
-    let stepToCreate: StepToCreate = new StepToCreate(supports, formConclusion);
+    const stepToCreate: StepToCreate = new StepToCreate(supports, formConclusion);
     console.log('new StepToCreate : ');
     console.log(stepToCreate);
-    this.connectorComponent.constructStep(this.connectorComponent.currentArgSystemId, this.connectorComponent.currentPatternId, stepToCreate).subscribe(empty => {
-      this.connectorComponent.refreshDiagram();
-    });
+    this.connectorComponent
+      .constructStep(this.connectorComponent.currentArgSystemId, this.connectorComponent.currentPatternId, stepToCreate)
+      .subscribe(empty => {
+        this.connectorComponent.refreshDiagram();
+      });
   }
 
 }

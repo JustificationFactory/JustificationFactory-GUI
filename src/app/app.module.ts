@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 import {ActionsToolbarComponent} from './components/toolbars/actions/actions.toolbar.component';
@@ -18,6 +18,7 @@ import {OnlineWorkspaceComponent} from './components/workspace/online/online-wor
 import {WsSenderService} from './services/webServices/ws-sender.service';
 import { WorkspaceToolbarComponent } from './components/workspace/toolbar/workspace-toolbar.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NewPatternFormComponent } from './components/workspace/forms/new-pattern-form/new-pattern-form.component';
 
 
 @NgModule({
@@ -31,11 +32,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ConnectorComponent,
     AppComponent,
     OnlineWorkspaceComponent,
-    WorkspaceToolbarComponent
+    WorkspaceToolbarComponent,
+    NewPatternFormComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     NgbModule.forRoot()
@@ -50,6 +53,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ConnectorComponent,
     WsRetrieverService,
     WsSenderService
+  ],
+  entryComponents: [
+    NewPatternFormComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,66 @@
+<div class="modal-header">
+  <h4 class="modal-title">New Pattern</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div>
+    <p>
+      new-pattern-form works!
+    </p>
+    <form [formGroup]="newStepForm" novalidate>
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap" for="patternId">id:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="patternId" formControlName="patternId"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap" for="patternName">name:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="patternName" formControlName="patternName"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap" for="strategyName">strategy name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="strategyName" formControlName="strategyName"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap">Input Types</label>
+        <hr/>
+        <div class="col-sm-5">
+          <select class="form-control" id="inputType" formControlName="inputType">
+            <option selected value="fr.axonic.avek.engine.support.instance.DocumentEvidence">DocumentEvidence</option>
+          </select>
+        </div>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="inputTypeName" formControlName="inputTypeName"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 form-control-label text-nowrap">Output Type</label>
+        <hr/>
+        <div class="col-sm-5">
+          <select class="form-control" id="outputType" formControlName="outputType">
+            <option selected value="fr.axonic.avek.engine.support.instance.DocumentConclusion">DocumentConclusion</option>
+            <option value="fr.axonic.avek.engine.support.instance.FormConclusion">FormConclusion</option>
+          </select>
+        </div>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="outputTypeName" formControlName="outputTypeName"/>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">Cancel</button>
+  <button type="button" class="btn btn-success" (click)="submit();activeModal.close('Submitted')">Validate</button>
+</div>
