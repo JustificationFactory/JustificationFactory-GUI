@@ -40,7 +40,6 @@ export class ParseJson2DiagramElements {
     try {
       // TODO: pourquoi push avant de batîr?
       const strategyN = new Strategy(step.strategy);
-      this.strategies.push(new Strategy(step.strategy));
       strategyN.stepId = businessStep.getStepId();
       // TODO: push à deux endroits différents? mhhh..
       businessStep.items.push(strategyN);
