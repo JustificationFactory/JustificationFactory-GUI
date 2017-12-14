@@ -8,19 +8,35 @@
   <form [formGroup]="newStepForm" novalidate>
     <div class="form-group row">
       <label class="col-sm-3 form-control-label text-nowrap" for="patternId">Pattern:</label>
-      <select class="form-control col-sm-6" id="patternId" formControlName="patternId">
+      <select class="form-control col-sm-6" id="patternId" formControlName="patternId" >
         <option *ngFor="let patternId of availablePatternsId"
                 [value]="patternId">{{patternId}}
         </option>
       </select>
     </div>
-    <div class="form-group row">
-      <label class="col-sm-3 form-control-label text-nowrap" for="supportName">Support name:</label>
-      <input class="col-sm-6 form-control" type="text" id="supportName" formControlName="supportName"/>
+    <div *ngIf="this.pattern" formArrayName="inputTypes">
+      <div *ngFor="let inputType of this.pattern.inputTypes; let i = index">
+        <label class="col-sm-2 form-control-label text-nowrap">Input Type: </label>
+        <label class="col-sm-2 form-control-label text-nowrap">{{inputType.type}}</label>
+        <hr/>
+        <div *ngFor="let field of dynamicInputFields[i]" [formGroupName]="i" class="form-group">
+          <div class="row" [ngSwitch]="field.domElement">
+            <label class="col-sm-2 form-control-label text-nowrap" [for]="field.fieldName">{{field.fieldName}}</label>
+            <input *ngSwitchCase="domElement.INPUT" type="text" class="form-control col-sm-4" [id]="field.fieldName" [formControlName]="field.fieldName"/>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-group row">
-      <label class="col-sm-3 form-control-label text-nowrap" for="conclusionName">Conclusion name:</label>
-      <input class="col-sm-6 form-control" type="text" id="conclusionName" formControlName="conclusionName"/>
+    <div *ngIf="this.pattern" [formGroup]="newStepForm.controls['outputType']" class="form-group">
+      <label class="col-sm-2 form-control-label text-nowrap">Output Type: </label>
+      <label class="col-sm-2 form-control-label text-nowrap">{{this.pattern.outputType.type}}</label>
+      <hr/>
+      <div *ngFor="let field of dynamicOuputFields">
+        <div class="row" [ngSwitch]="field.domElement">
+          <label class="col-sm-2 form-control-label text-nowrap" [for]="field.fieldName">{{field.fieldName}}</label>
+          <input *ngSwitchCase="domElement.INPUT" type="text" class="form-control col-sm-4" [id]="field.fieldName" [formControlName]="field.fieldName"/>
+        </div>
+      </div>
     </div>
   </form>
 </div>

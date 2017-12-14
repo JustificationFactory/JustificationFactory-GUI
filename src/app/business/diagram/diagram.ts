@@ -108,7 +108,7 @@ export class Conclusion extends DiagramElement {
   artifacts: Array<Artifact>;
 
   constructor(json: any) {
-    super(json.name, json, json.element['@type']);
+    super(json.name, json, json.element ? json.element['@type'] : '');
     this.visualShape = new joint.shapes.basic.Path({
       id: Util.getNewGuid(),
       size: {width: Util.getElementWidthFromTextLength(this.name), height: Util.getElementHeightFromTextLength(this.name)},

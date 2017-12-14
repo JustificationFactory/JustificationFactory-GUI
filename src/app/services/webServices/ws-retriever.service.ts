@@ -41,4 +41,12 @@ export class WsRetrieverService extends WsConnectorService {
     return this.get<any>(type + '/types');
   }
 
+  /**
+   * Retrieve the JSON schema for a specified class
+   * @param {string} className a fully classified classname for which to retrieve its JSON schema
+   */
+  getTypeContent(className: string) {
+    return this.get<any>('type?type=' + className);
+  }
+
 }

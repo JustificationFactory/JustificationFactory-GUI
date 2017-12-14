@@ -68,10 +68,10 @@ export class OutputType implements IOutputType {
 
 export class StepToCreate {
   supports: SupportObject[];
-  conclusion: FormConclusion;
+  conclusion: Object;
 
 
-  constructor(supports: SupportObject[], conclusion: FormConclusion) {
+  constructor(supports: SupportObject[], conclusion: Object) {
     this.supports = supports;
     this.conclusion = conclusion;
   }
@@ -79,10 +79,10 @@ export class StepToCreate {
 
 export class SupportObject {
   role: string;
-  support: DocumentEvidence;
+  support: Object;
 
 
-  constructor(role: string, support: DocumentEvidence) {
+  constructor(role: string, support: Object) {
     this.role = role;
     this.support = support;
   }
