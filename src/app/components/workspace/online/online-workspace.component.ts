@@ -12,6 +12,7 @@ import {
 } from '../../../business/ArgSystem';
 import {NewPatternFormComponent} from '../forms/new-pattern-form/new-pattern-form.component';
 import {NewStepFormComponent} from '../forms/new-step-form/new-step-form.component';
+import {IArgSystem, IPattern} from '../../../business/IArgSystem';
 
 @Component({
   selector: 'app-online-workspace',

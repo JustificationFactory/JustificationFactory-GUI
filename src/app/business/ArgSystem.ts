@@ -1,11 +1,13 @@
-class ArgSystem implements IArgSystem {
+import {IArgSystem, IInputType, IOutputType, IPattern, IPatternsBase, IStep, IStrategy} from './IArgSystem';
+
+export class ArgSystem implements IArgSystem {
   steps;
   patternsBase;
   objective;
   baseEvidences;
 }
 
-class Step implements IStep {
+export class Step implements IStep {
   id;
   patternId;
   evidenceRoles: Object[];
@@ -27,7 +29,7 @@ export class Strategy implements IStrategy {
   }
 }
 
-class PatternsBase implements IPatternsBase {
+export class PatternsBase implements IPatternsBase {
   patterns: IPattern[];
 }
 

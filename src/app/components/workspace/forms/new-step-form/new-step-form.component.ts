@@ -7,6 +7,7 @@ import {WsRetrieverService} from '../../../../services/webServices/ws-retriever.
 import {ConnectorComponent} from '../../../connector/connector.component';
 import {InputFormInput} from '../../../../business/form/InputFormInput';
 import {AbstractFormInput, DomElement} from '../../../../business/form/AbstractFormInput';
+import {IPattern} from '../../../../business/IArgSystem';
 
 @Component({
   selector: 'app-new-step-form',

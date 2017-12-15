@@ -1,11 +1,11 @@
-interface IArgSystem {
+export interface IArgSystem {
   steps: IStep[];
   patternsBase: IPatternsBase;
   objective: Object;
   baseEvidences: Object[];
 }
 
-interface IStep {
+export interface IStep {
   id: string;
   patternId: string;
   evidenceRoles: Object[];
@@ -14,11 +14,11 @@ interface IStep {
 }
 
 // TODO: to verify
-interface IConclusion {
+export interface IConclusion {
   toz: any;
 }
 
-interface IStrategy {
+export interface IStrategy {
   // TODO: type instead of @type, keep in mind
   '@type': string;
   name: string;
@@ -26,11 +26,11 @@ interface IStrategy {
   usageDomain: Object;
 }
 
-interface IPatternsBase {
+export interface IPatternsBase {
   patterns: IPattern[];
 }
 
-interface IPattern {
+export interface IPattern {
   id: string;
   name: string;
   strategy: IStrategy;
@@ -38,11 +38,11 @@ interface IPattern {
   outputType: IOutputType;
 }
 
-interface IInputType {
+export interface IInputType {
   type: string;
   name: string;
 }
 
-interface IOutputType {
+export interface IOutputType {
   type: string;
 }

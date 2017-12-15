@@ -1,14 +1,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {DiagramComponent} from "./diagram.component";
-import {PropertiesComponent} from "../properties/properties.component";
-import {ActionsToolbarComponent} from "../toolbars/actions/actions.toolbar.component";
-import {EditToolbarComponent} from "../toolbars/edit/edit.toolbar.component";
-import {PaletteComponent} from "../palette/palette.component";
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
-import {Actor, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy} from "../../business/diagram/diagram";
+import {DiagramComponent} from './diagram.component';
+import {PropertiesComponent} from '../properties/properties.component';
+import {PaletteComponent} from '../palette/palette.component';
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
+import {Actor, Conclusion, DiagramElement, Evidence, Rationale, Step, Strategy} from '../../business/diagram/diagram';
 
-describe("diagram.component.", () => {
+describe('diagram.component.', () => {
 
     let comp:    DiagramComponent;
     let fixture: ComponentFixture<DiagramComponent>;
@@ -19,42 +17,31 @@ describe("diagram.component.", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ DiagramComponent, PropertiesComponent, ActionsToolbarComponent, EditToolbarComponent, PaletteComponent ], // declare the test component
+            declarations: [ DiagramComponent, PropertiesComponent, PaletteComponent ], // declare the test component
         });
 
         // Overrides here, if you need them
         TestBed.overrideComponent(DiagramComponent, {
             set: {
-                templateUrl: 'diagram/diagram.component.html',
+                templateUrl: './diagram.component.html',
                 providers: [
-                    ActionsToolbarComponent,
                     PropertiesComponent
                 ]
             }
-        })
+        });
         TestBed.overrideComponent(PropertiesComponent, {
             set: {
-                templateUrl: 'properties/properties.component.html'
-            }
-        });
-        TestBed.overrideComponent(ActionsToolbarComponent, {
-            set: {
-                templateUrl: 'toolbars/actions/actions.toolbar.component.html'
-            }
-        });
-        TestBed.overrideComponent(EditToolbarComponent, {
-            set: {
-                templateUrl: 'toolbars/edit/edit.toolbar.component.html'
+                templateUrl: '../properties/properties.component.html'
             }
         });
         TestBed.overrideComponent(PaletteComponent, {
             set: {
-                templateUrl: 'palette/palette.component.html'
+                templateUrl: '../palette/palette.component.html'
             }
         });
 
         TestBed.compileComponents().then(() => {
-            //compilation succeed (async needed)
+            // compilation succeed (async needed)
         }).catch(function(e) {
             console.log(e); // "zut !"
         });
@@ -64,36 +51,42 @@ describe("diagram.component.", () => {
         let step;
         let conclusion, strategy, evidence, rationale, actor;
 
-        //TODO: Links & Supports are not created currently
+        // TODO: Links & Supports are not created currently
 
 
         step = new Step(undefined);
 
-        conclusion = new Conclusion("Experimentation", {}, "experimentation");
+        conclusion = new Conclusion({
+          name: 'Experimentation',
+          type: 'experimentation'
+        });
         elements.push(conclusion);
         step.items.push(conclusion);
 
-        strategy = new Strategy("Treat", {}, "humanStrategy");
+        strategy = new Strategy({
+          name: 'Treat',
+          type: 'humanStrategy'
+        });
         elements.push(strategy);
         step.items.push(strategy);
 
-        rationale = new Rationale("", {
-            "axonicProject": {
-                "pathology": "OBESITY",
-                "stimulator": "AXIS"
+        rationale = new Rationale('', {
+            'axonicProject': {
+                'pathology': 'OBESITY',
+                'stimulator': 'AXIS'
             }
-        }, "");
+        }, '');
         strategy.artifacts.push(rationale);
         elements.push(rationale);
 
-        evidence = new Evidence("Stimulation 0", {}, "stimulation");
+        evidence = new Evidence('Stimulation 0', {}, 'stimulation');
         elements.push(evidence);
         step.items.push(evidence);
-        evidence = new Evidence("Subject 0", {}, "subject");
+        evidence = new Evidence('Subject 0', {}, 'subject');
         elements.push(evidence);
         step.items.push(evidence);
 
-        actor = new Actor("Chloé", {}, "INTERMEDIATE_EXPERT");
+        actor = new Actor('Chloé', {}, 'INTERMEDIATE_EXPERT');
         strategy.artifacts.push(actor);
         elements.push(actor);
 
@@ -101,56 +94,62 @@ describe("diagram.component.", () => {
 
         step = new Step(undefined);
 
-        conclusion = new Conclusion("Establish Effect", {}, "establishedEffect");
+        conclusion = new Conclusion({
+          name: 'Establish Effect',
+          type: 'establishedEffect'
+        });
         elements.push(conclusion);
         step.items.push(conclusion);
 
-        strategy = new Strategy("Establish Effect", {}, "humanStrategy");
+        strategy = new Strategy({
+          name: 'Establish Effect',
+          type: 'humanStrategy'
+        });
         elements.push(strategy);
         step.items.push(strategy);
 
-        rationale = new Rationale("", {
-            "axonicProject": {
-                "pathology": "OBESITY",
-                "stimulator": "AXIS"
+        rationale = new Rationale('', {
+            'axonicProject': {
+                'pathology': 'OBESITY',
+                'stimulator': 'AXIS'
             }
-        }, "");
+        }, '');
         strategy.artifacts.push(rationale);
         elements.push(rationale);
 
-        evidence = new Evidence("Experimentation", {}, "experimentation");
+        evidence = new Evidence('Experimentation', {}, 'experimentation');
         elements.push(evidence);
         step.items.push(evidence);
 
-        actor = new Actor("Chloé", {}, "INTERMEDIATE_EXPERT");
+        actor = new Actor('Chloé', {}, 'INTERMEDIATE_EXPERT');
         strategy.artifacts.push(actor);
         elements.push(actor);
         businessSteps.push(step);
 
         /****************************ACTOR: Computer *************************/
         step = new Step(undefined);
-        conclusion = new Conclusion("ExperimentationComputed", {}, "experimentationComputed");
+        conclusion = new Conclusion({name: 'ExperimentationComputed', type: 'experimentationComputed'});
         elements.push(conclusion);
         step.items.push(conclusion);
-        strategy= new Strategy("TreatComputed", {}, "computedStrategy");
+        strategy = new Strategy({name: 'TreatComputed', type: 'computedStrategy'});
         elements.push(strategy);
         step.items.push(strategy);
-        rationale = new Rationale("", {
-            "axonicProject": {
-                "pathology": "OBESITY",
-                "stimulator": "AXIS"
+        rationale = new Rationale('', {
+            'axonicProject': {
+                'pathology': 'OBESITY',
+                'stimulator': 'AXIS'
             }
-        }, "");
+        }, '');
 
         strategy.artifacts.push(rationale);
         elements.push(rationale);
-        evidence = new Evidence("StimulationComputed", {}, "stimulationComputed");
+        evidence = new Evidence('StimulationComputed', {}, 'stimulationComputed');
         elements.push(evidence);
         step.items.push(evidence);
-        evidence = new Evidence("SubjectComputed 0", {}, "subjectComputed");
+        evidence = new Evidence('SubjectComputed 0', {}, 'subjectComputed');
         elements.push(evidence);
         step.items.push(evidence);
-        actor = new Actor("", {}, "computedStrategy");
+        actor = new Actor('', {}, 'computedStrategy');
         strategy.artifacts.push(actor);
         elements.push(actor);
         businessSteps.push(step);
@@ -162,7 +161,7 @@ describe("diagram.component.", () => {
     }));
 
 
-    describe("Initial values.", () => {
+    describe('Initial values.', () => {
 
         it('Graph Scale = 1', () => {
             fixture = TestBed.createComponent(DiagramComponent);
@@ -182,7 +181,7 @@ describe("diagram.component.", () => {
 
     });
 
-    describe("Loading diagram.", () => {
+    describe('Loading diagram.', () => {
 
         it('myholder tag filled', () => {
             fixture = TestBed.createComponent(DiagramComponent);
@@ -197,7 +196,7 @@ describe("diagram.component.", () => {
 
             fixture.detectChanges();
 
-            expect(el.innerHTML.slice(0, 4)).toEqual("<svg");
+            expect(el.innerHTML.slice(0, 4)).toEqual('<svg');
         });
 
         it('Number of elements in the diagram', () => {
@@ -228,7 +227,7 @@ describe("diagram.component.", () => {
 
     });
 
-    describe("Diagram manipulations.", () => {
+    describe('Diagram manipulations.', () => {
 
         it('Select a visual element to change business selected element', () => {
             fixture = TestBed.createComponent(DiagramComponent);
@@ -240,18 +239,18 @@ describe("diagram.component.", () => {
 
             fixture.detectChanges();
 
-            let cell0 = comp.getCellsGraph()[0];
-            let name0 = ((cell0 as any).parent as DiagramElement).name;
-            let cellView0 = comp.getCellViewFromCell(cell0);
+            const cell0 = comp.getCellsGraph()[0];
+            const name0 = ((cell0 as any).parent as DiagramElement).name;
+            const cellView0 = comp.getCellViewFromCell(cell0);
 
-            var e = new jQuery.Event("click", {clientX:10, clientY:10}); // clientX & clientY needed for Firefox browser
-            //e.clientX = 10;
-            //e.clientY = 10;
+            const e = new jQuery.Event('click', {clientX: 10, clientY: 10}); // clientX & clientY needed for Firefox browser
+            // e.clientX = 10;
+            // e.clientY = 10;
             cellView0.$el.trigger(e);
 
             fixture.detectChanges();
 
-            expect(comp.selectedElement.name).not.toEqual("");
+            expect(comp.selectedElement.name).not.toEqual('');
 
             expect(comp.selectedElement.name).toEqual(name0);
         });
@@ -268,21 +267,21 @@ describe("diagram.component.", () => {
 
             expect(fixture.nativeElement.querySelector('properties-view') === null).toBe(true);
 
-            let cell0 = comp.getCellsGraph()[0];
-            let name0 = ((cell0 as any).parent as DiagramElement).name;
-            let cellView0 = comp.getCellViewFromCell(cell0);
+            const cell0 = comp.getCellsGraph()[0];
+            const name0 = ((cell0 as any).parent as DiagramElement).name;
+            const cellView0 = comp.getCellViewFromCell(cell0);
 
-            var e = new jQuery.Event("click", {clientX:10, clientY:10}); // clientX & clientY needed for Firefox browser
-            //e.clientX = 10;
-            //e.clientY = 10;
+            let e = new jQuery.Event('click', {clientX: 10, clientY: 10}); // clientX & clientY needed for Firefox browser
+            // e.clientX = 10;
+            // e.clientY = 10;
             cellView0.$el.trigger(e);
 
             fixture.detectChanges();
             expect(fixture.nativeElement.querySelector('properties-view') === null).toBe(false);
 
-            var e = new jQuery.Event("click", {clientX:10, clientY:10}); // clientX & clientY needed for Firefox browser
-            //e.clientX = 10;
-            //e.clientY = 10;
+            e = new jQuery.Event('click', {clientX: 10, clientY: 10}); // clientX & clientY needed for Firefox browser
+            // e.clientX = 10;
+            // e.clientY = 10;
             comp.getPaper().$el.trigger(e);
 
             fixture.detectChanges();
@@ -307,7 +306,7 @@ describe("diagram.component.", () => {
             comp.zoomIn();
             fixture.detectChanges();
 
-            expect(comp.getGraphScale().toString().slice(0, 3)).toEqual("1.2");
+            expect(comp.getGraphScale().toString().slice(0, 3)).toEqual('1.2');
 
             expect(el.innerHTML.indexOf('class="joint-viewport" transform="scale(1.2')).not.toEqual(-1);
 
@@ -327,11 +326,11 @@ describe("diagram.component.", () => {
 
             comp.showDiagram(elements, businessSteps);
 
-            fixture.detectChanges()
+            fixture.detectChanges();
 
-            let g = comp.getGraph();
-            let new_element_name = "testadd";
-            let ev = new Evidence(new_element_name, {}, "type1");
+            const g = comp.getGraph();
+            const new_element_name = 'testadd';
+            const ev = new Evidence(new_element_name, {}, 'type1');
 
             g.addCell(ev.visualShape);
 
@@ -356,7 +355,7 @@ describe("diagram.component.", () => {
 
     });
 
-    //TODO: For one day...! Currently we don't arrive to access sub components!
+    // TODO: For one day...! Currently we don't arrive to access sub components!
     // spyOn(comp.propertiesComponent, 'ngOnChanges').and.callThrough();
     // fixture.detectChanges();
     // expect(comp.propertiesComponent.ngOnChanges).toHaveBeenCalled();

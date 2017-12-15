@@ -5,6 +5,7 @@ import {InputType, OutputType, Pattern, Strategy} from '../../../../business/Arg
 import {WsSenderService} from '../../../../services/webServices/ws-sender.service';
 import {ConnectorComponent} from '../../../connector/connector.component';
 import {WsRetrieverService} from '../../../../services/webServices/ws-retriever.service';
+import {IInputType, IOutputType, IPattern, IStrategy} from '../../../../business/IArgSystem';
 
 @Component({
   selector: 'app-new-pattern-form',

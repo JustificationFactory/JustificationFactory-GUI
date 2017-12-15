@@ -1,7 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {DiagramComponent} from '../diagram/diagram.component';
 import {PropertiesComponent} from '../properties/properties.component';
-import {EditToolbarComponent} from '../toolbars/edit/edit.toolbar.component';
 import {PaletteComponent} from './palette.component';
 
 describe('palette.component', () => {
@@ -11,7 +10,7 @@ describe('palette.component', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ PaletteComponent, DiagramComponent, PropertiesComponent, EditToolbarComponent ], // declare the test component
+            declarations: [ PaletteComponent, DiagramComponent, PropertiesComponent], // declare the test component
             providers: [
                 DiagramComponent,
                 PropertiesComponent
@@ -21,22 +20,17 @@ describe('palette.component', () => {
         // Overrides here, if you need them
         TestBed.overrideComponent(PaletteComponent, {
             set: {
-                templateUrl: 'palette/palette.component.html'
+                templateUrl: './palette.component.html'
             }
         });
         TestBed.overrideComponent(DiagramComponent, {
             set: {
-                templateUrl: 'diagram/diagram.component.html'
+                templateUrl: '../diagram/diagram.component.html'
             }
         });
         TestBed.overrideComponent(PropertiesComponent, {
             set: {
-                templateUrl: 'properties/properties.component.html'
-            }
-        });
-        TestBed.overrideComponent(EditToolbarComponent, {
-            set: {
-                templateUrl: 'toolbars/edit/edit.toolbar.component.html'
+                templateUrl: '../properties/properties.component.html'
             }
         });
         TestBed.compileComponents().then(() => {

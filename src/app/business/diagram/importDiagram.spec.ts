@@ -1,4 +1,4 @@
-import {Artifact, Conclusion, DiagramElement, Evidence, LinkElement, Strategy, Support} from './';
+import {Artifact, Conclusion, DiagramElement, Evidence, LinkElement, Strategy, Support} from './diagram';
 import {dia} from 'jointjs';
 import {ParseDiagramElementsResult, ParseJson2DiagramElements} from './importDiagram';
 import Cell = dia.Cell;

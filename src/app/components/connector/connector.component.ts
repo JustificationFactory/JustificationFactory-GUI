@@ -10,6 +10,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {Observable} from 'rxjs/Observable';
 import {NgModel} from '@angular/forms';
+import {IArgSystem, IPattern} from '../../business/IArgSystem';
 
 @Component({
   selector: 'app-connector',

@@ -16,6 +16,7 @@ import {
 import * as joint from 'jointjs';
 import Graph = joint.dia.Graph;
 import Cell = joint.dia.Cell;
+import {IArgSystem} from '../../business/IArgSystem';
 
 @Component({
   selector: 'diagram-view',
