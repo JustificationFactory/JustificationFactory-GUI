@@ -1,8 +1,8 @@
 import * as joint from 'jointjs';
 import {dia, shapes} from 'jointjs';
-import {Util} from '../diagram/diagram';
 import {Colors, Shapes} from './viewAssets';
 import {Step} from '../ArgSystem';
+import {Util} from '../diagram/diagram';
 import Cell = dia.Cell;
 import Path = shapes.basic.Path;
 import Link = dia.Link;
@@ -111,8 +111,6 @@ export class ViewStep {
   }
 
   private build(step: Step) {
-    console.log('Building ViewStep from Step');
-    console.log(step);
     // TODO: insert test to make sure the field is actually here
     this.viewConclusion = new ViewConclusion(step.conclusion);
     this.viewConclusion.build();
@@ -181,7 +179,7 @@ export class ViewConclusion extends ViewElement {
         text: {text: this.name, 'ref-y': .3, fill: '#000000'}
       }
     });
-
+    console.log('Conclusion id: ' + this.id);
   }
 
 }
@@ -201,6 +199,7 @@ export class ViewStrategy extends ViewElement {
         text: {text: this.name, 'ref-y': .3, fill: '#FFFFFF'}
       }
     });
+    console.log('Strategy id: ' + this.id);
   }
 
 }
@@ -220,6 +219,7 @@ export class ViewSupport extends ViewElement {
         text: {text: this.name, 'ref-y': .3, fill: '#ffffff'}
       }
     });
+    console.log('Support id: ' + this.id);
   }
 
 }
@@ -244,6 +244,7 @@ export class ViewEvidence extends ViewElement {
         text: {text: this.name, 'ref-y': .3, fill: '#000000'}
       }
     });
+    console.log('Evidence id: ' + this.id);
   }
 
 }

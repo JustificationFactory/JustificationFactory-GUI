@@ -1,4 +1,4 @@
-import {AfterContentInit, Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {
   Actor,
   Artifact,
@@ -17,7 +17,6 @@ import * as joint from 'jointjs';
 import {dia} from 'jointjs';
 import {IArgSystem} from '../../business/IArgSystem';
 import {ViewStep} from '../../business/myDiagram/myDiagram';
-import Graph = joint.dia.Graph;
 import Cell = dia.Cell;
 import Link = dia.Link;
 
@@ -25,7 +24,7 @@ import Link = dia.Link;
   selector: 'diagram-view',
   templateUrl: './diagram.component.html',
 })
-export class DiagramComponent implements AfterContentInit {
+export class DiagramComponent {
 
   private _graph: joint.dia.Graph;
   private _paper: joint.dia.Paper;
@@ -47,10 +46,10 @@ export class DiagramComponent implements AfterContentInit {
     this.viewSteps = [];
   }
 
-  ngAfterContentInit() {
+  /*ngAfterContentInit() {
     // Component content has been initialized
     this.undo_redo_graphState(false, 0);
-  }
+  }*/
 
   public undoDiagram() {
     this.undo_redo_graphState(true, undefined);
@@ -196,7 +195,7 @@ export class DiagramComponent implements AfterContentInit {
 
   private initializeGraph() {
     if (!this._graph) {
-      this._graph = new Graph;
+      this._graph = new joint.dia.Graph;
     }
 
     if (!this._paper) {
@@ -240,18 +239,61 @@ export class DiagramComponent implements AfterContentInit {
     const links: Link[] = [];
 
     for(const step of viewSteps) {
+      let id1: string;
+      let id2 = 'toz';
+
       for (const cell of step.getCells()) {
+        id1 = cell.id;
         cells.push(cell);
+        links.push(new joint.dia.Link({
+          source: {id: id1},
+          target: {id: id2},
+          attrs: {
+            '.connection': {
+              'fill': 'none',
+              'stroke-linejoin': 'round',
+              'stroke-width': '2',
+              'stroke': '#4b4a67',
+              'stroke-dasharray': '1.5'
+            },
+            '.marker-target': {fill: 'none'},
+            '.link-tools': {visibility: 'collapse'},
+            '.marker-arrowheads': {visibility: 'collapse'},
+            '.marker-vertices': {visibility: 'collapse'},
+            '.labels': {visibility: 'collapse'},
+            '.connection-wrap': {visibility: 'collapse'}
+          }
+        }));
+        id2 = cell.id;
       }
-      for(const link of step.getLinks()) {
-        links.push(link);
-      }
+      // for(const link of step.getLinks()) {
+      //   links.push(new joint.dia.Link({
+      //     source: {id: '02e1efec-c0e6-4a67-9f5b-36e139478d47'},
+      //     target: {id: '45abdf30-659a-492b-a240-3368914e0dec'},
+      //     attrs: {
+      //       '.connection': {
+      //         'fill': 'none',
+      //         'stroke-linejoin': 'round',
+      //         'stroke-width': '2',
+      //         'stroke': '#4b4a67',
+      //         'stroke-dasharray': '1.5'
+      //       },
+      //       '.marker-target': {fill: 'none'},
+      //       '.link-tools': {visibility: 'collapse'},
+      //       '.marker-arrowheads': {visibility: 'collapse'},
+      //       '.marker-vertices': {visibility: 'collapse'},
+      //       '.labels': {visibility: 'collapse'},
+      //       '.connection-wrap': {visibility: 'collapse'}
+      //     }
+      //   }));
+      // }
     }
 
     for (const cell of cells) {
-      console.log(cell);
+      console.log(cell.id);
       this._graph.addCell(cell);
     }
+
 
     for (const link of links) {
       try {
@@ -262,8 +304,9 @@ export class DiagramComponent implements AfterContentInit {
       }
     }
 
+    console.log(this._graph);
+    //    rankDir: 'BT',
     joint.layout.DirectedGraph.layout(this._graph, {
-      rankDir: 'BT',
       rankSep: 50,
       edgeSep: 50,
       nodeSep: 50,
@@ -340,7 +383,7 @@ export class DiagramComponent implements AfterContentInit {
     if ((sessionStorage.getItem(this.stateSessionName) != null) && (sessionStorage.getItem(this.stateSessionName) != ''))
       states = JSON.parse(sessionStorage.getItem(this.stateSessionName));
 
-    sessionStorage.setItem(this.stateSessionName, JSON.stringify(Util.stateToJSON(this.businessSteps, this._graph.toJSON(), states)));
+    //sessionStorage.setItem(this.stateSessionName, JSON.stringify(Util.stateToJSON(this.businessSteps, this._graph.toJSON(), states)));
   }
 
   onSelectedElementChange(element: DiagramElement) {

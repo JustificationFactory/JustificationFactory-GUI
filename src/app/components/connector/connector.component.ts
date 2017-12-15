@@ -16,12 +16,13 @@ import {IArgSystem, IPattern} from '../../business/IArgSystem';
 })
 export class ConnectorComponent implements OnInit {
 
-  @Output() onArgSystemChange = new EventEmitter<IArgSystem>();
+  @Output() onArgSystemChange = new EventEmitter<ArgSystem>();
 
   /* System Logic */
   public argSystemIdList: string[];
   public currentArgSystemId: string;
-  public currentArgSystem: IArgSystem;
+  // TODO: rebasculer sous les interfaces
+  public currentArgSystem: ArgSystem;
 
   /* Patterns logic */
   public patternsIdList: string[];
@@ -57,10 +58,11 @@ export class ConnectorComponent implements OnInit {
     console.log('Retrieving ArgSystem by id: ' + id);
     this.retrieverService.getArgumentationSystemByCurrentId(id)
       .subscribe(result => {
-          this.currentArgSystem = new ArgSystem(result);
+          const argSystem = new ArgSystem(result);
           console.log('ArgSystem:');
-          console.log(this.currentArgSystem);
-          this.onArgSystemChange.emit(result);
+          console.log(argSystem);
+          this.currentArgSystem = argSystem;
+          this.onArgSystemChange.emit(argSystem);
         },
         error => {
           console.log(error);
