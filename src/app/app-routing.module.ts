@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {OnlineWorkspaceComponent} from './components/workspace/online/online-workspace.component';
 
 const routes: Routes = [
-  {path: 'online', component: OnlineWorkspaceComponent}
+  {path: '', component: OnlineWorkspaceComponent}
 ];
 
 @NgModule({

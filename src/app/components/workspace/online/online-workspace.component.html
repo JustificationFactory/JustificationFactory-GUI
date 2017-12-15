@@ -1,6 +1,3 @@
-<p>
-  online-workspace works!
-</p>
 <app-workspace-toolbar (onNewDiagram)="onNewDiagram()" (onUploadAs)="openModal(uploadAsModal)" (onNewPattern)="openPatternModal()" (onNewStep)="openNewStepModal()" [diagramLoaded]="diagramLoaded"></app-workspace-toolbar>
 <app-connector (onArgSystemChange)="onArgSystemChange($event)"></app-connector>
 <diagram-view *ngIf="diagramLoaded" ><img src="assets/images/spinner.gif" /></diagram-view>
