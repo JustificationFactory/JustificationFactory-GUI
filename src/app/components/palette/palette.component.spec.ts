@@ -1,21 +1,19 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {DiagramComponent} from "../diagram/diagram.component";
-import {PropertiesComponent} from "../properties/properties.component";
-import {ActionsToolbarComponent} from "../toolbars/actions/actions.toolbar.component";
-import {EditToolbarComponent} from "../toolbars/edit/edit.toolbar.component";
-import {PaletteComponent} from "./palette.component";
+import {DiagramComponent} from '../diagram/diagram.component';
+import {PropertiesComponent} from '../properties/properties.component';
+import {EditToolbarComponent} from '../toolbars/edit/edit.toolbar.component';
+import {PaletteComponent} from './palette.component';
 
-describe("palette.component", () => {
+describe('palette.component', () => {
 
     let comp:    PaletteComponent;
     let fixture: ComponentFixture<PaletteComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ PaletteComponent, DiagramComponent, PropertiesComponent, ActionsToolbarComponent, EditToolbarComponent ], // declare the test component
+            declarations: [ PaletteComponent, DiagramComponent, PropertiesComponent, EditToolbarComponent ], // declare the test component
             providers: [
                 DiagramComponent,
-                ActionsToolbarComponent,
                 PropertiesComponent
             ]
         });
@@ -36,18 +34,13 @@ describe("palette.component", () => {
                 templateUrl: 'properties/properties.component.html'
             }
         });
-        TestBed.overrideComponent(ActionsToolbarComponent, {
-            set: {
-                templateUrl: 'toolbars/actions/actions.toolbar.component.html'
-            }
-        });
         TestBed.overrideComponent(EditToolbarComponent, {
             set: {
                 templateUrl: 'toolbars/edit/edit.toolbar.component.html'
             }
         });
         TestBed.compileComponents().then(() => {
-            //compilation succeed (async needed)
+            // compilation succeed (async needed)
         }).catch(function(e) {
             console.log(e); // "zut !"
         });
@@ -55,13 +48,13 @@ describe("palette.component", () => {
     }));
 
 
-    describe("save color", () => {
+    describe('save color', () => {
 
         it('save clicked', () => {
             fixture = TestBed.createComponent(PaletteComponent);
             fixture.detectChanges();
 
-            var compiled = fixture.debugElement.nativeElement;
+            let compiled = fixture.debugElement.nativeElement;
             comp = fixture.componentInstance;
             comp.openDialogBox();
             fixture.detectChanges();
@@ -75,13 +68,13 @@ describe("palette.component", () => {
 
     });
 
-    describe("close palette", () => {
+    describe('close palette', () => {
 
         it('close clicked', () => {
             fixture = TestBed.createComponent(PaletteComponent);
             fixture.detectChanges();
 
-            var compiled = fixture.debugElement.nativeElement;
+            let compiled = fixture.debugElement.nativeElement;
             comp = fixture.componentInstance;
             comp.openDialogBox();
             comp.showDialog = true;

@@ -31,8 +31,7 @@
         "../node_modules/backbone/backbone.js",
         "../node_modules/jointjs/dist/joint.js",
         "../node_modules/popper.js/dist/umd/popper.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.js",
-        "../js/pdfkit.js"
+        "../node_modules/bootstrap/dist/js/bootstrap.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
