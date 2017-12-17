@@ -79,3 +79,7 @@ body {
   text-align: center;
   color: #999;
 }
+
+.verticalLine {
+  border-left: solid 1px #000000;
+}

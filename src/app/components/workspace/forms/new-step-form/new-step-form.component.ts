@@ -5,9 +5,11 @@ import {DocumentEvidence, FormConclusion, StepToCreate, SupportObject} from '../
 import {WsSenderService} from '../../../../services/webServices/ws-sender.service';
 import {WsRetrieverService} from '../../../../services/webServices/ws-retriever.service';
 import {ConnectorComponent} from '../../../connector/connector.component';
-import {InputFormInput} from '../../../../business/form/InputFormInput';
-import {AbstractFormInput, DomElement} from '../../../../business/form/AbstractFormInput';
+import {InputFormInput} from '../../../../business/form/inputs/InputFormInput';
+import {AbstractFormInput, DomElement} from '../../../../business/form/inputs/AbstractFormInput';
 import {IPattern} from '../../../../business/IArgSystem';
+import {TypeMapping} from '../../../../business/form/types/TypeMapping';
+import {AbstractTypeInput} from '../../../../business/form/types/InputTypes';
 
 @Component({
   selector: 'app-new-step-form',
@@ -16,7 +18,7 @@ import {IPattern} from '../../../../business/IArgSystem';
 })
 export class NewStepFormComponent implements OnInit {
 
-  domElement = DomElement; // Must be done otherwise enum is not available inside the tempalte
+  domElement = DomElement; // Must be done otherwise enum is not available inside the template
 
   public newStepForm: FormGroup;
 
@@ -25,6 +27,8 @@ export class NewStepFormComponent implements OnInit {
 
   private dynamicOuputFields: AbstractFormInput[] = [];
   private dynamicInputFields: AbstractFormInput[][] = [];
+
+  private typeMapping: TypeMapping = new TypeMapping();
 
   @Input() argSystemId: string;
   @Input() connectorComponentOfParent: ConnectorComponent;
@@ -44,34 +48,35 @@ export class NewStepFormComponent implements OnInit {
 
     this.newStepForm.controls['patternId'].valueChanges.subscribe(value => {
       this.retrieverService.getPatternByPatternId(this.argSystemId, value).subscribe(result => {
-        this.pattern = result;
-        console.log('Pattern selectioned:');
-        console.log(this.pattern);
-        const arrayControl = <FormArray>this.newStepForm.controls['inputTypes'];
-        for(let inputTypeIndex = 0; inputTypeIndex < this.pattern.inputTypes.length; inputTypeIndex++) {
-          const inputType = this.pattern.inputTypes[inputTypeIndex];
-          this.retrieverService.getTypeContent(inputType.type).subscribe(jsonchema => {
-            const inputTypes: FormGroup = new FormGroup({});
-            inputTypes.addControl('@type', new FormControl(inputType.type));
-            const inputFormInputs: AbstractFormInput[] = this.getControlsFromJsonSchema(jsonchema);
-            this.dynamicInputFields[inputTypeIndex] = [];
-            for(const formInput of inputFormInputs) {
-              inputTypes.addControl(formInput.fieldName, new FormControl());
-              this.dynamicInputFields[inputTypeIndex].push(formInput);
-            }
-            arrayControl.push(inputTypes);
-          });
-        }
-        this.retrieverService.getTypeContent(this.pattern.outputType.type).subscribe(jsonschema => {
-          const outputType: FormGroup = <FormGroup>this.newStepForm.controls['outputType'];
-          outputType.addControl('@type', new FormControl(this.pattern.outputType.type));
-          const outputFormInputs: AbstractFormInput[] = this.getControlsFromJsonSchema(jsonschema);
-          for(const formInput of outputFormInputs) {
-            console.log('Added control: outputType -> ' + formInput.fieldName);
-            outputType.addControl(formInput.fieldName, new FormControl());
-            this.dynamicOuputFields.push(formInput);
+        this.pattern = null;
+        const pattern: IPattern = <IPattern>result;
+
+        // Inputs
+        this.newStepForm.controls['inputTypes'] = new FormArray([]);
+        this.dynamicInputFields = [];
+        for(let inputTypeIndex = 0; inputTypeIndex<pattern.inputTypes.length; inputTypeIndex++) {
+          const inputTypeFormGroup: FormGroup = new FormGroup({});
+          inputTypeFormGroup.addControl('@type', new FormControl(pattern.inputTypes[inputTypeIndex].type));
+          const abstractInputs: AbstractTypeInput = this.typeMapping.getAbstractTypeInputFromClassName(pattern.inputTypes[inputTypeIndex].type);
+          for(const formField of abstractInputs.formFields) {
+            inputTypeFormGroup.addControl(formField.fieldName, new FormControl());
           }
-        });
+          (<FormArray>this.newStepForm.controls['inputTypes']).push(inputTypeFormGroup);
+          this.dynamicInputFields[inputTypeIndex] = abstractInputs.formFields;
+        }
+
+        // Output
+        this.newStepForm.controls['outputType'] = new FormGroup({});
+        this.dynamicOuputFields = [];
+        const outputType: FormGroup = <FormGroup>this.newStepForm.controls['outputType'];
+        outputType.addControl('@type', new FormControl(pattern.outputType.type));
+        const abstractOutput: AbstractTypeInput = this.typeMapping.getAbstractTypeInputFromClassName(pattern.outputType.type);
+        for(const formField of abstractOutput.formFields) {
+          outputType.addControl(formField.fieldName, new FormControl());
+        }
+        this.dynamicOuputFields = abstractOutput.formFields;
+
+        this.pattern = pattern;
       });
     });
   }
@@ -123,7 +128,7 @@ export class NewStepFormComponent implements OnInit {
       console.log('key:' + key);
       const field = jsonSchema['properties'][key];
       if(field.hasOwnProperty('type') && field['type'] === 'string') {
-        formInputs.push(new InputFormInput(key, field['type']));
+        formInputs.push(new InputFormInput(key));
       }
     }
     return formInputs;

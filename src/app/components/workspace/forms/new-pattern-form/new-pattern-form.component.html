@@ -29,43 +29,53 @@
       </div>
 
       <div class="form-group">
-        <label class="col-sm-2 form-control-label text-nowrap">Input Types</label>
+        <h6>Input Types</h6>
         <hr/>
         <div formArrayName="inputTypes">
           <div *ngFor="let control of newStepForm.controls['inputTypes'].controls; let i = index">
-            <div [formGroupName]="i" class="row">
-              <label class="col-sm-1 form-control-label text-nowrap" [for]="'inputType'+i">type</label>
-              <div class="col-sm-4">
-                <select class="form-control" [id]="'inputType'+i" formControlName="inputType">
-                  <option *ngFor="let evidenceType of availableEvidenceTypes"
-                    [value]="evidenceType">{{evidenceType}}
-                  </option>
-                </select>
+            <div [formGroupName]="i">
+              <div class="form-group row">
+                <label class="col-sm-1 form-control-label text-nowrap" [for]="'inputType'+i">type</label>
+                <div class="col-sm-4">
+                  <select class="form-control" [id]="'inputType'+i" formControlName="inputType">
+                    <option *ngFor="let evidenceType of availableEvidenceTypes"
+                      [ngValue]="evidenceType">{{evidenceType.shortName}}
+                    </option>
+                  </select>
+                </div>
+                <label class="col-sm-1 form-control-label text-nowrap" [for]="'inputTypeName'+i">name</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" [id]="'inputTypeName'+i" formControlName="inputTypeName"/>
+                </div>
+                <button class="btn btn-danger" (click)='removeInputType(i)'>-</button>
               </div>
-              <label class="col-sm-1 form-control-label text-nowrap" [for]="'inputTypeName'+i">name</label>
-              <div class="col-sm-4">
-                <input type="text" class="form-control" [id]="'inputTypeName'+i" formControlName="inputTypeName"/>
-              </div>
-              <button (click)='removeInputType(i)'>-</button>
             </div>
           </div>
         </div>
-        <div>
-          <button (click)="addInputType()">Add Input Type</button>
+        <div class="form-group row">
+          <div class="col-sm-1"></div>
+          <button class="btn btn-primary" (click)="addInputType()">Add Input Type</button>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label class="col-sm-2 form-control-label text-nowrap">Output Type</label>
+      <div class="form-group">
+        <h6>Output Type</h6>
         <hr/>
-        <div class="col-sm-5">
-          <select class="form-control" id="outputType" formControlName="outputType">
-            <option selected value="fr.axonic.avek.engine.support.instance.DocumentConclusion">DocumentConclusion</option>
-            <option value="fr.axonic.avek.engine.support.instance.FormConclusion">FormConclusion</option>
-          </select>
-        </div>
-        <div class="col-sm-5">
-          <input type="text" class="form-control" id="outputTypeName" formControlName="outputTypeName"/>
+      </div>
+      <div formGroupName="outputType">
+        <div class="form-group row">
+          <label class="col-sm-1 form-control-label text-nowrap" for='outputType'>type</label>
+          <div class="col-sm-4">
+            <select class="form-control" id="outputType" formControlName="outputType">
+              <option *ngFor="let conclusionType of availableConclusionTypes"
+                      [ngValue]="conclusionType">{{conclusionType.shortName}}
+              </option>
+            </select>
+          </div>
+          <label class="col-sm-1 form-control-label text-nowrap" for='outputTypeName'>name</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="outputTypeName" formControlName="outputTypeName"/>
+          </div>
         </div>
       </div>
     </form>

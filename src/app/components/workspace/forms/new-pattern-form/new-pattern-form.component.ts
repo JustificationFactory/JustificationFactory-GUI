@@ -6,6 +6,9 @@ import {WsSenderService} from '../../../../services/webServices/ws-sender.servic
 import {ConnectorComponent} from '../../../connector/connector.component';
 import {WsRetrieverService} from '../../../../services/webServices/ws-retriever.service';
 import {IInputType, IOutputType, IPattern, IStrategy} from '../../../../business/IArgSystem';
+import {AbstractTypeInput} from '../../../../business/form/types/InputTypes';
+import {IOTypeService} from '../../../../services/webServices/iotype.service';
+import {DomElement} from '../../../../business/form/inputs/AbstractFormInput';
 
 @Component({
   selector: 'app-new-pattern-form',
@@ -14,28 +17,37 @@ import {IInputType, IOutputType, IPattern, IStrategy} from '../../../../business
 })
 export class NewPatternFormComponent implements OnInit {
 
+  domElement = DomElement; // Must be done otherwise enum is not available inside the template
+
   public newStepForm: FormGroup;
 
-  private availableEvidenceTypes: string[];
+  private availableEvidenceTypes: AbstractTypeInput[];
+  private availableConclusionTypes: AbstractTypeInput[];
+
+  private selectedInputTypes: AbstractTypeInput[];
+  private selectedOutputType: AbstractTypeInput;
 
   @Input() argSystemId: string;
   @Input() connectorComponentOfParent: ConnectorComponent;
 
-  constructor(public activeModal: NgbActiveModal, private senderService: WsSenderService, private retrieverService: WsRetrieverService) { }
+  constructor(public activeModal: NgbActiveModal, private senderService: WsSenderService, private retrieverService: WsRetrieverService, private ioTypeService: IOTypeService) { }
 
   ngOnInit() {
 
-    this.retrieverService.getArtifactTypes('Evidence').subscribe(result => {
-      this.availableEvidenceTypes = result;
-    });
+    this.availableEvidenceTypes = this.ioTypeService.getDefaultInputTypes();
+    this.availableConclusionTypes = this.ioTypeService.getDefaultOutputTypes();
+
+    this.selectedInputTypes = [null];
 
     this.newStepForm = new FormGroup({
       patternId: new FormControl(),
       patternName: new FormControl(),
       strategyName: new FormControl(),
       inputTypes: new FormArray([]),
-      outputType: new FormControl(),
-      outputTypeName: new FormControl()
+      outputType: new FormGroup({
+        outputType: new FormControl(),
+        outputTypeName: new FormControl()
+      })
     });
 
     const arrayControl = <FormArray>this.newStepForm.controls['inputTypes'];
@@ -53,11 +65,13 @@ export class NewPatternFormComponent implements OnInit {
       inputTypeName: new FormControl()
     });
     arrayControl.push(newGroup);
+    this.selectedInputTypes.push(null);
   }
 
   removeInputType(i: number) {
     const arrayControl = <FormArray>this.newStepForm.controls['inputTypes'];
     arrayControl.removeAt(i);
+    this.selectedInputTypes.splice(i, 1);
   }
 
   submit() {
@@ -81,10 +95,11 @@ export class NewPatternFormComponent implements OnInit {
     const inputTypes: IInputType[] = [];
     for(let i = 0; i < arrayControl.controls.length; i++) {
       const control = arrayControl.controls[i]['controls'];
-      inputTypes.push(new InputType(control.inputType.value, control.inputTypeName.value));
+      inputTypes.push(new InputType((<AbstractTypeInput>control.inputType.value).classifiedName, control.inputTypeName.value));
     }
 
-    const outputType: IOutputType = new OutputType(this.newStepForm.value.outputType);
+    const selectedOutputType = <AbstractTypeInput>(<FormGroup>this.newStepForm.controls['outputType']).controls['outputType'].value;
+    const outputType: IOutputType = new OutputType(selectedOutputType.classifiedName);
     const pattern: IPattern = new Pattern(this.newStepForm.value.patternId,
       this.newStepForm.value.patternName, strategy, inputTypes, outputType);
 

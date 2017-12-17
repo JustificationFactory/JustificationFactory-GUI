@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="this.pattern" [formGroup]="newStepForm.controls['outputType']" class="form-group">
+    <div *ngIf="this.pattern" formGroupName="outputType" class="form-group">
       <label class="col-sm-2 form-control-label text-nowrap">Output Type: </label>
       <label class="col-sm-2 form-control-label text-nowrap">{{this.pattern.outputType.type}}</label>
       <hr/>

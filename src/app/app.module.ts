@@ -17,6 +17,7 @@ import { WorkspaceToolbarComponent } from './components/workspace/toolbar/worksp
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NewPatternFormComponent } from './components/workspace/forms/new-pattern-form/new-pattern-form.component';
 import { NewStepFormComponent } from './components/workspace/forms/new-step-form/new-step-form.component';
+import {IOTypeService} from './services/webServices/iotype.service';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { NewStepFormComponent } from './components/workspace/forms/new-step-form
     PaletteComponent,
     ConnectorComponent,
     WsRetrieverService,
-    WsSenderService
+    WsSenderService,
+    IOTypeService
   ],
   entryComponents: [
     NewPatternFormComponent,

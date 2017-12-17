@@ -3,9 +3,8 @@ export abstract class AbstractFormInput {
   fieldType: string;
   domElement: DomElement;
 
-  constructor(fieldName: string, fieldType: string) {
+  constructor(fieldName: string) {
     this.fieldName = fieldName;
-    this.fieldType = fieldType;
   }
 }
 
