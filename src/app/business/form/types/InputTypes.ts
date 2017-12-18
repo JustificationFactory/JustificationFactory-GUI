@@ -1,5 +1,6 @@
 import {AbstractFormInput, DomElement} from '../inputs/AbstractFormInput';
 import {InputFormInput} from '../inputs/InputFormInput';
+import {ArrayFormInput} from '../inputs/ArrayFormInput';
 
 export abstract class AbstractTypeInput {
 
@@ -48,7 +49,7 @@ export class FormEvidenceTypeInput extends AbstractTypeInput {
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
     this.addFormField(new InputFormInput('element.@type'));
-    this.addFormField(new InputFormInput('element.form'));
+    this.addFormField(new ArrayFormInput('element.form'));
     this.addFormField(new InputFormInput('element.version'));
   }
 }
@@ -70,7 +71,7 @@ export class FormConclusionTypeInput extends AbstractTypeInput {
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
     this.addFormField(new InputFormInput('element.@type'));
-    this.addFormField(new InputFormInput('element.form'));
+    this.addFormField(new ArrayFormInput('element.form'));
     this.addFormField(new InputFormInput('element.version'));
   }
 }

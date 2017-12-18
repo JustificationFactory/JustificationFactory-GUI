@@ -23,6 +23,10 @@
           <div class="row" [ngSwitch]="field.domElement">
             <label class="col-sm-2 form-control-label text-nowrap" [for]="field.fieldName">{{field.fieldName}}</label>
             <input *ngSwitchCase="domElement.INPUT" type="text" class="form-control col-sm-4" [id]="field.fieldName" [formControlName]="field.fieldName"/>
+            <div *ngSwitchCase="domElement.ARRAY_PREPROCESS_DIRECTIVE">
+              <label class="col-sm-2 form-control-label text-nowrap">Coma separated list of value</label>
+              <input appArrayPreprocess  type="text" class="form-control col-sm-4" [id]="field.fieldName" [formControlName]="field.fieldName"/>
+            </div>
           </div>
         </div>
       </div>

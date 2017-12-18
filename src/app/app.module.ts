@@ -18,6 +18,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NewPatternFormComponent } from './components/workspace/forms/new-pattern-form/new-pattern-form.component';
 import { NewStepFormComponent } from './components/workspace/forms/new-step-form/new-step-form.component';
 import {IOTypeService} from './services/webServices/iotype.service';
+import { ArrayPreprocessDirective } from './directives/array-preprocess.directive';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {IOTypeService} from './services/webServices/iotype.service';
     OnlineWorkspaceComponent,
     WorkspaceToolbarComponent,
     NewPatternFormComponent,
-    NewStepFormComponent
+    NewStepFormComponent,
+    ArrayPreprocessDirective
   ],
   imports: [
     BrowserModule,

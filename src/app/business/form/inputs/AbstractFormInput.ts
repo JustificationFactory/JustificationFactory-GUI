@@ -10,5 +10,6 @@ export abstract class AbstractFormInput {
 
 export enum DomElement {
   INPUT,
-  SELECT
+  SELECT,
+  ARRAY_PREPROCESS_DIRECTIVE
 }
