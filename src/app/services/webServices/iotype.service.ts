@@ -10,19 +10,17 @@ export class IOTypeService {
   constructor() { }
 
   getDefaultInputTypes(): AbstractTypeInput[] {
-    const inputTypes: AbstractTypeInput[] = [
+    return [
       new DocumentEvidenceTypeInput(),
       new FormEvidenceTypeInput()
     ];
-    return inputTypes;
   }
 
   getDefaultOutputTypes(): AbstractTypeInput[] {
-    const outputTypes: AbstractTypeInput[] = [
+    return [
       new DocumentConclusionTypeInput(),
       new FormConclusionTypeInput()
     ];
-    return outputTypes;
   }
 
 }
