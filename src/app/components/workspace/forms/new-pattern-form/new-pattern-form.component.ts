@@ -9,6 +9,7 @@ import {IInputType, IOutputType, IPattern, IStrategy} from '../../../../business
 import {AbstractTypeInput} from '../../../../business/form/types/InputTypes';
 import {IOTypeService} from '../../../../services/webServices/iotype.service';
 import {DomElement} from '../../../../business/form/inputs/AbstractFormInput';
+import {StrategyWrapper} from '../../../../business/wrapper/StrategyWrapper';
 
 @Component({
   selector: 'app-new-pattern-form',
@@ -20,6 +21,8 @@ export class NewPatternFormComponent implements OnInit {
   domElement = DomElement; // Must be done otherwise enum is not available inside the template
 
   public newStepForm: FormGroup;
+
+  private availableStrategies: StrategyWrapper[] = [];
 
   private availableEvidenceTypes: AbstractTypeInput[];
   private availableConclusionTypes: AbstractTypeInput[];
@@ -33,6 +36,13 @@ export class NewPatternFormComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, private senderService: WsSenderService, private retrieverService: WsRetrieverService, private ioTypeService: IOTypeService) { }
 
   ngOnInit() {
+
+    this.retrieverService.getArtifactTypes('Strategy').subscribe((result: string[]) => {
+      for(const strategy of result) {
+        console.log(strategy);
+        this.availableStrategies.push(new StrategyWrapper(strategy));
+      }
+    });
 
     this.availableEvidenceTypes = this.ioTypeService.getDefaultInputTypes();
     this.availableConclusionTypes = this.ioTypeService.getDefaultOutputTypes();

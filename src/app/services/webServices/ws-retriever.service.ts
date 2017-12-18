@@ -38,7 +38,7 @@ export class WsRetrieverService extends WsConnectorService {
 
   // TODO: verifywhen nexus axonic will be back alive
   // [support, conclusion, evidence, strategy, rationale, actor, ...]
-  getArtifactTypes(type: string): Observable<any> {
+  getArtifactTypes(type: string): Observable<string[]> {
     return this.get<any>(type + '/types');
   }
 
