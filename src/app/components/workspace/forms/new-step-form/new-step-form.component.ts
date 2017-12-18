@@ -84,35 +84,38 @@ export class NewStepFormComponent implements OnInit {
   submit() {
     console.log('New step form submitted');
     console.log('patternId: ' + this.newStepForm.value.patternId);
-    console.log(this.newStepForm.value);
+    console.log(this.newStepForm);
     console.log('outputType');
-    for(const key in this.newStepForm.value.outputType) {
-      const value = this.newStepForm.value.outputType[key];
+    for(const key in this.newStepForm.controls['outputType'].value) {
+      const value = this.newStepForm.controls['outputType'].value[key];
       console.log('key: ' + key + ' value: ' + value);
     }
-    for(let i = 0; i < this.newStepForm.value.inputTypes.length; i++) {
+    const inputTypesArray = <FormArray>this.newStepForm.controls['inputTypes'];
+    for(let i = 0; i < inputTypesArray.length; i++) {
       console.log('inputType n°' + i);
-      for(const key in this.newStepForm.value.inputTypes[i]) {
-        const value = this.newStepForm.value.inputTypes[i][key];
+      for(const key in inputTypesArray.controls[i].value) {
+        const value = inputTypesArray.controls[i].value[key];
         console.log('key: ' + key + ' value: ' + value);
       }
     }
 
     const supports: SupportObject[] = [];
-    for(let i = 0; i < this.newStepForm.value.inputTypes.length; i++) {
-      const support: Object = {};
-      for(const key in this.newStepForm.value.inputTypes[i]) {
-        const value = this.newStepForm.value.inputTypes[i][key];
+    for(let i = 0; i < inputTypesArray.length; i++) {
+      let support: Object = {};
+      for(const key in inputTypesArray.controls[i].value) {
+        const value = inputTypesArray.controls[i].value[key];
         support[key] = value;
       }
+      support = this.unflatten(support);
       supports.push(new SupportObject(i.toString(), support));
     }
 
-    const conclusion: Object = {};
-    for(const key in this.newStepForm.value.outputType) {
-      const value = this.newStepForm.value.outputType[key];
+    let conclusion: Object = {};
+    for(const key in this.newStepForm.controls['outputType'].value) {
+      const value = this.newStepForm.controls['outputType'].value[key];
       conclusion[key] = value;
     }
+    conclusion = this.unflatten(conclusion);
 
     const stepToCreate: StepToCreate = new StepToCreate(supports, conclusion);
     console.log('new StepToCreate : ');
@@ -122,15 +125,14 @@ export class NewStepFormComponent implements OnInit {
     });
   }
 
-  getControlsFromJsonSchema(jsonSchema: any): AbstractFormInput[] {
-    const formInputs: AbstractFormInput[] = [];
-    for(const key in jsonSchema['properties']) {
-      console.log('key:' + key);
-      const field = jsonSchema['properties'][key];
-      if(field.hasOwnProperty('type') && field['type'] === 'string') {
-        formInputs.push(new InputFormInput(key));
-      }
+  unflatten(data: any): Object {
+    const result = {}
+    for (var i in data) {
+      const keys = i.split('.')
+      keys.reduce(function(r, e, j) {
+        return r[e] || (r[e] = isNaN(Number(keys[j + 1])) ? (keys.length - 1 === j ? data[i] : {}) : []);
+      }, result);
     }
-    return formInputs;
+    return result;
   }
 }

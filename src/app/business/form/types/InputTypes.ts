@@ -36,6 +36,7 @@ export class DocumentEvidenceTypeInput extends AbstractTypeInput {
     super('DocumentEvidence', 'fr.axonic.avek.engine.support.instance.DocumentEvidence');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
+    this.addFormField(new InputFormInput('element.@type'));
     this.addFormField(new InputFormInput('element.url'));
     this.addFormField(new InputFormInput('element.version'));
   }
@@ -46,6 +47,7 @@ export class FormEvidenceTypeInput extends AbstractTypeInput {
     super('FormEvidence', 'fr.axonic.avek.engine.support.instance.FormEvidence');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
+    this.addFormField(new InputFormInput('element.@type'));
     this.addFormField(new InputFormInput('element.form'));
     this.addFormField(new InputFormInput('element.version'));
   }
@@ -56,6 +58,7 @@ export class DocumentConclusionTypeInput extends AbstractTypeInput {
     super('DocumentConclusion', 'fr.axonic.avek.engine.support.instance.DocumentConclusion');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
+    this.addFormField(new InputFormInput('element.@type'));
     this.addFormField(new InputFormInput('element.url'));
     this.addFormField(new InputFormInput('element.version'));
   }
@@ -66,6 +69,7 @@ export class FormConclusionTypeInput extends AbstractTypeInput {
     super('FormConclusion', 'fr.axonic.avek.engine.support.instance.FormConclusion');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
+    this.addFormField(new InputFormInput('element.@type'));
     this.addFormField(new InputFormInput('element.form'));
     this.addFormField(new InputFormInput('element.version'));
   }
