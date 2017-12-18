@@ -15,6 +15,7 @@ export class WorkspaceToolbarComponent implements OnInit {
   @Output() onUploadAs = new EventEmitter<void>();
   @Output() onNewPattern = new EventEmitter<void>();
   @Output() onNewStep = new EventEmitter<void>();
+  @Output() onDeleteArgSystem = new EventEmitter<void>();
 
   @Input() diagramLoaded: boolean;
 
@@ -29,6 +30,10 @@ export class WorkspaceToolbarComponent implements OnInit {
 
   uploadAs() {
     this.onUploadAs.emit();
+  }
+
+  deleteArgSystem() {
+    this.onDeleteArgSystem.emit();
   }
 
   newPattern() {

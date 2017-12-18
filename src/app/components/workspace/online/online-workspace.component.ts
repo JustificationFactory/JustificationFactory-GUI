@@ -81,6 +81,15 @@ export class OnlineWorkspaceComponent implements OnInit {
     });
   }
 
+  deleteArgSystem() {
+    this.connectorComponent.deleteCurrentArgSystem().subscribe(empty => {
+      this.connectorComponent.retrieveAllArgumentationSystemsName().subscribe();
+      this.connectorComponent.resetArgSystem();
+      this.diagramLoaded = false;
+      this.diagramUploaded = false;
+    });
+  }
+
   openModal(modal) {
     this.modalService.open(modal, {size: 'lg'});
   }

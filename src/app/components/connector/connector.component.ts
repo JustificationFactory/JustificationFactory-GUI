@@ -103,10 +103,9 @@ export class ConnectorComponent implements OnInit {
   }
 
   /* Posters */
-  deleteCurrentArgSystem() {
+  deleteCurrentArgSystem(): Observable<void> {
     console.log('Deleting ' + this.currentArgSystemId);
-    this.senderService.removeArgumentationSystem(this.currentArgSystemId).subscribe(result => console.log(result));
-    this.retrieveAllArgumentationSystemsName();
+    return this.senderService.removeArgumentationSystem(this.currentArgSystemId).map(result => console.log(result));
   }
 
   registerArgSystem(argSystem: IArgSystem) {

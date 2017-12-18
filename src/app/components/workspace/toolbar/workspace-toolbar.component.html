@@ -6,6 +6,8 @@
         <button class="dropdown-item" type="button" (click)='newDiagram()'>New Argumentation System</button>
         <div class="dropdown-divider"></div>
         <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="uploadAs()">Upload as...</button>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="deleteArgSystem()">Delete Argumentation System</button>
       </div>
     </li>
     <li class="nav-item dropdown">
