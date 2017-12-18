@@ -58,6 +58,9 @@ export class NewStepFormComponent implements OnInit {
           const inputTypeFormGroup: FormGroup = new FormGroup({});
           inputTypeFormGroup.addControl('@type', new FormControl(pattern.inputTypes[inputTypeIndex].type));
           const abstractInputs: AbstractTypeInput = this.typeMapping.getAbstractTypeInputFromClassName(pattern.inputTypes[inputTypeIndex].type);
+          if(!abstractInputs) {
+            throw new Error('No class mapping exist for type: ' + pattern.inputTypes[inputTypeIndex].type);
+          }
           for(const formField of abstractInputs.formFields) {
             inputTypeFormGroup.addControl(formField.fieldName, new FormControl());
           }
@@ -71,6 +74,9 @@ export class NewStepFormComponent implements OnInit {
         const outputType: FormGroup = <FormGroup>this.newStepForm.controls['outputType'];
         outputType.addControl('@type', new FormControl(pattern.outputType.type));
         const abstractOutput: AbstractTypeInput = this.typeMapping.getAbstractTypeInputFromClassName(pattern.outputType.type);
+        if(!abstractOutput) {
+          throw new Error('No class mapping exist for type: ' + pattern.outputType.type);
+        }
         for(const formField of abstractOutput.formFields) {
           outputType.addControl(formField.fieldName, new FormControl());
         }
