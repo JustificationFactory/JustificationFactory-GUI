@@ -1,6 +1,6 @@
 import {
   AbstractTypeInput, DocumentConclusionTypeInput, DocumentEvidenceTypeInput, FormConclusionTypeInput,
-  FormEvidenceTypeInput
+  FormEvidenceTypeInput, UnitTestJenkinsConclusion
 } from './InputTypes';
 
 export class TypeMapping {
@@ -11,6 +11,7 @@ export class TypeMapping {
     this.typeMap.set('fr.axonic.avek.engine.support.instance.FormEvidence', new FormEvidenceTypeInput());
     this.typeMap.set('fr.axonic.avek.engine.support.instance.DocumentConclusion', new DocumentConclusionTypeInput());
     this.typeMap.set('fr.axonic.avek.engine.support.instance.FormConclusion', new FormConclusionTypeInput());
+    this.typeMap.set('fr.axonic.avek.instance.jenkins.conclusion.UnitTestJenkinsConclusion', new UnitTestJenkinsConclusion());
   }
 
   getAbstractTypeInputFromClassName(classifiedName: string): AbstractTypeInput {
