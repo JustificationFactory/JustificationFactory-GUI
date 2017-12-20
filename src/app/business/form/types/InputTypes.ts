@@ -86,3 +86,14 @@ export class UnitTestJenkinsConclusion extends AbstractTypeInput {
     this.addFormField(new InputFormInput('element.status'));
   }
 }
+
+export class IntegrationTestJenkinsConclusion extends AbstractTypeInput {
+  constructor() {
+    super('IntegrationTestJenkinsConclusion', 'fr.axonic.avek.instance.jenkins.conclusion.IntegrationTestJenkinsConclusion');
+    this.addFormField(new InputFormInput('id'));
+    this.addFormField(new InputFormInput('name'));
+    this.addFormField(new InputFormInput('element.@type'));
+    this.addFormField(new InputFormInput('element.version'));
+    this.addFormField(new InputFormInput('element.status'));
+  }
+}
