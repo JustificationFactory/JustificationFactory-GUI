@@ -1,5 +1,4 @@
-# PFE - Architecture framework over a requirements justification engine: biomedial application
-
+# Justification Factory - Justification Diagrams Editor and Visualizer (JDEV)
 ## Stakeholders:
   * Owner: Clément Duffau ([duffau@i3s.unice.fr](duffau@i3s.unice.fr))
   * Students: 
