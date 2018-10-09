@@ -49,7 +49,6 @@ export class ConnectorComponent implements OnInit {
   retrieveAllArgumentationSystemsName(): Observable<void> {
     console.log('Retrieving ArgSystems Names.');
     return this.retrieverService.getAllArgumentationSystemsName().map(result => {
-      console.log('test');
       this.argSystemIdList = result;
     }).catch(error => {
       console.log(error);

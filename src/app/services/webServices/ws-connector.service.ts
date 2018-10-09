@@ -13,7 +13,7 @@ export abstract class WsConnectorService {
     this.protocol = 'http://';
     this.host = 'localhost';
     this.port = '9999';
-    this.prepath = '/rest/argumentation/';
+    this.prepath = '/rest/justification/';
   }
 
   /* Assets */

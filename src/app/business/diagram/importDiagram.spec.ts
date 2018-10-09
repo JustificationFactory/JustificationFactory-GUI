@@ -7,6 +7,7 @@ describe('importDiagram.', function () {
 
         describe('ParseJson2DiagramElements.', function () {
             const jsonTest2Step = {
+                'justificationDiagram' : {
                 'steps' : {
                     'step' : [ {
                         'conclusion' : {
@@ -1310,6 +1311,7 @@ describe('importDiagram.', function () {
                         }
                     } ]
                 }
+            }
             };
 
             let parse;

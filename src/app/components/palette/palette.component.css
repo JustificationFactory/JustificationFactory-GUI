@@ -72,7 +72,7 @@
   top:20px;left:60px;
   cursor:move;
   background-color:red;  /* on définit la couleur initiale du carré */
-  background-image:url('../../../assets/images/degrade n-b.png');
+  background-image:url('../../../assets/images/degrade_n-b.png');
 }
 
 .skin_curseur2

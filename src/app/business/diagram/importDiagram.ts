@@ -56,11 +56,11 @@ export class ParseJson2DiagramElements {
         }
 
 
-      for (const evidenceRole of step.evidenceRoles) {
-        const nameOfEvidence = evidenceRole.support.name ? evidenceRole.support.name : '';
-        const typeOfEvidence = evidenceRole.support.element ? evidenceRole.support.element.type : '';
+      for (const support of step.supports) {
+        const nameOfEvidence = support.name ? support.name : '';
+        const typeOfEvidence = support.element ? support.element.type : '';
 
-        const evidenceN = new Evidence(nameOfEvidence, [evidenceRole.evidence], typeOfEvidence);
+        const evidenceN = new Evidence(nameOfEvidence, [support.evidence], typeOfEvidence);
         this.kvevidences.push(new KeyValueEvidence(conclusionN.getId(), evidenceN));
         evidenceN.stepId = businessStep.getStepId();
         businessStep.items.push(evidenceN);
@@ -90,10 +90,12 @@ export class ParseJson2DiagramElements {
 
   getDiagramElements(): ParseDiagramElementsResult {
 
-
-    for (const step  of this.globalJson.steps) {
-      this.businessSteps.push(this.importStep(step));
+    if(this.globalJson.justificationDiagram !=null){
+      for (const step  of this.globalJson.justificationDiagram.steps) {
+        this.businessSteps.push(this.importStep(step));
+      }
     }
+   
 
     // Merge where Conclusion == Evidence. Replace by Support.
     for (let i = this.conclusions.length - 1; i >= 0; i--) {

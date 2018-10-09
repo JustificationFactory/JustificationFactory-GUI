@@ -1,25 +1,25 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <ul class="navbar-nav">
     <li class="nav-item dropdown">
-      <a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">Argumentation System<span class="caret"></span></a>
+      <a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">Justification System<span class="caret"></span></a>
       <div class="dropdown-menu">
-        <button class="dropdown-item" type="button" (click)='newDiagram()'>New Argumentation System</button>
+        <button class="dropdown-item" type="button" (click)='newDiagram()'>New Justification System</button>
         <div class="dropdown-divider"></div>
         <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="uploadAs()">Upload as...</button>
         <div class="dropdown-divider"></div>
-        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="deleteArgSystem()">Delete Argumentation System</button>
+        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="deleteArgSystem()">Delete Justification System</button>
       </div>
     </li>
     <li class="nav-item dropdown">
       <a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">Patterns<span class="caret"></span></a>
       <div class="dropdown-menu" >
-        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="newPattern()">New Pattern</button>
+        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="newPattern()">New Justification Pattern</button>
       </div>
     </li>
     <li class="nav-item dropdown">
       <a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">Step<span class="caret"></span></a>
       <div class="dropdown-menu" >
-        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="newStep()">New Step from Pattern</button>
+        <button class="dropdown-item" type="button" [disabled]="!diagramLoaded" (click)="newStep()">New Justification Step from Pattern</button>
       </div>
     </li>
   </ul>

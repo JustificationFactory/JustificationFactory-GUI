@@ -1,10 +1,11 @@
 {
-  "steps": [],
-  "patternsBase": {
-    "patternsBaseType": "LIST_OF_PATTERNS",
-    "patterns": [
-    ]
+  "justificationDiagram": {
+    "steps": []
   },
-  "objective": null,
-  "baseEvidences": []
+  "patternsBase": {
+    "@type": ".ListPatternsBase",
+    "patternsBaseType": "LIST_OF_PATTERNS",
+    "patterns": [],
+    "objective": null
+  }
 }

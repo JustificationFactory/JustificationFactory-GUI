@@ -25,7 +25,7 @@ export class WsRetrieverService extends WsConnectorService {
   }
 
   getArgumentationSystemByCurrentId(id: string): Observable<IArgSystem> {
-    return this.get<IArgSystem>(id);
+    return this.get<IArgSystem>('system/'+id);
   }
 
   getPatternsByArgSystemId(argSystemId: string): Observable<string[]> {
@@ -39,7 +39,7 @@ export class WsRetrieverService extends WsConnectorService {
   // TODO: verifywhen nexus axonic will be back alive
   // [support, conclusion, evidence, strategy, rationale, actor, ...]
   getArtifactTypes(type: string): Observable<string[]> {
-    return this.get<any>(type + '/types');
+    return this.get<any>('types/'+type);
   }
 
   /**

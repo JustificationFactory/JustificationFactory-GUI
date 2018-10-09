@@ -46,7 +46,7 @@ export class WsSenderService extends WsConnectorService {
 
   /* DELETE */
   public removeArgumentationSystem(id: string): Observable<Object> {
-    return this.httpDelete(id);
+    return this.httpDelete('system/'+id);
   }
 
   public removeStepsInArgumentationSystem(id: string): Observable<Object> {
