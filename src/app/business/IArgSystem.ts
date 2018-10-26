@@ -1,3 +1,5 @@
+import { INT_TYPE } from "@angular/compiler/src/output/output_ast";
+
 export interface IArgSystem {
   steps: IStep[];
   patternsBase: IPatternsBase;
@@ -8,7 +10,7 @@ export interface IArgSystem {
 export interface IStep {
   id: string;
   patternId: string;
-  evidenceRoles: Object[];
+  supports: Object[];
   strategy: IStrategy;
   conclusion: Object;
 }
@@ -34,15 +36,16 @@ export interface IPattern {
   id: string;
   name: string;
   strategy: IStrategy;
-  inputTypes: IInputType[];
-  outputType: IOutputType;
+  supports: ISupportType[];
+  conclusion: ISupportType;
 }
 
-export interface IInputType {
-  type: string;
+export interface IType {
+  classType: string;
+  nameType: string;
+}
+
+export interface ISupportType{
   name: string;
-}
-
-export interface IOutputType {
-  type: string;
+  type:IType;
 }

@@ -54,12 +54,12 @@ export class NewStepFormComponent implements OnInit {
         // Inputs
         this.newStepForm.controls['inputTypes'] = new FormArray([]);
         this.dynamicInputFields = [];
-        for(let inputTypeIndex = 0; inputTypeIndex<pattern.inputTypes.length; inputTypeIndex++) {
+        for(let inputTypeIndex = 0; inputTypeIndex<pattern.supports.length; inputTypeIndex++) {
           const inputTypeFormGroup: FormGroup = new FormGroup({});
-          inputTypeFormGroup.addControl('@type', new FormControl(pattern.inputTypes[inputTypeIndex].type));
-          const abstractInputs: AbstractTypeInput = this.typeMapping.getAbstractTypeInputFromClassName(pattern.inputTypes[inputTypeIndex].type);
+          inputTypeFormGroup.addControl('@type', new FormControl(pattern.supports[inputTypeIndex].type.classType));
+          const abstractInputs: AbstractTypeInput = this.typeMapping.getAbstractTypeInputFromClassName(pattern.supports[inputTypeIndex].type.classType);
           if(!abstractInputs) {
-            throw new Error('No class mapping exist for type: ' + pattern.inputTypes[inputTypeIndex].type);
+            throw new Error('No class mapping exist for type: ' + pattern.supports[inputTypeIndex].type.classType);
           }
           for(const formField of abstractInputs.formFields) {
             inputTypeFormGroup.addControl(formField.fieldName, new FormControl());
@@ -69,13 +69,13 @@ export class NewStepFormComponent implements OnInit {
         }
 
         // Output
-        this.newStepForm.controls['outputType'] = new FormGroup({});
+        this.newStepForm.controls['conclusion'] = new FormGroup({});
         this.dynamicOuputFields = [];
         const outputType: FormGroup = <FormGroup>this.newStepForm.controls['outputType'];
-        outputType.addControl('@type', new FormControl(pattern.outputType.type));
-        const abstractOutput: AbstractTypeInput = this.typeMapping.getAbstractTypeInputFromClassName(pattern.outputType.type);
+        outputType.addControl('@type', new FormControl(pattern.conclusion.type.classType));
+        const abstractOutput: AbstractTypeInput = this.typeMapping.getAbstractTypeInputFromClassName(pattern.conclusion.type.classType);
         if(!abstractOutput) {
-          throw new Error('No class mapping exist for type: ' + pattern.outputType.type);
+          throw new Error('No class mapping exist for type: ' + pattern.conclusion.type.classType);
         }
         for(const formField of abstractOutput.formFields) {
           outputType.addControl(formField.fieldName, new FormControl());
@@ -113,7 +113,7 @@ export class NewStepFormComponent implements OnInit {
         support[key] = value;
       }
       support = this.unflatten(support);
-      supports.push(new SupportObject(i.toString(), support));
+      supports.push(new SupportObject(support));
     }
 
     let conclusion: Object = {};

@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormGroup, NgForm} from '@angular/forms';
 import {
-  DocumentEvidence, FormConclusion, InputType, OutputType, Pattern, StepToCreate, Strategy,
+  DocumentEvidence, FormConclusion, Type, Pattern, StepToCreate, Strategy,
   SupportObject
 } from '../../../business/ArgSystem';
 import {NewPatternFormComponent} from '../forms/new-pattern-form/new-pattern-form.component';

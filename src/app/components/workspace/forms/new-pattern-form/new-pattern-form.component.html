@@ -22,8 +22,8 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-sm-3 form-control-label text-nowrap" for="strategyName">Strategy type:</label>
-        <select class="form-control col-sm-6">
+        <label class="col-sm-3 form-control-label text-nowrap" for="strategy">Strategy type:</label>
+        <select class="form-control col-sm-6" formControlName="strategy" id="strategy">
           <option disabled selected value>Select a Strategy</option>
           <option *ngFor="let strategy of this.availableStrategies" [value]="strategy.classifiedName">{{strategy.shortName}}</option>
         </select>

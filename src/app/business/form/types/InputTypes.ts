@@ -34,7 +34,7 @@ export abstract class AbstractTypeInput {
 
 export class DocumentEvidenceTypeInput extends AbstractTypeInput {
   constructor() {
-    super('DocumentEvidence', 'fr.axonic.avek.engine.support.instance.DocumentEvidence');
+    super('DocumentEvidence', 'fr.axonic.jf.engine.support.instance.DocumentEvidence');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
     this.addFormField(new InputFormInput('element.@type'));
@@ -45,7 +45,7 @@ export class DocumentEvidenceTypeInput extends AbstractTypeInput {
 
 export class FormEvidenceTypeInput extends AbstractTypeInput {
   constructor() {
-    super('FormEvidence', 'fr.axonic.avek.engine.support.instance.FormEvidence');
+    super('FormEvidence', 'fr.axonic.jf.engine.support.instance.FormEvidence');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
     this.addFormField(new InputFormInput('element.@type'));
@@ -56,7 +56,7 @@ export class FormEvidenceTypeInput extends AbstractTypeInput {
 
 export class DocumentConclusionTypeInput extends AbstractTypeInput {
   constructor() {
-    super('DocumentConclusion', 'fr.axonic.avek.engine.support.instance.DocumentConclusion');
+    super('DocumentConclusion', 'fr.axonic.jf.engine.support.instance.DocumentConclusion');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
     this.addFormField(new InputFormInput('element.@type'));
@@ -67,7 +67,7 @@ export class DocumentConclusionTypeInput extends AbstractTypeInput {
 
 export class FormConclusionTypeInput extends AbstractTypeInput {
   constructor() {
-    super('FormConclusion', 'fr.axonic.avek.engine.support.instance.FormConclusion');
+    super('FormConclusion', 'fr.axonic.jf.engine.support.instance.FormConclusion');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
     this.addFormField(new InputFormInput('element.@type'));
@@ -78,7 +78,7 @@ export class FormConclusionTypeInput extends AbstractTypeInput {
 
 export class UnitTestJenkinsConclusion extends AbstractTypeInput {
   constructor() {
-    super('UnitTestJenkinsConclusion', 'fr.axonic.avek.instance.jenkins.conclusion.UnitTestJenkinsConclusion');
+    super('UnitTestJenkinsConclusion', 'fr.axonic.jf.instance.jenkins.conclusion.UnitTestJenkinsConclusion');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
     this.addFormField(new InputFormInput('element.@type'));
@@ -89,7 +89,7 @@ export class UnitTestJenkinsConclusion extends AbstractTypeInput {
 
 export class IntegrationTestJenkinsConclusion extends AbstractTypeInput {
   constructor() {
-    super('IntegrationTestJenkinsConclusion', 'fr.axonic.avek.instance.jenkins.conclusion.IntegrationTestJenkinsConclusion');
+    super('IntegrationTestJenkinsConclusion', 'fr.axonic.jf.instance.jenkins.conclusion.IntegrationTestJenkinsConclusion');
     this.addFormField(new InputFormInput('id'));
     this.addFormField(new InputFormInput('name'));
     this.addFormField(new InputFormInput('element.@type'));

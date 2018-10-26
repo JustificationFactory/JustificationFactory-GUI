@@ -1,4 +1,4 @@
-import {IArgSystem, IInputType, IOutputType, IPattern, IPatternsBase, IStep, IStrategy} from './IArgSystem';
+import {IArgSystem, IType, ISupportType, IPattern, IPatternsBase, IStep, IStrategy} from './IArgSystem';
 
 export class ArgSystem implements IArgSystem {
   steps;
@@ -10,7 +10,7 @@ export class ArgSystem implements IArgSystem {
 export class Step implements IStep {
   id;
   patternId;
-  evidenceRoles: Object[];
+  supports: Object[];
   strategy: Strategy;
   conclusion: Object;
 }
@@ -37,34 +37,36 @@ export class Pattern implements IPattern {
   id: string;
   name: string;
   strategy: IStrategy;
-  inputTypes: IInputType[];
-  outputType: IOutputType;
+  supports: ISupportType[];
+  conclusion: ISupportType;
 
 
-  constructor(id: string, name: string, strategy: IStrategy, inputTypes: IInputType[], outputType: IOutputType) {
+  constructor(id: string, name: string, strategy: IStrategy, inputTypes: ISupportType[], outputType: ISupportType) {
     this.id = id;
     this.name = name;
     this.strategy = strategy;
-    this.inputTypes = inputTypes;
-    this.outputType = outputType;
+    this.supports = inputTypes;
+    this.conclusion = outputType;
   }
 }
 
-export class InputType implements IInputType {
-  type: string;
-  name: string;
+export class Type implements IType {
+  classType: string;
+  nameType: string;
 
   constructor(type: string, name: string) {
-    this.type = type;
-    this.name = name;
+    this.classType = type;
+    this.nameType = name;
   }
 }
 
-export class OutputType implements IOutputType {
-  type;
+export class SupportType implements ISupportType {
+  name : string;
+  type : IType;
 
-  constructor(type) {
+  constructor(type: IType, name: string) {
     this.type = type;
+    this.name = name;
   }
 }
 
@@ -80,12 +82,10 @@ export class StepToCreate {
 }
 
 export class SupportObject {
-  role: string;
   support: Object;
 
 
-  constructor(role: string, support: Object) {
-    this.role = role;
+  constructor(support: Object) {
     this.support = support;
   }
 }
@@ -93,7 +93,7 @@ export class SupportObject {
 export class DocumentEvidence {
   name: string;
   element: Object;
-  '@type' = 'fr.axonic.avek.engine.support.instance.DocumentEvidence';
+  '@type' = 'fr.axonic.jf.engine.support.instance.DocumentEvidence';
 
 
   constructor(name: string) {
@@ -103,7 +103,7 @@ export class DocumentEvidence {
 }
 
 export class FormConclusion {
-  '@type' = 'fr.axonic.avek.engine.support.instance.FormConclusion';
+  '@type' = 'fr.axonic.jf.engine.support.instance.FormConclusion';
   name: string;
   element: Object;
 

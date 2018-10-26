@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
-import {InputType, OutputType, Pattern, Strategy} from '../../../business/ArgSystem';
+import {Type, Pattern, Strategy} from '../../../business/ArgSystem';
 import {ConnectorComponent} from '../../connector/connector.component';
 
 @Component({
