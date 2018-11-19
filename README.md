@@ -1,4 +1,5 @@
 # Justification Factory - Justification Diagrams Editor and Visualizer (JDEV)
+This GUI expose in a graphical way the differents services exposed by the Justification Factory Engine
 ## Stakeholders:
   * Owner: Clément Duffau ([duffau@i3s.unice.fr](duffau@i3s.unice.fr))
   * Students: 
@@ -12,11 +13,13 @@
   * TypeScript
   * Karma
   * Jasmine
+  
+## Dependencies needed
 
-## How to launch the project and deploy the solution
+* nodeJs
+* npm (which supposedly come within nodeJs installation)
+* Justification Factory Engine instance
 
-**Prerequisite :**  nodeJs & npm (which supposedly come within nodeJs installation)
-
-1. Clone this project somewhere on your computer.
-2. Run `npm install` at the root of the cloned directory.
-3. Run `ng serve` to start the development server.
+## To run the platform
+* Run `npm install` at the root of the cloned directory.
+* Run `ng serve` to start the development server.
